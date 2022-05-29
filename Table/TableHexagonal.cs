@@ -20,8 +20,10 @@ public class TableHexagonal : TableGeometry
     protected override (int, int)[] ExpandGeometry((int, int)[] coordenates)
     {
         (int, int)[] expand = new (int, int)[6];
-        int[] x = new int[] { -2, -1, 1, 2, 1, -1 };
-        int[] y = new int[] { 0, -1, -1, 0, 1, 1 };
+        // int[] x = new int[] { -2, -1, 1, 2, 1, -1 };
+        // int[] y = new int[] { 0, -1, -1, 0, 1, 1 };
+        int[] x = new int[] { -1, 1, 2, 1, -1, -2 };
+        int[] y = new int[] { 1, 1, 0, -1, -1, 0 };
         for (int i = 0; i < expand.Length; i++)
         {
             expand[i] = (coordenates[0].Item1 + x[i], coordenates[0].Item2 + y[i]);

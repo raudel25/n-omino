@@ -17,6 +17,7 @@ public abstract class TableGeometry : TableGame
         this.TableCoord = new Dictionary<Coordenates, Node>();
         this.CoordValor = new Dictionary<(int, int), int>();
         Node node = this.CreateNode(coordenates);
+        this.AsignValues(node, token.Values);
         node.ValueToken = token;
         this.Expand(node);
         this.PlayNode.Add(node);
@@ -53,6 +54,44 @@ public abstract class TableGeometry : TableGame
         NodeGeometry node = new NodeGeometry(coordenates);
         this.TableNode.Add(node);
         this.TableCoord.Add(node.Ubication, node);
+        //Asignar in valor a cada cordenada
+        for (int i = 0; i < coordenates.Length; i++)
+        {
+            if (!this.CoordValor.ContainsKey(coordenates[i]))
+            {
+                this.CoordValor.Add(coordenates[i], -1);
+            }
+        }
         return node;
     }
+    protected override void AsignValues(Node node, int[] values)
+    {
+        NodeGeometry nodeGeometry = (node as NodeGeometry)!;
+        for (int i = 0; i < values.Length; i++)
+        {
+            //Rotamos los valores circularmente
+            int[] circular = CircularArray<int>.Circular(values, i);
+            bool iquals = true;
+            //Comprobamos que los valores sean los mismos que los de las coordenadas
+            for (int j = 0; j < values.Length; j++)
+            {
+                if (this.CoordValor[nodeGeometry.Ubication.Coord[j]] != -1 && this.CoordValor[nodeGeometry.Ubication.Coord[j]] != circular[j])
+                {
+                    iquals = false;
+                    break;
+                }
+            }
+            if (!iquals) continue;
+            //Asignamos los valores
+            for (int j = 0; j < values.Length; j++)
+            {
+                if (this.CoordValor[nodeGeometry.Ubication.Coord[j]] == -1)
+                {
+                    this.CoordValor[nodeGeometry.Ubication.Coord[j]] = circular[j];
+                }
+            }
+            break;
+        }
+    }
 }
+

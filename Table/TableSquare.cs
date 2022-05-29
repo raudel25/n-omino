@@ -21,10 +21,10 @@ public class TableSquare : TableGeometry
     {
         (int, int)[] expand = new (int, int)[4];
         int[] x = new int[] { -1, 1, 1, -1 };
-        int[] y = new int[] { -1, -1, 1, 1 };
+        int[] y = new int[] { 1, 1, -1, -1 };
         for (int i = 0; i < expand.Length; i++)
         {
-            expand[i] = ((coordenates[0].Item1 + x[i]) / 2, (coordenates[0].Item2 + y[i]) / 2);
+            expand[i] = ((coordenates[0].Item1 + x[i]), (coordenates[0].Item2 + y[i]));
         }
         return expand;
     }
@@ -52,11 +52,11 @@ public class TableSquare : TableGeometry
         {
             if (node.Ubication.Coord[i].Item2 == node.Ubication.Coord[i - 1].Item2)
             {
-                x = (node.Ubication.Coord[i].Item1 + node.Ubication.Coord[i - 1].Item1);
+                x = (node.Ubication.Coord[i].Item1 + node.Ubication.Coord[i - 1].Item1) / 2;
             }
             if (node.Ubication.Coord[i].Item1 == node.Ubication.Coord[i - 1].Item1)
             {
-                y = (node.Ubication.Coord[i].Item2 + node.Ubication.Coord[i - 1].Item2);
+                y = (node.Ubication.Coord[i].Item2 + node.Ubication.Coord[i - 1].Item2) / 2;
             }
         }
         return (x, y);

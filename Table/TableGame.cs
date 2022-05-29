@@ -16,10 +16,15 @@ public abstract class TableGame
     public void PlayTable(Node node, Token token)
     {
         node.ValueToken = token;
+        this.AsignValues(node, token.Values);
         this.Expand(node);
         this.PlayNode.Add(node);
         FreeNode.Remove(node);
     }
+    /// <summary>Asignar los valores correspondietes a las conexiones</summary>
+    /// <param name="node">Nodo al que asignar los valores</param>
+    /// <param name="values">Valores a asignar</param>
+    protected abstract void AsignValues(Node node, int[] values);
     /// <summary>Indica que un nodo esta libre para jugar</summary>
     /// <param name="node">Nodo para realizar la operacion</param>
     public void FreeTable(Node node)
