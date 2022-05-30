@@ -1,36 +1,27 @@
 ﻿using Table;
+using Rules;
 using Player;
 using Judge;
 using Game;
 
-/*Token f = new Token(new int[] { 1, 2, 3 });
-Console.WriteLine(f.CantValues);
-Console.WriteLine(f.Score);
-StartGame game = new StartGame(4, 2, 10);
-Console.WriteLine(game.Tokens.Count);
-foreach (var item in game.Tokens)
+ValidPlayGeometry v = new ValidPlayGeometry();
+Token t = new Token(new int[] { 1, 2, 3, 4 });
+TableSquare a = new TableSquare(t, new (int, int)[] { (0, 0), (0, 2), (2, 2), (2, 0) });
+System.Console.WriteLine(v.ValidPlay(a.TableNode[1], new Token(new int[] { 2, 1, 5, 5 }), a));
+a.PlayTable(a.TableNode[1], new Token(new int[] { 2, 1, 5, 5 }));
+//a.PlayTable(a.TableNode[2], new Token(new int[] { 2, 1, 5, 5 }));
+
+
+
+for (int i = 0; i < 4; i++)
 {
-    foreach (var item1 in item.Values)
-    {
-        Console.Write(item1 + " ");
-    }
-    System.Console.WriteLine();
-}*/
-Token t = new Token(new int[] { 1, 2, 3 });
-//TableGame a = new TableGame(t);
-TableGameComplex b = new TableGameComplex(t);
-b.PlayTable(b.TableNode[1], new Token(new int[] { 4, 5, 6 }));
-// System.Console.WriteLine(a.PlayNode.Count);
-// System.Console.WriteLine(a.FreeNode.Count);
-// System.Console.WriteLine(a.TableNode.Count);
-System.Console.WriteLine(b.PlayNode.Count);
-System.Console.WriteLine(b.FreeNode.Count);
-System.Console.WriteLine(b.TableNode.Count);
-System.Console.WriteLine("****");
-for (int i = b.TableNode.Count() - 3; i < b.TableNode.Count(); i++)
-{
-    for (int j = 0; j < 3; j++)
-    {
-        if (b.TableNode[i].Conections[j] == null) System.Console.WriteLine(j + " " + i);
-    }
+    System.Console.WriteLine(a.CoordValor[((NodeGeometry)a.TableNode[2]).Ubication.Coord[i]]);
 }
+System.Console.WriteLine(a.FreeNode.Count);
+// a.PlayTable(a.TableNode[1], new Token(new int[] { 0, 0, 0 }));
+// System.Console.WriteLine(a.FreeNode.Count);
+// a.PlayTable(a.TableNode[3], new Token(new int[] { 0, 0, 0 }));
+// System.Console.WriteLine(a.FreeNode.Count);
+// System.Console.WriteLine(a.FreeNode.Contains(a.TableNode[1]));
+
+
