@@ -13,10 +13,10 @@ public abstract class TableGame
     protected abstract void Expand(Node node);
     /// <summary>Colocar una ficha en el tablero</summary>
     /// <param name="node">Nodo por el cual se juega la ficha</param>
-    public void PlayTable(Node node, Token token)
+    public void PlayTable(Node node, Token token, int[] values)
     {
         node.ValueToken = token;
-        this.AsignValues(node, token.Values);
+        this.AsignValues(node, values);
         this.Expand(node);
         this.PlayNode.Add(node);
         FreeNode.Remove(node);
