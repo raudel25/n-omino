@@ -1,7 +1,7 @@
-using Rules;
+using InfoGame;
 using Table;
 
-namespace Game;
+namespace Rules;
 
 public class ValidPlayDimension : IValidPlay
 {

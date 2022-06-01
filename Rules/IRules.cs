@@ -1,4 +1,5 @@
 using Table;
+using InfoGame;
 
 namespace Rules;
 
@@ -16,7 +17,7 @@ public interface IAsignTokenPlayer
 #region Game
 public interface IValidPlay
 {
-    /// <summary>Determinar si es valido jugar una ficah por un nodo</summary>
+    /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     /// <param name="node">Nodo por el que se va a jugar</param>
     /// <param name="token">Ficha que se va a jugar</param>
     /// <param name="table">Mesa para jugar</param>

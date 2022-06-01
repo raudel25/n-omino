@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Table", "Table\Table.csproj", "{D3FD35A2-301E-4D1B-9BCF-A2189ADBE65C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoGame", "InfoGame\InfoGame.csproj", "{CBA3234F-6CBC-4502-883C-A01D7D7AABDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Player", "Player\Player.csproj", "{0DFBF8C1-2583-4B14-B61D-968B9C79954F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rules", "Rules\Rules.csproj", "{6697D998-3AD5-46E5-AD37-C25766B3B935}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +36,17 @@ Global
 		{D3FD35A2-301E-4D1B-9BCF-A2189ADBE65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3FD35A2-301E-4D1B-9BCF-A2189ADBE65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3FD35A2-301E-4D1B-9BCF-A2189ADBE65C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBA3234F-6CBC-4502-883C-A01D7D7AABDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA3234F-6CBC-4502-883C-A01D7D7AABDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA3234F-6CBC-4502-883C-A01D7D7AABDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA3234F-6CBC-4502-883C-A01D7D7AABDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DFBF8C1-2583-4B14-B61D-968B9C79954F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DFBF8C1-2583-4B14-B61D-968B9C79954F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DFBF8C1-2583-4B14-B61D-968B9C79954F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DFBF8C1-2583-4B14-B61D-968B9C79954F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6697D998-3AD5-46E5-AD37-C25766B3B935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6697D998-3AD5-46E5-AD37-C25766B3B935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6697D998-3AD5-46E5-AD37-C25766B3B935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6697D998-3AD5-46E5-AD37-C25766B3B935}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
