@@ -2,9 +2,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Table\Table.csproj" />
+    <ProjectReference Include="..\InfoGame\InfoGame.csproj" />
     <ProjectReference Include="..\Player\Player.csproj" />
     <ProjectReference Include="..\Rules\Rules.csproj" />
-    <ProjectReference Include="..\InfoGame\InfoGame.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

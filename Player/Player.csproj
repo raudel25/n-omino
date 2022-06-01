@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\InfoGame\InfoGame.csproj" />
     <ProjectReference Include="..\Rules\Rules.csproj" />
+    <ProjectReference Include="..\InfoGame\InfoGame.csproj" />
     <ProjectReference Include="..\Table\Table.csproj" />
   </ItemGroup>
 

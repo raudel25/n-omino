@@ -1,4 +1,4 @@
-﻿using Table;
+using Table;
 
 namespace InfoGame;
 public class Class1
