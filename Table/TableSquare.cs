@@ -2,7 +2,7 @@ namespace Table;
 
 public class TableSquare : TableGeometry
 {
-    public TableSquare(Token token, (int, int)[] coordenates) : base(token, coordenates)
+    public TableSquare((int, int)[] coordenates) : base(coordenates)
     {
 
     }
