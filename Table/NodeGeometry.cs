@@ -4,9 +4,11 @@ public class NodeGeometry : Node
 {
     public override Token ValueToken { get; set; }
     public override Node[] Conections { get; set; }
+    public override int[] ValuesConections { get; set; }
     public Coordenates Ubication { get; private set; }
     public NodeGeometry((int, int)[] conections)
     {
+        this.ValuesConections = new int[conections.Length];
         (int, int)[] aux = new (int, int)[conections.Length];
         this.Conections = new Node[conections.Length];
         this.Ubication = new Coordenates(conections);

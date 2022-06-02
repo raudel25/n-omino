@@ -41,4 +41,11 @@ public class TableTriangular : TableGeometry
         }
         else return ExpandGeometry(new (int, int)[] { coord2, coord1, coord3 });
     }
+    public override TableGame Clone()
+    {
+        (int, int)[] aux = new (int, int)[3];
+        Array.Copy(((NodeGeometry)this.TableNode[0]).Ubication.Coord, aux, 3);
+        TableGame table = new TableTriangular(aux);
+        return this.AuxClone(table);
+    }
 }

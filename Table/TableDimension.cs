@@ -5,8 +5,11 @@ public class TableDimension : TableGame
     public override HashSet<Node> PlayNode { get; protected set; }
     public override HashSet<Node> FreeNode { get; protected set; }
     public override List<Node> TableNode { get; protected set; }
+    /// <summary>Cantidad de conexiones de un nodo de la mesa</summary>
+    public int Dimension { get; protected set; }
     public TableDimension(int n)
     {
+        this.Dimension = n;
         this.PlayNode = new HashSet<Node>();
         this.FreeNode = new HashSet<Node>();
         this.TableNode = new List<Node>();
@@ -31,6 +34,7 @@ public class TableDimension : TableGame
     protected Node CreateNode(int n)
     {
         Node node = new NodeDimension(n);
+        node.ID = this.TableNode.Count;
         this.TableNode.Add(node);
         return node;
     }
@@ -50,5 +54,10 @@ public class TableDimension : TableGame
         NodeDimension nodeDimensionConect = (nodeConection as NodeDimension)!;
         if (nodeDimension == null || nodeDimensionConect == null) return;
         nodeDimensionConect.ValuesConections[ind] = nodeDimension.ValuesConections[ind];
+    }
+    public override TableGame Clone()
+    {
+        TableGame table = new TableDimension(this.Dimension);
+        return this.AuxClone(table);
     }
 }

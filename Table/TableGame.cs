@@ -49,4 +49,20 @@ public abstract class TableGame
         right.Conections[ind] = left;
         left.Conections[ind] = right;
     }
+    /// <summary>Clonar la mesa</summary>
+    /// <param name="table">Nueva mesa que se va a retornar como copia</param>
+    /// <returns>Nesa clonada</returns>
+    protected TableGame AuxClone(TableGame table)
+    {
+        foreach (var item in this.PlayNode)
+        {
+            int[] valuesAux = new int[item.ValuesConections.Length];
+            Array.Copy(item.ValuesConections, valuesAux, item.ValuesConections.Length);
+            table.PlayTable(table.TableNode[item.ID], item.ValueToken.Clone(), valuesAux);
+        }
+        return table;
+    }
+    /// <summary>Clonar la mesa</summary>
+    /// <returns>Nesa clonada</returns>
+    public abstract TableGame Clone();
 }

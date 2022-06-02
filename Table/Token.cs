@@ -9,4 +9,12 @@ public class Token
     {
         this.Values = values;
     }
+    /// <summary>Devuelve una copia de la ficha</summary>
+    /// <returns>Nueva ficha</returns>
+    public Token Clone()
+    {
+        int[] values = new int[this.Values.Length];
+        Array.Copy(this.Values, values, values.Length);
+        return new Token(values);
+    }
 }

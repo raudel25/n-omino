@@ -64,4 +64,11 @@ public class TableHexagonal : TableGeometry
         }
         return (x, y);
     }
+    public override TableGame Clone()
+    {
+        (int, int)[] aux = new (int, int)[6];
+        Array.Copy(((NodeGeometry)this.TableNode[0]).Ubication.Coord, aux, 6);
+        TableGame table = new TableHexagonal(aux);
+        return this.AuxClone(table);
+    }
 }

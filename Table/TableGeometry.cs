@@ -49,6 +49,7 @@ public abstract class TableGeometry : TableGame
     protected NodeGeometry CreateNode((int, int)[] coordenates)
     {
         NodeGeometry node = new NodeGeometry(coordenates);
+        node.ID = this.TableNode.Count;
         this.TableNode.Add(node);
         this.TableCoord.Add(node.Ubication, node);
         //Asignar in valor a cada cordenada
@@ -64,6 +65,7 @@ public abstract class TableGeometry : TableGame
     protected override void AsignValues(Node node, int[] values)
     {
         NodeGeometry nodeGeometry = (node as NodeGeometry)!;
+        Array.Copy(values, nodeGeometry.ValuesConections, values.Length);
         //Asignamos los valores
         for (int j = 0; j < values.Length; j++)
         {

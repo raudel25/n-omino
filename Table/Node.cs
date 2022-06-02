@@ -6,4 +6,7 @@ public abstract class Node
     public abstract Token ValueToken { get; set; }
     /// <summary>Nodos vecinos</summary>
     public abstract Node[] Conections { get; set; }
+    /// <summary>Valor de las conexiones del nodo</summary>
+    public abstract int[] ValuesConections { get; set; }
+    public int ID { get; set; }
 }

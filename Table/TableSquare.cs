@@ -61,4 +61,11 @@ public class TableSquare : TableGeometry
         }
         return (x, y);
     }
+    public override TableGame Clone()
+    {
+        (int, int)[] aux = new (int, int)[4];
+        Array.Copy(((NodeGeometry)this.TableNode[0]).Ubication.Coord, aux, 4);
+        TableGame table = new TableSquare(aux);
+        return this.AuxClone(table);
+    }
 }

@@ -4,7 +4,7 @@ public class NodeDimension : Node
 {
     public override Token ValueToken { get; set; }
     public override Node[] Conections { get; set; }
-    public int[] ValuesConections { get; set; }
+    public override int[] ValuesConections { get; set; }
     public int FirstConectionFree
     {
         get { return ConectionFree(); }
