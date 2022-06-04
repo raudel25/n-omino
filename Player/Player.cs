@@ -4,47 +4,19 @@ using InfoGame;
 
 namespace Player;
 
-public class Player
+public abstract class Player
 {
-    InfoPlayer info;
-    public Player(InfoPlayer infoplayer)
+    public int ID; 
+    IPlay<Token>[] _plays; //estrategias de juego
+    public Player (int id, IPlay<Token>[] plays)
     {
-        this.info = infoplayer;
+        this.ID = id;
+        this._plays = plays;
     }
-    public (Token, Node) Play(IJugada<Token> jugada, TableGame table, IValidPlay validador)
-    {
-        List<Token> posibles = info.Mano.Clone();
-
-        while(posibles.Count > 0)
-        {
-            Token token = jugada.Play(posibles);
-
-            foreach (var node in table.FreeNode)
-                if(validador.ValidPlay(node, token, table)) return (token, node);
-
-            posibles.Remove(token);
-        }
-        return (null!, null!); 
-    }
+    public abstract (Token, Node) Play(GameStatus status, InfoRules rules);
 }
 
-public class InfoPlayer
-{
-    public List<Token> Mano {get; private set;}
-    public int Score {get; private set;}
-    public int Pasadas;
-    public InfoPlayer(List<Token> tokens)
-    {
-        this.Mano = tokens;
-    }
-
-    void UpdatePlayerStatus(IAsignScorePlayer asignador)
-    {
-
-    }
-}
-
-public class RandomPlayer<T> : IJugada<T>
+public class RandomPlayer<T> : IPlay<T>
 {
     public RandomPlayer() {}
     public T Play(List<T> tokens)
@@ -56,7 +28,7 @@ public class RandomPlayer<T> : IJugada<T>
 }
 
 
-public class BotaGordaPlayer<T> : IJugada<T>
+public class BotaGordaPlayer<T> : IPlay<T>
 {
     IComparer<T> _comparer;
     public BotaGordaPlayer(IComparer<T> comparer)
@@ -65,31 +37,12 @@ public class BotaGordaPlayer<T> : IJugada<T>
     }
     public T Play(List<T> tokens)
     {
-        T max = tokens[0];
-        int pos = 0;
-        for(int i = 1; i < tokens.Count; i++)
-        {
-            if(_comparer.Compare(max,tokens[i]) < 0)
-            {
-                max = tokens[i];
-                pos = i;
-            }
-        }
-        return tokens[pos];
+        tokens.Sort(_comparer);
+        return tokens[0];
     }
 }
 
-static class ListExtension
-{
-    public static List<Token> Clone (this List<Token> list)
-    {
-        Token[] arr = new Token[list.Count];
-        list.CopyTo(arr);
-        return arr.ToList();
-    }
-}
-
-public interface IJugada<T>
+public interface IPlay<T>
 {
     public T Play(List<T> tokens);
 }
