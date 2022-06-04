@@ -2,7 +2,7 @@ namespace Table;
 
 public class TableHexagonal : TableGeometry
 {
-    public TableHexagonal(Token token, (int, int)[] coordenates) : base(token, coordenates)
+    public TableHexagonal((int, int)[] coordenates) : base(coordenates)
     {
 
     }

@@ -2,7 +2,7 @@ namespace Table;
 
 public class TableTriangular : TableGeometry
 {
-    public TableTriangular(Token token, (int, int)[] coordenates) : base(token, coordenates)
+    public TableTriangular((int, int)[] coordenates) : base(coordenates)
     {
 
     }

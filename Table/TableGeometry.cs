@@ -9,7 +9,7 @@ public abstract class TableGeometry : TableGame
     public Dictionary<Coordenates, Node> TableCoord { get; protected set; }
     /// <summary>Valor que contiene cada coordenada</summary>
     public Dictionary<(int, int), int> CoordValor { get; protected set; }
-    protected TableGeometry(Token token, (int, int)[] coordenates)
+    protected TableGeometry((int, int)[] coordenates)
     {
         this.PlayNode = new HashSet<Node>();
         this.FreeNode = new HashSet<Node>();
@@ -17,10 +17,7 @@ public abstract class TableGeometry : TableGame
         this.TableCoord = new Dictionary<Coordenates, Node>();
         this.CoordValor = new Dictionary<(int, int), int>();
         Node node = this.CreateNode(coordenates);
-        this.AsignValues(node, token.Values);
-        node.ValueToken = token;
-        this.Expand(node);
-        this.PlayNode.Add(node);
+        this.FreeTable(node);
     }
     /// <summary>Buscar las coordenadas de un nodo expandido</summary>
     /// <param name="coordenates">Coordenadas del nodo a expandir</param>
@@ -67,30 +64,10 @@ public abstract class TableGeometry : TableGame
     protected override void AsignValues(Node node, int[] values)
     {
         NodeGeometry nodeGeometry = (node as NodeGeometry)!;
-        for (int i = 0; i < values.Length; i++)
+        //Asignamos los valores
+        for (int j = 0; j < values.Length; j++)
         {
-            //Rotamos los valores circularmente
-            int[] circular = CircularArray<int>.Circular(values, i);
-            bool iquals = true;
-            //Comprobamos que los valores sean los mismos que los de las coordenadas
-            for (int j = 0; j < values.Length; j++)
-            {
-                if (this.CoordValor[nodeGeometry.Ubication.Coord[j]] != -1 && this.CoordValor[nodeGeometry.Ubication.Coord[j]] != circular[j])
-                {
-                    iquals = false;
-                    break;
-                }
-            }
-            if (!iquals) continue;
-            //Asignamos los valores
-            for (int j = 0; j < values.Length; j++)
-            {
-                if (this.CoordValor[nodeGeometry.Ubication.Coord[j]] == -1)
-                {
-                    this.CoordValor[nodeGeometry.Ubication.Coord[j]] = circular[j];
-                }
-            }
-            break;
+            this.CoordValor[nodeGeometry.Ubication.Coord[j]] = values[j];
         }
     }
 }

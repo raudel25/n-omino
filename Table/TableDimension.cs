@@ -5,16 +5,13 @@ public class TableDimension : TableGame
     public override HashSet<Node> PlayNode { get; protected set; }
     public override HashSet<Node> FreeNode { get; protected set; }
     public override List<Node> TableNode { get; protected set; }
-    public TableDimension(Token token)
+    public TableDimension(int n)
     {
         this.PlayNode = new HashSet<Node>();
         this.FreeNode = new HashSet<Node>();
         this.TableNode = new List<Node>();
-        Node node = CreateNode(token.CantValues);
-        node.ValueToken = token;
-        this.AsignValues(node, token.Values);
-        this.Expand(node);
-        this.PlayNode.Add(node);
+        Node node = CreateNode(n);
+        this.FreeTable(node);
     }
     protected override void Expand(Node node)
     {
@@ -41,35 +38,7 @@ public class TableDimension : TableGame
     {
         NodeDimension nodeDimension = (node as NodeDimension)!;
         if (nodeDimension == null) return;
-        int ind = 0;
-        int conection = 0;
-        bool find = false;
-        //Buscamos si hay algun valor ya predeterminado
-        for (int i = 0; i < nodeDimension.ValuesConections.Length; i++)
-        {
-            if (nodeDimension.ValuesConections[i] != -1)
-            {
-                conection = nodeDimension.ValuesConections[i];
-                ind = i;
-                find = true;
-                break;
-            }
-        }
-        //Asignamos los valores
-        for (int i = 0; i < values.Length; i++)
-        {
-            if (find && values[i] == conection)
-            {
-                //Realizamos el cambio correspondiente con el valor preasignado
-                nodeDimension.ValuesConections[i] = values[ind];
-                find = false;
-                continue;
-            }
-            if (nodeDimension.ValuesConections[i] == -1)
-            {
-                nodeDimension.ValuesConections[i] = values[i];
-            }
-        }
+        Array.Copy(values, nodeDimension.ValuesConections, values.Length);
     }
     /// <summary>Asignar los mismos valores a 2 nodos conectados</summary>
     /// <param name="node">Nodo conectado</param>
