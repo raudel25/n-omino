@@ -51,7 +51,7 @@ public abstract class TableGame
     }
     /// <summary>Clonar la mesa</summary>
     /// <param name="table">Nueva mesa que se va a retornar como copia</param>
-    /// <returns>Nesa clonada</returns>
+    /// <returns>Mesa clonada</returns>
     protected TableGame AuxClone(TableGame table)
     {
         foreach (var item in this.PlayNode)
@@ -63,6 +63,6 @@ public abstract class TableGame
         return table;
     }
     /// <summary>Clonar la mesa</summary>
-    /// <returns>Nesa clonada</returns>
+    /// <returns>Mesa clonada</returns>
     public abstract TableGame Clone();
 }

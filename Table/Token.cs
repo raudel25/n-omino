@@ -17,4 +17,17 @@ public class Token
         Array.Copy(this.Values, values, values.Length);
         return new Token(values);
     }
+    public override bool Equals(object? obj)
+    {
+        Token token = (obj as Token)!;
+        for (int i = 0; i < token.Values.Length; i++)
+        {
+            if (token.Values[i] != this.Values[i]) return false;
+        }
+        return true;
+    }
+    public override int GetHashCode()
+    {
+        return this.Values[0].GetHashCode();
+    }
 }
