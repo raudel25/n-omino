@@ -6,15 +6,15 @@ public class TableHexagonal : TableGeometry
     {
 
     }
-    protected override void Expand(Node node)
+    protected override void Expand(INode node)
     {
-        NodeGeometry geometry = (node as NodeGeometry)!;
+        NodeGeometry? geometry = (node as NodeGeometry);
         if (geometry == null) return;
         (int, int) center = FindCenter(geometry);
         (int, int)[] expand = FindCenterExpand(center);
         for (int i = 0; i < expand.Length; i++)
         {
-            AsignCoordenates(geometry, ExpandGeometry(new (int, int)[] { expand[i] }));
+            AsignCoordenates(geometry, ExpandGeometry(new [] { expand[i] }));
         }
     }
     protected override (int, int)[] ExpandGeometry((int, int)[] coordenates)

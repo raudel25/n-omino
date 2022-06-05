@@ -4,8 +4,9 @@ public class Coordenates
 {
     /// <summary>Lista de coordenadas</summary>
     public (int, int)[] Coord { get; private set; }
+
     /// <summary>Lista de coordenadas ordenadas</summary>
-    private (int, int)[] _listCoord { get; set; }
+    private readonly (int, int)[] _listCoord;
     public Coordenates((int, int)[] list)
     {
         (int, int)[] listCopy = new (int, int)[list.Length];
@@ -18,7 +19,7 @@ public class Coordenates
     }
     public override bool Equals(object? obj)
     {
-        Coordenates aux = (obj as Coordenates)!;
+        Coordenates? aux = (obj as Coordenates);
         if (aux == null) return false;
         bool equal = true;
         for (int i = 0; i < this._listCoord.Length; i++)

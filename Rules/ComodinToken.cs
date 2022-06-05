@@ -4,16 +4,16 @@ namespace Rules;
 
 public class ComodinTokenDimension : IValidPlay
 {
-    private Token _comodinToken { get; set; }
+    private Token _comodinToken;
     public ComodinTokenDimension(Token token)
     {
         this._comodinToken = token;
     }
-    public bool ValidPlay(Node node, Token token, TableGame table)
+    public bool ValidPlay(INode node, Token token, TableGame table)
     {
         return _comodinToken.Equals(token);
     }
-    public int[] AsignValues(Node node, Token token, TableGame table)
+    public int[] AsignValues(INode node, Token token, TableGame table)
     {
         return this._comodinToken.Values.ToArray();
     }

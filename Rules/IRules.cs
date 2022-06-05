@@ -21,13 +21,15 @@ public interface IValidPlay
     /// <param name="node">Nodo por el que se va a jugar</param>
     /// <param name="token">Ficha que se va a jugar</param>
     /// <param name="table">Mesa para jugar</param>
-    /// <returns>Valores a asignar al nodo</returns>
-    public bool ValidPlay(Node node, Token token, TableGame table);
+    /// <returns>Si el criterio es valido</returns>
+    public bool ValidPlay(INode node, Token token, TableGame table);
     /// <summary>Determinar los valores para asignar al nodo</summary>
     /// <param name="node">Nodo por el que se va a jugar</param>
     /// <param name="token">Ficha que se va a jugar</param>
     /// <param name="table">Mesa para jugar</param>
-    public int[] AsignValues(Node node, Token token, TableGame table);
+    /// <returns>Valores a asignar al nodo, retorna una array cuyo primer
+    /// elemento es -1 si el criterio no es valido</returns>
+    public int[] AsignValues(INode node, Token token, TableGame table);
 }
 public interface IAsignScorePlayer
 {

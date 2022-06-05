@@ -11,7 +11,7 @@ public class Player
     {
         this.info = infoplayer;
     }
-    public (Token, Node) Play(IJugada<Token> jugada, TableGame table, IValidPlay validador)
+    public (Token, INode) Play(IJugada<Token> jugada, TableGame table, IValidPlay validador)
     {
         List<Token> posibles = info.Mano.Clone();
 

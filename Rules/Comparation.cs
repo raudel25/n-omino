@@ -9,7 +9,7 @@ public class ClasicComparation : IComparation
 }
 public class CongruenceComparation : IComparation
 {
-    public int _congruence { get; set; }
+    public int _congruence;
     public CongruenceComparation(int n)
     {
         this._congruence = n;
@@ -21,7 +21,7 @@ public class CongruenceComparation : IComparation
 }
 public class MayorNumberComparation : IComparation
 {
-    public int _mayorNumber { get; set; }
+    public int _mayorNumber;
     public MayorNumberComparation(int n)
     {
         this._mayorNumber = n;
@@ -33,7 +33,7 @@ public class MayorNumberComparation : IComparation
 }
 public class MenorNumberComparation : IComparation
 {
-    public int _menorNumber { get; set; }
+    public int _menorNumber;
     public MenorNumberComparation(int n)
     {
         this._menorNumber = n;
@@ -45,7 +45,7 @@ public class MenorNumberComparation : IComparation
 }
 public class ComodinComparation : IComparation
 {
-    private int _comodin { get; set; }
+    private int _comodin;
     public ComodinComparation(int n)
     {
         this._comodin = n;
@@ -58,7 +58,7 @@ public class ComodinComparation : IComparation
 }
 public class DivisibleComparation : IComparation
 {
-    private int _divisible { get; set; }
+    private int _divisible;
     public DivisibleComparation(int n)
     {
         this._divisible = n;
@@ -68,10 +68,10 @@ public class DivisibleComparation : IComparation
         return a % this._divisible == 0 && b % this._divisible == 0;
     }
 }
-public class GCDComparation : IComparation
+public class GcdComparation : IComparation
 {
-    private int _gcd { get; set; }
-    public GCDComparation(int n)
+    private int _gcd;
+    public GcdComparation(int n)
     {
         this._gcd = n;
     }

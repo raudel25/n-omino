@@ -41,7 +41,7 @@ public class InfoRules
     /// <param name="token">Ficha para jugar</param>
     /// <param name="table">Mesa para jugar</param>
     /// <returns>Criterios de jugada valida correspomdientes a la ficha y el nodo</returns>
-    public List<int> ValidPlays(Node node, Token token, TableGame table)
+    public List<int> ValidPlays(INode node, Token token, TableGame table)
     {
         List<int> valid = new List<int>();
         for (int j = 0; j < this.IsValidPlay.Count; j++)
