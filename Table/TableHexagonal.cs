@@ -6,15 +6,15 @@ public class TableHexagonal : TableGeometry
     {
 
     }
-    protected override void Expand(Node node)
+    protected override void Expand(INode node)
     {
-        NodeGeometry geometry = (node as NodeGeometry)!;
+        NodeGeometry? geometry = (node as NodeGeometry);
         if (geometry == null) return;
         (int, int) center = FindCenter(geometry);
         (int, int)[] expand = FindCenterExpand(center);
         for (int i = 0; i < expand.Length; i++)
         {
-            AsignCoordenates(geometry, ExpandGeometry(new (int, int)[] { expand[i] }));
+            AsignCoordenates(geometry, ExpandGeometry(new [] { expand[i] }));
         }
     }
     protected override (int, int)[] ExpandGeometry((int, int)[] coordenates)
@@ -63,5 +63,12 @@ public class TableHexagonal : TableGeometry
             }
         }
         return (x, y);
+    }
+    public override TableGame Clone()
+    {
+        (int, int)[] aux = new (int, int)[6];
+        Array.Copy(((NodeGeometry)this.TableNode[0]).Ubication.Coord, aux, 6);
+        TableGame table = new TableHexagonal(aux);
+        return this.AuxClone(table);
     }
 }

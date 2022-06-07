@@ -14,11 +14,11 @@ public abstract class Player
         this.ID = id;
         this._strategy = strategy;
     }
-    public abstract (Token, Node) Play(GameStatus status, InfoRules rules);
+    public abstract (Token, INode) Play(GameStatus status, InfoRules rules);
 
-    public Dictionary<Token,List<Node>> GetPossiblePlay (TableGame table, IEnumerable<Token> hand, InfoRules rules)
+    public Dictionary<Token,List<INode>> GetPossiblePlay (TableGame table, IEnumerable<Token> hand, InfoRules rules)
     {
-        Dictionary<Token,List<Node>> possible = new();
+        Dictionary<Token,List<INode>> possible = new();
         foreach (var token in hand)
         {
             foreach (var node in table.FreeNode)
@@ -26,7 +26,7 @@ public abstract class Player
                 if(!rules.ValidPlay.ValidPlay(node,token,table)) continue;
                 if(!possible.ContainsKey(token)) 
                 {
-                    List<Node> nodes = new List<Node>();
+                    List<INode> nodes = new List<INode>();
                     nodes.Add(node);
                     possible.Add(token, nodes);
                 }
@@ -40,7 +40,7 @@ public abstract class Player
 public class XPlayer : Player
 {
     public XPlayer(int id, IStrategy<Token> strategy) : base(id, strategy) {}
-    public override (Token, Node) Play(GameStatus status, InfoRules rules)
+    public override (Token, INode) Play(GameStatus status, InfoRules rules)
     {
         IEnumerable<Token> MyHand = status.Players[ID].Hand;
         Dictionary<Token,List<Node>> Posibble = this.GetPossiblePlay(status.Table, MyHand, rules);

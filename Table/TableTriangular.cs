@@ -6,9 +6,9 @@ public class TableTriangular : TableGeometry
     {
 
     }
-    protected override void Expand(Node node)
+    protected override void Expand(INode node)
     {
-        NodeGeometry geometry = (node as NodeGeometry)!;
+        NodeGeometry? geometry = (node as NodeGeometry);
         if (geometry == null) return;
         for (int i = 0; i < node.Conections.Length; i++)
         {
@@ -26,19 +26,26 @@ public class TableTriangular : TableGeometry
         bool sw = coord2.Item1 > coord1.Item1 && coord2.Item2 < coord1.Item2;
         if (nw)
         {
-            if (coord3.Item1 > coord1.Item1) return new (int, int)[] { coord1, (coord2.Item1 - 2, coord2.Item2), coord2 };
-            else return new (int, int)[] { coord1, coord2, (coord1.Item1 + 2, coord1.Item2) };
+            if (coord3.Item1 > coord1.Item1) return new [] { coord1, (coord2.Item1 - 2, coord2.Item2), coord2 };
+            return new [] { coord1, coord2, (coord1.Item1 + 2, coord1.Item2) };
         }
         else if (w)
         {
-            if (coord3.Item2 > coord1.Item2) return new (int, int)[] { coord1, coord2, (coord3.Item1, coord3.Item2 - 2) };
-            return new (int, int)[] { coord1, coord2, (coord3.Item1, coord3.Item2 + 2) };
+            if (coord3.Item2 > coord1.Item2) return new [] { coord1, coord2, (coord3.Item1, coord3.Item2 - 2) };
+            return new [] { coord1, coord2, (coord3.Item1, coord3.Item2 + 2) };
         }
         else if (sw)
         {
-            if (coord3.Item1 < coord1.Item1) return new (int, int)[] { coord1, (coord1.Item1 + 2, coord1.Item1), coord2 };
-            else return new (int, int)[] { coord1, coord2, (coord2.Item1 - 2, coord2.Item2) };
+            if (coord3.Item1 < coord1.Item1) return new [] { coord1, (coord1.Item1 + 2, coord1.Item1), coord2 };
+            return new [] { coord1, coord2, (coord2.Item1 - 2, coord2.Item2) };
         }
-        else return ExpandGeometry(new (int, int)[] { coord2, coord1, coord3 });
+        return ExpandGeometry(new [] { coord2, coord1, coord3 });
+    }
+    public override TableGame Clone()
+    {
+        (int, int)[] aux = new (int, int)[3];
+        Array.Copy(((NodeGeometry)this.TableNode[0]).Ubication.Coord, aux, 3);
+        TableGame table = new TableTriangular(aux);
+        return this.AuxClone(table);
     }
 }
