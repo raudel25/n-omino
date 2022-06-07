@@ -9,4 +9,8 @@ public class Token
     {
         this.Values = values;
     }
+    public Token Clone()
+    {
+        return new Token((int[])Values.Clone());
+    }
 }
