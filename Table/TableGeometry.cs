@@ -7,8 +7,10 @@ public abstract class TableGeometry : TableGame
     // public override List<Node> TableNode { get; protected set; }
     /// <summary>Coordenadas con sus respectivos nodos</summary>
     public Dictionary<Coordenates, INode> TableCoord { get; protected set; }
+
     /// <summary>Valor que contiene cada coordenada</summary>
     public Dictionary<(int, int), int> CoordValor { get; protected set; }
+
     protected TableGeometry((int, int)[] coordenates)
     {
         this.TableCoord = new Dictionary<Coordenates, INode>();
@@ -16,10 +18,12 @@ public abstract class TableGeometry : TableGame
         INode node = this.CreateNode(coordenates);
         this.FreeTable(node);
     }
+
     /// <summary>Buscar las coordenadas de un nodo expandido</summary>
     /// <param name="coordenates">Coordenadas del nodo a expandir</param>
     /// <returns>Coordenadas del nodo expandido</returns>
     protected abstract (int, int)[] ExpandGeometry((int, int)[] coordenates);
+
     /// <summary>Asignar las coordenadas obtenidas en ExpandGeometry</summary>
     /// <param name="node">Nodo a asignar</param>
     /// <param name="coordenates">Coordenadas del nodo a asignar</param>
@@ -31,6 +35,7 @@ public abstract class TableGeometry : TableGame
         {
             this.FreeTable(this.CreateNode(coordenates));
         }
+
         int j = 0;
         //Buscar las conexiones libres
         while (node.Conections[j] != null)
@@ -38,9 +43,11 @@ public abstract class TableGeometry : TableGame
             j++;
             if (j == node.Conections.Length) break;
         }
+
         if (j == node.Conections.Length) return;
         this.UnionNode(node, this.TableCoord[aux], j);
     }
+
     /// <summary>Crear un nodo</summary>
     /// <param name="coordenates">Cooredenadas de la ficha</param>
     /// <returns>Nuevo nodo</returns>
@@ -57,8 +64,10 @@ public abstract class TableGeometry : TableGame
                 this.CoordValor.Add(coordenates[i], -1);
             }
         }
+
         return node;
     }
+
     protected override void AsignValues(INode node, int[] values)
     {
         NodeGeometry nodeGeometry = (node as NodeGeometry)!;
@@ -70,4 +79,3 @@ public abstract class TableGeometry : TableGame
         }
     }
 }
-

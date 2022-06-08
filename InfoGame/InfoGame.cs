@@ -2,8 +2,8 @@
 namespace InfoGame;
 public class InfoPlayer
 {
-    public IEnumerable<Token> Hand {get; set;}
-    public int HandCount{get{return Hand.Count();}}
+    public IEnumerable<Token>? Hand {get; set;}
+    public int HandCount{get{return Hand!.Count();}}
     public int Passes {get; set;}
     public Actions Actions {get; set;}
     public int Score {get; set;}
@@ -45,11 +45,34 @@ public class GameStatus
     public InfoPlayer[] Players;
     public List<InfoPlayer>[] Teams;
     public TableGame Table;
-    public GameStatus(InfoPlayer[] players, List<InfoPlayer>[] teams, TableGame table)
+    public int[] Turns { get; set; }
+    public GameStatus(InfoPlayer[] players, List<InfoPlayer>[] teams, TableGame table,int[] turns)
     {
         this.Players = players;
         this.Teams = teams;
         this.Table = table;
+        this.Turns = turns;
+    }
+
+    public GameStatus Clone()
+    {
+        InfoPlayer[] players = new InfoPlayer[this.Players.Length];
+        List<InfoPlayer>[] teams = new List<InfoPlayer>[this.Teams.Length];
+        for (int i = 0; i < this.Players.Length; i++)
+        {
+            players[i] = this.Players[i].Clone();
+        }
+
+        for (int i = 0; i < this.Teams.Length; i++)
+        {
+            teams[i] = new List<InfoPlayer>();
+            for (int j = 0; j < this.Teams[i].Count; j++)
+            {
+                teams[i].Add(players[this.Teams[i][j].ID]);
+            }
+        }
+
+        return new GameStatus(players, teams, this.Table.Clone(),this.Turns.ToArray());
     }
 }
 

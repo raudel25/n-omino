@@ -11,6 +11,7 @@ public static class CircularArray<T>
             aux[i] = array[ind];
             ind++;
         }
+
         return aux;
     }
 }
