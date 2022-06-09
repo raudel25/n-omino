@@ -38,15 +38,22 @@ public interface IValidPlay
 
 public interface IAsignScorePlayer
 {
+    /// <summary>
+    /// Determinar la forma de asignar puntos a un jugador
+    /// </summary>
+    /// <param name="game">Estado del juego</param>
+    /// <param name="ind">Indice del jugador</param>
+    /// <param name="rules">Reglas del juego</param>
+    public void AsignScore(GameStatus game, InfoRules rules, int ind);
 }
 
 public interface ITurnPlayer
 {
-    /// <summary>Determina la distibucion de los nodos de los jugadores</summary>
+    /// <summary>Determina la distibucion de los turnos de los jugadores</summary>
     /// <param name="turns">Distribucion de los turnos de los jugadores</param>
     /// <param name="ind">Indice actual</param>
     /// <returns>Nueva distribucion de los jugadores</returns>
-    public int[] Turn(int[] turns, int ind);
+    public void Turn(int[] turns, int ind);
 }
 
 public interface IVisibilityPlayer
@@ -77,8 +84,9 @@ public interface IStealToken
     /// <param name="game">Estado del juego</param>
     /// <param name="player">ID del jugador que le corresponde jugar</param>
     /// <param name="rules">Reglas del juego</param>
-    /// /// <param name="original">Estado Original del juego</param>
-    public void Steal(GameStatus game, GameStatus original, InfoRules rules, int player);
+    /// <param name="original">Estado Original del juego</param>
+    /// <param name="play">Determinar si es posible jugar</param>
+    public void Steal(GameStatus game, GameStatus original, InfoRules rules, int player, ref bool play);
 }
 
 #endregion

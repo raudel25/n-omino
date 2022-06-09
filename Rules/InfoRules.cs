@@ -11,40 +11,41 @@ public class InfoRules
     public List<IAsignScorePlayer> AsignScorePlayer { get; private set; }
 
     /// <summary>Determinar la rotacion de los jugadores</summary>
-    public List<ITurnPlayer> TurnPlayer { get; private set; }
+    public TurnPlayerRule TurnPlayer { get; private set; }
 
     /// <summary>Determinar si termino el juego</summary>
-    public List<IEndGame> EndPlayer { get; private set; }
+    public List<IEndGame> EndGame { get; private set; }
 
     /// <summary>Determinar el ganador del juego</summary>
     public List<IWinnerGame> WinnerGame { get; private set; }
 
-    public List<IVisibilityPlayer> VisibilityPlayer { get; private set; }
-    public List<IStealToken> StealTokens { get; private set; }
+    public VisibilityPlayerRule VisibilityPlayer { get; private set; }
+    public StealTokenRule StealTokens { get; private set; }
+    public IAsignScoreToken ScoreToken { get; }
 
-    public InfoRules()
+    public InfoRules(VisibilityPlayerRule visibility, TurnPlayerRule turn, StealTokenRule steal)
     {
         this.IsValidPlay = new List<IValidPlay>();
         this.AsignScorePlayer = new List<IAsignScorePlayer>();
-        this.TurnPlayer = new List<ITurnPlayer>();
-        this.EndPlayer = new List<IEndGame>();
+        this.TurnPlayer = turn;
+        this.EndGame = new List<IEndGame>();
         this.WinnerGame = new List<IWinnerGame>();
-        this.VisibilityPlayer = new List<IVisibilityPlayer>();
-        this.StealTokens = new List<IStealToken>();
+        this.VisibilityPlayer = visibility;
+        this.StealTokens = steal;
     }
 
     /// <summary>Clonar el objeto InfoRules</summary>
     /// <returns>Clon de InfoRules</returns>
     public InfoRules Clone()
     {
-        InfoRules aux = new InfoRules();
+        InfoRules aux = new InfoRules(this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(), this.StealTokens.Clone());
         aux.IsValidPlay = this.IsValidPlay.ToList();
         aux.AsignScorePlayer = this.AsignScorePlayer.ToList();
-        aux.TurnPlayer = this.TurnPlayer.ToList();
+        //aux.TurnPlayer = this.TurnPlayer.ToList();
         aux.WinnerGame = this.WinnerGame.ToList();
-        aux.EndPlayer = this.EndPlayer.ToList();
-        aux.VisibilityPlayer = this.VisibilityPlayer.ToList();
-        aux.StealTokens = this.StealTokens.ToList();
+        aux.EndGame = this.EndGame.ToList();
+        //aux.VisibilityPlayer = this.VisibilityPlayer.ToList();
+        // aux.StealTokens = this.StealTokens.ToList();
 
         return aux;
     }

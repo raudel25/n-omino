@@ -2,13 +2,14 @@
 namespace InfoGame;
 public class InfoPlayer
 {
-    public IEnumerable<Token>? Hand {get; set;}
+    public HashSet<Token>? Hand { get; set; }
     public int HandCount{get{return Hand!.Count();}}
     public int Passes {get; set;}
     public Actions Actions {get; set;}
-    public int Score {get; set;}
+    public double Score { get; set; }
     public int ID {get; set;}
-    public InfoPlayer(IEnumerable<Token> hand, int passes, Actions actions, int score, int id)
+
+    public InfoPlayer(HashSet<Token> hand, int passes, Actions actions, double score, int id)
     {
         this.Hand = hand;
         this.Passes = passes;
@@ -18,12 +19,15 @@ public class InfoPlayer
     }
     public InfoPlayer Clone()
     {
-        return new InfoPlayer(Clone(Hand), Passes, Clone(Actions), Score, ID);
+        return new InfoPlayer(Clone(Hand!), Passes, Clone(Actions), Score, ID);
     }
-    private IEnumerable<Token> Clone(IEnumerable<Token> collection)
+
+    private HashSet<Token> Clone(HashSet<Token> collection)
     {
+        HashSet<Token> aux = new HashSet<Token>();
         foreach (var item in collection)
-            yield return item.Clone();
+            aux.Add(item.Clone());
+        return aux;
     }
     private Actions Clone(Actions x)
     {
@@ -46,12 +50,15 @@ public class GameStatus
     public List<InfoPlayer>[] Teams;
     public TableGame Table;
     public int[] Turns { get; set; }
-    public GameStatus(InfoPlayer[] players, List<InfoPlayer>[] teams, TableGame table,int[] turns)
+    public List<Token>? TokensTable { get; set; }
+
+    public GameStatus(InfoPlayer[] players, List<InfoPlayer>[] teams, TableGame table, int[] turns, List<Token> tokens)
     {
         this.Players = players;
         this.Teams = teams;
         this.Table = table;
         this.Turns = turns;
+        this.TokensTable = tokens;
     }
 
     public GameStatus Clone()
@@ -72,7 +79,7 @@ public class GameStatus
             }
         }
 
-        return new GameStatus(players, teams, this.Table.Clone(),this.Turns.ToArray());
+        return new GameStatus(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable.ToList());
     }
 }
 
