@@ -2,6 +2,24 @@ using Table;
 
 namespace Rules;
 
+public interface IValidPlay
+{
+    /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
+    /// <param name="node">Nodo por el que se va a jugar</param>
+    /// <param name="token">Ficha que se va a jugar</param>
+    /// <param name="table">Mesa para jugar</param>
+    /// <returns>Si el criterio es valido</returns>
+    public bool ValidPlay(INode node, Token token, TableGame table);
+
+    /// <summary>Determinar los valores para asignar al nodo</summary>
+    /// <param name="node">Nodo por el que se va a jugar</param>
+    /// <param name="token">Ficha que se va a jugar</param>
+    /// <param name="table">Mesa para jugar</param>
+    /// <returns>Valores a asignar al nodo, retorna una array cuyo primer
+    /// elemento es -1 si el criterio no es valido</returns>
+    public int[] AsignValues(INode node, Token token, TableGame table);
+}
+
 public class ValidPlayDimension : IValidPlay
 {
     /// <summary>
@@ -90,7 +108,7 @@ public class ValidPlayGeometry : IValidPlay
         if (nodeGeometry == null || tableGeometry == null) return new[] {-1};
         for (int i = 0; i < token.Values.Length; i++)
         {
-            int[] circular = CircularArray<int>.Circular(token.Values, i);
+            int[] circular = AuxTable.CircularArray(token.Values, i);
             if (IqualValues(nodeGeometry, tableGeometry, circular)) return circular;
         }
 
@@ -109,5 +127,25 @@ public class ValidPlayGeometry : IValidPlay
         }
 
         return true;
+    }
+}
+
+public class ComodinTokenDimension : IValidPlay
+{
+    private Token _comodinToken;
+
+    public ComodinTokenDimension(Token token)
+    {
+        this._comodinToken = token;
+    }
+
+    public bool ValidPlay(INode node, Token token, TableGame table)
+    {
+        return _comodinToken.Equals(token);
+    }
+
+    public int[] AsignValues(INode node, Token token, TableGame table)
+    {
+        return this._comodinToken.Values.ToArray();
     }
 }

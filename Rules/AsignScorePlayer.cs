@@ -1,6 +1,18 @@
 using InfoGame;
+using Table;
 
 namespace Rules;
+
+public interface IAsignScorePlayer
+{
+    /// <summary>
+    /// Determinar la forma de asignar puntos a un jugador
+    /// </summary>
+    /// <param name="game">Estado del juego</param>
+    /// <param name="ind">Indice del jugador</param>
+    /// <param name="rules">Reglas del juego</param>
+    public void AsignScore(GameStatus game, InfoRules rules, int ind);
+}
 
 public class AsignScoreClasic : IAsignScorePlayer
 {
@@ -22,7 +34,7 @@ public class AsignScoreHands : IAsignScorePlayer
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = -1 * sum;
+            game.Players[i].Score = sum;
         }
     }
 }
@@ -39,7 +51,7 @@ public class AsignScoreHandsMenorCant : IAsignScorePlayer
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = -1 * sum * game.Players[i].Hand!.Count;
+            game.Players[i].Score = sum * game.Players[i].Hand!.Count;
         }
     }
 }
@@ -56,7 +68,15 @@ public class AsignScoreHandsMayorTokens : IAsignScorePlayer
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = (double)(-1 * sum) / game.Players[i].Hand!.Count;
+            game.Players[i].Score = (double) (sum) / game.Players[i].Hand!.Count;
         }
+    }
+}
+
+public class AsignScoreSumFreeNode : IAsignScorePlayer
+{
+    public void AsignScore(GameStatus game, InfoRules rules, int ind)
+    {
+        game.Players[game.Turns[ind]].Score = AuxTable.SumConectionFree(game.Table);
     }
 }

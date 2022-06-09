@@ -3,6 +3,29 @@ using Table;
 
 namespace Rules;
 
+public interface IStealToken
+{
+    /// <summary>
+    /// Cantidad de fichas minimas que puede robar el jugador
+    /// </summary>
+    int CantMin { get; }
+
+    /// <summary>
+    /// Cantidad de fichas maximas que puede robar el jugador
+    /// </summary>
+    int CantMax { get; }
+
+    /// <summary>
+    /// Determinar las condiciones bajo las cuales se puede robar en el juego
+    /// </summary>
+    /// <param name="game">Estado del juego</param>
+    /// <param name="player">ID del jugador que le corresponde jugar</param>
+    /// <param name="rules">Reglas del juego</param>
+    /// <param name="original">Estado Original del juego</param>
+    /// <param name="play">Determinar si es posible jugar</param>
+    public void Steal(GameStatus game, GameStatus original, InfoRules rules, int player, ref bool play);
+}
+
 public class NoStealToken : IStealToken
 {
     public int CantMin { get; private set; }
@@ -47,7 +70,8 @@ public class ClasicStealToken : IStealToken
                 if (rules.ValidPlays(item, aux, game.Table).Count != 0) break;
                 play = true;
             }
-            if(game.TokensTable.Count==0) break;
+
+            if (game.TokensTable.Count == 0) break;
         }
 
         game.TokensTable = null;
@@ -67,6 +91,5 @@ public class ChooseStealToken : IStealToken
 
     public void Steal(GameStatus game, GameStatus original, InfoRules rules, int player, ref bool play)
     {
-        
     }
 }

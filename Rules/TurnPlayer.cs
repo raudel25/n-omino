@@ -1,5 +1,14 @@
 namespace Rules;
 
+public interface ITurnPlayer
+{
+    /// <summary>Determina la distibucion de los turnos de los jugadores</summary>
+    /// <param name="turns">Distribucion de los turnos de los jugadores</param>
+    /// <param name="ind">Indice actual</param>
+    /// <returns>Nueva distribucion de los jugadores</returns>
+    public void Turn(int[] turns, int ind);
+}
+
 public class TurnPlayerClasic : ITurnPlayer
 {
     public void Turn(int[] turns, int ind)

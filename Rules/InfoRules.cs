@@ -8,7 +8,7 @@ public class InfoRules
     public List<IValidPlay> IsValidPlay { get; private set; }
 
     /// <summary>Asignar un score a cada jugador</summary>
-    public List<IAsignScorePlayer> AsignScorePlayer { get; private set; }
+    public AsignScorePlayerRule AsignScorePlayer { get; private set; }
 
     /// <summary>Determinar la rotacion de los jugadores</summary>
     public TurnPlayerRule TurnPlayer { get; private set; }
@@ -23,10 +23,11 @@ public class InfoRules
     public StealTokenRule StealTokens { get; private set; }
     public IAsignScoreToken ScoreToken { get; }
 
-    public InfoRules(VisibilityPlayerRule visibility, TurnPlayerRule turn, StealTokenRule steal)
+    public InfoRules(VisibilityPlayerRule visibility, TurnPlayerRule turn, StealTokenRule steal,
+        AsignScorePlayerRule asign)
     {
         this.IsValidPlay = new List<IValidPlay>();
-        this.AsignScorePlayer = new List<IAsignScorePlayer>();
+        this.AsignScorePlayer = asign;
         this.TurnPlayer = turn;
         this.EndGame = new List<IEndGame>();
         this.WinnerGame = new List<IWinnerGame>();
@@ -38,9 +39,10 @@ public class InfoRules
     /// <returns>Clon de InfoRules</returns>
     public InfoRules Clone()
     {
-        InfoRules aux = new InfoRules(this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(), this.StealTokens.Clone());
+        InfoRules aux = new InfoRules(this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(), this.StealTokens.Clone(),
+            this.AsignScorePlayer.Clone());
         aux.IsValidPlay = this.IsValidPlay.ToList();
-        aux.AsignScorePlayer = this.AsignScorePlayer.ToList();
+        //aux.AsignScorePlayer = this.AsignScorePlayer.ToList();
         //aux.TurnPlayer = this.TurnPlayer.ToList();
         aux.WinnerGame = this.WinnerGame.ToList();
         aux.EndGame = this.EndGame.ToList();

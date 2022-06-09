@@ -19,7 +19,7 @@ public abstract class ActionConditionRule<T>
     /// </summary>
     public T? Default { get; }
 
-    public ActionConditionRule(IEnumerable<T> rules, IEnumerable<ICondition> condition, T rule)
+    public ActionConditionRule(IEnumerable<T> rules, IEnumerable<ICondition> condition, T? rule)
     {
         this.Actions = new T[rules.Count()];
         this.Critery = new ICondition[condition.Count()];
