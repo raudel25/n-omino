@@ -27,9 +27,12 @@ public class ClasicTeamWin : ICondition
     public bool RunRule(GameStatus game, int ind)
     {
         bool win = true;
-        for (int i = 0; i < game.Teams[game.Turns[ind]].Count; i++)
+        for (int i = 0; i < game.Teams.Length; i++)
         {
-            if (game.Teams[game.Turns[ind]][i].Hand!.Count != 0) win = false;
+            for (int j = 0; j < game.Teams[i].Count; j++)
+            {
+                if (game.Teams[game.Turns[i]][j].Hand!.Count != 0) win = false;
+            }
         }
 
         return win;
@@ -63,9 +66,12 @@ public class CantToPassTeam : ICondition
     public bool RunRule(GameStatus game, int ind)
     {
         bool condition = true;
-        for (int i = 0; i < game.Teams[game.Turns[ind]].Count; i++)
+        for (int i = 0; i < game.Teams.Length; i++)
         {
-            if (game.Teams[game.Turns[ind]][i].Passes == this.Cant) condition = false;
+            for (int j = 0; j < game.Teams[i].Count; j++)
+            {
+                if (game.Teams[i][j].Passes == this.Cant) condition = false;
+            }
         }
 
         return condition;
@@ -102,5 +108,13 @@ public class SumFreeNode : ICondition
     public bool RunRule(GameStatus game, int ind)
     {
         return this._comparation.Compare(AuxTable.SumConectionFree(game.Table), this.Value);
+    }
+}
+
+public class ConditionDefault : ICondition
+{
+    public bool RunRule(GameStatus game, int ind)
+    {
+        return true;
     }
 }

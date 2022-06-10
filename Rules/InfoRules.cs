@@ -7,49 +7,47 @@ public class InfoRules
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     public List<IValidPlay> IsValidPlay { get; private set; }
 
-    /// <summary>Asignar un score a cada jugador</summary>
-    public AsignScorePlayerRule AsignScorePlayer { get; private set; }
+    /// <summary>
+    /// Determinar la visibilidad del juego de los jugadores
+    /// </summary>
+    public VisibilityPlayerRule VisibilityPlayer { get; private set; }
+
+    /// <summary>
+    /// Determinar la forma de robar de los jugadores
+    /// </summary>
+    public StealTokenRule StealTokens { get; private set; }
 
     /// <summary>Determinar la rotacion de los jugadores</summary>
     public TurnPlayerRule TurnPlayer { get; private set; }
 
-    /// <summary>Determinar si termino el juego</summary>
-    public List<IEndGame> EndGame { get; private set; }
+    /// <summary>Asignar un score a cada jugador</summary>
+    public AsignScorePlayerRule AsignScorePlayer { get; private set; }
 
     /// <summary>Determinar el ganador del juego</summary>
-    public List<IWinnerGame> WinnerGame { get; private set; }
+    public WinnerGameRule WinnerGame { get; private set; }
 
-    public VisibilityPlayerRule VisibilityPlayer { get; private set; }
-    public StealTokenRule StealTokens { get; private set; }
-    public IAsignScoreToken ScoreToken { get; }
+    public IAsignScoreToken ScoreToken { get; private set; }
 
-    public InfoRules(VisibilityPlayerRule visibility, TurnPlayerRule turn, StealTokenRule steal,
-        AsignScorePlayerRule asign)
+    public InfoRules(List<IValidPlay> validPlay, VisibilityPlayerRule visibility, TurnPlayerRule turn,
+        StealTokenRule steal,
+        AsignScorePlayerRule asign, WinnerGameRule winnerGame, IAsignScoreToken scoreToken)
     {
-        this.IsValidPlay = new List<IValidPlay>();
+        this.IsValidPlay = validPlay;
         this.AsignScorePlayer = asign;
         this.TurnPlayer = turn;
-        this.EndGame = new List<IEndGame>();
-        this.WinnerGame = new List<IWinnerGame>();
+        this.WinnerGame = winnerGame;
         this.VisibilityPlayer = visibility;
         this.StealTokens = steal;
+        this.ScoreToken = scoreToken;
     }
 
     /// <summary>Clonar el objeto InfoRules</summary>
     /// <returns>Clon de InfoRules</returns>
     public InfoRules Clone()
     {
-        InfoRules aux = new InfoRules(this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(), this.StealTokens.Clone(),
-            this.AsignScorePlayer.Clone());
-        aux.IsValidPlay = this.IsValidPlay.ToList();
-        //aux.AsignScorePlayer = this.AsignScorePlayer.ToList();
-        //aux.TurnPlayer = this.TurnPlayer.ToList();
-        aux.WinnerGame = this.WinnerGame.ToList();
-        aux.EndGame = this.EndGame.ToList();
-        //aux.VisibilityPlayer = this.VisibilityPlayer.ToList();
-        // aux.StealTokens = this.StealTokens.ToList();
-
-        return aux;
+        return new InfoRules(this.IsValidPlay.ToList(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
+            this.StealTokens.Clone(),
+            this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken);
     }
 
     /// <summary>Determinar si una jugada es correcta segun las reglas existentes</summary>

@@ -21,20 +21,8 @@ public abstract class ActionConditionRule<T>
 
     public ActionConditionRule(IEnumerable<T> rules, IEnumerable<ICondition> condition, T? rule)
     {
-        this.Actions = new T[rules.Count()];
-        this.Critery = new ICondition[condition.Count()];
-        int i = 0;
-        foreach (var item in rules)
-        {
-            this.Actions[i] = item;
-        }
-
-        i = 0;
-        foreach (var item in condition)
-        {
-            this.Critery[i] = item;
-        }
-
+        this.Actions = rules.ToArray();
+        this.Critery = condition.ToArray(); 
         this.Default = rule;
     }
 

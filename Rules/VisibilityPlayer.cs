@@ -9,17 +9,17 @@ public interface IVisibilityPlayer
     /// Determinar la visibilidad de los jugadores sobre las fichas del juego
     /// </summary>
     /// <param name="game">Estado del juego</param>
-    /// <param name="player">ID del jugador que le corresponde jugar</param>
-    public void Visibility(GameStatus game, int player);
+    /// <param name="ind">Indice del jugador que le corresponde jugar</param>
+    public void Visibility(GameStatus game, int ind);
 }
 
 public class ClasicVisibilityPlayer : IVisibilityPlayer
 {
-    public void Visibility(GameStatus game, int player)
+    public void Visibility(GameStatus game, int ind)
     {
         for (int i = 0; i < game.Players.Length; i++)
         {
-            if (i != player)
+            if (i != game.Turns[ind])
             {
                 game.Players[i].Hand = null;
             }
@@ -29,27 +29,28 @@ public class ClasicVisibilityPlayer : IVisibilityPlayer
 
 public class TeamVisibilityPlayer : IVisibilityPlayer
 {
-    public void Visibility(GameStatus game, int player)
+    public void Visibility(GameStatus game, int ind)
     {
         List<HashSet<Token>> aux = new List<HashSet<Token>>();
+        int team = game.FindTeamPlayer(game.Turns[ind]);
         //Guardamos las manos de los miembros del equipo
-        for (int i = 0; i < game.Teams[player].Count; i++)
+        for (int i = 0; i < game.Teams[team].Count; i++)
         {
-            aux.Add(game.Teams[player][i].Hand!);
+            aux.Add(game.Teams[team][i].Hand!);
         }
 
         for (int i = 0; i < game.Players.Length; i++)
         {
-            if (i != player)
+            if (i != game.Turns[ind])
             {
                 game.Players[i].Hand = null;
             }
         }
 
         //Reasignamos las manos de los miembros del equipo
-        for (int i = 0; i < game.Teams[player].Count; i++)
+        for (int i = 0; i < game.Teams[team].Count; i++)
         {
-            game.Teams[player][i].Hand = aux[i];
+            game.Teams[team][i].Hand = aux[i];
         }
     }
 }
