@@ -3,39 +3,51 @@ namespace Table;
 public class NodeDimension : INode
 {
     public Token ValueToken { get; set; }
-    public INode?[] Conections { get; set; }
-    public int[] ValuesConections { get; set; }
+    public INode?[] Connections { get; set; }
+    public int[] ValuesConnections { get; set; }
     public int Id { get; private set; }
-    public int FirstConectionFree
+    public int IdPlayer { get; set; }
+
+    public int FirstConnectionFree
     {
-        get { return ConectionFree(); }
+        get { return ConnectionFree(); }
     }
-    public int FirstConection { get { return Conection(); } }
-    private int ConectionFree()
+
+    public int FirstConnection
     {
-        for (int i = 0; i < this.Conections.Length; i++)
+        get { return Connection(); }
+    }
+
+    private int ConnectionFree()
+    {
+        for (int i = 0; i < this.Connections.Length; i++)
         {
-            if (this.Conections[i] == null) return i;
+            if (this.Connections[i] == null) return i;
         }
+
         return -1;
     }
-    private int Conection()
+
+    private int Connection()
     {
-        for (int i = 0; i < this.Conections.Length; i++)
+        for (int i = 0; i < this.Connections.Length; i++)
         {
-            if (this.Conections[i] != null) return i;
+            if (this.Connections[i] != null) return i;
         }
+
         return -1;
     }
-    public NodeDimension(int n,int id)
+
+    public NodeDimension(int n, int id)
     {
         this.ValueToken = null!;
-        this.ValuesConections = new int[n];
+        this.ValuesConnections = new int[n];
         for (int i = 0; i < n; i++)
         {
-            this.ValuesConections[i] = -1;
+            this.ValuesConnections[i] = -1;
         }
-        this.Conections = new INode[n];
+
+        this.Connections = new INode[n];
         this.Id = id;
     }
 }

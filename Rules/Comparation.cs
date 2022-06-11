@@ -1,84 +1,112 @@
 namespace Rules;
 
-public class ClasicComparation : IComparation
+public interface IComparison
+{
+    /// <summary>Criterio de comparacion</summary>
+    /// <param name="a">Entero a comparar</param>
+    /// <param name="b">Entero a comparar</param>
+    /// <returns>Si el criterio es valido</returns>
+    public bool Compare(int a, int b);
+}
+
+public class ClassicComparison : IComparison
 {
     public bool Compare(int a, int b)
     {
         return a == b;
     }
 }
-public class CongruenceComparation : IComparation
+
+public class CongruenceComparison : IComparison
 {
-    public int _congruence;
-    public CongruenceComparation(int n)
+    private int _congruence;
+
+    public CongruenceComparison(int n)
     {
         this._congruence = n;
     }
+
     public bool Compare(int a, int b)
     {
         return a % this._congruence == b % this._congruence;
     }
 }
-public class MayorNumberComparation : IComparation
+
+public class HighNumberComparison : IComparison
 {
-    public int _mayorNumber;
-    public MayorNumberComparation(int n)
+    private int _mayorNumber;
+
+    public HighNumberComparison(int n)
     {
         this._mayorNumber = n;
     }
+
     public bool Compare(int a, int b)
     {
         return a > this._mayorNumber && b > this._mayorNumber;
     }
 }
-public class MenorNumberComparation : IComparation
+
+public class SmallNumberComparison : IComparison
 {
-    public int _menorNumber;
-    public MenorNumberComparation(int n)
+    private int _smallNumber;
+
+    public SmallNumberComparison(int n)
     {
-        this._menorNumber = n;
+        this._smallNumber = n;
     }
+
     public bool Compare(int a, int b)
     {
-        return a > this._menorNumber && b > this._menorNumber;
+        return a > this._smallNumber && b > this._smallNumber;
     }
 }
-public class ComodinComparation : IComparation
+
+public class ComodinComparison : IComparison
 {
     private int _comodin;
-    public ComodinComparation(int n)
+
+    public ComodinComparison(int n)
     {
         this._comodin = n;
     }
+
     public bool Compare(int a, int b)
     {
         if (a == this._comodin || b == this._comodin) return true;
         return a == b;
     }
 }
-public class DivisibleComparation : IComparation
+
+public class DivisibleComparison : IComparison
 {
     private int _divisible;
-    public DivisibleComparation(int n)
+
+    public DivisibleComparison(int n)
     {
         this._divisible = n;
     }
+
     public bool Compare(int a, int b)
     {
         return a % this._divisible == 0 && b % this._divisible == 0;
     }
 }
-public class GcdComparation : IComparation
+
+public class GcdComparison : IComparison
 {
     private int _gcd;
-    public GcdComparation(int n)
+
+    public GcdComparison(int n)
     {
         this._gcd = n;
     }
+
     public bool Compare(int a, int b)
     {
         return GCD(a, b) == this._gcd;
     }
+
     private int GCD(int m, int n)
     {
         int a = Math.Max(m, n);
@@ -89,6 +117,7 @@ public class GcdComparation : IComparation
             a = b;
             b = c;
         }
+
         return b;
     }
 }

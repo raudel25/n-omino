@@ -3,10 +3,12 @@
 public class Token
 {
     public readonly int[] Values;
+
     public Token(int[] values)
     {
         this.Values = values;
     }
+
     /// <summary>Devuelve una copia de la ficha</summary>
     /// <returns>Nueva ficha</returns>
     public Token Clone()
@@ -15,6 +17,7 @@ public class Token
         Array.Copy(this.Values, values, values.Length);
         return new Token(values);
     }
+
     public override bool Equals(object? obj)
     {
         Token token = (obj as Token)!;
@@ -22,8 +25,10 @@ public class Token
         {
             if (token.Values[i] != this.Values[i]) return false;
         }
+
         return true;
     }
+
     public override int GetHashCode()
     {
         return this.Values[0].GetHashCode();

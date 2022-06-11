@@ -1,53 +1,59 @@
-using Table;
 namespace Rules;
 
 public class InfoRules
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
-    public List<IValidPlay> IsValidPlay { get; set; }
-    /// <summary>Asignar un score a cada jugador</summary>
-    public List<IAsignScorePlayer> AsignScorePlayer { get; set; }
-    public List<IVisibilityPlayer> VisibilityPlayer { get; set; }
+    public IsValidRule IsValidPlay { get; private set; }
+
+    /// <summary>
+    /// Determinar la visibilidad del juego de los jugadores
+    /// </summary>
+    public VisibilityPlayerRule VisibilityPlayer { get; private set; }
+
+    /// <summary>
+    /// Determinar la forma de robar de los jugadores
+    /// </summary>
+    public StealTokenRule StealTokens { get; private set; }
+
+    /// <summary>
+    /// Determinar si un jugador se puede pasar con fichas
+    /// </summary>
+    public ToPassTokenRule ToPassToken { get; private set; }
+
     /// <summary>Determinar la rotacion de los jugadores</summary>
-    public List<ITurnPlayer> TurnPlayer { get; set; }
-    /// <summary>Determinar si termino el juego</summary>
-    public List<IEndPlayer> EndPlayer { get; set; }
+    public TurnPlayerRule TurnPlayer { get; private set; }
+
+    /// <summary>Asignar un score a cada jugador</summary>
+    public AssignScorePlayerRule AsignScorePlayer { get; private set; }
+
     /// <summary>Determinar el ganador del juego</summary>
-    public List<IWinnerGame> WinnerGame { get; set; }
-    public InfoRules()
+    public WinnerGameRule WinnerGame { get; private set; }
+
+    /// <summary>
+    /// Determinar el Score de una ficha
+    /// </summary>
+    public IAsignScoreToken ScoreToken { get; private set; }
+
+    public InfoRules(IsValidRule validPlay, VisibilityPlayerRule visibility, TurnPlayerRule turn,
+        StealTokenRule steal, ToPassTokenRule toPass,
+        AssignScorePlayerRule assign, WinnerGameRule winnerGame, IAsignScoreToken scoreToken)
     {
-        this.IsValidPlay = new List<IValidPlay>();
-        this.AsignScorePlayer = new List<IAsignScorePlayer>();
-        this.TurnPlayer = new List<ITurnPlayer>();
-        this.EndPlayer = new List<IEndPlayer>();
-        this.WinnerGame = new List<IWinnerGame>();
-        this.VisibilityPlayer = new List<IVisibilityPlayer>();
+        this.IsValidPlay = validPlay;
+        this.AsignScorePlayer = assign;
+        this.TurnPlayer = turn;
+        this.ToPassToken = toPass;
+        this.WinnerGame = winnerGame;
+        this.VisibilityPlayer = visibility;
+        this.StealTokens = steal;
+        this.ScoreToken = scoreToken;
     }
+
     /// <summary>Clonar el objeto InfoRules</summary>
     /// <returns>Clon de InfoRules</returns>
     public InfoRules Clone()
     {
-        InfoRules aux = new InfoRules();
-        aux.IsValidPlay = this.IsValidPlay.ToList();
-        aux.AsignScorePlayer = this.AsignScorePlayer.ToList();
-        aux.TurnPlayer = this.TurnPlayer.ToList();
-        aux.WinnerGame = this.WinnerGame.ToList();
-        aux.EndPlayer = this.EndPlayer.ToList();
-        aux.VisibilityPlayer = this.VisibilityPlayer.ToList();
-        return aux;
-    }
-    /// <summary>Determinar si una jugada es correcta segun las reglas existentes</summary>
-    /// <param name="node">Nodo por el que se quiere jugar</param>
-    /// <param name="token">Ficha para jugar</param>
-    /// <param name="table">Mesa para jugar</param>
-    /// <returns>Criterios de jugada valida correspomdientes a la ficha y el nodo</returns>
-    public List<int> ValidPlays(INode node, Token token, TableGame table)
-    {
-        List<int> valid = new List<int>();
-        for (int j = 0; j < this.IsValidPlay.Count; j++)
-        {
-            if (this.IsValidPlay[j].ValidPlay(node, token, table)) valid.Add(j);
-        }
-        return valid;
+        return new InfoRules(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
+            this.StealTokens.Clone(), this.ToPassToken.Clone(),
+            this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken);
     }
 }

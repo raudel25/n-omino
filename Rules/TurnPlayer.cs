@@ -1,61 +1,59 @@
-using Table;
-using InfoGame;
-
 namespace Rules;
 
-public class TurnPlayerClasic : ITurnPlayer
+public interface ITurnPlayer
 {
-    public int[] Turn(int[] turns, int ind)
+    /// <summary>Determina la distibucion de los turnos de los jugadores</summary>
+    /// <param name="turns">Distribucion de los turnos de los jugadores</param>
+    /// <param name="ind">Indice del jugador que le corresponde jugar</param>
+    public void Turn(int[] turns, int ind);
+}
+
+public class TurnPlayerClassic : ITurnPlayer
+{
+    public void Turn(int[] turns, int ind)
     {
-        return turns;
     }
 }
-public class TurnPlayerToPass : ITurnPlayer
+
+public class TurnPlayerInvert : ITurnPlayer
 {
-    public int[] Turn(int[] turns, int ind)
+    public void Turn(int[] turns, int ind)
     {
-        bool condition = true;
-        if (condition)
+        int i = ind;
+        int j = ind;
+        while (true)
         {
-            int[] aux = new int[turns.Length];
-            int i = ind + 1;
-            int j = ind - 1;
-            aux[ind] = turns[ind];
-            while (i != j)
-            {
-                if (i == turns.Length) i = 0;
-                if (j < 0) j = turns.Length - 1;
-                aux[i] = turns[j];
-                i++;
-                j--;
-            }
-            return aux;
+            i++;
+            if (i == turns.Length) i = 0;
+            if (i == j) break;
+            j--;
+            if (j < 0) j = turns.Length - 1;
+            if (i == j) break;
+            int change = turns[i];
+            turns[i] = turns[j];
+            turns[j] = change;
         }
-        return turns;
     }
 }
 
 public class TurnPlayerRepeatPlay : ITurnPlayer
 {
-    public int[] Turn(int[] turns, int ind)
+    public void Turn(int[] turns, int ind)
     {
-        bool condition = true;
-        if (condition)
+        int i = ind;
+        int j = ind - 1;
+        int stop = (ind == turns.Length - 1) ? 0 : ind + 1;
+        int change = turns[ind];
+        while (true)
         {
-            int[] aux = new int[turns.Length];
-            int i = ind;
-            int j = ind + 1;
-            while (true)
-            {
-                if (i == turns.Length) i = 0;
-                if (j == turns.Length) j = 0;
-                aux[j] = turns[i];
-                if (i + 1 == ind) break;
-                i++;
-                j++;
-            }
-            return aux;
+            if (i == -1) i = turns.Length - 1;
+            if (j == -1) j = turns.Length - 1;
+            if (i == stop) break;
+            turns[i] = turns[j];
+            j--;
+            i--;
         }
-        return turns;
+
+        turns[stop] = change;
     }
 }

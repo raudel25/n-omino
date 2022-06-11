@@ -4,8 +4,8 @@ public class TableSquare : TableGeometry
 {
     public TableSquare((int, int)[] coordenates) : base(coordenates)
     {
-
     }
+
     protected override void Expand(INode node)
     {
         NodeGeometry? geometry = (node as NodeGeometry);
@@ -14,57 +14,66 @@ public class TableSquare : TableGeometry
         (int, int)[] expand = FindCenterExpand(center);
         for (int i = 0; i < expand.Length; i++)
         {
-            AsignCoordenates(geometry, ExpandGeometry(new [] { expand[i] }));
+            AsignCoordenates(geometry, ExpandGeometry(new[] {expand[i]}));
         }
     }
+
     protected override (int, int)[] ExpandGeometry((int, int)[] coordenates)
     {
         (int, int)[] expand = new (int, int)[4];
-        int[] x = new int[] { -1, 1, 1, -1 };
-        int[] y = new int[] { 1, 1, -1, -1 };
+        int[] x = new int[] {-1, 1, 1, -1};
+        int[] y = new int[] {1, 1, -1, -1};
         for (int i = 0; i < expand.Length; i++)
         {
             expand[i] = ((coordenates[0].Item1 + x[i]), (coordenates[0].Item2 + y[i]));
         }
+
         return expand;
     }
+
     /// <summary>Expandir el nodo a partir de las coorenadas de su centro</summary>
     /// <param name="coordenates">Coordenadas del nodo</param>
     /// <returns>Coordenadas de los nodos expandidos</returns>
     protected (int, int)[] FindCenterExpand((int, int) coordenates)
     {
         (int, int)[] expand = new (int, int)[4];
-        int[] x = new int[] { -2, 0, 2, 0 };
-        int[] y = new int[] { 0, -2, 0, 2 };
+        int[] x = new int[] {-2, 0, 2, 0};
+        int[] y = new int[] {0, -2, 0, 2};
         for (int i = 0; i < expand.Length; i++)
         {
             expand[i] = (coordenates.Item1 + x[i], coordenates.Item2 + y[i]);
         }
+
         return expand;
     }
+
     /// <summary>Buscar las coordenadas del centro del nodo</summary>
     /// <param name="node">Nodo</param>
     /// <returns>Coordenadas del centro</returns>
     protected (int, int) FindCenter(NodeGeometry node)
     {
-        int x = 0; int y = 0;
-        for (int i = 1; i < node.Ubication.Coord.Length; i++)
+        int x = 0;
+        int y = 0;
+        for (int i = 1; i < node.Location.Coord.Length; i++)
         {
-            if (node.Ubication.Coord[i].Item2 == node.Ubication.Coord[i - 1].Item2)
+            if (node.Location.Coord[i].Item2 == node.Location.Coord[i - 1].Item2)
             {
-                x = (node.Ubication.Coord[i].Item1 + node.Ubication.Coord[i - 1].Item1) / 2;
+                x = (node.Location.Coord[i].Item1 + node.Location.Coord[i - 1].Item1) / 2;
             }
-            if (node.Ubication.Coord[i].Item1 == node.Ubication.Coord[i - 1].Item1)
+
+            if (node.Location.Coord[i].Item1 == node.Location.Coord[i - 1].Item1)
             {
-                y = (node.Ubication.Coord[i].Item2 + node.Ubication.Coord[i - 1].Item2) / 2;
+                y = (node.Location.Coord[i].Item2 + node.Location.Coord[i - 1].Item2) / 2;
             }
         }
+
         return (x, y);
     }
+
     public override TableGame Clone()
     {
         (int, int)[] aux = new (int, int)[4];
-        Array.Copy(((NodeGeometry)this.TableNode[0]).Ubication.Coord, aux, 4);
+        Array.Copy(((NodeGeometry) this.TableNode[0]).Location.Coord, aux, 4);
         TableGame table = new TableSquare(aux);
         return this.AuxClone(table);
     }

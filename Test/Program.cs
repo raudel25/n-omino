@@ -2,7 +2,6 @@
 using Rules;
 using System.Diagnostics;
 using Player;
-using Judge;
 using Game;
 
 ValidPlayDimension v = new ValidPlayDimension(new CongruenceComparation(10));

@@ -1,51 +1,95 @@
+using InfoGame;
 using Table;
 using Rules;
+using Player;
 
-namespace Judge;
+namespace Game;
 
 public class Judge
 {
-    public InfoRules JudgeRules { get; private set; }
-    private int cantplayer = 4;
-    private TableGame table;
-    private int[] _turns { get; set; }
-    public Judge(InfoRules infoRules)
+    private InfoRules _judgeRules;
+    private GameStatus _infoGame;
+
+    public Judge(InfoRules infoRules, GameStatus infoGame)
     {
-        this.JudgeRules = infoRules;
-        this._turns = new int[cantplayer];
-        this.table = null!;
-        for (int i = 0; i < cantplayer; i++)
-        {
-            this._turns[i] = i;
-        }
+        this._judgeRules = infoRules;
+        this._infoGame = infoGame;
+        this.Game();
     }
+
     private void Game()
     {
         int i = 0;
+        bool noValid = false;
+        int lastPlayerPass = -1;
         while (true)
         {
-            if (this.ValidPlayPlayer(new Token[4], table))
-            {
+            int ind = this._infoGame.Turns[i];
+            InfoPlayer player = this._infoGame.Players[_infoGame.Turns[ind]];
 
+            //Determinar si es posible jugar
+            bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
+
+            //Clonar el estado del juego
+            GameStatus copy = this._infoGame.Clone();
+
+            //Determinar la visibilidad y posibilidades de robar
+            this._judgeRules.VisibilityPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
+            this._judgeRules.StealTokens.RunRule(copy, this._infoGame, this._judgeRules, i);
+
+            //Determinar si es posible jugar con el criterio de robar
+            play = play || this._judgeRules.StealTokens.Play;
+
+            if (play) noValid = false;
+            else
+            {
+                if (!noValid)
+                {
+                    lastPlayerPass = this._infoGame.Turns[i];
+                }
+                else
+                {
+                    if (lastPlayerPass == this._infoGame.Turns[i]) this._infoGame.NoValidPlay = true;
+                }
+
+                noValid = true;
             }
+
+            //Determinar si es posible pasarse con fichas
+            this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
+            bool toPass = !play || this._judgeRules.ToPassToken.PossibleToPass;
+            //this._infoGame.ImmediatePass = toPass;
+
+            //Determinar la distribucion de los turnos
+            this._judgeRules.TurnPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
+
+            //Asignar Score a los jugadores
+            this._judgeRules.AsignScorePlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
+
+            //Determinar el ganador del juego
+            this._judgeRules.WinnerGame.RunRule(copy, this._infoGame, this._judgeRules, i);
+
+            if (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1) break;
+
             i++;
-            if (i == cantplayer) i = 0;
+            if (i == this._infoGame.Turns.Length) i = 0;
         }
     }
+
     /// <summary>Determina si el jugador tiene opciones para jugar</summary>
     /// <param name="tokens">Fichas de las que dispone el jugador</param>
     /// <param name="table">Mesa para jugar</param>
     /// <returns>El jugador tiene opciones para jugar</returns>
-    private bool ValidPlayPlayer(Token[] tokens, TableGame table)
+    private bool ValidPlayPlayer(List<Token> tokens, TableGame table)
     {
         foreach (var item in table.FreeNode)
         {
-            for (int i = 0; i < tokens.Length; i++)
+            foreach (var token in tokens)
             {
-                if (this.JudgeRules.ValidPlays(item, tokens[i], table).Count != 0) return true;
+                if (this._judgeRules.IsValidPlay.ValidPlays(item, token, table).Count != 0) return true;
             }
         }
+
         return false;
     }
-
 }

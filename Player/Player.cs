@@ -16,15 +16,15 @@ public abstract class Player
     }
     public abstract (Token, INode) Play(GameStatus status, InfoRules rules);
 
-    public Dictionary<Token,List<INode>> GetPossiblePlay (TableGame table, IEnumerable<Token> hand, InfoRules rules)
+    public Dictionary<Token, List<INode>> GetPossiblePlay(TableGame table, IEnumerable<Token> hand, InfoRules rules)
     {
-        Dictionary<Token,List<INode>> possible = new();
+        Dictionary<Token, List<INode>> possible = new();
         foreach (var token in hand)
         {
             foreach (var node in table.FreeNode)
             {
-                if(!rules.ValidPlay.ValidPlay(node,token,table)) continue;
-                if(!possible.ContainsKey(token)) 
+                //Consultar con anabel           //if(!rules.ValidPlay.ValidPlay(node,token,table)) continue;
+                if (!possible.ContainsKey(token))
                 {
                     List<INode> nodes = new List<INode>();
                     nodes.Add(node);
@@ -39,13 +39,13 @@ public abstract class Player
 
 public class XPlayer : Player
 {
-    public XPlayer(int id, IStrategy<Token> strategy) : base(id, strategy) {}
+    public XPlayer(int id, IStrategy<Token> strategy) : base(id, strategy) { }
     public override (Token, INode) Play(GameStatus status, InfoRules rules)
     {
         IEnumerable<Token> MyHand = status.Players[ID].Hand;
-        Dictionary<Token,List<Node>> Posibble = this.GetPossiblePlay(status.Table, MyHand, rules);
+        Dictionary<Token, List<INode>> Posibble = this.GetPossiblePlay(status.Table, MyHand, rules);
         Token TokenToPlay = this._strategy.Play(Posibble.Keys);
-        Node node = Posibble[TokenToPlay][0];
+        INode node = Posibble[TokenToPlay][0];
         return (TokenToPlay, node);
         // while(MyHand.Count > 0)
         // {
@@ -60,7 +60,7 @@ public class XPlayer : Player
 
 public class RandomPlayer<T> : IStrategy<T>
 {
-    public RandomPlayer() {}
+    public RandomPlayer() { }
     public T Play(IEnumerable<T> tokens)
     {
         Random r = new Random();
