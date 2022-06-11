@@ -4,7 +4,9 @@ namespace Rules;
 
 public class StealTokenRule : ActionConditionRule<IStealToken>
 {
-    public int CantMin { get; private set; }
+    /// <summary>
+    /// Cantidad maxima de fichas a robar
+    /// </summary>
     public int CantMax { get; private set; }
     public bool Play { get; private set; }
 
@@ -17,13 +19,12 @@ public class StealTokenRule : ActionConditionRule<IStealToken>
     {
         bool activate = false;
         bool play = false;
-        for (int i = 0; i < this.Critery.Length; i++)
+        for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Critery[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(game, ind))
             {
                 this.Actions[i].Steal(game, original, rules, ind, ref play);
                 this.CantMax = this.Actions[i].CantMax;
-                this.CantMin = this.Actions[i].CantMin;
                 activate = true;
             }
         }
@@ -32,7 +33,6 @@ public class StealTokenRule : ActionConditionRule<IStealToken>
         {
             this.Default!.Steal(game, original, rules, ind, ref play);
             this.CantMax = this.Default.CantMax;
-            this.CantMin = this.Default.CantMin;
         }
 
         this.Play = play;
@@ -40,6 +40,6 @@ public class StealTokenRule : ActionConditionRule<IStealToken>
 
     public StealTokenRule Clone()
     {
-        return new StealTokenRule(this.Actions, this.Critery, this.Default!);
+        return new StealTokenRule(this.Actions, this.Condition, this.Default!);
     }
 }

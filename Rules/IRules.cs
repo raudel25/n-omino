@@ -10,7 +10,7 @@ public interface ICreateToken
     public int[,] Create(int n);
 }
 
-public interface IAsignTokenPlayer
+public interface IAssignTokenPlayer
 {
 }
 

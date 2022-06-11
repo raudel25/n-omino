@@ -54,16 +54,16 @@ public class TableSquare : TableGeometry
     {
         int x = 0;
         int y = 0;
-        for (int i = 1; i < node.Ubication.Coord.Length; i++)
+        for (int i = 1; i < node.Location.Coord.Length; i++)
         {
-            if (node.Ubication.Coord[i].Item2 == node.Ubication.Coord[i - 1].Item2)
+            if (node.Location.Coord[i].Item2 == node.Location.Coord[i - 1].Item2)
             {
-                x = (node.Ubication.Coord[i].Item1 + node.Ubication.Coord[i - 1].Item1) / 2;
+                x = (node.Location.Coord[i].Item1 + node.Location.Coord[i - 1].Item1) / 2;
             }
 
-            if (node.Ubication.Coord[i].Item1 == node.Ubication.Coord[i - 1].Item1)
+            if (node.Location.Coord[i].Item1 == node.Location.Coord[i - 1].Item1)
             {
-                y = (node.Ubication.Coord[i].Item2 + node.Ubication.Coord[i - 1].Item2) / 2;
+                y = (node.Location.Coord[i].Item2 + node.Location.Coord[i - 1].Item2) / 2;
             }
         }
 
@@ -73,7 +73,7 @@ public class TableSquare : TableGeometry
     public override TableGame Clone()
     {
         (int, int)[] aux = new (int, int)[4];
-        Array.Copy(((NodeGeometry) this.TableNode[0]).Ubication.Coord, aux, 4);
+        Array.Copy(((NodeGeometry) this.TableNode[0]).Location.Coord, aux, 4);
         TableGame table = new TableSquare(aux);
         return this.AuxClone(table);
     }

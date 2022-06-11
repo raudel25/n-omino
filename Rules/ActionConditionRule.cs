@@ -12,7 +12,7 @@ public abstract class ActionConditionRule<T>
     /// <summary>
     /// Criterios bajo los cuales se ejecutan las reglas
     /// </summary>
-    public ICondition[] Critery { get; protected set; }
+    public ICondition[] Condition { get; protected set; }
 
     /// <summary>
     /// Regla que se ejecuta por defecto
@@ -22,7 +22,7 @@ public abstract class ActionConditionRule<T>
     public ActionConditionRule(IEnumerable<T> rules, IEnumerable<ICondition> condition, T? rule)
     {
         this.Actions = rules.ToArray();
-        this.Critery = condition.ToArray(); 
+        this.Condition = condition.ToArray(); 
         this.Default = rule;
     }
 

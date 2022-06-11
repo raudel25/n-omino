@@ -15,7 +15,7 @@ public static class AuxTable
         return aux;
     }
 
-    public static int SumConectionFree(TableGame table)
+    public static int SumConnectionFree(TableGame table)
     {
         int sum = 0;
         foreach (var item in table.FreeNode)
@@ -24,21 +24,21 @@ public static class AuxTable
             {
                 NodeGeometry node = (NodeGeometry) item;
                 TableGeometry tableGeometry = (TableGeometry) table;
-                for (int i = 0; i < node.Ubication.Coord.Length; i++)
+                for (int i = 0; i < node.Location.Coord.Length; i++)
                 {
-                    if (tableGeometry.CoordValor[node.Ubication.Coord[i]] != -1)
+                    if (tableGeometry.CoordValor[node.Location.Coord[i]] != -1)
                     {
-                        sum += item.ValuesConections[i];
+                        sum += item.ValuesConnections[i];
                     }
                 }
             }
             else
             {
-                for (int i = 0; i < item.ValuesConections.Length; i++)
+                for (int i = 0; i < item.ValuesConnections.Length; i++)
                 {
-                    if (item.ValuesConections[i] != -1)
+                    if (item.ValuesConnections[i] != -1)
                     {
-                        sum += item.ValuesConections[i];
+                        sum += item.ValuesConnections[i];
                     }
                 }
             }

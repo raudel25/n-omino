@@ -17,7 +17,7 @@ public interface IValidPlay
     /// <param name="table">Mesa para jugar</param>
     /// <returns>Valores a asignar al nodo, retorna una array cuyo primer
     /// elemento es -1 si el criterio no es valido</returns>
-    public int[] AsignValues(INode node, Token token, TableGame table);
+    public int[] AssignValues(INode node, Token token, TableGame table);
 }
 
 public class ValidPlayDimension : IValidPlay
@@ -25,46 +25,46 @@ public class ValidPlayDimension : IValidPlay
     /// <summary>
     /// Criterio para comparar los valores de las fichas
     /// </summary>
-    private IComparation _comparation;
+    private IComparison _comparison;
 
-    public ValidPlayDimension(IComparation comp)
+    public ValidPlayDimension(IComparison comp)
     {
-        this._comparation = comp;
+        this._comparison = comp;
     }
 
     public bool ValidPlay(INode node, Token token, TableGame table)
     {
-        if (token.Values.Length != node.Conections.Length) return false;
+        if (token.Values.Length != node.Connections.Length) return false;
         if (!table.FreeNode.Contains(node)) return false;
         NodeDimension? nodeDimension = (node as NodeDimension);
         if (nodeDimension == null) return false;
-        int conection = nodeDimension.FirstConection;
-        int valueConection = nodeDimension.ValuesConections[conection];
-        if (valueConection == -1) return true;
+        int connection = nodeDimension.FirstConnection;
+        int valueConnection = nodeDimension.ValuesConnections[connection];
+        if (valueConnection == -1) return true;
         for (int i = 0; i < token.Values.Length; i++)
         {
-            if (this._comparation.Compare(token.Values[i], valueConection)) return true;
+            if (this._comparison.Compare(token.Values[i], valueConnection)) return true;
         }
 
         return false;
     }
 
-    public int[] AsignValues(INode node, Token token, TableGame table)
+    public int[] AssignValues(INode node, Token token, TableGame table)
     {
-        if (token.Values.Length != node.Conections.Length) return new[] {-1};
+        if (token.Values.Length != node.Connections.Length) return new[] {-1};
         if (!table.FreeNode.Contains(node)) return new[] {-1};
         NodeDimension? nodeDimension = (node as NodeDimension);
         if (nodeDimension == null) return new[] {-1};
         int[] values = new int[token.Values.Length];
         Array.Copy(token.Values, values, token.Values.Length);
         int ind = 0;
-        int conection = 0;
+        int connection = 0;
         //Buscamos si hay algun valor ya predeterminado
-        for (int i = 0; i < nodeDimension.ValuesConections.Length; i++)
+        for (int i = 0; i < nodeDimension.ValuesConnections.Length; i++)
         {
-            if (nodeDimension.ValuesConections[i] != -1)
+            if (nodeDimension.ValuesConnections[i] != -1)
             {
-                conection = nodeDimension.ValuesConections[i];
+                connection = nodeDimension.ValuesConnections[i];
                 ind = i;
                 break;
             }
@@ -72,11 +72,11 @@ public class ValidPlayDimension : IValidPlay
 
         for (int i = 0; i < values.Length; i++)
         {
-            if (this._comparation.Compare(values[i], conection))
+            if (this._comparison.Compare(values[i], connection))
             {
                 //Realizamos el cambio correspondiente con el valor preasignado
                 values[i] = values[ind];
-                values[ind] = conection;
+                values[ind] = connection;
                 break;
             }
         }
@@ -87,21 +87,21 @@ public class ValidPlayDimension : IValidPlay
 
 public class ValidPlayGeometry : IValidPlay
 {
-    private IComparation _comparation;
+    private IComparison _comparation;
 
-    public ValidPlayGeometry(IComparation comp)
+    public ValidPlayGeometry(IComparison comp)
     {
         this._comparation = comp;
     }
 
     public bool ValidPlay(INode node, Token token, TableGame table)
     {
-        return AsignValues(node, token, table)[0] != -1;
+        return AssignValues(node, token, table)[0] != -1;
     }
 
-    public int[] AsignValues(INode node, Token token, TableGame table)
+    public int[] AssignValues(INode node, Token token, TableGame table)
     {
-        if (token.Values.Length != node.Conections.Length) return new[] {-1};
+        if (token.Values.Length != node.Connections.Length) return new[] {-1};
         if (!table.FreeNode.Contains(node)) return new[] {-1};
         TableGeometry? tableGeometry = (table as TableGeometry);
         NodeGeometry? nodeGeometry = (node as NodeGeometry);
@@ -119,8 +119,8 @@ public class ValidPlayGeometry : IValidPlay
     {
         for (int j = 0; j < circular.Length; j++)
         {
-            if (tableGeometry.CoordValor[nodeGeometry.Ubication.Coord[j]] != -1 &&
-                !this._comparation.Compare(tableGeometry.CoordValor[nodeGeometry.Ubication.Coord[j]], circular[j]))
+            if (tableGeometry.CoordValor[nodeGeometry.Location.Coord[j]] != -1 &&
+                !this._comparation.Compare(tableGeometry.CoordValor[nodeGeometry.Location.Coord[j]], circular[j]))
             {
                 return false;
             }
@@ -144,7 +144,7 @@ public class ComodinTokenDimension : IValidPlay
         return _comodinToken.Equals(token);
     }
 
-    public int[] AsignValues(INode node, Token token, TableGame table)
+    public int[] AssignValues(INode node, Token token, TableGame table)
     {
         return this._comodinToken.Values.ToArray();
     }

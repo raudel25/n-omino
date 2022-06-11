@@ -1,11 +1,9 @@
-using Table;
-
 namespace Rules;
 
 public class InfoRules
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
-    public List<IValidPlay> IsValidPlay { get; private set; }
+    public IsValidRule IsValidPlay { get; private set; }
 
     /// <summary>
     /// Determinar la visibilidad del juego de los jugadores
@@ -17,24 +15,33 @@ public class InfoRules
     /// </summary>
     public StealTokenRule StealTokens { get; private set; }
 
+    /// <summary>
+    /// Determinar si un jugador se puede pasar con fichas
+    /// </summary>
+    public ToPassTokenRule ToPassToken { get; private set; }
+
     /// <summary>Determinar la rotacion de los jugadores</summary>
     public TurnPlayerRule TurnPlayer { get; private set; }
 
     /// <summary>Asignar un score a cada jugador</summary>
-    public AsignScorePlayerRule AsignScorePlayer { get; private set; }
+    public AssignScorePlayerRule AsignScorePlayer { get; private set; }
 
     /// <summary>Determinar el ganador del juego</summary>
     public WinnerGameRule WinnerGame { get; private set; }
 
+    /// <summary>
+    /// Determinar el Score de una ficha
+    /// </summary>
     public IAsignScoreToken ScoreToken { get; private set; }
 
-    public InfoRules(List<IValidPlay> validPlay, VisibilityPlayerRule visibility, TurnPlayerRule turn,
-        StealTokenRule steal,
-        AsignScorePlayerRule asign, WinnerGameRule winnerGame, IAsignScoreToken scoreToken)
+    public InfoRules(IsValidRule validPlay, VisibilityPlayerRule visibility, TurnPlayerRule turn,
+        StealTokenRule steal, ToPassTokenRule toPass,
+        AssignScorePlayerRule assign, WinnerGameRule winnerGame, IAsignScoreToken scoreToken)
     {
         this.IsValidPlay = validPlay;
-        this.AsignScorePlayer = asign;
+        this.AsignScorePlayer = assign;
         this.TurnPlayer = turn;
+        this.ToPassToken = toPass;
         this.WinnerGame = winnerGame;
         this.VisibilityPlayer = visibility;
         this.StealTokens = steal;
@@ -45,24 +52,8 @@ public class InfoRules
     /// <returns>Clon de InfoRules</returns>
     public InfoRules Clone()
     {
-        return new InfoRules(this.IsValidPlay.ToList(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
-            this.StealTokens.Clone(),
+        return new InfoRules(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
+            this.StealTokens.Clone(), this.ToPassToken.Clone(),
             this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken);
-    }
-
-    /// <summary>Determinar si una jugada es correcta segun las reglas existentes</summary>
-    /// <param name="node">Nodo por el que se quiere jugar</param>
-    /// <param name="token">Ficha para jugar</param>
-    /// <param name="table">Mesa para jugar</param>
-    /// <returns>Criterios de jugada valida correspomdientes a la ficha y el nodo</returns>
-    public List<int> ValidPlays(INode node, Token token, TableGame table)
-    {
-        List<int> valid = new List<int>();
-        for (int j = 0; j < this.IsValidPlay.Count; j++)
-        {
-            if (this.IsValidPlay[j].ValidPlay(node, token, table)) valid.Add(j);
-        }
-
-        return valid;
     }
 }

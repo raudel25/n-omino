@@ -6,11 +6,6 @@ namespace Rules;
 public interface IStealToken
 {
     /// <summary>
-    /// Cantidad de fichas minimas que puede robar el jugador
-    /// </summary>
-    int CantMin { get; }
-
-    /// <summary>
     /// Cantidad de fichas maximas que puede robar el jugador
     /// </summary>
     int CantMax { get; }
@@ -28,13 +23,11 @@ public interface IStealToken
 
 public class NoStealToken : IStealToken
 {
-    public int CantMin { get; private set; }
     public int CantMax { get; private set; }
 
     public NoStealToken()
     {
         this.CantMax = 0;
-        this.CantMin = 0;
     }
 
     public void Steal(GameStatus game, GameStatus original, InfoRules rules, int ind, ref bool play)
@@ -43,15 +36,13 @@ public class NoStealToken : IStealToken
     }
 }
 
-public class ClasicStealToken : IStealToken
+public class ClassicStealToken : IStealToken
 {
-    public int CantMin { get; private set; }
     public int CantMax { get; private set; }
 
-    public ClasicStealToken()
+    public ClassicStealToken()
     {
         this.CantMax = 0;
-        this.CantMin = 0;
     }
 
     public void Steal(GameStatus game, GameStatus original, InfoRules rules, int ind, ref bool play)
@@ -67,7 +58,7 @@ public class ClasicStealToken : IStealToken
             original.TokensTable!.Remove(aux);
             foreach (var item in game.Table.FreeNode)
             {
-                if (rules.ValidPlays(item, aux, game.Table).Count != 0) break;
+                if (rules.IsValidPlay.ValidPlays(item, aux, game.Table).Count != 0) break;
                 play = true;
             }
 
@@ -80,16 +71,22 @@ public class ClasicStealToken : IStealToken
 
 public class ChooseStealToken : IStealToken
 {
-    public int CantMin { get; private set; }
     public int CantMax { get; private set; }
 
-    public ChooseStealToken(int a, int b)
+    public ChooseStealToken(int a)
     {
         this.CantMax = a;
-        this.CantMin = b;
     }
 
     public void Steal(GameStatus game, GameStatus original, InfoRules rules, int ind, ref bool play)
     {
+        for (int i = 0; i < game.TokensTable!.Count; i++)
+        {
+            foreach (var item in game.Table.FreeNode)
+            {
+                if (rules.IsValidPlay.ValidPlays(item, game.TokensTable[i], game.Table).Count != 0) break;
+                play = true;
+            }
+        }
     }
 }

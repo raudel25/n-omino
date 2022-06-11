@@ -12,9 +12,9 @@ public class VisibilityPlayerRule : ActionConditionRule<IVisibilityPlayer>
     public override void RunRule(GameStatus game, GameStatus original, InfoRules rules, int ind)
     {
         bool activate = false;
-        for (int i = 0; i < this.Critery.Length; i++)
+        for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Critery[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(game, ind))
             {
                 this.Actions[i].Visibility(game, ind);
                 activate = true;
@@ -26,6 +26,6 @@ public class VisibilityPlayerRule : ActionConditionRule<IVisibilityPlayer>
 
     public VisibilityPlayerRule Clone()
     {
-        return new VisibilityPlayerRule(this.Actions, this.Critery, this.Default!);
+        return new VisibilityPlayerRule(this.Actions, this.Condition, this.Default!);
     }
 }

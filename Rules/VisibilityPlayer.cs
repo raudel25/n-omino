@@ -31,7 +31,7 @@ public class TeamVisibilityPlayer : IVisibilityPlayer
 {
     public void Visibility(GameStatus game, int ind)
     {
-        List<HashSet<Token>> aux = new List<HashSet<Token>>();
+        List<List<Token>> aux = new List<List<Token>>();
         int team = game.FindTeamPlayer(game.Turns[ind]);
         //Guardamos las manos de los miembros del equipo
         for (int i = 0; i < game.Teams[team].Count; i++)

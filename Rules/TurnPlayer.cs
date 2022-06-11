@@ -8,7 +8,7 @@ public interface ITurnPlayer
     public void Turn(int[] turns, int ind);
 }
 
-public class TurnPlayerClasic : ITurnPlayer
+public class TurnPlayerClassic : ITurnPlayer
 {
     public void Turn(int[] turns, int ind)
     {

@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IAsignScorePlayer
+public interface IAssignScorePlayer
 {
     /// <summary>
     /// Determinar la forma de asignar puntos a un jugador
@@ -11,20 +11,20 @@ public interface IAsignScorePlayer
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador</param>
     /// <param name="rules">Reglas del juego</param>
-    public void AsignScore(GameStatus game, InfoRules rules, int ind);
+    public void AssignScore(GameStatus game, InfoRules rules, int ind);
 }
 
-public class AsignScoreClasic : IAsignScorePlayer
+public class AssignScoreClassic : IAssignScorePlayer
 {
-    public void AsignScore(GameStatus game, InfoRules rules, int ind)
+    public void AssignScore(GameStatus game, InfoRules rules, int ind)
     {
         game.Players[game.Turns[ind]].Score = 100;
     }
 }
 
-public class AsignScoreHands : IAsignScorePlayer
+public class AssignScoreHands : IAssignScorePlayer
 {
-    public void AsignScore(GameStatus game, InfoRules rules, int ind)
+    public void AssignScore(GameStatus game, InfoRules rules, int ind)
     {
         for (int i = 0; i < game.Players.Length; i++)
         {
@@ -39,9 +39,9 @@ public class AsignScoreHands : IAsignScorePlayer
     }
 }
 
-public class AsignScoreHandsMenorCant : IAsignScorePlayer
+public class AssignScoreHandsSmallCant : IAssignScorePlayer
 {
-    public void AsignScore(GameStatus game, InfoRules rules, int ind)
+    public void AssignScore(GameStatus game, InfoRules rules, int ind)
     {
         for (int i = 0; i < game.Players.Length; i++)
         {
@@ -56,9 +56,9 @@ public class AsignScoreHandsMenorCant : IAsignScorePlayer
     }
 }
 
-public class AsignScoreHandsMayorTokens : IAsignScorePlayer
+public class AssignScoreHandsMayorTokens : IAssignScorePlayer
 {
-    public void AsignScore(GameStatus game, InfoRules rules, int ind)
+    public void AssignScore(GameStatus game, InfoRules rules, int ind)
     {
         for (int i = 0; i < game.Players.Length; i++)
         {
@@ -73,10 +73,10 @@ public class AsignScoreHandsMayorTokens : IAsignScorePlayer
     }
 }
 
-public class AsignScoreSumFreeNode : IAsignScorePlayer
+public class AssignScoreSumFreeNode : IAssignScorePlayer
 {
-    public void AsignScore(GameStatus game, InfoRules rules, int ind)
+    public void AssignScore(GameStatus game, InfoRules rules, int ind)
     {
-        game.Players[game.Turns[ind]].Score = AuxTable.SumConectionFree(game.Table);
+        game.Players[game.Turns[ind]].Score = AuxTable.SumConnectionFree(game.Table);
     }
 }

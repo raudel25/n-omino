@@ -6,30 +6,30 @@ public abstract class TableGeometry : TableGame
     // public override HashSet<Node> FreeNode { get; protected set; }
     // public override List<Node> TableNode { get; protected set; }
     /// <summary>Coordenadas con sus respectivos nodos</summary>
-    public Dictionary<Coordenates, INode> TableCoord { get; protected set; }
+    public Dictionary<Coordinates, INode> TableCoord { get; protected set; }
 
     /// <summary>Valor que contiene cada coordenada</summary>
     public Dictionary<(int, int), int> CoordValor { get; protected set; }
 
-    protected TableGeometry((int, int)[] coordenates)
+    protected TableGeometry((int, int)[] coordinates)
     {
-        this.TableCoord = new Dictionary<Coordenates, INode>();
+        this.TableCoord = new Dictionary<Coordinates, INode>();
         this.CoordValor = new Dictionary<(int, int), int>();
-        INode node = this.CreateNode(coordenates);
+        INode node = this.CreateNode(coordinates);
         this.FreeTable(node);
     }
 
     /// <summary>Buscar las coordenadas de un nodo expandido</summary>
-    /// <param name="coordenates">Coordenadas del nodo a expandir</param>
+    /// <param name="coordinates">Coordenadas del nodo a expandir</param>
     /// <returns>Coordenadas del nodo expandido</returns>
-    protected abstract (int, int)[] ExpandGeometry((int, int)[] coordenates);
+    protected abstract (int, int)[] ExpandGeometry((int, int)[] coordinates);
 
     /// <summary>Asignar las coordenadas obtenidas en ExpandGeometry</summary>
     /// <param name="node">Nodo a asignar</param>
     /// <param name="coordenates">Coordenadas del nodo a asignar</param>
     protected virtual void AsignCoordenates(INode node, (int, int)[] coordenates)
     {
-        Coordenates aux = new Coordenates(coordenates);
+        Coordinates aux = new Coordinates(coordenates);
         //Comprobar si ya existe un nodo con esas coordenadas
         if (!this.TableCoord.ContainsKey(aux))
         {
@@ -38,44 +38,44 @@ public abstract class TableGeometry : TableGame
 
         int j = 0;
         //Buscar las conexiones libres
-        while (node.Conections[j] != null)
+        while (node.Connections[j] != null)
         {
             j++;
-            if (j == node.Conections.Length) break;
+            if (j == node.Connections.Length) break;
         }
 
-        if (j == node.Conections.Length) return;
+        if (j == node.Connections.Length) return;
         this.UnionNode(node, this.TableCoord[aux], j);
     }
 
     /// <summary>Crear un nodo</summary>
-    /// <param name="coordenates">Cooredenadas de la ficha</param>
+    /// <param name="coordinates">Cooredenadas de la ficha</param>
     /// <returns>Nuevo nodo</returns>
-    protected NodeGeometry CreateNode((int, int)[] coordenates)
+    protected NodeGeometry CreateNode((int, int)[] coordinates)
     {
-        NodeGeometry node = new NodeGeometry(coordenates, this.TableNode.Count);
+        NodeGeometry node = new NodeGeometry(coordinates, this.TableNode.Count);
         this.TableNode.Add(node);
-        this.TableCoord.Add(node.Ubication, node);
+        this.TableCoord.Add(node.Location, node);
         //Asignar in valor a cada cordenada
-        for (int i = 0; i < coordenates.Length; i++)
+        for (int i = 0; i < coordinates.Length; i++)
         {
-            if (!this.CoordValor.ContainsKey(coordenates[i]))
+            if (!this.CoordValor.ContainsKey(coordinates[i]))
             {
-                this.CoordValor.Add(coordenates[i], -1);
+                this.CoordValor.Add(coordinates[i], -1);
             }
         }
 
         return node;
     }
 
-    protected override void AsignValues(INode node, int[] values)
+    protected override void AssignValues(INode node, int[] values)
     {
         NodeGeometry nodeGeometry = (node as NodeGeometry)!;
-        Array.Copy(values, nodeGeometry.ValuesConections, values.Length);
+        Array.Copy(values, nodeGeometry.ValuesConnections, values.Length);
         //Asignamos los valores
         for (int j = 0; j < values.Length; j++)
         {
-            this.CoordValor[nodeGeometry.Ubication.Coord[j]] = values[j];
+            this.CoordValor[nodeGeometry.Location.Coord[j]] = values[j];
         }
     }
 }

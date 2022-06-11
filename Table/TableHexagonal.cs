@@ -45,14 +45,14 @@ public class TableHexagonal : TableGeometry
     {
         var x = 0;
         var y = 0;
-        for (var i = 1; i < node.Ubication.Coord.Length; i++)
+        for (var i = 1; i < node.Location.Coord.Length; i++)
         {
-            if (node.Ubication.Coord[i].Item2 == node.Ubication.Coord[i - 1].Item2)
-                x = (node.Ubication.Coord[i].Item1 + node.Ubication.Coord[i - 1].Item1) / 2;
+            if (node.Location.Coord[i].Item2 == node.Location.Coord[i - 1].Item2)
+                x = (node.Location.Coord[i].Item1 + node.Location.Coord[i - 1].Item1) / 2;
 
             if (i == 1) continue;
-            if (node.Ubication.Coord[i].Item1 == node.Ubication.Coord[i - 2].Item1)
-                y = (node.Ubication.Coord[i].Item2 + node.Ubication.Coord[i - 2].Item2) / 2;
+            if (node.Location.Coord[i].Item1 == node.Location.Coord[i - 2].Item1)
+                y = (node.Location.Coord[i].Item2 + node.Location.Coord[i - 2].Item2) / 2;
         }
 
         return (x, y);
@@ -61,7 +61,7 @@ public class TableHexagonal : TableGeometry
     public override TableGame Clone()
     {
         var aux = new (int, int)[6];
-        Array.Copy(((NodeGeometry) TableNode[0]).Ubication.Coord, aux, 6);
+        Array.Copy(((NodeGeometry) TableNode[0]).Location.Coord, aux, 6);
         TableGame table = new TableHexagonal(aux);
         return AuxClone(table);
     }

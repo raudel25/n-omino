@@ -12,9 +12,9 @@ public class TurnPlayerRule : ActionConditionRule<ITurnPlayer>
     public override void RunRule(GameStatus game, GameStatus original, InfoRules rules, int ind)
     {
         bool activate = false;
-        for (int i = 0; i < this.Critery.Length; i++)
+        for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Critery[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(game, ind))
             {
                 this.Actions[i].Turn(game.Turns, ind);
                 activate = true;
@@ -26,6 +26,6 @@ public class TurnPlayerRule : ActionConditionRule<ITurnPlayer>
 
     public TurnPlayerRule Clone()
     {
-        return new TurnPlayerRule(this.Actions, this.Critery, this.Default!);
+        return new TurnPlayerRule(this.Actions, this.Condition, this.Default!);
     }
 }

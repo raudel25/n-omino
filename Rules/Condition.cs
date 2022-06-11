@@ -14,7 +14,7 @@ public interface ICondition
     public bool RunRule(GameStatus game, int ind);
 }
 
-public class ClasicWin : ICondition
+public class ClassicWin : ICondition
 {
     public bool RunRule(GameStatus game, int ind)
     {
@@ -22,7 +22,7 @@ public class ClasicWin : ICondition
     }
 }
 
-public class ClasicTeamWin : ICondition
+public class ClassicTeamWin : ICondition
 {
     public bool RunRule(GameStatus game, int ind)
     {
@@ -78,7 +78,7 @@ public class CantToPassTeam : ICondition
     }
 }
 
-public class InmediatePass : ICondition
+public class ImmediatePass : ICondition
 {
     public bool RunRule(GameStatus game, int ind)
     {
@@ -97,17 +97,17 @@ public class NoValidPLay : ICondition
 public class SumFreeNode : ICondition
 {
     public int Value { get; private set; }
-    private IComparation _comparation;
+    private IComparison _comparison;
 
-    public SumFreeNode(int value, IComparation comparation)
+    public SumFreeNode(int value, IComparison comparison)
     {
-        this._comparation = comparation;
+        this._comparison = comparison;
         this.Value = value;
     }
 
     public bool RunRule(GameStatus game, int ind)
     {
-        return this._comparation.Compare(AuxTable.SumConectionFree(game.Table), this.Value);
+        return this._comparison.Compare(AuxTable.SumConnectionFree(game.Table), this.Value);
     }
 }
 

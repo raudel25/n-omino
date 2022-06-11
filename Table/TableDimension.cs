@@ -14,12 +14,12 @@ public class TableDimension : TableGame
 
     protected override void Expand(INode node)
     {
-        for (var i = 0; i < node.Conections.Length; i++)
-            if (node.Conections[i] == null)
+        for (var i = 0; i < node.Connections.Length; i++)
+            if (node.Connections[i] == null)
             {
-                UnionNode(node, CreateNode(node.Conections.Length), i);
-                AsignValueConection(node, node.Conections[i]!, i);
-                FreeTable(node.Conections[i]!);
+                UnionNode(node, CreateNode(node.Connections.Length), i);
+                AssignValueConnection(node, node.Connections[i]!, i);
+                FreeTable(node.Connections[i]!);
             }
     }
 
@@ -33,23 +33,23 @@ public class TableDimension : TableGame
         return node;
     }
 
-    protected override void AsignValues(INode node, int[] values)
+    protected override void AssignValues(INode node, int[] values)
     {
         var nodeDimension = node as NodeDimension;
         if (nodeDimension == null) return;
-        Array.Copy(values, nodeDimension.ValuesConections, values.Length);
+        Array.Copy(values, nodeDimension.ValuesConnections, values.Length);
     }
 
     /// <summary>Asignar los mismos valores a 2 nodos conectados</summary>
     /// <param name="node">Nodo conectado</param>
-    /// <param name="nodeConection">Nodo conectado</param>
+    /// <param name="nodeConnection">Nodo conectado</param>
     /// <param name="ind">Indice de los nodos conectados</param>
-    protected void AsignValueConection(INode node, INode nodeConection, int ind)
+    protected void AssignValueConnection(INode node, INode nodeConnection, int ind)
     {
         var nodeDimension = node as NodeDimension;
-        var nodeDimensionConect = nodeConection as NodeDimension;
-        if (nodeDimension == null || nodeDimensionConect == null) return;
-        nodeDimensionConect.ValuesConections[ind] = nodeDimension.ValuesConections[ind];
+        var nodeDimensionConnect = nodeConnection as NodeDimension;
+        if (nodeDimension == null || nodeDimensionConnect == null) return;
+        nodeDimensionConnect.ValuesConnections[ind] = nodeDimension.ValuesConnections[ind];
     }
 
     public override TableGame Clone()

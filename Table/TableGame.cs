@@ -29,7 +29,7 @@ public abstract class TableGame
     public void PlayTable(INode node, Token token, int[] values)
     {
         node.ValueToken = token;
-        this.AsignValues(node, values);
+        this.AssignValues(node, values);
         this.Expand(node);
         this.PlayNode.Add(node);
         FreeNode.Remove(node);
@@ -49,7 +49,7 @@ public abstract class TableGame
     /// <returns>Node vecino al cual se realiza el movimiento</returns>
     public INode MoveTable(INode node, int ind)
     {
-        return node.Conections[ind]!;
+        return node.Connections[ind]!;
     }
 
     /// <summary>Unir dos nodos</summary>
@@ -58,8 +58,8 @@ public abstract class TableGame
     /// <param name="ind">Arista por la que los nodos se conectan</param>
     protected void UnionNode(INode right, INode left, int ind)
     {
-        right.Conections[ind] = left;
-        left.Conections[ind] = right;
+        right.Connections[ind] = left;
+        left.Connections[ind] = right;
     }
 
     /// <summary>Clonar la mesa</summary>
@@ -69,8 +69,8 @@ public abstract class TableGame
     {
         foreach (var item in this.PlayNode)
         {
-            int[] valuesAux = new int[item.ValuesConections.Length];
-            Array.Copy(item.ValuesConections, valuesAux, item.ValuesConections.Length);
+            int[] valuesAux = new int[item.ValuesConnections.Length];
+            Array.Copy(item.ValuesConnections, valuesAux, item.ValuesConnections.Length);
             table.PlayTable(table.TableNode[item.Id], item.ValueToken.Clone(), valuesAux);
         }
 
@@ -80,7 +80,7 @@ public abstract class TableGame
     /// <summary>Asignar los valores correspondietes a las conexiones</summary>
     /// <param name="node">Nodo al que asignar los valores</param>
     /// <param name="values">Valores a asignar</param>
-    protected abstract void AsignValues(INode node, int[] values);
+    protected abstract void AssignValues(INode node, int[] values);
 
     /// <summary>Clonar la mesa</summary>
     /// <returns>Mesa clonada</returns>

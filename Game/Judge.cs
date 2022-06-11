@@ -26,6 +26,8 @@ public class Judge
         {
             int ind = this._infoGame.Turns[i];
             InfoPlayer player = this._infoGame.Players[_infoGame.Turns[ind]];
+
+            //Determinar si es posible jugar
             bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
 
             //Clonar el estado del juego
@@ -35,12 +37,10 @@ public class Judge
             this._judgeRules.VisibilityPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
             this._judgeRules.StealTokens.RunRule(copy, this._infoGame, this._judgeRules, i);
 
-            //Determinar si es posible jugar
+            //Determinar si es posible jugar con el criterio de robar
             play = play || this._judgeRules.StealTokens.Play;
-            if (play)
-            {
-                noValid = false;
-            }
+
+            if (play) noValid = false;
             else
             {
                 if (!noValid)
@@ -55,7 +55,10 @@ public class Judge
                 noValid = true;
             }
 
-            this._infoGame.InmediatePass = !play;
+            //Determinar si es posible pasarse con fichas
+            this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
+            bool toPass = !play || this._judgeRules.ToPassToken.PossibleToPass;
+            //this._infoGame.ImmediatePass = toPass;
 
             //Determinar la distribucion de los turnos
             this._judgeRules.TurnPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -77,13 +80,13 @@ public class Judge
     /// <param name="tokens">Fichas de las que dispone el jugador</param>
     /// <param name="table">Mesa para jugar</param>
     /// <returns>El jugador tiene opciones para jugar</returns>
-    private bool ValidPlayPlayer(HashSet<Token> tokens, TableGame table)
+    private bool ValidPlayPlayer(List<Token> tokens, TableGame table)
     {
         foreach (var item in table.FreeNode)
         {
             foreach (var token in tokens)
             {
-                if (this._judgeRules.ValidPlays(item, token, table).Count != 0) return true;
+                if (this._judgeRules.IsValidPlay.ValidPlays(item, token, table).Count != 0) return true;
             }
         }
 
