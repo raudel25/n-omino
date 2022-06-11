@@ -1,19 +1,19 @@
 namespace Table;
 
-public class TableTriangular : TableGeometry
+public class TableTriangular<T> : TableGeometry<T>
 {
-    public TableTriangular((int, int)[] coordenates) : base(coordenates)
+    public TableTriangular((int, int)[] coordinates) : base(coordinates)
     {
     }
 
-    protected override void Expand(INode node)
+    protected override void Expand(INode<T> node)
     {
-        NodeGeometry? geometry = (node as NodeGeometry);
+        NodeGeometry<T>? geometry = (node as NodeGeometry<T>);
         if (geometry == null) return;
         for (int i = 0; i < node.Connections.Length; i++)
         {
-            (int, int)[] coordenates = ExpandGeometry(AuxTable.CircularArray(geometry.Location.Coord, i));
-            AsignCoordenates(node, coordenates);
+            (int, int)[] coordinates = ExpandGeometry(AuxTable.CircularArray(geometry.Location.Coord, i));
+            AsignCoordenates(node, coordinates);
         }
     }
 
@@ -44,11 +44,11 @@ public class TableTriangular : TableGeometry
         return ExpandGeometry(new[] {coord2, coord1, coord3});
     }
 
-    public override TableGame Clone()
+    public override TableGame<T> Clone()
     {
         (int, int)[] aux = new (int, int)[3];
-        Array.Copy(((NodeGeometry) this.TableNode[0]).Location.Coord, aux, 3);
-        TableGame table = new TableTriangular(aux);
+        Array.Copy(((NodeGeometry<T>) this.TableNode[0]).Location.Coord, aux, 3);
+        TableGame<T> table = new TableTriangular<T>(aux);
         return this.AuxClone(table);
     }
 }

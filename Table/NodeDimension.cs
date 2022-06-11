@@ -1,17 +1,16 @@
 namespace Table;
 
-public class NodeDimension : INode
+public class NodeDimension<T> : INode<T>
 {
-    public Token ValueToken { get; set; }
-    public INode?[] Connections { get; set; }
-    public int[] ValuesConnections { get; set; }
+    public Token<T>? ValueToken { get; set; }
+    public INode<T>?[] Connections { get; set; }
+    public T[] ValuesConnections { get; set; }
+    /// <summary>
+    /// Determinar si el valor de una conexion ya fue asignado
+    /// </summary>
+    public bool[] ValuesAssign { get; set; }
     public int Id { get; private set; }
     public int IdPlayer { get; set; }
-
-    public int FirstConnectionFree
-    {
-        get { return ConnectionFree(); }
-    }
 
     public int FirstConnection
     {
@@ -32,7 +31,7 @@ public class NodeDimension : INode
     {
         for (int i = 0; i < this.Connections.Length; i++)
         {
-            if (this.Connections[i] != null) return i;
+            if (this.ValuesAssign[i]) return i;
         }
 
         return -1;
@@ -40,14 +39,10 @@ public class NodeDimension : INode
 
     public NodeDimension(int n, int id)
     {
-        this.ValueToken = null!;
-        this.ValuesConnections = new int[n];
-        for (int i = 0; i < n; i++)
-        {
-            this.ValuesConnections[i] = -1;
-        }
-
-        this.Connections = new INode[n];
+        this.ValueToken = null;
+        this.ValuesConnections = new T[n];
+        this.ValuesAssign = new bool[n];
+        this.Connections = new INode<T>[n];
         this.Id = id;
     }
 }

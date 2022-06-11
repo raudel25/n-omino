@@ -1,21 +1,21 @@
 namespace Table;
 
-public abstract class TableGeometry : TableGame
+public abstract class TableGeometry<T> : TableGame<T>
 {
     // public override HashSet<Node> PlayNode { get; protected set; }
     // public override HashSet<Node> FreeNode { get; protected set; }
     // public override List<Node> TableNode { get; protected set; }
     /// <summary>Coordenadas con sus respectivos nodos</summary>
-    public Dictionary<Coordinates, INode> TableCoord { get; protected set; }
+    public Dictionary<Coordinates, INode<T>> TableCoord { get; protected set; }
 
     /// <summary>Valor que contiene cada coordenada</summary>
-    public Dictionary<(int, int), int> CoordValor { get; protected set; }
+    public Dictionary<(int, int), (T?,bool)> CoordValor { get; protected set; }
 
     protected TableGeometry((int, int)[] coordinates)
     {
-        this.TableCoord = new Dictionary<Coordinates, INode>();
-        this.CoordValor = new Dictionary<(int, int), int>();
-        INode node = this.CreateNode(coordinates);
+        this.TableCoord = new Dictionary<Coordinates, INode<T>>();
+        this.CoordValor = new Dictionary<(int, int), (T?,bool)>();
+        INode<T> node = this.CreateNode(coordinates);
         this.FreeTable(node);
     }
 
@@ -27,7 +27,7 @@ public abstract class TableGeometry : TableGame
     /// <summary>Asignar las coordenadas obtenidas en ExpandGeometry</summary>
     /// <param name="node">Nodo a asignar</param>
     /// <param name="coordenates">Coordenadas del nodo a asignar</param>
-    protected virtual void AsignCoordenates(INode node, (int, int)[] coordenates)
+    protected virtual void AsignCoordenates(INode<T> node, (int, int)[] coordenates)
     {
         Coordinates aux = new Coordinates(coordenates);
         //Comprobar si ya existe un nodo con esas coordenadas
@@ -51,9 +51,9 @@ public abstract class TableGeometry : TableGame
     /// <summary>Crear un nodo</summary>
     /// <param name="coordinates">Cooredenadas de la ficha</param>
     /// <returns>Nuevo nodo</returns>
-    protected NodeGeometry CreateNode((int, int)[] coordinates)
+    protected NodeGeometry<T> CreateNode((int, int)[] coordinates)
     {
-        NodeGeometry node = new NodeGeometry(coordinates, this.TableNode.Count);
+        NodeGeometry<T> node = new NodeGeometry<T>(coordinates, this.TableNode.Count);
         this.TableNode.Add(node);
         this.TableCoord.Add(node.Location, node);
         //Asignar in valor a cada cordenada
@@ -61,21 +61,21 @@ public abstract class TableGeometry : TableGame
         {
             if (!this.CoordValor.ContainsKey(coordinates[i]))
             {
-                this.CoordValor.Add(coordinates[i], -1);
+                this.CoordValor.Add(coordinates[i], (default,false));
             }
         }
 
         return node;
     }
 
-    protected override void AssignValues(INode node, int[] values)
+    protected override void AssignValues(INode<T> node, T[] values)
     {
-        NodeGeometry nodeGeometry = (node as NodeGeometry)!;
+        NodeGeometry<T> nodeGeometry = (node as NodeGeometry<T>)!;
         Array.Copy(values, nodeGeometry.ValuesConnections, values.Length);
         //Asignamos los valores
         for (int j = 0; j < values.Length; j++)
         {
-            this.CoordValor[nodeGeometry.Location.Coord[j]] = values[j];
+            this.CoordValor[nodeGeometry.Location.Coord[j]] = (values[j],true);
         }
     }
 }

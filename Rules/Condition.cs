@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface ICondition
+public interface ICondition<T>
 {
     /// <summary>
     /// Determinar bajo que condiciones se ejecuta una regla
@@ -11,20 +11,20 @@ public interface ICondition
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
     /// <returns>Si es valido que se ejecute la regla</returns>
-    public bool RunRule(GameStatus game, int ind);
+    public bool RunRule(GameStatus<T> game, int ind);
 }
 
-public class ClassicWin : ICondition
+public class ClassicWin<T> : ICondition<T>
 {
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<T> game, int ind)
     {
         return game.Players[game.Turns[ind]].Hand!.Count == 0;
     }
 }
 
-public class ClassicTeamWin : ICondition
+public class ClassicTeamWin<T> : ICondition<T>
 {
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<T> game, int ind)
     {
         bool win = true;
         for (int i = 0; i < game.Teams.Length; i++)
@@ -39,7 +39,7 @@ public class ClassicTeamWin : ICondition
     }
 }
 
-public class CantToPass : ICondition
+public class CantToPass<T> : ICondition<T>
 {
     public int Cant { get; private set; }
 
@@ -48,13 +48,13 @@ public class CantToPass : ICondition
         this.Cant = cant;
     }
 
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<T> game, int ind)
     {
         return game.Players[game.Turns[ind]].Passes == this.Cant;
     }
 }
 
-public class CantToPassTeam : ICondition
+public class CantToPassTeam<T> : ICondition<T>
 {
     public int Cant { get; private set; }
 
@@ -63,7 +63,7 @@ public class CantToPassTeam : ICondition
         this.Cant = cant;
     }
 
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<T> game, int ind)
     {
         bool condition = true;
         for (int i = 0; i < game.Teams.Length; i++)
@@ -78,42 +78,42 @@ public class CantToPassTeam : ICondition
     }
 }
 
-public class ImmediatePass : ICondition
+public class ImmediatePass<T> : ICondition<T>
 {
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<T> game, int ind)
     {
         return game.InmediatePass;
     }
 }
 
-public class NoValidPLay : ICondition
+public class NoValidPLay<T> : ICondition<T>
 {
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<T> game, int ind)
     {
         return game.NoValidPlay;
     }
 }
 
-public class SumFreeNode : ICondition
+public class SumFreeNode : ICondition<int>
 {
     public int Value { get; private set; }
-    private IComparison _comparison;
+    private IComparison<int> _comparison;
 
-    public SumFreeNode(int value, IComparison comparison)
+    public SumFreeNode(int value, IComparison<int> comparison)
     {
         this._comparison = comparison;
         this.Value = value;
     }
 
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<int> game, int ind)
     {
         return this._comparison.Compare(AuxTable.SumConnectionFree(game.Table), this.Value);
     }
 }
 
-public class ConditionDefault : ICondition
+public class ConditionDefault<T> : ICondition<T>
 {
-    public bool RunRule(GameStatus game, int ind)
+    public bool RunRule(GameStatus<T> game, int ind)
     {
         return true;
     }

@@ -1,39 +1,39 @@
 namespace Table;
 
-public class TableHexagonal : TableGeometry
+public class TableHexagonal<T> : TableGeometry<T>
 {
-    public TableHexagonal((int, int)[] coordenates) : base(coordenates)
+    public TableHexagonal((int, int)[] coordinates) : base(coordinates)
     {
     }
 
-    protected override void Expand(INode node)
+    protected override void Expand(INode<T> node)
     {
-        var geometry = node as NodeGeometry;
+        var geometry = node as NodeGeometry<T>;
         if (geometry == null) return;
         var center = FindCenter(geometry);
         var expand = FindCenterExpand(center);
         for (var i = 0; i < expand.Length; i++) AsignCoordenates(geometry, ExpandGeometry(new[] {expand[i]}));
     }
 
-    protected override (int, int)[] ExpandGeometry((int, int)[] coordenates)
+    protected override (int, int)[] ExpandGeometry((int, int)[] coordinates)
     {
         var expand = new (int, int)[6];
         int[] x = {-1, 1, 2, 1, -1, -2};
         int[] y = {1, 1, 0, -1, -1, 0};
-        for (var i = 0; i < expand.Length; i++) expand[i] = (coordenates[0].Item1 + x[i], coordenates[0].Item2 + y[i]);
+        for (var i = 0; i < expand.Length; i++) expand[i] = (coordinates[0].Item1 + x[i], coordinates[0].Item2 + y[i]);
 
         return expand;
     }
 
     /// <summary>Expandir el nodo a partir de las coorenadas de su centro</summary>
-    /// <param name="coordenates">Coordenadas del nodo</param>
+    /// <param name="coordinates">Coordenadas del nodo</param>
     /// <returns>Coordenadas de los centros nodos expandidos</returns>
-    protected (int, int)[] FindCenterExpand((int, int) coordenates)
+    protected (int, int)[] FindCenterExpand((int, int) coordinates)
     {
         var expand = new (int, int)[6];
         int[] x = {-3, 0, 3, 3, 0, -3};
         int[] y = {-1, -2, -1, 1, 2, 1};
-        for (var i = 0; i < expand.Length; i++) expand[i] = (coordenates.Item1 + x[i], coordenates.Item2 + y[i]);
+        for (var i = 0; i < expand.Length; i++) expand[i] = (coordinates.Item1 + x[i], coordinates.Item2 + y[i]);
 
         return expand;
     }
@@ -41,7 +41,7 @@ public class TableHexagonal : TableGeometry
     /// <summary>Buscar las coordenadas del centro del nodo</summary>
     /// <param name="node">Nodo</param>
     /// <returns>Coordenadas del centro</returns>
-    protected (int, int) FindCenter(NodeGeometry node)
+    protected (int, int) FindCenter(NodeGeometry<T> node)
     {
         var x = 0;
         var y = 0;
@@ -58,11 +58,11 @@ public class TableHexagonal : TableGeometry
         return (x, y);
     }
 
-    public override TableGame Clone()
+    public override TableGame<T> Clone()
     {
         var aux = new (int, int)[6];
-        Array.Copy(((NodeGeometry) TableNode[0]).Location.Coord, aux, 6);
-        TableGame table = new TableHexagonal(aux);
+        Array.Copy(((NodeGeometry<T>) TableNode[0]).Location.Coord, aux, 6);
+        TableGame<T> table = new TableHexagonal<T>(aux);
         return AuxClone(table);
     }
 }

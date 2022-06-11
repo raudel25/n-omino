@@ -1,15 +1,15 @@
 namespace Rules;
 
-public interface IComparison
+public interface IComparison<T>
 {
     /// <summary>Criterio de comparacion</summary>
     /// <param name="a">Entero a comparar</param>
     /// <param name="b">Entero a comparar</param>
     /// <returns>Si el criterio es valido</returns>
-    public bool Compare(int a, int b);
+    public bool Compare(T a, T b);
 }
 
-public class ClassicComparison : IComparison
+public class ClassicComparison : IComparison<int>
 {
     public bool Compare(int a, int b)
     {
@@ -17,7 +17,7 @@ public class ClassicComparison : IComparison
     }
 }
 
-public class CongruenceComparison : IComparison
+public class CongruenceComparison : IComparison<int>
 {
     private int _congruence;
 
@@ -32,22 +32,22 @@ public class CongruenceComparison : IComparison
     }
 }
 
-public class HighNumberComparison : IComparison
+public class HighNumberComparison : IComparison<int>
 {
-    private int _mayorNumber;
+    private int _highNumber;
 
     public HighNumberComparison(int n)
     {
-        this._mayorNumber = n;
+        this._highNumber = n;
     }
 
     public bool Compare(int a, int b)
     {
-        return a > this._mayorNumber && b > this._mayorNumber;
+        return a > this._highNumber && b > this._highNumber;
     }
 }
 
-public class SmallNumberComparison : IComparison
+public class SmallNumberComparison : IComparison<int>
 {
     private int _smallNumber;
 
@@ -62,7 +62,7 @@ public class SmallNumberComparison : IComparison
     }
 }
 
-public class ComodinComparison : IComparison
+public class ComodinComparison : IComparison<int>
 {
     private int _comodin;
 
@@ -78,7 +78,7 @@ public class ComodinComparison : IComparison
     }
 }
 
-public class DivisibleComparison : IComparison
+public class DivisibleComparison : IComparison<int>
 {
     private int _divisible;
 
@@ -93,7 +93,7 @@ public class DivisibleComparison : IComparison
     }
 }
 
-public class GcdComparison : IComparison
+public class GcdComparison : IComparison<int>
 {
     private int _gcd;
 

@@ -5,12 +5,12 @@ using Player;
 
 namespace Game;
 
-public class Judge
+public class Judge<T>
 {
-    private InfoRules _judgeRules;
-    private GameStatus _infoGame;
+    private InfoRules<T> _judgeRules;
+    private GameStatus<T> _infoGame;
 
-    public Judge(InfoRules infoRules, GameStatus infoGame)
+    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame)
     {
         this._judgeRules = infoRules;
         this._infoGame = infoGame;
@@ -25,13 +25,14 @@ public class Judge
         while (true)
         {
             int ind = this._infoGame.Turns[i];
-            InfoPlayer player = this._infoGame.Players[_infoGame.Turns[ind]];
-
-            //Determinar si es posible jugar
-            bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
+            InfoPlayer<T> player = this._infoGame.Players[_infoGame.Turns[ind]];
 
             //Clonar el estado del juego
-            GameStatus copy = this._infoGame.Clone();
+            GameStatus<T> copy = this._infoGame.Clone();
+            
+            //Determinar si es posible jugar
+            this._judgeRules.IsValidPlay.RunRule(copy, this._infoGame, this._judgeRules, i);
+            bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
 
             //Determinar la visibilidad y posibilidades de robar
             this._judgeRules.VisibilityPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -80,7 +81,7 @@ public class Judge
     /// <param name="tokens">Fichas de las que dispone el jugador</param>
     /// <param name="table">Mesa para jugar</param>
     /// <returns>El jugador tiene opciones para jugar</returns>
-    private bool ValidPlayPlayer(List<Token> tokens, TableGame table)
+    private bool ValidPlayPlayer(List<Token<T>> tokens, TableGame<T> table)
     {
         foreach (var item in table.FreeNode)
         {

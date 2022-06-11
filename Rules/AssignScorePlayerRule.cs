@@ -2,14 +2,15 @@ using InfoGame;
 
 namespace Rules;
 
-public class AssignScorePlayerRule : ActionConditionRule<IAssignScorePlayer>
+public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T>, T>
 {
-    public AssignScorePlayerRule(IEnumerable<IAssignScorePlayer> rules, IEnumerable<ICondition> condition) : base(rules,
+    public AssignScorePlayerRule(IEnumerable<IAssignScorePlayer<T>> rules, IEnumerable<ICondition<T>> condition) : base(
+        rules,
         condition, null)
     {
     }
 
-    public override void RunRule(GameStatus game, GameStatus original, InfoRules rules, int ind)
+    public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < this.Condition.Length; i++)
         {
@@ -20,8 +21,8 @@ public class AssignScorePlayerRule : ActionConditionRule<IAssignScorePlayer>
         }
     }
 
-    public AssignScorePlayerRule Clone()
+    public AssignScorePlayerRule<T> Clone()
     {
-        return new AssignScorePlayerRule(this.Actions, this.Condition);
+        return new AssignScorePlayerRule<T>(this.Actions, this.Condition);
     }
 }
