@@ -14,7 +14,7 @@ public class TableSquare<T> : TableGeometry<T>
         (int, int)[] expand = FindCenterExpand(center);
         for (int i = 0; i < expand.Length; i++)
         {
-            AsignCoordenates(geometry, ExpandGeometry(new[] {expand[i]}));
+            AssignCoordinates(geometry, ExpandGeometry(new[] {expand[i]}));
         }
     }
 

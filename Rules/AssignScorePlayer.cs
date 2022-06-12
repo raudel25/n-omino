@@ -72,11 +72,11 @@ public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T>
         }
     }
 }
-/*
-public class AssignScoreSumFreeNode : IAssignScorePlayer
+
+public class AssignScoreSumFreeNode : IAssignScorePlayer<int>
 {
-    public void AssignScore(GameStatus game, InfoRules rules, int ind)
+    public void AssignScore(GameStatus<int> game, InfoRules<int> rules, int ind)
     {
         game.Players[game.Turns[ind]].Score = AuxTable.SumConnectionFree(game.Table);
     }
-}*/
+}

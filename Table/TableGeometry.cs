@@ -9,12 +9,12 @@ public abstract class TableGeometry<T> : TableGame<T>
     public Dictionary<Coordinates, INode<T>> TableCoord { get; protected set; }
 
     /// <summary>Valor que contiene cada coordenada</summary>
-    public Dictionary<(int, int), (T?,bool)> CoordValor { get; protected set; }
+    public Dictionary<(int, int), (T?, bool)> CoordValor { get; protected set; }
 
     protected TableGeometry((int, int)[] coordinates)
     {
         this.TableCoord = new Dictionary<Coordinates, INode<T>>();
-        this.CoordValor = new Dictionary<(int, int), (T?,bool)>();
+        this.CoordValor = new Dictionary<(int, int), (T?, bool)>();
         INode<T> node = this.CreateNode(coordinates);
         this.FreeTable(node);
     }
@@ -26,14 +26,14 @@ public abstract class TableGeometry<T> : TableGame<T>
 
     /// <summary>Asignar las coordenadas obtenidas en ExpandGeometry</summary>
     /// <param name="node">Nodo a asignar</param>
-    /// <param name="coordenates">Coordenadas del nodo a asignar</param>
-    protected virtual void AsignCoordenates(INode<T> node, (int, int)[] coordenates)
+    /// <param name="coordinates">Coordenadas del nodo a asignar</param>
+    protected virtual void AssignCoordinates(INode<T> node, (int, int)[] coordinates)
     {
-        Coordinates aux = new Coordinates(coordenates);
+        Coordinates aux = new Coordinates(coordinates);
         //Comprobar si ya existe un nodo con esas coordenadas
         if (!this.TableCoord.ContainsKey(aux))
         {
-            this.FreeTable(this.CreateNode(coordenates));
+            this.FreeTable(this.CreateNode(coordinates));
         }
 
         int j = 0;
@@ -61,7 +61,7 @@ public abstract class TableGeometry<T> : TableGame<T>
         {
             if (!this.CoordValor.ContainsKey(coordinates[i]))
             {
-                this.CoordValor.Add(coordinates[i], (default,false));
+                this.CoordValor.Add(coordinates[i], (default, false));
             }
         }
 
@@ -75,7 +75,7 @@ public abstract class TableGeometry<T> : TableGame<T>
         //Asignamos los valores
         for (int j = 0; j < values.Length; j++)
         {
-            this.CoordValor[nodeGeometry.Location.Coord[j]] = (values[j],true);
+            this.CoordValor[nodeGeometry.Location.Coord[j]] = (values[j], true);
         }
     }
 }

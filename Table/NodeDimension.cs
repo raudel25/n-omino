@@ -2,7 +2,7 @@ namespace Table;
 
 public class NodeDimension<T> : INode<T>
 {
-    public Token<T>? ValueToken { get; set; }
+    public Token<T> ValueToken { get; set; }
     public INode<T>?[] Connections { get; set; }
     public T[] ValuesConnections { get; set; }
     /// <summary>
@@ -17,16 +17,6 @@ public class NodeDimension<T> : INode<T>
         get { return Connection(); }
     }
 
-    private int ConnectionFree()
-    {
-        for (int i = 0; i < this.Connections.Length; i++)
-        {
-            if (this.Connections[i] == null) return i;
-        }
-
-        return -1;
-    }
-
     private int Connection()
     {
         for (int i = 0; i < this.Connections.Length; i++)
@@ -39,7 +29,7 @@ public class NodeDimension<T> : INode<T>
 
     public NodeDimension(int n, int id)
     {
-        this.ValueToken = null;
+        this.ValueToken = null!;
         this.ValuesConnections = new T[n];
         this.ValuesAssign = new bool[n];
         this.Connections = new INode<T>[n];

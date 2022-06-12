@@ -23,7 +23,7 @@ public class Token<T>
         Token<T> token = (obj as Token<T>)!;
         for (int i = 0; i < token.Values.Length; i++)
         {
-            if (!this.Values[i].Equals(token.Values[i])) return false;
+            if (!this.Values[i]!.Equals(token.Values[i])) return false;
         }
 
         return true;
@@ -31,6 +31,6 @@ public class Token<T>
 
     public override int GetHashCode()
     {
-        return this.Values[0].GetHashCode();
+        return this.Values[0]!.GetHashCode();
     }
 }
