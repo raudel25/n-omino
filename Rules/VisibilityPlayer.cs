@@ -33,6 +33,7 @@ public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T>
     {
         List<List<Token<T>>> aux = new List<List<Token<T>>>();
         int team = game.FindTeamPlayer(game.Turns[ind]);
+
         //Guardamos las manos de los miembros del equipo
         for (int i = 0; i < game.Teams[team].Count; i++)
         {

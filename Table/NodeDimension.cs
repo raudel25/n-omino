@@ -12,11 +12,18 @@ public class NodeDimension<T> : INode<T>
     public int Id { get; private set; }
     public int IdPlayer { get; set; }
 
+    /// <summary>
+    /// Primera conexion ocupada
+    /// </summary>
     public int FirstConnection
     {
         get { return Connection(); }
     }
 
+    /// <summary>
+    /// Deteminar la primera conexion ocupada
+    /// </summary>
+    /// <returns>Indice de la primera conexion ocupada</returns>
     private int Connection()
     {
         for (int i = 0; i < this.Connections.Length; i++)

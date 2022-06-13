@@ -5,9 +5,9 @@ using Game;
 
 Token<int> t = new Token<int>(new[] {1, 2, 3});
 
-TableGeometry<int> table = new TableTriangular<int>(new []{(0,0),(1,1),(2,0)});
+TableDimension<int> table = new TableDimension<int>(3);
 
-IValidPlay<int> v = new ValidPlayGeometry<int>(new ClassicComparison<int>());
+IValidPlay<int> v = new ValidPlayDimension<int>(new ClassicComparison<int>());
 int[] we = v.AssignValues(table.TableNode[0], t,table);
 table.PlayTable(table.TableNode[0], t,we );
 TableGame<int> a = table.Clone();
@@ -15,7 +15,7 @@ TableGame<int> a = table.Clone();
 for (int i = 0; i < 3; i++)
 {
     //Console.WriteLine(((TableGeometry<int>) a).CoordValor[((NodeGeometry<int>)a.TableNode[1]).Location.Coord[i]].Item1);
-    Console.WriteLine(table.TableNode[1].ValuesConnections[i]);
+    Console.WriteLine(table.TableNode[0].ValuesConnections[i]);
 }
 Console.WriteLine(v.ValidPlay(a.TableNode[1],new Token<int>(new []{1,2,4}),table));
 

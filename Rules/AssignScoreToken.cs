@@ -12,7 +12,7 @@ public interface IAssignScoreToken<T>
     public int ScoreToken(Token<T> token);
 }
 
-public class AssignScoreTokenClasic : IAssignScoreToken<int>
+public class AssignScoreTokenClassic : IAssignScoreToken<int>
 {
     public int ScoreToken(Token<int> token)
     {

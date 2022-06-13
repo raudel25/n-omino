@@ -36,12 +36,14 @@ public class ValidPlayDimension<T> : IValidPlay<T>
     {
         if (token.Values.Length != node.Connections.Length) return false;
         if (!table.FreeNode.Contains(node)) return false;
+
         NodeDimension<T>? nodeDimension = (node as NodeDimension<T>);
         if (nodeDimension == null) return false;
+
         int connection = nodeDimension.FirstConnection;
         if (connection == -1) return true;
         T valueConnection = nodeDimension.ValuesConnections[connection];
-        //if (valueConnection == -1) return true;
+
         for (int i = 0; i < token.Values.Length; i++)
         {
             if (this._comparison.Compare(token.Values[i], valueConnection)) return true;
@@ -54,18 +56,14 @@ public class ValidPlayDimension<T> : IValidPlay<T>
     {
         if (token.Values.Length != node.Connections.Length) return Array.Empty<T>();
         if (!table.FreeNode.Contains(node)) return Array.Empty<T>();
+
         NodeDimension<T>? nodeDimension = (node as NodeDimension<T>);
         if (nodeDimension == null) return Array.Empty<T>();
+
         T[] values = new T[token.Values.Length];
         Array.Copy(token.Values, values, token.Values.Length);
-
         int ind = nodeDimension.FirstConnection;
-        if (ind == -1)
-        {
-            Array.Copy(token.Values, values, token.Values.Length);
-            return values;
-        }
-
+        if (ind == -1) return values;
         T connection = nodeDimension.ValuesConnections[ind];
 
         for (int i = 0; i < values.Length; i++)
@@ -101,9 +99,11 @@ public class ValidPlayGeometry<T> : IValidPlay<T>
     {
         if (token.Values.Length != node.Connections.Length) return Array.Empty<T>();
         if (!table.FreeNode.Contains(node)) return Array.Empty<T>();
+
         TableGeometry<T>? tableGeometry = (table as TableGeometry<T>);
         NodeGeometry<T>? nodeGeometry = (node as NodeGeometry<T>);
         if (nodeGeometry == null || tableGeometry == null) return Array.Empty<T>();
+
         for (int i = 0; i < token.Values.Length; i++)
         {
             T[] circular = AuxTable.CircularArray(token.Values, i);

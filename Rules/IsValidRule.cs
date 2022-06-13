@@ -5,12 +5,22 @@ namespace Rules;
 
 public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>
 {
-    private bool[] _comprobateValid;
+    private bool[] _checkValid;
+
+    public (IValidPlay<T>, bool) this[int index]
+    {
+        get
+        {
+            if (index < this.Actions.Length && index >= 0) return (this.Actions[index], this._checkValid[index]);
+            if (index == this.Actions.Length) return (this.Default!, this._checkValid[index]);
+            else throw new Exception("Index Out of Range");
+        }
+    }
 
     public IsValidRule(IEnumerable<IValidPlay<T>> rules, IEnumerable<ICondition<T>> condition,
         IValidPlay<T> rule) : base(rules, condition, rule)
     {
-        this._comprobateValid = new bool[this.Actions.Length + 1];
+        this._checkValid = new bool[this.Actions.Length + 1];
     }
 
     public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
@@ -18,15 +28,15 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            this._comprobateValid[i] = false;
+            this._checkValid[i] = false;
             if (this.Condition[i].RunRule(game, ind))
             {
-                this._comprobateValid[i] = true;
+                this._checkValid[i] = true;
                 activate = true;
             }
         }
 
-        if (!activate) this._comprobateValid[this.Actions.Length] = true;
+        if (!activate) this._checkValid[this.Actions.Length] = true;
     }
 
     /// <summary>Determinar si una jugada es correcta segun las reglas existentes</summary>
@@ -39,10 +49,10 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>
         List<int> valid = new List<int>();
         for (int j = 0; j < this.Actions.Length; j++)
         {
-            if (this._comprobateValid[j] && this.Actions[j].ValidPlay(node, token, table)) valid.Add(j);
+            if (this._checkValid[j] && this.Actions[j].ValidPlay(node, token, table)) valid.Add(j);
         }
 
-        if (this._comprobateValid[this.Actions.Length] && this.Default!.ValidPlay(node, token, table))
+        if (this._checkValid[this.Actions.Length] && this.Default!.ValidPlay(node, token, table))
             valid.Add(this.Actions.Length);
 
         return valid;

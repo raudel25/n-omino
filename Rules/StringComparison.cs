@@ -17,7 +17,6 @@ public class StringComparisonLevenshtein:IComparison<string>
     {
 
         // d es una tabla con m+1 renglones y n+1 columnas
-        int cost = 0;
         int m = s.Length;
         int n = t.Length;
         int[,] d = new int[m + 1, n + 1]; 
@@ -37,8 +36,8 @@ public class StringComparisonLevenshtein:IComparison<string>
         {
             for (int j = 1; j <= n; j++)
             {
-                cost = (s[i - 1] == t[j - 1]) ? 0 : 1;  
-                d[i, j] = System.Math.Min(System.Math.Min(d[i - 1, j] + 1,  //Eliminacion
+                int cost = (s[i - 1] == t[j - 1]) ? 0 : 1;  
+                d[i, j] = Math.Min(Math.Min(d[i - 1, j] + 1,  //Eliminacion
                         d[i, j - 1] + 1),                             //Insercion 
                     d[i - 1, j - 1] + cost);                     //Sustitucion
             }
