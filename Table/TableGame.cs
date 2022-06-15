@@ -29,6 +29,7 @@ public abstract class TableGame<T>
     public void PlayTable(INode<T> node, Token<T> token, T[] values)
     {
         node.ValueToken = token;
+        this.AssignFathers(node);
         this.AssignValues(node, values);
         this.Expand(node);
         this.PlayNode.Add(node);
@@ -56,10 +57,25 @@ public abstract class TableGame<T>
     /// <param name="right">Nodo para realizar la union</param>
     /// <param name="left">Nodo para realizar la union</param>
     /// <param name="ind">Arista por la que los nodos se conectan</param>
-    protected void UnionNode(INode<T> right, INode<T> left, int ind)
+    protected virtual void UnionNode(INode<T> left, INode<T> right, int ind)
     {
         right.Connections[ind] = left;
         left.Connections[ind] = right;
+    }
+
+    /// <summary>
+    /// Asignar lor padres a los nodos 
+    /// </summary>
+    /// <param name="node">Nodo para asignar los padres</param>
+    protected void AssignFathers(INode<T> node)
+    {
+        for (int i = 0; i < node.Connections.Length; i++)
+        {
+            if (node.Connections[i] != null)
+            {
+                if (this.PlayNode.Contains(node.Connections[i]!))  node.Fathers.Add(node.Connections[i]!);
+            }
+        }
     }
 
     /// <summary>Clonar la mesa</summary>

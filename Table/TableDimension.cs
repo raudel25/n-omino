@@ -7,7 +7,7 @@ public class TableDimension<T> : TableGame<T>
 
     public TableDimension(int n)
     {
-        Dimension = n;
+        this.Dimension = n;
         INode<T> node = CreateNode(n);
         FreeTable(node);
     }
@@ -15,12 +15,14 @@ public class TableDimension<T> : TableGame<T>
     protected override void Expand(INode<T> node)
     {
         for (int i = 0; i < node.Connections.Length; i++)
+        {
             if (node.Connections[i] == null)
             {
-                UnionNode(node, CreateNode(node.Connections.Length), i);
-                AssignValueConnection(node, node.Connections[i]!, i);
-                FreeTable(node.Connections[i]!);
+                this.UnionNode(node, CreateNode(node.Connections.Length), i);
+                this.AssignValueConnection(node, node.Connections[i]!, i);
+                this.FreeTable(node.Connections[i]!);
             }
+        }
     }
 
     /// <summary>Crear un nodo</summary>

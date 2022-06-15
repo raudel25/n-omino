@@ -1,3 +1,4 @@
+using InfoGame;
 using Table;
 
 namespace Rules;
@@ -7,7 +8,7 @@ public interface IValidPlay<T>
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     /// <param name="node">Nodo por el que se va a jugar</param>
     /// <param name="token">Ficha que se va a jugar</param>
-    /// <param name="table">Mesa para jugar</param>
+    /// <param name="table">Mesa de juego</param>
     /// <returns>Si el criterio es valido</returns>
     public bool ValidPlay(INode<T> node, Token<T> token, TableGame<T> table);
 
@@ -37,7 +38,7 @@ public class ValidPlayDimension<T> : IValidPlay<T>
         if (token.Values.Length != node.Connections.Length) return false;
         if (!table.FreeNode.Contains(node)) return false;
 
-        NodeDimension<T>? nodeDimension = (node as NodeDimension<T>);
+        NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
         if (nodeDimension == null) return false;
 
         int connection = nodeDimension.FirstConnection;
@@ -57,7 +58,7 @@ public class ValidPlayDimension<T> : IValidPlay<T>
         if (token.Values.Length != node.Connections.Length) return Array.Empty<T>();
         if (!table.FreeNode.Contains(node)) return Array.Empty<T>();
 
-        NodeDimension<T>? nodeDimension = (node as NodeDimension<T>);
+        NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
         if (nodeDimension == null) return Array.Empty<T>();
 
         T[] values = new T[token.Values.Length];
@@ -100,8 +101,8 @@ public class ValidPlayGeometry<T> : IValidPlay<T>
         if (token.Values.Length != node.Connections.Length) return Array.Empty<T>();
         if (!table.FreeNode.Contains(node)) return Array.Empty<T>();
 
-        TableGeometry<T>? tableGeometry = (table as TableGeometry<T>);
-        NodeGeometry<T>? nodeGeometry = (node as NodeGeometry<T>);
+        TableGeometry<T>? tableGeometry = table as TableGeometry<T>;
+        NodeGeometry<T>? nodeGeometry = node as NodeGeometry<T>;
         if (nodeGeometry == null || tableGeometry == null) return Array.Empty<T>();
 
         for (int i = 0; i < token.Values.Length; i++)
@@ -146,5 +147,67 @@ public class ComodinTokenDimension<T> : IValidPlay<T>
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table)
     {
         return this._comodinToken.Values.ToArray();
+    }
+}
+
+public class ValidPlayLongana<T> : IValidPlay<T>
+{
+    private IComparison<T> _comparison;
+
+    /// <summary>
+    /// Criterior valido para comparar
+    /// </summary>
+    private IValidPlay<T> _valid;
+
+    /// <summary>
+    /// Indice del jugador
+    /// </summary>
+    private int _player;
+
+    public ValidPlayLongana(IComparison<T> comp, IValidPlay<T> valid, int player)
+    {
+        this._comparison = comp;
+        this._valid = valid;
+        this._player = player;
+    }
+
+    public bool ValidPlay(INode<T> node, Token<T> token, TableGame<T> table)
+    {
+        TableLongana<T>? tableLongana = table as TableLongana<T>;
+        if (tableLongana == null) return false;
+
+        if (tableLongana.PlayNode.Count == 0)
+        {
+            T aux = token.Values[0];
+            for (int i = 1; i < token.Values.Length; i++)
+            {
+                if (aux!.Equals(token.Values[i])) return true;
+            }
+
+            return false;
+        }
+        else if (tableLongana.BranchNode[node] == this._player) return this._valid.ValidPlay(node, token, table);
+
+        return false;
+    }
+
+    public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table)
+    {
+        TableLongana<T>? tableLongana = table as TableLongana<T>;
+        if (tableLongana == null) return Array.Empty<T>();
+
+        if (tableLongana.PlayNode.Count == 0)
+        {
+            T[] aux = new T[node.Connections.Length];
+            for (int i = 0; i < node.Connections.Length; i++)
+            {
+                aux[i] = token.Values[0];
+            }
+
+            return aux;
+        }
+        else if (tableLongana.BranchNode[node] == this._player) return this._valid.AssignValues(node, token, table);
+
+        return Array.Empty<T>();
     }
 }

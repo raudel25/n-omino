@@ -8,6 +8,7 @@ public class NodeGeometry<T> : INode<T>
     public readonly Coordinates Location;
     public int Id { get; private set; }
     public int IdPlayer { get; set; }
+    public List<INode<T>> Fathers { get; set; }
 
     public NodeGeometry((int, int)[] connections, int id)
     {
@@ -16,6 +17,7 @@ public class NodeGeometry<T> : INode<T>
         this.Location = new Coordinates(connections);
         this.ValueToken = null!;
         this.Id = id;
+        this.Fathers = new List<INode<T>>();
     }
 
     public override bool Equals(object? obj)

@@ -11,6 +11,7 @@ public class NodeDimension<T> : INode<T>
     public bool[] ValuesAssign { get; set; }
     public int Id { get; private set; }
     public int IdPlayer { get; set; }
+    public List<INode<T>> Fathers { get; private set; }
 
     /// <summary>
     /// Primera conexion ocupada
@@ -41,5 +42,6 @@ public class NodeDimension<T> : INode<T>
         this.ValuesAssign = new bool[n];
         this.Connections = new INode<T>[n];
         this.Id = id;
+        this.Fathers = new List<INode<T>>();
     }
 }
