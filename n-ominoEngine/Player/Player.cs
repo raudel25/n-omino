@@ -4,25 +4,21 @@ using InfoGame;
 
 namespace Player;
 
-//El namespace tiene el mismo nombre que una clase abstracta
-public abstract class Player<T>
+public abstract class Player
 {
     public readonly int ID;
-    IStrategy<Token<T>>[] _plays; //estrategias de juego
-    protected IStrategy<Token<T>> _strategy;
-
-    public Player(int id, IStrategy<Token<T>> strategy)
+    IStrategy<Token>[] _plays; //estrategias de juego
+    protected IStrategy<Token> _strategy;
+    public Player(int id, IStrategy<Token> strategy)
     {
         this.ID = id;
         this._strategy = strategy;
     }
+    public abstract (Token, INode) Play(GameStatus status, InfoRules rules);
 
-    public abstract (Token<T>, INode<T>) Play(GameStatus<T> status, InfoRules<T> rules);
-
-    public Dictionary<Token<T>, List<INode<T>>> GetPossiblePlay(TableGame<T> table, IEnumerable<Token<T>> hand,
-        InfoRules<T> rules)
+    public Dictionary<Token, List<INode>> GetPossiblePlay(TableGame table, IEnumerable<Token> hand, InfoRules rules)
     {
-        Dictionary<Token<T>, List<INode<T>>> possible = new();
+        Dictionary<Token, List<INode>> possible = new();
         foreach (var token in hand)
         {
             foreach (var node in table.FreeNode)
@@ -30,7 +26,7 @@ public abstract class Player<T>
                 //Consultar con anabel           //if(!rules.ValidPlay.ValidPlay(node,token,table)) continue;
                 if (!possible.ContainsKey(token))
                 {
-                    List<INode<T>> nodes = new List<INode<T>>();
+                    List<INode> nodes = new List<INode>();
                     nodes.Add(node);
                     possible.Add(token, nodes);
                 }
@@ -41,18 +37,15 @@ public abstract class Player<T>
     }
 }
 
-public class XPlayer<T> : Player<T>
+public class XPlayer : Player
 {
-    public XPlayer(int id, IStrategy<Token<T>> strategy) : base(id, strategy)
+    public XPlayer(int id, IStrategy<Token> strategy) : base(id, strategy) { }
+    public override (Token, INode) Play(GameStatus status, InfoRules rules)
     {
-    }
-
-    public override (Token<T>, INode<T>) Play(GameStatus<T> status, InfoRules<T> rules)
-    {
-        IEnumerable<Token<T>> MyHand = status.Players[ID].Hand;
-        Dictionary<Token<T>, List<INode<T>>> Posibble = this.GetPossiblePlay(status.Table, MyHand, rules);
-        Token<T> TokenToPlay = this._strategy.Play(Posibble.Keys);
-        INode<T> node = Posibble[TokenToPlay][0];
+        IEnumerable<Token> MyHand = status.Players[ID].Hand;
+        Dictionary<Token, List<INode>> Posibble = this.GetPossiblePlay(status.Table, MyHand, rules);
+        Token TokenToPlay = this._strategy.Play(Posibble.Keys);
+        INode node = Posibble[TokenToPlay][0];
         return (TokenToPlay, node);
         // while(MyHand.Count > 0)
         // {

@@ -1,33 +1,30 @@
 ﻿using Table;
 namespace InfoGame;
-public class InfoPlayer<T>
+public class InfoPlayer
 {
-    //Cambiar a lista
-    public List<Token<T>>? Hand { get; set; }
+    public HashSet<Token>? Hand { get; set; }
     public int HandCount{get{return Hand!.Count();}}
     public int Passes {get; set;}
     public Actions Actions {get; set;}
     public double Score { get; set; }
+    public int ID {get; set;}
 
-    //Id por el camelCase
-    public int Id { get; set; }
-
-    public InfoPlayer(List<Token<T>> hand, int passes, Actions actions, double score, int id)
+    public InfoPlayer(HashSet<Token> hand, int passes, Actions actions, double score, int id)
     {
         this.Hand = hand;
         this.Passes = passes;
         this.Actions = actions;
         this.Score = score;
-        this.Id = id;
+        this.ID = id;
     }
-    public InfoPlayer<T> Clone()
+    public InfoPlayer Clone()
     {
-        return new InfoPlayer<T>(Clone(Hand!), Passes, Clone(Actions), Score, Id);
+        return new InfoPlayer(Clone(Hand!), Passes, Clone(Actions), Score, ID);
     }
 
-    private List<Token<T>> Clone(List<Token<T>> collection)
+    private HashSet<Token> Clone(HashSet<Token> collection)
     {
-        List<Token<T>> aux = new List<Token<T>>();
+        HashSet<Token> aux = new HashSet<Token>();
         foreach (var item in collection)
             aux.Add(item.Clone());
         return aux;
@@ -47,30 +44,15 @@ public class InfoPlayer<T>
 //     }
 // }
 
-public class GameStatus<T>
+public class GameStatus
 {
-    public InfoPlayer<T>[] Players;
-    public List<InfoPlayer<T>>[] Teams;
-    public TableGame<T> Table;
+    public InfoPlayer[] Players;
+    public List<InfoPlayer>[] Teams;
+    public TableGame Table;
     public int[] Turns { get; set; }
+    public List<Token>? TokensTable { get; set; }
 
-    //campos anadidos
-    //Lista de fichas fuera de la mesa
-    public List<Token<T>>? TokensTable { get; set; }
-
-    //Determinar si no se puede realizar una jugada valida por cada uno de los jugadores init false
-    public bool NoValidPlay { get; set; }
-
-    //Determinar cuando se hizo un pase inmediatamente init false
-    public bool InmediatePass { get; set; }
-
-    //Id Jugador que gano inti -1
-    public int PlayerWinner { get; set; }
-
-    //Id Equipo que gano init -1 
-    public int TeamWinner { get; set; }
-
-    public GameStatus(InfoPlayer<T>[] players, List<InfoPlayer<T>>[] teams, TableGame<T> table, int[] turns, List<Token<T>> tokens)
+    public GameStatus(InfoPlayer[] players, List<InfoPlayer>[] teams, TableGame table, int[] turns, List<Token> tokens)
     {
         this.Players = players;
         this.Teams = teams;
@@ -79,23 +61,10 @@ public class GameStatus<T>
         this.TokensTable = tokens;
     }
 
-    //Determinar el equipo al que pertenece un jugador
-    public int FindTeamPlayer(int id)
+    public GameStatus Clone()
     {
-        for (int i = 0; i < this.Teams.Length; i++)
-        {
-            for (int j = 0; j < this.Teams[i].Count; j++)
-            {
-                if (this.Teams[i][j].Id == id) return i;
-            }
-        }
-
-        return -1;
-    }
-    public GameStatus<T> Clone()
-    {
-        InfoPlayer<T>[] players = new InfoPlayer<T>[this.Players.Length];
-        List<InfoPlayer<T>>[] teams = new List<InfoPlayer<T>>[this.Teams.Length];
+        InfoPlayer[] players = new InfoPlayer[this.Players.Length];
+        List<InfoPlayer>[] teams = new List<InfoPlayer>[this.Teams.Length];
         for (int i = 0; i < this.Players.Length; i++)
         {
             players[i] = this.Players[i].Clone();
@@ -103,14 +72,14 @@ public class GameStatus<T>
 
         for (int i = 0; i < this.Teams.Length; i++)
         {
-            teams[i] = new List<InfoPlayer<T>>();
+            teams[i] = new List<InfoPlayer>();
             for (int j = 0; j < this.Teams[i].Count; j++)
             {
-                teams[i].Add(players[this.Teams[i][j].Id]);
+                teams[i].Add(players[this.Teams[i][j].ID]);
             }
         }
 
-        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable.ToList());
+        return new GameStatus(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable.ToList());
     }
 }
 
