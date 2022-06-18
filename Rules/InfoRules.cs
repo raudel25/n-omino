@@ -1,42 +1,42 @@
 namespace Rules;
 
-public class InfoRules
+public class InfoRules<T>
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
-    public IsValidRule IsValidPlay { get; private set; }
+    public IsValidRule<T> IsValidPlay { get; private set; }
 
     /// <summary>
     /// Determinar la visibilidad del juego de los jugadores
     /// </summary>
-    public VisibilityPlayerRule VisibilityPlayer { get; private set; }
+    public VisibilityPlayerRule<T> VisibilityPlayer { get; private set; }
 
     /// <summary>
     /// Determinar la forma de robar de los jugadores
     /// </summary>
-    public StealTokenRule StealTokens { get; private set; }
+    public StealTokenRule<T> StealTokens { get; private set; }
 
     /// <summary>
     /// Determinar si un jugador se puede pasar con fichas
     /// </summary>
-    public ToPassTokenRule ToPassToken { get; private set; }
+    public ToPassTokenRule<T> ToPassToken { get; private set; }
 
     /// <summary>Determinar la rotacion de los jugadores</summary>
-    public TurnPlayerRule TurnPlayer { get; private set; }
+    public TurnPlayerRule<T> TurnPlayer { get; private set; }
 
     /// <summary>Asignar un score a cada jugador</summary>
-    public AssignScorePlayerRule AsignScorePlayer { get; private set; }
+    public AssignScorePlayerRule<T> AsignScorePlayer { get; private set; }
 
     /// <summary>Determinar el ganador del juego</summary>
-    public WinnerGameRule WinnerGame { get; private set; }
+    public WinnerGameRule<T> WinnerGame { get; private set; }
 
     /// <summary>
     /// Determinar el Score de una ficha
     /// </summary>
-    public IAsignScoreToken ScoreToken { get; private set; }
+    public IAssignScoreToken<T> ScoreToken { get; private set; }
 
-    public InfoRules(IsValidRule validPlay, VisibilityPlayerRule visibility, TurnPlayerRule turn,
-        StealTokenRule steal, ToPassTokenRule toPass,
-        AssignScorePlayerRule assign, WinnerGameRule winnerGame, IAsignScoreToken scoreToken)
+    public InfoRules(IsValidRule<T> validPlay, VisibilityPlayerRule<T> visibility, TurnPlayerRule<T> turn,
+        StealTokenRule<T> steal, ToPassTokenRule<T> toPass,
+        AssignScorePlayerRule<T> assign, WinnerGameRule<T> winnerGame, IAssignScoreToken<T> scoreToken)
     {
         this.IsValidPlay = validPlay;
         this.AsignScorePlayer = assign;
@@ -50,9 +50,9 @@ public class InfoRules
 
     /// <summary>Clonar el objeto InfoRules</summary>
     /// <returns>Clon de InfoRules</returns>
-    public InfoRules Clone()
+    public InfoRules<T> Clone()
     {
-        return new InfoRules(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
+        return new InfoRules<T>(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
             this.StealTokens.Clone(), this.ToPassToken.Clone(),
             this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken);
     }

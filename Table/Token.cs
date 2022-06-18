@@ -1,29 +1,29 @@
 ﻿namespace Table;
 
-public class Token
+public class Token<T>
 {
-    public readonly int[] Values;
+    public readonly T[] Values;
 
-    public Token(int[] values)
+    public Token(T[] values)
     {
         this.Values = values;
     }
 
     /// <summary>Devuelve una copia de la ficha</summary>
     /// <returns>Nueva ficha</returns>
-    public Token Clone()
+    public Token<T> Clone()
     {
-        int[] values = new int[this.Values.Length];
+        T[] values = new T[this.Values.Length];
         Array.Copy(this.Values, values, values.Length);
-        return new Token(values);
+        return new Token<T>(values);
     }
 
     public override bool Equals(object? obj)
     {
-        Token token = (obj as Token)!;
+        Token<T> token = (obj as Token<T>)!;
         for (int i = 0; i < token.Values.Length; i++)
         {
-            if (token.Values[i] != this.Values[i]) return false;
+            if (!this.Values[i]!.Equals(token.Values[i])) return false;
         }
 
         return true;
@@ -31,6 +31,6 @@ public class Token
 
     public override int GetHashCode()
     {
-        return this.Values[0].GetHashCode();
+        return this.Values[0]!.GetHashCode();
     }
 }

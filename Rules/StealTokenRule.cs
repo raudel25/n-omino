@@ -2,7 +2,7 @@ using InfoGame;
 
 namespace Rules;
 
-public class StealTokenRule : ActionConditionRule<IStealToken>
+public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>,T>
 {
     /// <summary>
     /// Cantidad maxima de fichas a robar
@@ -10,12 +10,12 @@ public class StealTokenRule : ActionConditionRule<IStealToken>
     public int CantMax { get; private set; }
     public bool Play { get; private set; }
 
-    public StealTokenRule(IEnumerable<IStealToken> rules, IEnumerable<ICondition> condition, IStealToken rule) : base(
+    public StealTokenRule(IEnumerable<IStealToken<T>> rules, IEnumerable<ICondition<T>> condition, IStealToken<T> rule) : base(
         rules, condition, rule)
     {
     }
 
-    public override void RunRule(GameStatus game, GameStatus original, InfoRules rules, int ind)
+    public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
     {
         bool activate = false;
         bool play = false;
@@ -38,8 +38,8 @@ public class StealTokenRule : ActionConditionRule<IStealToken>
         this.Play = play;
     }
 
-    public StealTokenRule Clone()
+    public StealTokenRule<T> Clone()
     {
-        return new StealTokenRule(this.Actions, this.Condition, this.Default!);
+        return new StealTokenRule<T>(this.Actions, this.Condition, this.Default!);
     }
 }

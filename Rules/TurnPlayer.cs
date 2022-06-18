@@ -29,9 +29,7 @@ public class TurnPlayerInvert : ITurnPlayer
             j--;
             if (j < 0) j = turns.Length - 1;
             if (i == j) break;
-            int change = turns[i];
-            turns[i] = turns[j];
-            turns[j] = change;
+            (turns[i], turns[j]) = (turns[j], turns[i]);
         }
     }
 }

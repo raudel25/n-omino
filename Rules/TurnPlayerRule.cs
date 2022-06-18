@@ -2,14 +2,15 @@ using InfoGame;
 
 namespace Rules;
 
-public class TurnPlayerRule : ActionConditionRule<ITurnPlayer>
+public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>
 {
-    public TurnPlayerRule(IEnumerable<ITurnPlayer> rules, IEnumerable<ICondition> condition, ITurnPlayer rule) : base(
-        rules, condition, rule)
+    public TurnPlayerRule(IEnumerable<ITurnPlayer> rules, IEnumerable<ICondition<T>> condition, ITurnPlayer rule) :
+        base(
+            rules, condition, rule)
     {
     }
 
-    public override void RunRule(GameStatus game, GameStatus original, InfoRules rules, int ind)
+    public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
@@ -24,8 +25,8 @@ public class TurnPlayerRule : ActionConditionRule<ITurnPlayer>
         if (!activate) this.Default!.Turn(game.Turns, ind);
     }
 
-    public TurnPlayerRule Clone()
+    public TurnPlayerRule<T> Clone()
     {
-        return new TurnPlayerRule(this.Actions, this.Condition, this.Default!);
+        return new TurnPlayerRule<T>(this.Actions, this.Condition, this.Default!);
     }
 }

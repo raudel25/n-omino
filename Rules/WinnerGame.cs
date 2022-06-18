@@ -3,41 +3,41 @@ using InfoGame;
 namespace Rules;
 
 //Falta determinar cuando los puntos de dos jugadores sean iguales
-public interface IWinnerGame
+public interface IWinnerGame<T>
 {
     /// <summary>
     /// Determinar el ganador del juego
     /// </summary>
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
-    public void Winner(GameStatus game, int ind);
+    public void Winner(GameStatus<T> game, int ind);
 }
 
-public class WinnerGameMayor : IWinnerGame
+public class WinnerGameHigh<T> : IWinnerGame<T>
 {
-    public void Winner(GameStatus game, int ind)
+    public void Winner(GameStatus<T> game, int ind)
     {
-        InfoPlayer[] aux = game.Players.ToArray();
+        InfoPlayer<T>[] aux = game.Players.ToArray();
         Array.Sort(aux, (o1, o2) => (o2.Score.CompareTo(o1.Score)));
         game.PlayerWinner = aux[0].Id;
         game.TeamWinner = game.FindTeamPlayer(aux[0].Id);
     }
 }
 
-public class WinnerGameMenor : IWinnerGame
+public class WinnerGameSmall<T> : IWinnerGame<T>
 {
-    public void Winner(GameStatus game, int ind)
+    public void Winner(GameStatus<T> game, int ind)
     {
-        InfoPlayer[] aux = game.Players.ToArray();
+        InfoPlayer<T>[] aux = game.Players.ToArray();
         Array.Sort(aux, (o1, o2) => (o1.Score.CompareTo(o2.Score)));
         game.PlayerWinner = aux[0].Id;
         game.TeamWinner = game.FindTeamPlayer(aux[0].Id);
     }
 }
 
-public class WinnerGameTeamMayor : IWinnerGame
+public class WinnerGameTeamHigh<T> : IWinnerGame<T>
 {
-    public void Winner(GameStatus game, int ind)
+    public void Winner(GameStatus<T> game, int ind)
     {
         double max = double.MinValue;
         int win = 0;
@@ -60,9 +60,9 @@ public class WinnerGameTeamMayor : IWinnerGame
     }
 }
 
-public class WinnerGameTeamMenor : IWinnerGame
+public class WinnerGameTeamSmall<T> : IWinnerGame<T>
 {
-    public void Winner(GameStatus game, int ind)
+    public void Winner(GameStatus<T> game, int ind)
     {
         double min = double.MaxValue;
         int win = 0;

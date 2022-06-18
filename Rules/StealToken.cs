@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IStealToken
+public interface IStealToken<T>
 {
     /// <summary>
     /// Cantidad de fichas maximas que puede robar el jugador
@@ -18,10 +18,10 @@ public interface IStealToken
     /// <param name="rules">Reglas del juego</param>
     /// <param name="original">Estado Original del juego</param>
     /// <param name="play">Determinar si es posible jugar</param>
-    public void Steal(GameStatus game, GameStatus original, InfoRules rules, int ind, ref bool play);
+    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play);
 }
 
-public class NoStealToken : IStealToken
+public class NoStealToken<T> : IStealToken<T>
 {
     public int CantMax { get; private set; }
 
@@ -30,13 +30,13 @@ public class NoStealToken : IStealToken
         this.CantMax = 0;
     }
 
-    public void Steal(GameStatus game, GameStatus original, InfoRules rules, int ind, ref bool play)
+    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
     {
         game.TokensTable = null;
     }
 }
 
-public class ClassicStealToken : IStealToken
+public class ClassicStealToken<T> : IStealToken<T>
 {
     public int CantMax { get; private set; }
 
@@ -45,12 +45,12 @@ public class ClassicStealToken : IStealToken
         this.CantMax = 0;
     }
 
-    public void Steal(GameStatus game, GameStatus original, InfoRules rules, int ind, ref bool play)
+    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
     {
         Random rnd = new Random();
         while (true)
         {
-            Token aux = game.TokensTable![rnd.Next(game.TokensTable.Count)];
+            Token<T> aux = game.TokensTable![rnd.Next(game.TokensTable.Count)];
             //Actualizar la mano
             game.Players[original.Turns[ind]].Hand!.Add(aux);
             original.Players[original.Turns[ind]].Hand!.Add(aux);
@@ -69,7 +69,7 @@ public class ClassicStealToken : IStealToken
     }
 }
 
-public class ChooseStealToken : IStealToken
+public class ChooseStealToken<T> : IStealToken<T>
 {
     public int CantMax { get; private set; }
 
@@ -78,7 +78,7 @@ public class ChooseStealToken : IStealToken
         this.CantMax = a;
     }
 
-    public void Steal(GameStatus game, GameStatus original, InfoRules rules, int ind, ref bool play)
+    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
     {
         for (int i = 0; i < game.TokensTable!.Count; i++)
         {

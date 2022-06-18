@@ -2,14 +2,14 @@ using InfoGame;
 
 namespace Rules;
 
-public class VisibilityPlayerRule : ActionConditionRule<IVisibilityPlayer>
+public class VisibilityPlayerRule<T> : ActionConditionRule<IVisibilityPlayer<T>, T>
 {
-    public VisibilityPlayerRule(IEnumerable<IVisibilityPlayer> rules, IEnumerable<ICondition> condition,
-        IVisibilityPlayer rule) : base(rules, condition, rule)
+    public VisibilityPlayerRule(IEnumerable<IVisibilityPlayer<T>> rules, IEnumerable<ICondition<T>> condition,
+        IVisibilityPlayer<T> rule) : base(rules, condition, rule)
     {
     }
 
-    public override void RunRule(GameStatus game, GameStatus original, InfoRules rules, int ind)
+    public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
@@ -24,8 +24,8 @@ public class VisibilityPlayerRule : ActionConditionRule<IVisibilityPlayer>
         if (!activate) this.Default!.Visibility(game, ind);
     }
 
-    public VisibilityPlayerRule Clone()
+    public VisibilityPlayerRule<T> Clone()
     {
-        return new VisibilityPlayerRule(this.Actions, this.Condition, this.Default!);
+        return new VisibilityPlayerRule<T>(this.Actions, this.Condition, this.Default!);
     }
 }

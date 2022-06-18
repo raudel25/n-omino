@@ -2,14 +2,15 @@ using InfoGame;
 
 namespace Rules;
 
-public class WinnerGameRule : ActionConditionRule<IWinnerGame>
+public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T>
 {
-    public WinnerGameRule(IEnumerable<IWinnerGame> rules, IEnumerable<ICondition> condition) : base(rules, condition,
+    public WinnerGameRule(IEnumerable<IWinnerGame<T>> rules, IEnumerable<ICondition<T>> condition) : base(rules,
+        condition,
         null)
     {
     }
 
-    public override void RunRule(GameStatus game, GameStatus original, InfoRules rules, int ind)
+    public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
@@ -24,8 +25,8 @@ public class WinnerGameRule : ActionConditionRule<IWinnerGame>
         if (!activate) this.Default!.Winner(game, ind);
     }
 
-    public WinnerGameRule Clone()
+    public WinnerGameRule<T> Clone()
     {
-        return new WinnerGameRule(this.Actions, this.Condition);
+        return new WinnerGameRule<T>(this.Actions, this.Condition);
     }
 }
