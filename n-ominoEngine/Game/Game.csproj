@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Table\Table.csproj" />
+    <ProjectReference Include="..\InfoGame\InfoGame.csproj" />
+    <ProjectReference Include="..\Player\Player.csproj" />
+    <ProjectReference Include="..\Rules\Rules.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<TriangleTop Values="a"></TriangleTop>
+<Hexagon Values="a1"></Hexagon>
+
+@code
+{
+    public string[] a = new[] {"1", "2", "3"};
+    public string[] a1 = new[] {"1", "2", "3","4", "5", "6"};
+}
