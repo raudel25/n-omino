@@ -1,0 +1,62 @@
+<h3>Game</h3>
+
+<div style="display: flex; justify-content: left">
+    <div style="display: flex; justify-content: center">
+        <div style="display: grid; grid-column-gap:(@RowGap)px; grid-row-gap:(@ColumnGap)px;">
+            @for (int i=0;i<Location.Count;i++)
+            {
+                <div style="grid-row-start: @Location[i].Item1; grid-row-end: @Location[i].Item2; 
+                    grid-column-start: @Location[i].Item3; grid-column-end: @Location[i].Item4">
+                    @if (Values[i].Length == 6)
+                    {
+                        <Hexagon Values="Values[i]"></Hexagon>
+                    }
+                    @if (Values[i].Length == 3)
+                    {
+                        @if (Condition[i])
+                        {
+                            <TriangleTop Values="Values[i]"></TriangleTop>
+                        }
+                        else
+                        {
+                            <TriangleBotom Values="_values[i]"></TriangleBotom>
+                        }
+                    }
+                    @if (Values[i].Length == 4)
+                    {
+                        <Square Values="Values[i]"></Square>
+                    }
+                    @if (Values[i].Length == 2)
+                    {
+                        @if (Condition[i])
+                        {
+                            <DominoHorzontal Values="Values[i]"></DominoHorzontal>
+                        }
+                        else
+                        {
+                            <DominoVerical Values="Values[i]"></DominoVerical>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>    
+</div>
+
+@code {
+    [Parameter]
+    public int RowGap { get; set; }
+    
+    [Parameter]
+    public int ColumnGap { get; set; }
+
+    [Parameter]
+    public List<(int,int,int,int)> Location { get; set; } = new List<(int,int,int,int)>();
+
+    [Parameter]
+    public List<string[]> Values { get; set; } = new List<string[]>();
+
+    [Parameter]
+    public bool[] Condition { get; set; } = Array.Empty<bool>();
+
+}

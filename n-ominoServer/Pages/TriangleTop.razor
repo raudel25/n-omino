@@ -1,17 +1,17 @@
-<div class="triangle1" >
-    <div class="t1"></div>
-    <div class="t2"></div>
-    <div class="t3">@Values![0]</div>
-    <div class="t4"></div>
-    <div class="t5"></div>
-    <div class="t6">@Values![1]</div>
-    <div class="t7"></div>
-    <div class="t8">@Values![2]</div>
-    <div class="t9"></div>
+<div class="triangleTop" >
+    <div class="t1Top"></div>
+    <div class="t2Top"></div>
+    <div class="t3Top"><span>@Values[0]</span></div>
+    <div class="t4Top"></div>
+    <div class="t5Top"></div>
+    <div class="t6Top"><span>@Values[2]</span></div>
+    <div class="t7Top"></div>
+    <div class="t8Top"><span>@Values[1]</span></div>
+    <div class="t9Top"></div>
 </div>
 
 @code
 {
     [Parameter]
-    public string[]? Values { get; set; }
+    public string[] Values { get; set; } = new string[3];
 }

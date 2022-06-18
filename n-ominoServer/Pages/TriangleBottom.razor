@@ -1,0 +1,17 @@
+<div class="triangleBottom" >
+    <div class="t1Bottom"></div>
+    <div class="t2Bottom"></div>
+    <div class="t3Bottom"><span class="contentBottom">@Values[0]</span></div>
+    <div class="t4Bottom"></div>
+    <div class="t5Bottom"></div>
+    <div class="t6Bottom"><span>@Values[2]</span></div>
+    <div class="t7Bottom"></div>
+    <div class="t8Bottom"><span>@Values[1]</span></div>
+    <div class="t9Bottom"></div>
+</div>
+
+@code
+{
+    [Parameter]
+    public string[] Values { get; set; } = new string[3];
+}
