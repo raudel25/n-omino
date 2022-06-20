@@ -22,26 +22,43 @@ public class TableTriangular<T> : TableGeometry<T>
         (int, int) coord1 = coordinates[0];
         (int, int) coord2 = coordinates[1];
         (int, int) coord3 = coordinates[2];
-        bool nw = coord2.Item1 > coord1.Item1 && coord2.Item2 > coord1.Item2;
-        bool w = coord2.Item2 == coord1.Item2 && coord2.Item1 > coord1.Item1;
-        bool sw = coord2.Item1 > coord1.Item1 && coord2.Item2 < coord1.Item2;
-        if (nw)
+        bool ne = coord2.Item1 > coord1.Item1 && coord2.Item2 > coord1.Item2;
+        bool e = coord2.Item1 > coord1.Item1 && coord2.Item2 == coord1.Item2;
+        bool se = coord2.Item1 > coord1.Item1 && coord2.Item2 < coord1.Item2;
+        bool sw = coord2.Item1 < coord1.Item1 && coord2.Item2 < coord1.Item2;
+        bool w = coord2.Item1 < coord1.Item1 && coord2.Item2 == coord1.Item2;
+        bool nw = coord2.Item1 < coord1.Item1 && coord2.Item2 > coord1.Item2;
+
+        if (ne)
         {
             if (coord3.Item1 > coord1.Item1) return new[] {coord1, (coord2.Item1 - 2, coord2.Item2), coord2};
             return new[] {coord1, coord2, (coord1.Item1 + 2, coord1.Item2)};
         }
-        else if (w)
+        else if (e)
         {
-            if (coord3.Item2 > coord1.Item2) return new[] {coord1, coord2, (coord3.Item1, coord3.Item2 - 2)};
-            return new[] {coord1, coord2, (coord3.Item1, coord3.Item2 + 2)};
+            if (coord3.Item2 < coord1.Item2) return new[] {coord1, (coord3.Item1, coord3.Item2 + 2), coord2};
+            return new[] {coord1, coord2, (coord3.Item1, coord3.Item2 - 2)};
+        }
+        else if (se)
+        {
+            if (coord3.Item1 < coord1.Item1) return new[] {coord1, (coord1.Item1 + 2, coord1.Item2), coord2};
+            return new[] {coord1, coord2, (coord2.Item1 - 2, coord2.Item2)};
         }
         else if (sw)
         {
-            if (coord3.Item1 < coord1.Item1) return new[] {coord1, (coord1.Item1 + 2, coord1.Item1), coord2};
-            return new[] {coord1, coord2, (coord2.Item1 - 2, coord2.Item2)};
+            if (coord3.Item1 < coord1.Item1) return new[] {coord1, (coord2.Item1 + 2, coord2.Item2), coord2};
+            return new[] {coord1, coord2, (coord1.Item1 - 2, coord1.Item2)};
         }
-
-        return ExpandGeometry(new[] {coord2, coord1, coord3});
+        else if (w)
+        {
+            if (coord3.Item2 < coord1.Item2) return new[] {coord1, coord2, (coord3.Item1, coord3.Item2 + 2)};
+            return new[] {coord1, (coord3.Item1, coord3.Item2 - 2), coord2};
+        }
+        else
+        {
+            if (coord3.Item1 > coord1.Item1) return new[] {coord1, (coord1.Item1 - 2, coord1.Item2), coord2};
+            return new[] {coord1, coord2, (coord2.Item1 + 2, coord2.Item2)};
+        }
     }
 
     public override TableGame<T> Clone()

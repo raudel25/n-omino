@@ -1,62 +1,53 @@
+@using Game
+
 <h3>Game</h3>
 
-<div style="display: flex; justify-content: left">
-    <div style="display: flex; justify-content: center">
-        <div style="display: grid; grid-column-gap:(@RowGap)px; grid-row-gap:(@ColumnGap)px;">
-            @for (int i=0;i<Location.Count;i++)
+<div style="display: flex; justify-content: center">
+    <div style="overflow: auto;">
+        <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
+            @foreach (var item in Locations)
             {
-                <div style="grid-row-start: @Location[i].Item1; grid-row-end: @Location[i].Item2; 
-                    grid-column-start: @Location[i].Item3; grid-column-end: @Location[i].Item4">
-                    @if (Values[i].Length == 6)
+                <div style="grid-row-start: @item.Location.Item1; grid-row-end: @item.Location.Item2; 
+                    grid-column-start: @item.Location.Item3; grid-column-end: @item.Location.Item4">
+                    @if (item.Values.Length == 6)
                     {
-                        <Hexagon Values="Values[i]"></Hexagon>
+                        <Hexagon Values="item.Values"></Hexagon>
                     }
-                    @if (Values[i].Length == 3)
+                    @if (item.Values.Length == 3)
                     {
-                        @if (Condition[i])
+                        @if (item.Condition)
                         {
-                            <TriangleTop Values="Values[i]"></TriangleTop>
+                            <TriangleTop Values="item.Values"></TriangleTop>
                         }
                         else
                         {
-                            <TriangleBotom Values="_values[i]"></TriangleBotom>
+                            <TriangleBottom Values="item.Values"></TriangleBottom>
                         }
                     }
-                    @if (Values[i].Length == 4)
+                    @if (item.Values.Length == 4)
                     {
-                        <Square Values="Values[i]"></Square>
+                        <Square Values="item.Values"></Square>
                     }
-                    @if (Values[i].Length == 2)
+                    @if (item.Values.Length == 2)
                     {
-                        @if (Condition[i])
+                        @if (item.Condition)
                         {
-                            <DominoHorzontal Values="Values[i]"></DominoHorzontal>
+                            <DominoHorzontal Values="item.Values"></DominoHorzontal>
                         }
                         else
                         {
-                            <DominoVerical Values="Values[i]"></DominoVerical>
+                            <DominoVerical Values="item.Values"></DominoVerical>
                         }
                     }
                 </div>
             }
         </div>
-    </div>    
+    </div>
 </div>
 
 @code {
-    [Parameter]
-    public int RowGap { get; set; }
-    
-    [Parameter]
-    public int ColumnGap { get; set; }
 
     [Parameter]
-    public List<(int,int,int,int)> Location { get; set; } = new List<(int,int,int,int)>();
-
-    [Parameter]
-    public List<string[]> Values { get; set; } = new List<string[]>();
-
-    [Parameter]
-    public bool[] Condition { get; set; } = Array.Empty<bool>();
+    public LocationGui[] Locations { get; set; } = Array.Empty<LocationGui>();
 
 }
