@@ -1,0 +1,78 @@
+@using Game
+<h3>HandPlayer</h3>
+
+<div style="display: flex; justify-content: center">
+    <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
+        @foreach (var item in Locations)
+        {
+            <div style="grid-row-start: @item.Location.Item1; grid-row-end: @item.Location.Item2; 
+                    grid-column-start: @item.Location.Item3; grid-column-end: @item.Location.Item4"
+                 @ondblclick="()=>Rotate(item)">
+                @if (item.Values.Length == 6)
+                {
+                    <Hexagon Values="item.Values"></Hexagon>
+                }
+                @if (item.Values.Length == 3)
+                {
+                    @if (item.Condition)
+                    {
+                        <TriangleTop Values="item.Values"></TriangleTop>
+                    }
+                    else
+                    {
+                        <TriangleBottom Values="item.Values"></TriangleBottom>
+                    }
+                }
+                @if (item.Values.Length == 4)
+                {
+                    <Square Values="item.Values"></Square>
+                }
+                @if (item.Values.Length == 2)
+                {
+                    @if (item.Condition)
+                    {
+                        <DominoHorzontal Values="item.Values"></DominoHorzontal>
+                    }
+                    else
+                    {
+                        <DominoVerical Values="item.Values"></DominoVerical>
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public LocationGui[] Locations { get; set; } = Array.Empty<LocationGui>();
+
+    private void Rotate(LocationGui location)
+    {
+        location.Condition = !location.Condition;
+        
+        if(!location.Condition||location.Values.Length!=3) location.Values = CircularArray(location.Values, location.Values.Length-1);
+        //StateHasChanged();
+    }
+    /// <summary>
+    /// Rotar un array
+    /// </summary>
+    /// <param name="array">Array para rotar</param>
+    /// <param name="ind">Indice desde el cual queremos emepezar arotar</param>
+    /// <typeparam name="T">Tipo de las Fichas</typeparam>
+    /// <returns></returns>
+    public static T[] CircularArray<T>(T[] array, int ind)
+    {
+        T[] aux = new T[array.Length];
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (ind == array.Length) ind = 0;
+            aux[i] = array[ind];
+            ind++;
+        }
+
+        return aux;
+    }
+
+}

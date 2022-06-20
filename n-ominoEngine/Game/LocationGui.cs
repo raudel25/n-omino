@@ -7,22 +7,22 @@ public class LocationGui
     /// <summary>
     /// Filas y las columnas para ubicar cada ficha
     /// </summary>
-    public (int, int, int, int) Location { get; private set; }
+    public (int, int, int, int) Location { get; set; }
 
     /// <summary>
     /// Valores de la ficha
     /// </summary>
-    public string[] Values { get; private set; }
+    public string[] Values { get; set; }
 
     /// <summary>
     /// Condicion para el tipo de visualizacion 
     /// </summary>
-    public bool Condition { get; private set; }
+    public bool Condition { get; set; }
 
     /// <summary>
     /// Determinar si la ficha fue jugada o es un espacio libre
     /// </summary>
-    public bool Play { get; private set; }
+    public bool Play { get; set; }
 
     public LocationGui((int, int, int, int) location, string[] values, bool condition, bool play)
     {
@@ -38,7 +38,7 @@ public class LocationGui
     /// <param name="table">Mesa</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la mesa para la GUI</returns>
-    public static LocationGui[] FindLocation<T>(TableGame<T> table)
+    public static LocationGui[] FindLocationTable<T>(TableGame<T> table)
     {
         LocationGui[] locationGui = new LocationGui[table.TableNode.Count];
 
@@ -60,7 +60,7 @@ public class LocationGui
             NodeGeometry<T>? node = item as NodeGeometry<T>;
             if (node == null) return Array.Empty<LocationGui>();
 
-            locationGui[cont++] = CreateLocation(table, node, row, column, top, left, true);
+            locationGui[cont++] = CreateLocationTable(table, node, row, column, top, left, true);
         }
 
         foreach (var item in table.FreeNode)
@@ -68,7 +68,7 @@ public class LocationGui
             NodeGeometry<T>? node = item as NodeGeometry<T>;
             if (node == null) return Array.Empty<LocationGui>();
 
-            locationGui[cont++] = CreateLocation(table, node, row, column, top, left, false);
+            locationGui[cont++] = CreateLocationTable(table, node, row, column, top, left, false);
         }
 
         return locationGui;
@@ -81,8 +81,8 @@ public class LocationGui
     /// <typeparam name="T">Tipo para el juego</typeparam>
     private static (int, int) DeterminateIncrement<T>(TableGame<T> table)
     {
-        if (table is TableTriangular<T>) return (2, 3);
-        if (table is TableHexagonal<T>) return (3, 5);
+        if (table is TableTriangular<T>) return (1, 2);
+        if (table is TableHexagonal<T>) return (2, 4);
         return (0, 0);
     }
 
@@ -98,12 +98,13 @@ public class LocationGui
     /// <param name="play">Si el nodo esta ocupado</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la ficha</returns>
-    private static LocationGui CreateLocation<T>(TableGame<T> table, NodeGeometry<T> node, int row, int column, int top,
+    private static LocationGui CreateLocationTable<T>(TableGame<T> table, NodeGeometry<T> node, int row, int column,
+        int top,
         int left, bool play)
     {
         int n = node.Location.BorderLeft;
         int m = node.Location.BorderTop;
-        (int, int, int, int) aux = (top - m + 1, top - m + row, n - left + 1, n - left + column);
+        (int, int, int, int) aux = (top - m + 1, top - m + row + 1, n - left + 1, n - left + column + 1);
 
         string[] values = new string[node.Connections.Length];
 
@@ -129,7 +130,7 @@ public class LocationGui
         int minX = int.MaxValue;
         int minY = int.MaxValue;
         int ind = 0;
-        
+
         //Buscar el indice donde se encuentra la coordenada inferior izquierda
         for (int i = 0; i < coordinates.Length; i++)
         {
@@ -144,5 +145,39 @@ public class LocationGui
         }
 
         return AuxTable.CircularArray(coordinates, ind);
+    }
+
+    /// <summary>
+    /// Determinar la posicion de la mano de los jugadores
+    /// </summary>
+    /// <param name="tokens">Lista de fichas</param>
+    /// <param name="table">Mesa</param>
+    /// <typeparam name="T">Tipo de ficha para el juego</typeparam>
+    /// <returns>Ubicacion en la GUI para la mano del play</returns>
+    public static IEnumerable<LocationGui> FindLocationHand<T>(IEnumerable<Token<T>> tokens, TableGame<T> table)
+    {
+        (int row, int column) = DeterminateIncrement(table);
+        int indColumn = 0;
+        int indRow = 0;
+        foreach (var item in tokens)
+        {
+            string[] values = new string[item.Values.Length];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = item.Values[i]!.ToString()!;
+            }
+
+            yield return new LocationGui(
+                (indRow * row + 1, indRow * row + row + 1, indColumn * column + 1, indColumn * column + column + 1),
+                values,
+                true,
+                true);
+            indColumn++;
+            if (indColumn == 10)
+            {
+                indColumn = 0;
+                indRow++;
+            }
+        }
     }
 }
