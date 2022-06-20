@@ -2,32 +2,63 @@ using Table;
 
 namespace Game;
 
-public class StartGame
+public interface IDealer<T>
 {
-    public List<Token> Tokens { get; private set; }
-    public StartGame(int players, int n, int k)
+    /// <summary>Reparte una cantidad de T</summary>
+    /// <param name="items">Elementos a repartir</param>
+    /// <param name="cant">Cantidad de elementos que se quieren</param>
+    /// <returns>Una lista con lo que repartió</returns>
+    public List<T> Deal(List<T> items, int cant);
+}
+
+public class RandomDealer<T> : IDealer<Token<T>>
+{
+    public List<Token<T>> Deal(List<Token<T>> items, int cant)
     {
-        this.Tokens = CreateTokens(n, k);
+        List<Token<T>> res = new();
+        Random r = new Random();
+        int count = 0;
+        while(count++ < cant)
+            {
+                int index = r.Next(items.Count);
+                res.Add(items[index]);
+                items.RemoveAt(index);
+            }
+        return res;
     }
-    private List<Token> CreateTokens(int n, int k)
+}
+
+public interface ITokensMaker<T>
+{
+    /// <summary>Genera las fichas</summary>
+    /// <param name="values">Valores que tendrán las fichas</param>
+    /// <param name="n">Cantidad de caras que tendrá una ficha</param>
+    /// <returns>Una lista con las fichas creadas</returns>
+    public List<Token<T>> MakeTokens (T[] values, int n);
+}
+
+public class TokensMaker<T>
+{
+    public List<Token<T>> MakeTokens (T[] array, int n)
     {
-        List<Token> tokens = new List<Token>();
-        Combination(0, 0, n, k, new int[n], tokens);
-        return tokens;
+        var r = new List<Token<T>>();
+        Comb(array, 0, 0, r, new T[n]);
+        return r;
     }
-    private void Combination(int ind, int start, int n, int k, int[] aux, List<Token> tokens)
+    private void Comb (T[] array, int index, int current, List<Token<T>> tokens, T[] values)
     {
-        if (ind == n)
+        if(index == values.Length)
         {
-            int[] aux1 = new int[n];
-            Array.Copy(aux, aux1, n);
-            tokens.Add(new Token(aux1));
+            T[] val = new T[values.Length];
+            Array.Copy(values,val,values.Length);
+            Token<T> token = new(val);
+            tokens.Add(token);
             return;
         }
-        for (int i = start; i < k; i++)
+        for(int i = current; i < array.Length; i++)
         {
-            aux[ind] = i;
-            Combination(ind + 1, i, n, k, aux, tokens);
+            values[index] = array[i];
+            Comb(array, index+1, i,tokens,values);
         }
     }
 }

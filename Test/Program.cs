@@ -1,40 +1,82 @@
-﻿using Table;
-using Rules;
+﻿using Game;
+using InfoGame;
+using Table;
 using Player;
-using Game;
+using Rules;
 
-/*Token<int> t = new Token<int>(new[] {1, 2, 3});
-
-//TableDimension<int> table = new TableDimension<int>(3);
-TableTriangular<int> table = new TableTriangular<int>(new[] {(0, 0), (1, 1), (2, 0)});
-
-IValidPlay<int> v = new ValidPlayGeometry<int>(new ClassicComparison<int>());
-int[] we = v.AssignValues(table.TableNode[0], t,table);
-table.PlayTable(table.TableNode[0], t,we );
-Console.WriteLine(we[0]);
-TableGame<int> a = table.Clone();
-//table.PlayTable(table.TableNode[1],new Token<int>(new []{4,5,1}),v.AssignValues(table.TableNode[1],new Token<int>(new []{4,5,1}),table));
-for (int i = 0; i < 3; i++)
+TableGeometry<int> table=new TableTriangular<int>(new []{(0,0),(1,1),(2,0)});
+int[] array = new int[10];
+for (int i = 0; i < 10; i++)
 {
-   Console.WriteLine(((TableGeometry<int>) a).CoordValor[((NodeGeometry<int>)a.TableNode[1]).Location.Coord[i]].Item1);
-   // Console.WriteLine(((NodeDimension<int>)a.TableNode[1]).ValuesConnections[i]);
+    array[i] = i;
 }
-we = v.AssignValues(table.TableNode[1], new Token<int>(new[] {1, 2, 1}),table);
-table.PlayTable(table.TableNode[1], new Token<int>(new[] {1, 2, 1}), we);
-Console.WriteLine(v.ValidPlay(a.TableNode[1],new Token<int>(new []{1,2,1}),a));
-Console.WriteLine(a.PlayNode.Count);*/
 
-IValidPlay<int> v2 = new ValidPlayDimension<int>(new ClassicComparison<int>());
-IValidPlay<int> v = new ValidPlayLongana<int>(new ClassicComparison<int>(),v2,0);
-TableLongana<int> table = new TableLongana<int>(3, 4);
-Token<int> t = new Token<int>(new[] {1, 1, 1});
-var t1 = new Token<int>(new[] {2, 2, 3});
+//Jugadores
+TokensMaker<int> maker=new TokensMaker<int>();
 
-table.PlayTable(table.TableNode[0],t,v.AssignValues(table.TableNode[0],t,table));
-table.PlayTable(table.TableNode[1],t1,v.AssignValues(table.TableNode[1],t1,table));
-Console.WriteLine(v.ValidPlay(table.TableNode[1], t1, table));
-for (int i = 0; i < table.TableNode[1].Connections.Length; i++)
+List<Token<int>> tokens = maker.MakeTokens(array,3);
+
+IDealer<Token<int>> dealer=new RandomDealer<int>();
+
+InfoPlayer<int>[] playersInfo = new InfoPlayer<int>[4];
+
+for (int i = 0; i < 4; i++)
 {
-   Console.WriteLine(table.TableNode[1].ValuesConnections[i]);
+    var anabel=dealer.Deal(tokens,10);
+
+    playersInfo[i] =new InfoPlayer<int>(anabel,0,new Actions<int>(),0,i);
 }
-Console.WriteLine(table.BranchNode[table.TableNode[4]]);
+
+Player.Player<int>[] players=new Player<int>[4];
+
+IStrategy<int> strategy=new RandomPlayer<int>();
+
+for (int i = 0; i < 4; i++)
+{
+    players[i] = new PurePlayer<int>(i,strategy);
+}
+
+List<InfoPlayer<int>>[] team = new List<InfoPlayer<int>>[4];
+
+for (int i = 0; i < 4; i++)
+{
+    team[i] = new List<InfoPlayer<int>>();
+    team[i].Add(playersInfo[i]);
+}
+
+GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] {0, 1, 2, 3}, tokens);
+
+//IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
+IValidPlay<int> valid = new ValidPlayGeometry<int>(new ClassicComparison<int>());
+ITurnPlayer turn = new TurnPlayerClassic();
+IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
+IAssignScorePlayer<int> scorePlayerNo = new AssignScoreHands<int>();
+IWinnerGame<int> winnerGame = new WinnerGameHigh<int>();
+IWinnerGame<int> winnerGameTranque = new WinnerGameSmall<int>();
+IVisibilityPlayer<int> visibilityPlayer = new ClassicVisibilityPlayer<int>();
+IStealToken<int> steal = new NoStealToken<int>();
+IAssignScoreToken<int> scoreToken = new AssignScoreTokenClassic();
+
+ICondition<int> conditionWin = new ClassicWin<int>();
+ICondition<int> condition = new ConditionDefault<int>();
+ICondition<int> conditionTranque = new NoValidPLay<int>();
+
+IsValidRule<int> isValidRule = new IsValidRule<int>(new[] {valid}, new[] {condition}, valid);
+
+TurnPlayerRule<int> turnPlayerRule = new TurnPlayerRule<int>(new[] {turn}, new[] {condition}, turn);
+
+VisibilityPlayerRule<int> visibilityPlayerRule = new VisibilityPlayerRule<int>(new[] {visibilityPlayer}, new[] {condition}, visibilityPlayer);
+
+StealTokenRule<int> stealTokenRule = new StealTokenRule<int>(new[] {steal}, new[] {condition},steal);
+
+AssignScorePlayerRule<int> assignScorePlayerRule =
+    new AssignScorePlayerRule<int>(new[] {scorePlayer,scorePlayerNo}, new[] {conditionWin,conditionTranque});
+
+WinnerGameRule<int> winnerGameRule = new WinnerGameRule<int>(new[] {winnerGame,winnerGameTranque}, new[] {conditionWin,conditionTranque});
+
+InfoRules<int> rules = new InfoRules<int>(isValidRule, visibilityPlayerRule, turnPlayerRule, stealTokenRule, null,
+    assignScorePlayerRule, winnerGameRule, scoreToken);
+
+Judge<int> judge = new Judge<int>(rules, game, players);
+
+

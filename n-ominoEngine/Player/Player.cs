@@ -4,87 +4,47 @@ using InfoGame;
 
 namespace Player;
 
-public abstract class Player
+public abstract class Player<T>
 {
-    public readonly int ID;
-    IStrategy<Token>[] _plays; //estrategias de juego
-    protected IStrategy<Token> _strategy;
-    public Player(int id, IStrategy<Token> strategy)
+    public readonly int Id;
+    public Player(int id)
     {
-        this.ID = id;
-        this._strategy = strategy;
+        this.Id = id;
     }
-    public abstract (Token, INode) Play(GameStatus status, InfoRules rules);
-
-    public Dictionary<Token, List<INode>> GetPossiblePlay(TableGame table, IEnumerable<Token> hand, InfoRules rules)
+    public abstract Jugada<T> Play(GameStatus<T> status, InfoRules<T> rules);
+    protected List<Jugada<T>> GetValidJugadas(IList<Token<T>> items, GameStatus<T> status, InfoRules<T> rules)
     {
-        Dictionary<Token, List<INode>> possible = new();
-        foreach (var token in hand)
+        var res = new List<Jugada<T>>();
+        foreach (var item in status.Table.FreeNode)
         {
-            foreach (var node in table.FreeNode)
+            foreach (var x in items)
             {
-                //Consultar con anabel           //if(!rules.ValidPlay.ValidPlay(node,token,table)) continue;
-                if (!possible.ContainsKey(token))
+                var validMoves = rules.IsValidPlay.ValidPlays(item, x, status.Table);
+                for (int i = 0; i < validMoves.Count; i++)
                 {
-                    List<INode> nodes = new List<INode>();
-                    nodes.Add(node);
-                    possible.Add(token, nodes);
+                    res.Add(new Jugada<T>(x,item,i));
                 }
-                else possible[token].Add(node);
             }
         }
-        return possible;
+        return res;
     }
 }
 
-public class XPlayer : Player
+public class PurePlayer<T> : Player<T>
 {
-    public XPlayer(int id, IStrategy<Token> strategy) : base(id, strategy) { }
-    public override (Token, INode) Play(GameStatus status, InfoRules rules)
+    IStrategy<T> _strategy { get; set; }
+    public PurePlayer(int id, IStrategy<T> strategy) : base(id)
     {
-        IEnumerable<Token> MyHand = status.Players[ID].Hand;
-        Dictionary<Token, List<INode>> Posibble = this.GetPossiblePlay(status.Table, MyHand, rules);
-        Token TokenToPlay = this._strategy.Play(Posibble.Keys);
-        INode node = Posibble[TokenToPlay][0];
-        return (TokenToPlay, node);
-        // while(MyHand.Count > 0)
-        // {
-        //     Token token = play.Play();
-        //     foreach (var node in status.Table.FreeNode)
-        //         if(rules.ValidPlay.ValidPlay(node, token, status.Table)) return(token, node);
-        //     MyHand.Remove(token);
-        // }
-        // return(null!,null!);
+        this._strategy = strategy;
+    }
+    public override Jugada<T> Play(GameStatus<T> status, InfoRules<T> rules)
+    {
+        var possibleJugadas = this.GetValidJugadas(status.Players[Id].Hand!, status, rules);
+        return _strategy.Play(possibleJugadas, status, rules);
     }
 }
 
-public class RandomPlayer<T> : IStrategy<T>
+public interface ICloneable<T> : ICloneable
 {
-    public RandomPlayer() { }
-    public T Play(IEnumerable<T> tokens)
-    {
-        Random r = new Random();
-        int index = r.Next(0, tokens.Count());
-        return tokens.ElementAt(index);
-    }
-}
-
-
-public class BotaGordaPlayer<T> : IStrategy<T>
-{
-    IComparer<T> _comparer;
-    public BotaGordaPlayer(IComparer<T> comparer)
-    {
-        this._comparer = comparer;
-    }
-    public T Play(IEnumerable<T> tokens)
-    {
-        tokens = tokens.OrderByDescending(x => x, _comparer);
-        return tokens.ElementAt(0);
-    }
-}
-
-public interface IStrategy<T>
-{
-    public T Play(IEnumerable<T> tokens);
+    public T Clone();
 }

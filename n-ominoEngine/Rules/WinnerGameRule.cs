@@ -12,17 +12,13 @@ public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T>
 
     public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
     {
-        bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(original, ind))
             {
-                this.Actions[i].Winner(game, ind);
-                activate = true;
+                this.Actions[i].Winner(original, ind);
             }
         }
-
-        if (!activate) this.Default!.Winner(game, ind);
     }
 
     public WinnerGameRule<T> Clone()

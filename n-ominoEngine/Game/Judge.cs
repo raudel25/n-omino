@@ -7,13 +7,15 @@ namespace Game;
 
 public class Judge<T>
 {
+    private Player<T>[] _players;
     private InfoRules<T> _judgeRules;
     private GameStatus<T> _infoGame;
 
-    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame)
+    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame,Player<T>[] players)
     {
         this._judgeRules = infoRules;
         this._infoGame = infoGame;
+        this._players=players;
         this.Game();
     }
 
@@ -29,7 +31,7 @@ public class Judge<T>
 
             //Clonar el estado del juego
             GameStatus<T> copy = this._infoGame.Clone();
-            
+
             //Determinar si es posible jugar
             this._judgeRules.IsValidPlay.RunRule(copy, this._infoGame, this._judgeRules, i);
             bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
@@ -55,11 +57,31 @@ public class Judge<T>
 
                 noValid = true;
             }
+            Console.WriteLine(play);
+
+            if (play)
+            {
+                this._infoGame.InmediatePass = false;
+                Jugada<T> jugada = _players[ind].Play(_infoGame, _judgeRules);
+                if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
+                    _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
+                        .ValidPlay(jugada.Node, jugada.Token, _infoGame.Table))
+                {
+                    T[] aux = _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
+                        .AssignValues(jugada.Node, jugada.Token, _infoGame.Table);
+                    _infoGame.Table.PlayTable(jugada.Node, jugada.Token, aux);
+                    _infoGame.Players[ind].Hand.Remove(jugada.Token);
+                    Console.WriteLine("Jugador " + i + " jugo");
+                    Console.WriteLine((jugada.Token.Values[0], jugada.Token.Values[1],jugada.Token.Values[2]));
+                }
+
+            }
+            else this._infoGame.InmediatePass = true; 
 
             //Determinar si es posible pasarse con fichas
-            this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
-            bool toPass = !play || this._judgeRules.ToPassToken.PossibleToPass;
-            //this._infoGame.ImmediatePass = toPass;
+            //this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
+            //bool toPass = !play || this._judgeRules.ToPassToken.PossibleToPass;
+            //this._infoGame.InmediatePass = toPass;
 
             //Determinar la distribucion de los turnos
             this._judgeRules.TurnPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -71,10 +93,12 @@ public class Judge<T>
             this._judgeRules.WinnerGame.RunRule(copy, this._infoGame, this._judgeRules, i);
 
             if (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1) break;
-
+            //Console.WriteLine(this._infoGame.Players[ind].Score);
+            
             i++;
             if (i == this._infoGame.Turns.Length) i = 0;
         }
+        Console.WriteLine("Termino");
     }
 
     /// <summary>Determina si el jugador tiene opciones para jugar</summary>

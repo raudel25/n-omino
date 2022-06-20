@@ -15,14 +15,14 @@ public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(original, ind))
             {
-                this.Actions[i].Turn(game.Turns, ind);
+                this.Actions[i].Turn(original.Turns, ind);
                 activate = true;
             }
         }
 
-        if (!activate) this.Default!.Turn(game.Turns, ind);
+        if (!activate) this.Default!.Turn(original.Turns, ind);
     }
 
     public TurnPlayerRule<T> Clone()
