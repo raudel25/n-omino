@@ -14,9 +14,9 @@ public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T
     {
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(original, ind))
             {
-                this.Actions[i].AssignScore(game, rules, ind);
+                this.Actions[i].AssignScore(original, rules, ind);
             }
         }
     }

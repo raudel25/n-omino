@@ -12,16 +12,17 @@ public abstract class Player<T>
         this.Id = id;
     }
     public abstract Jugada<T> Play(GameStatus<T> status, InfoRules<T> rules);
-    protected List<Jugada<T>> GetValidJugadas (IList<Token<T>> items, GameStatus<T> status, InfoRules<T> rules)
+    protected List<Jugada<T>> GetValidJugadas(IList<Token<T>> items, GameStatus<T> status, InfoRules<T> rules)
     {
         var res = new List<Jugada<T>>();
         foreach (var item in status.Table.FreeNode)
         {
             foreach (var x in items)
             {
-                foreach (var y in rules.IsValidPlay.ValidPlays(item,x,status.Table))
+                var validMoves = rules.IsValidPlay.ValidPlays(item, x, status.Table);
+                for (int i = 0; i < validMoves.Count; i++)
                 {
-                    res.Add(new Jugada<T>(x,item,rules.IsValidPlay.Actions[y]));
+                    res.Add(new Jugada<T>(x,item,i));
                 }
             }
         }
@@ -32,7 +33,7 @@ public abstract class Player<T>
 public class PurePlayer<T> : Player<T>
 {
     IStrategy<T> _strategy { get; set; }
-    public PurePlayer (int id, IStrategy<T> strategy) : base(id)
+    public PurePlayer(int id, IStrategy<T> strategy) : base(id)
     {
         this._strategy = strategy;
     }

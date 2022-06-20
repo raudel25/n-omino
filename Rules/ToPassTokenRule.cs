@@ -16,7 +16,7 @@ public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T>
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(original, ind))
             {
                 this.PossibleToPass = this.PossibleToPass || this.Actions[i].ToPass();
                 activate = true;

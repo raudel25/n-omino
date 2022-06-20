@@ -29,7 +29,7 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>
         for (int i = 0; i < this.Condition.Length; i++)
         {
             this._checkValid[i] = false;
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(original, ind))
             {
                 this._checkValid[i] = true;
                 activate = true;

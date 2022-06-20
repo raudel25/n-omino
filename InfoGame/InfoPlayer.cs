@@ -20,7 +20,7 @@ public class InfoPlayer<T>
     }
     public InfoPlayer<T> Clone()
     {
-        return new InfoPlayer<T>(Clone(Hand!), Passes, Clone(Actions), Score, Id);
+        return new InfoPlayer<T>(Clone(Hand!), Passes, this.Actions, Score, Id);
     }
 
     private List<Token<T>> Clone(List<Token<T>> collection)
@@ -44,7 +44,7 @@ public class InfoPlayer<T>
         
     }
 
-    public object Clone()
+    public Object Clone()
     {
         throw new NotImplementedException();
     }

@@ -8,8 +8,8 @@ public class Jugada<T> : ICloneable<Jugada<T>>
 {
     public Token<T> Token;
     public INode<T> Node;
-    public IValidPlay<T> ValidPlay;
-    public Jugada(Token<T> token, INode<T> node, IValidPlay<T> validPlay)
+    public int ValidPlay;
+    public Jugada(Token<T> token, INode<T> node, int validPlay)
     {
         this.Token = token;
         this.Node = node;

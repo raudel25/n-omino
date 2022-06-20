@@ -31,6 +31,8 @@ public class GameStatus<T>
         this.Table = table;
         this.Turns = turns;
         this.TokensTable = tokens;
+        this.PlayerWinner = -1;
+        this.TeamWinner = -1;
     }
 
     //Determinar el equipo al que pertenece un jugador
