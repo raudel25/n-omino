@@ -16,10 +16,10 @@ public class Judge<T>
         this._judgeRules = infoRules;
         this._infoGame = infoGame;
         this._players=players;
-        this.Game();
+        //this.Game();
     }
 
-    private void Game()
+    public void Game()
     {
         int i = 0;
         bool noValid = false;
@@ -59,6 +59,8 @@ public class Judge<T>
             }
             Console.WriteLine(play);
 
+            LocationGui.FindLocationHand(_infoGame.Players[ind].Hand,_infoGame.Table,_infoGame.Players[ind].Id+"");
+            
             if (play)
             {
                 this._infoGame.InmediatePass = false;
@@ -74,7 +76,11 @@ public class Judge<T>
                     Console.WriteLine("Jugador " + i + " jugo");
                     Console.WriteLine((jugada.Token.Values[0], jugada.Token.Values[1],jugada.Token.Values[2]));
                 }
-
+                
+                Thread.Sleep(1000);
+                LocationGui.FindLocationTable(_infoGame.Table);
+                LocationGui.FindLocationHand(_infoGame.Players[ind].Hand,_infoGame.Table,_infoGame.Players[ind].Id+"");
+                Thread.Sleep(1000);
             }
             else this._infoGame.InmediatePass = true; 
 

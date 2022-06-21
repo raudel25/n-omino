@@ -1,5 +1,6 @@
 @using Game
-<h3>HandPlayer</h3>
+@using Table
+<h3>@Player</h3>
 
 <div style="display: flex; justify-content: center">
     <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
@@ -7,7 +8,7 @@
         {
             <div style="grid-row-start: @item.Location.Item1; grid-row-end: @item.Location.Item2; 
                     grid-column-start: @item.Location.Item3; grid-column-end: @item.Location.Item4"
-                 @ondblclick="()=>Rotate(item)">
+                 @ondblclick="() => Rotate(item)">
                 @if (item.Values.Length == 6)
                 {
                     <Hexagon Values="item.Values"></Hexagon>
@@ -48,31 +49,29 @@
     [Parameter]
     public LocationGui[] Locations { get; set; } = Array.Empty<LocationGui>();
 
+    [Parameter]
+    public string? Player { get; set; } = "";
+
     private void Rotate(LocationGui location)
     {
         location.Condition = !location.Condition;
-        
-        if(!location.Condition||location.Values.Length!=3) location.Values = CircularArray(location.Values, location.Values.Length-1);
-        //StateHasChanged();
-    }
-    /// <summary>
-    /// Rotar un array
-    /// </summary>
-    /// <param name="array">Array para rotar</param>
-    /// <param name="ind">Indice desde el cual queremos emepezar arotar</param>
-    /// <typeparam name="T">Tipo de las Fichas</typeparam>
-    /// <returns></returns>
-    public static T[] CircularArray<T>(T[] array, int ind)
-    {
-        T[] aux = new T[array.Length];
-        for (int i = 0; i < array.Length; i++)
-        {
-            if (ind == array.Length) ind = 0;
-            aux[i] = array[ind];
-            ind++;
-        }
 
-        return aux;
+        if (!location.Condition || location.Values.Length != 3) location.Values = AuxTable.CircularArray(location.Values, location.Values.Length - 1);
+    }
+
+    protected override void OnInitialized()
+    {
+        LocationGui.BindHandEvent += BindLocationGui;
+    }
+
+    private void BindLocationGui(LocationGui[] location,string player)
+    {
+        _ = InvokeAsync(() =>
+        {
+            Locations = location;
+            Player = player;
+            StateHasChanged();
+        });
     }
 
 }

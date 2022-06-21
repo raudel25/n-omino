@@ -4,6 +4,15 @@ namespace Game;
 
 public class LocationGui
 {
+    public delegate void BindLocationTable(LocationGui[] location);
+    public delegate void BindLocationHand(LocationGui[] location,string player);
+    /// <summary>
+    /// Bindiar el tablero logico con el front-end
+    /// </summary>
+    public static event BindLocationTable? BindTableEvent;
+    
+    public static event BindLocationHand? BindHandEvent;
+
     /// <summary>
     /// Filas y las columnas para ubicar cada ficha
     /// </summary>
@@ -38,7 +47,7 @@ public class LocationGui
     /// <param name="table">Mesa</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la mesa para la GUI</returns>
-    public static LocationGui[] FindLocationTable<T>(TableGame<T> table)
+    public static void FindLocationTable<T>(TableGame<T> table)
     {
         LocationGui[] locationGui = new LocationGui[table.TableNode.Count];
 
@@ -58,7 +67,7 @@ public class LocationGui
         foreach (var item in table.PlayNode)
         {
             NodeGeometry<T>? node = item as NodeGeometry<T>;
-            if (node == null) return Array.Empty<LocationGui>();
+            if (node == null) return;
 
             locationGui[cont++] = CreateLocationTable(table, node, row, column, top, left, true);
         }
@@ -66,12 +75,12 @@ public class LocationGui
         foreach (var item in table.FreeNode)
         {
             NodeGeometry<T>? node = item as NodeGeometry<T>;
-            if (node == null) return Array.Empty<LocationGui>();
+            if (node == null) return;
 
             locationGui[cont++] = CreateLocationTable(table, node, row, column, top, left, false);
         }
 
-        return locationGui;
+        BindTableEvent!(locationGui);
     }
 
     /// <summary>
@@ -154,20 +163,22 @@ public class LocationGui
     /// <param name="table">Mesa</param>
     /// <typeparam name="T">Tipo de ficha para el juego</typeparam>
     /// <returns>Ubicacion en la GUI para la mano del play</returns>
-    public static IEnumerable<LocationGui> FindLocationHand<T>(IEnumerable<Token<T>> tokens, TableGame<T> table)
+    public static void FindLocationHand<T>(List<Token<T>> tokens, TableGame<T> table,string player)
     {
         (int row, int column) = DeterminateIncrement(table);
         int indColumn = 0;
         int indRow = 0;
-        foreach (var item in tokens)
+
+        LocationGui[] location = new LocationGui[tokens.Count];
+        for(int j=0;j<tokens.Count;j++)
         {
-            string[] values = new string[item.Values.Length];
+            string[] values = new string[tokens[j].Values.Length];
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = item.Values[i]!.ToString()!;
+                values[i] = tokens[j].Values[i]!.ToString()!;
             }
 
-            yield return new LocationGui(
+            location[j]= new LocationGui(
                 (indRow * row + 1, indRow * row + row + 1, indColumn * column + 1, indColumn * column + column + 1),
                 values,
                 true,
@@ -179,5 +190,7 @@ public class LocationGui
                 indRow++;
             }
         }
+
+        BindHandEvent!(location,"Jugador "+player);
     }
 }
