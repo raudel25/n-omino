@@ -10,6 +10,7 @@ public class Judge<T>
     private Player<T>[] _players;
     private InfoRules<T> _judgeRules;
     private GameStatus<T> _infoGame;
+    public Token<T> t;
 
     public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame,Player<T>[] players)
     {
@@ -21,7 +22,10 @@ public class Judge<T>
 
     public void Game()
     {
-        int i = 0;
+        IBeginGame<T> a = new BeginGameToken<T>(t);
+        a.Start(new TournamentStatus(), _infoGame, _judgeRules);
+
+        int i = _infoGame.PlayerStart;
         bool noValid = false;
         int lastPlayerPass = -1;
         while (true)

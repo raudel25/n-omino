@@ -18,7 +18,7 @@ public static class Test
         }
 
         //Jugadores
-        TokensMaker<int> maker = new TokensMaker<int>();
+        ITokensMaker<int> maker = new TokensMakerCircular<int>();
 
         List<Token<int>> tokens = maker.MakeTokens(array, 3);
 
@@ -28,7 +28,7 @@ public static class Test
 
         for (int i = 0; i < 4; i++)
         {
-            var anabel = dealer.Deal(tokens, 10);
+            var anabel = dealer.Deal(tokens, 100);
 
             playersInfo[i] = new InfoPlayer<int>(anabel, 0, new Actions<int>(), 0, i);
         }
@@ -51,7 +51,8 @@ public static class Test
         }
 
         GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] {0, 1, 2, 3}, tokens);
-
+        
+        
 //IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
         IValidPlay<int> valid = new ValidPlayGeometry<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();
@@ -87,6 +88,8 @@ public static class Test
             assignScorePlayerRule, winnerGameRule, scoreToken);
 
         Judge<int> judge = new Judge<int>(rules, game, players);
+        judge.t = new Token<int>(new[] {3, 3, 3});
+        
         return judge;
     }
 }

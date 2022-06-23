@@ -37,7 +37,7 @@ public interface ITokensMaker<T>
     public List<Token<T>> MakeTokens (T[] values, int n);
 }
 
-public class TokensMaker<T>
+public class TokensMakerClassic<T>
 {
     public List<Token<T>> MakeTokens (T[] array, int n)
     {
@@ -59,6 +59,47 @@ public class TokensMaker<T>
         {
             values[index] = array[i];
             Comb(array, index+1, i,tokens,values);
+        }
+    }
+}
+
+public class TokensMakerCircular<T>:ITokensMaker<T>
+{
+    public List<Token<T>> MakeTokens(T[] array, int n)
+    {
+        var r = new TokensMakerClassic<T>();
+        var tokens = r.MakeTokens(array,n);
+        var permutation = new List<Token<T>>();
+
+        foreach (var item in tokens)
+        {
+            var values = new T[item.Values.Length];
+            values[0] = item.Values[0];
+            CircularComb(values,item,new bool[item.Values.Length],permutation,1);
+        }
+
+        return permutation;
+    }
+
+    public void CircularComb(T[] values,Token<T> token,bool[] visited,List<Token<T>> permutation,int index)
+    {
+        if (index == values.Length)
+        {
+            T[] val = new T[values.Length];
+            Array.Copy(values,val,values.Length);
+            Token<T> tokenPer = new(val);
+            permutation.Add(tokenPer);
+            return;
+        }
+        for (int i = 1; i < values.Length; i++)
+        {
+            if (!visited[i])
+            {
+                values[index] = token.Values[i];
+                visited[i] = true;
+                CircularComb(values,token,visited,permutation,index+1);
+                visited[i] = false;
+            }
         }
     }
 }

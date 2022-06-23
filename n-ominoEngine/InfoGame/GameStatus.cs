@@ -23,6 +23,11 @@ public class GameStatus<T>
 
     //Id Equipo que gano init -1 
     public int TeamWinner { get; set; }
+    
+    /// <summary>
+    /// Indice del jugador que comienza el juego
+    /// </summary>
+    public int PlayerStart { get; set; }
 
     public GameStatus(InfoPlayer<T>[] players, List<InfoPlayer<T>>[] teams, TableGame<T> table, int[] turns, List<Token<T>> tokens)
     {
@@ -33,6 +38,7 @@ public class GameStatus<T>
         this.TokensTable = tokens;
         this.PlayerWinner = -1;
         this.TeamWinner = -1;
+        this.PlayerStart = -1;
     }
 
     //Determinar el equipo al que pertenece un jugador
