@@ -1,10 +1,10 @@
 @using Game
 @using Table
 <div style="display: flex; justify-content: center;">
-    <h3>@Player</h3>
+    <h5>@Player</h5>
 </div>
 
-<div style="display: grid; height: 200px; width: 100%; 
+<div style="display: grid; height: 160px; width: 100%; 
             border: solid #1c1f23 2px; ">
 
     @* <div style="height: 10px; grid-row: 1; grid-column-start: 1; grid-column-end: 4;"></div> *@
@@ -31,7 +31,7 @@
     </div>
 
     <div style="display: flex; justify-content: center; grid-column: 2; grid-row: 2;">
-        <div style="overflow: auto; height: 180px; width: 1000px;">
+        <div style="overflow: auto; height: 150px; width: 1000px;">
         
             <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
         
@@ -80,7 +80,7 @@
                LocationGui.BindHandEvent += BindLocationGui;
            }
 
-           private void BindLocationGui(LocationGui[] location, LocationGui? play, string action, string player)
+           private void BindLocationGui(IEnumerable<LocationGui> location, LocationGui? play, string action, string player)
            {
                _ = InvokeAsync(() =>
                {

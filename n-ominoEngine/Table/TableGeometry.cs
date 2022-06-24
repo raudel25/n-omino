@@ -75,7 +75,10 @@ public abstract class TableGeometry<T> : TableGame<T>
         //Asignamos los valores
         for (int j = 0; j < values.Length; j++)
         {
-            this.CoordValor[nodeGeometry.Location.Coord[j]] = (values[j], true);
+            if (!this.CoordValor[nodeGeometry.Location.Coord[j]].Item2)
+            {
+                this.CoordValor[nodeGeometry.Location.Coord[j]] = (values[j], true);
+            }
         }
     }
 }

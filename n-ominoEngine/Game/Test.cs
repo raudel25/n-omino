@@ -10,7 +10,7 @@ public static class Test
 {
     public static Judge<int> Game()
     {
-        TableGeometry<int> table = new TableHexagonal<int>(new [] {(0, 0), (-1, 1), (0, 2),(2,2),(3,1),(2,0)});
+        TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
         int[] array = new int[10];
         for (int i = 0; i < 10; i++)
         {
@@ -20,7 +20,7 @@ public static class Test
         //Jugadores
         ITokensMaker<int> maker = new TokensMakerCircular<int>();
 
-        List<Token<int>> tokens = maker.MakeTokens(array, 6);
+        List<Token<int>> tokens = maker.MakeTokens(array, 4);
 
         IDealer<Token<int>> dealer = new RandomDealer<int>();
 
@@ -50,10 +50,10 @@ public static class Test
             team[i].Add(playersInfo[i]);
         }
 
-        GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] {0, 1, 2, 3}, tokens);
-        
-        
-//IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
+        GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
+
+
+        //IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
         IValidPlay<int> valid = new ValidPlayGeometry<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();
         IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
@@ -68,28 +68,28 @@ public static class Test
         ICondition<int> condition = new ConditionDefault<int>();
         ICondition<int> conditionTranque = new NoValidPLay<int>();
 
-        IsValidRule<int> isValidRule = new IsValidRule<int>(new[] {valid}, new[] {condition}, valid);
+        IsValidRule<int> isValidRule = new IsValidRule<int>(new[] { valid }, new[] { condition }, valid);
 
-        TurnPlayerRule<int> turnPlayerRule = new TurnPlayerRule<int>(new[] {turn}, new[] {condition}, turn);
+        TurnPlayerRule<int> turnPlayerRule = new TurnPlayerRule<int>(new[] { turn }, new[] { condition }, turn);
 
         VisibilityPlayerRule<int> visibilityPlayerRule =
-            new VisibilityPlayerRule<int>(new[] {visibilityPlayer}, new[] {condition}, visibilityPlayer);
+            new VisibilityPlayerRule<int>(new[] { visibilityPlayer }, new[] { condition }, visibilityPlayer);
 
-        StealTokenRule<int> stealTokenRule = new StealTokenRule<int>(new[] {steal}, new[] {condition}, steal);
+        StealTokenRule<int> stealTokenRule = new StealTokenRule<int>(new[] { steal }, new[] { condition }, steal);
 
         AssignScorePlayerRule<int> assignScorePlayerRule =
-            new AssignScorePlayerRule<int>(new[] {scorePlayer, scorePlayerNo}, new[] {conditionWin, conditionTranque});
+            new AssignScorePlayerRule<int>(new[] { scorePlayer, scorePlayerNo }, new[] { conditionWin, conditionTranque });
 
-        WinnerGameRule<int> winnerGameRule = new WinnerGameRule<int>(new[] {winnerGame, winnerGameTranque},
-            new[] {conditionWin, conditionTranque});
+        WinnerGameRule<int> winnerGameRule = new WinnerGameRule<int>(new[] { winnerGame, winnerGameTranque },
+            new[] { conditionWin, conditionTranque });
 
         InfoRules<int> rules = new InfoRules<int>(isValidRule, visibilityPlayerRule, turnPlayerRule, stealTokenRule,
             null,
             assignScorePlayerRule, winnerGameRule, scoreToken);
 
         Judge<int> judge = new Judge<int>(rules, game, players);
-        judge.t = new Token<int>(new[] {3, 3, 3,3,3,3});
-        
+        judge.t = new Token<int>(new[] { 5, 5, 5, 5 });
+
         return judge;
     }
 }

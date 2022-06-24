@@ -4,9 +4,10 @@ namespace Game;
 
 public class LocationGui
 {
-    public delegate void BindLocationTable(LocationGui[] location);
+    public delegate void BindLocationTable(IEnumerable<LocationGui> location);
 
-    public delegate void BindLocationHand(LocationGui[] location, LocationGui? play, string action, string player);
+    public delegate void BindLocationHand(IEnumerable<LocationGui> location, LocationGui? play, string action,
+        string player);
 
     /// <summary>
     /// Bindiar el tablero logico con el front-end
@@ -51,28 +52,19 @@ public class LocationGui
     /// <returns>Distribucion de la mesa para la GUI</returns>
     public static void FindLocationTable<T>(TableGame<T> table)
     {
-        LocationGui[] locationGui = new LocationGui[table.PlayNode.Count];
 
         //Buscamos las cooredenadas extremas
         int left = int.MaxValue;
         int top = int.MinValue;
         for (int i = 0; i < table.TableNode.Count; i++)
         {
-            left = Math.Min(((NodeGeometry<int>) table.TableNode[i]).Location.BorderLeft, left);
-            top = Math.Max(((NodeGeometry<int>) table.TableNode[i]).Location.BorderTop, top);
+            left = Math.Min(((NodeGeometry<int>)table.TableNode[i]).Location.BorderLeft, left);
+            top = Math.Max(((NodeGeometry<int>)table.TableNode[i]).Location.BorderTop, top);
         }
 
         (int row, int column) = DeterminateIncrement(table);
 
-        //Asignar los valores
-        int cont = 0;
-        foreach (var item in table.PlayNode)
-        {
-            NodeGeometry<T>? node = item as NodeGeometry<T>;
-            if (node == null) return;
-
-            locationGui[cont++] = CreateLocationTable(table, node, row, column, top, left, true);
-        }
+        IEnumerable<LocationGui> locationGui = AssignFindLocationGui(table, row, column, top, left);
 
         // foreach (var item in table.FreeNode)
         // {
@@ -86,6 +78,28 @@ public class LocationGui
     }
 
     /// <summary>
+    /// Asignar los valores para las coordenadas en la GUI
+    /// </summary>
+    /// <param name="table">Mesa</param>
+    /// <param name="row">Incremento en las filas</param>
+    /// <param name="column">Incremento en las columnas</param>
+    /// <param name="top">CoorY mas grande</param>
+    /// <param name="left">CoorX mas pequena</param>
+    /// <typeparam name="T">Tipo para el juego</typeparam>
+    private static IEnumerable<LocationGui> AssignFindLocationGui<T>(TableGame<T> table, int row, int column,
+        int top,
+        int left)
+    {
+        foreach (var item in table.PlayNode)
+        {
+            NodeGeometry<T>? node = item as NodeGeometry<T>;
+            if (node == null) yield break;
+
+            yield return CreateLocationTable(table, node, row, column, top, left, true);
+        }
+    }
+
+    /// <summary>
     /// Determinar el incremento en filas y columnas
     /// </summary>
     /// <param name="table">Mesa</param>
@@ -94,6 +108,7 @@ public class LocationGui
     {
         if (table is TableTriangular<T>) return (1, 2);
         if (table is TableHexagonal<T>) return (2, 4);
+        if (table is TableSquare<T>) return (2, 2);
         return (0, 0);
     }
 
@@ -121,10 +136,12 @@ public class LocationGui
 
         if (play)
         {
-            (int, int)[] coordinatesAux = ReorganizeCoordinates(node.Location.Coord);
+            int ind = ReorganizeCoordinates(node.Location.Coord);
+            T[] auxValues = AuxTable.CircularArray(node.ValuesConnections, ind).ToArray();
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = ((TableGeometry<T>) table).CoordValor[coordinatesAux[i]].Item1!.ToString()!;
+                //values[i] = ((TableGeometry<T>) table).CoordValor[coordinatesAux[i]].Item1!.ToString()!;
+                values[i] = auxValues[i]!.ToString()!;
             }
         }
 
@@ -136,7 +153,7 @@ public class LocationGui
     /// </summary>
     /// <param name="coordinates">Coordenadas de la ficha</param>
     /// <returns>Reorganizacion de las coordenadas</returns>
-    private static (int, int)[] ReorganizeCoordinates((int, int)[] coordinates)
+    private static int ReorganizeCoordinates((int, int)[] coordinates)
     {
         int minX = int.MaxValue;
         int minY = int.MaxValue;
@@ -155,7 +172,7 @@ public class LocationGui
             }
         }
 
-        return AuxTable.CircularArray(coordinates, ind).ToArray();
+        return ind;
     }
 
     /// <summary>
@@ -173,9 +190,7 @@ public class LocationGui
         int indColumn = 0;
         int indRow = 0;
 
-        LocationGui[] location = new LocationGui[tokens.Count];
-
-        AssignValues(location, tokens, indRow, indColumn, row, column);
+        IEnumerable<LocationGui> location = AssignValues(tokens, indRow, indColumn, row, column);
 
         string action = "Jugada";
         LocationGui? locationPlay = null;
@@ -198,25 +213,24 @@ public class LocationGui
     /// <summary>
     /// Asignar los valores a las fichas
     /// </summary>
-    /// <param name="location">Ubicacion en la GUI</param>
     /// <param name="tokens">Lista de fichas</param>
     /// <param name="indRow">Incremento en las filas</param>
     /// <param name="indColumn">Incremento en las columnas</param>
     /// <param name="row">Filas</param>
     /// <param name="column">Columnas</param>
     /// <typeparam name="T">Tipo de juego</typeparam>
-    private static void AssignValues<T>(LocationGui[] location, List<Token<T>> tokens, int indRow, int indColumn,
+    private static IEnumerable<LocationGui> AssignValues<T>(List<Token<T>> tokens, int indRow, int indColumn,
         int row, int column)
     {
-        for (int j = 0; j < tokens.Count; j++)
+        foreach (var item in tokens)
         {
-            string[] values = new string[tokens[j].CantValues];
+            string[] values = new string[item.CantValues];
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = tokens[j][i]!.ToString()!;
+                values[i] = item[i]!.ToString()!;
             }
 
-            location[j] = new LocationGui(
+            yield return new LocationGui(
                 (indRow * row + 1, indRow * row + row + 1, indColumn * column + 1, indColumn * column + column + 1),
                 values,
                 true,

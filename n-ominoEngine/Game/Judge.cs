@@ -12,11 +12,11 @@ public class Judge<T>
     private GameStatus<T> _infoGame;
     public Token<T> t;
 
-    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame,Player<T>[] players)
+    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players)
     {
         this._judgeRules = infoRules;
         this._infoGame = infoGame;
-        this._players=players;
+        this._players = players;
         //this.Game();
     }
 
@@ -76,16 +76,16 @@ public class Judge<T>
                     _infoGame.Table.PlayTable(jugada.Node, jugada.Token, aux);
                     _infoGame.Players[ind].Hand.Remove(jugada.Token);
                     Console.WriteLine("Jugador " + i + " jugo");
-                    Console.WriteLine((jugada.Token[0], jugada.Token[1],jugada.Token[2]));
+                    Console.WriteLine((jugada.Token[0], jugada.Token[1], jugada.Token[2]));
                 }
-                
-                GuiJudge(jugada.Token,ind);
+
+                GuiJudge(jugada.Token, ind);
             }
             else
             {
                 this._infoGame.InmediatePass = true;
-                GuiJudge(null,ind);
-            } 
+                GuiJudge(null, ind);
+            }
 
             //Determinar si es posible pasarse con fichas
             //this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -103,7 +103,7 @@ public class Judge<T>
 
             if (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1) break;
             //Console.WriteLine(this._infoGame.Players[ind].Score);
-            
+
             i++;
             if (i == this._infoGame.Turns.Length) i = 0;
         }
@@ -127,11 +127,11 @@ public class Judge<T>
         return false;
     }
 
-    private void GuiJudge(Token<T>? play,int ind)
+    private void GuiJudge(Token<T>? play, int ind)
     {
         Thread.Sleep(1000);
         LocationGui.FindLocationTable(_infoGame.Table);
-        LocationGui.FindLocationHand(_infoGame.Players[ind].Hand,play,_infoGame.Table,_infoGame.Players[ind].Id+"");
+        LocationGui.FindLocationHand(_infoGame.Players[ind].Hand, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
         Thread.Sleep(1000);
     }
 }

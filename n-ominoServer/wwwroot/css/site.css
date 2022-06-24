@@ -360,6 +360,49 @@ a, .btn-link {
     background-color: burlywood;
     justify-content: center;
 }
+.square{
+    display: inline-grid;
+}
+
+.square1{
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background-color: burlywood;
+    justify-content: center;
+}
+
+.square2{
+    grid-row: 1;
+    grid-column: 2;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background-color: burlywood;
+    justify-content: center;
+}
+
+.square3{
+    grid-row: 2;
+    grid-column: 1;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background-color: burlywood;
+    justify-content: center;
+}
+
+.square4{
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background-color: burlywood;
+    justify-content: center;
+}
 
 .contentBottom{
     align-self: flex-end;
