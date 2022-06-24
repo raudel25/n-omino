@@ -16,6 +16,6 @@ public class AssignScoreTokenClassic : IAssignScoreToken<int>
 {
     public int ScoreToken(Token<int> token)
     {
-        return token.Values.Sum();
+        return token.Sum();
     }
 }

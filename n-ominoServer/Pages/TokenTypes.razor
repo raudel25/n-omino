@@ -1,0 +1,42 @@
+@using Game
+
+@if (Location!.Values.Length == 6)
+{
+    <Hexagon Values="Location!.Values"></Hexagon>
+}
+
+@if (Location!.Values.Length == 3)
+{
+    @if (Location.Condition)
+    {
+        <TriangleTop Values="Location.Values"></TriangleTop>
+    }
+    else
+    {
+        <TriangleBottom Values="Location.Values"></TriangleBottom>
+    }
+}
+
+@if (Location.Values.Length == 4)
+{
+    <Square Values="Location.Values"></Square>
+}
+
+@if (Location!.Values.Length == 2)
+{
+    @if (Location.Condition)
+    {
+        <DominoHorzontal Values="item.Values"></DominoHorzontal>
+    }
+    else
+    {
+        <DominoVerical Values="item.Values"></DominoVerical>
+    }
+}
+
+@code {
+
+    [Parameter]
+    public LocationGui? Location { get; set; }
+    
+}

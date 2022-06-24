@@ -9,22 +9,4 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<button @onclick="Start">Start</button>
-
-<TableGeometry Locations="LocationTable"></TableGeometry>
-
-<HandPlayer Locations="LocationHand"></HandPlayer>
-
-@code
-{
-    public Judge<int> Judge = Test.Game();
-    
-    private LocationGui[] LocationTable { get; set; } = Array.Empty<LocationGui>();
-    
-    private LocationGui[] LocationHand { get; set; } = Array.Empty<LocationGui>();
-    
-    private async Task Start()
-    {
-        await Task.Run(() =>Judge.Game());
-    }
-}
+<a href="/Game"><button>Game</button></a>

@@ -12,7 +12,7 @@ public class TableTriangular<T> : TableGeometry<T>
         if (geometry == null) return;
         for (int i = 0; i < node.Connections.Length; i++)
         {
-            (int, int)[] coordinates = ExpandGeometry(AuxTable.CircularArray(geometry.Location.Coord, i));
+            (int, int)[] coordinates = ExpandGeometry(AuxTable.CircularArray(geometry.Location.Coord, i).ToArray());
             AssignCoordinates(node, coordinates);
         }
     }

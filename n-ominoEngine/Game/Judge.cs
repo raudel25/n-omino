@@ -63,8 +63,6 @@ public class Judge<T>
             }
             Console.WriteLine(play);
 
-            LocationGui.FindLocationHand(_infoGame.Players[ind].Hand,_infoGame.Table,_infoGame.Players[ind].Id+"");
-            
             if (play)
             {
                 this._infoGame.InmediatePass = false;
@@ -78,15 +76,16 @@ public class Judge<T>
                     _infoGame.Table.PlayTable(jugada.Node, jugada.Token, aux);
                     _infoGame.Players[ind].Hand.Remove(jugada.Token);
                     Console.WriteLine("Jugador " + i + " jugo");
-                    Console.WriteLine((jugada.Token.Values[0], jugada.Token.Values[1],jugada.Token.Values[2]));
+                    Console.WriteLine((jugada.Token[0], jugada.Token[1],jugada.Token[2]));
                 }
                 
-                Thread.Sleep(1000);
-                LocationGui.FindLocationTable(_infoGame.Table);
-                LocationGui.FindLocationHand(_infoGame.Players[ind].Hand,_infoGame.Table,_infoGame.Players[ind].Id+"");
-                Thread.Sleep(1000);
+                GuiJudge(jugada.Token,ind);
             }
-            else this._infoGame.InmediatePass = true; 
+            else
+            {
+                this._infoGame.InmediatePass = true;
+                GuiJudge(null,ind);
+            } 
 
             //Determinar si es posible pasarse con fichas
             //this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -126,5 +125,13 @@ public class Judge<T>
         }
 
         return false;
+    }
+
+    private void GuiJudge(Token<T>? play,int ind)
+    {
+        Thread.Sleep(1000);
+        LocationGui.FindLocationTable(_infoGame.Table);
+        LocationGui.FindLocationHand(_infoGame.Players[ind].Hand,play,_infoGame.Table,_infoGame.Players[ind].Id+"");
+        Thread.Sleep(1000);
     }
 }

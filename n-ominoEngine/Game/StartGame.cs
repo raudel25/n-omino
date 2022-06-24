@@ -73,9 +73,9 @@ public class TokensMakerCircular<T>:ITokensMaker<T>
 
         foreach (var item in tokens)
         {
-            var values = new T[item.Values.Length];
-            values[0] = item.Values[0];
-            CircularComb(values,item,new bool[item.Values.Length],permutation,1);
+            var values = new T[item.CantValues];
+            values[0] = item[0];
+            CircularComb(values,item,new bool[item.CantValues],permutation,1);
         }
 
         return permutation;
@@ -95,7 +95,7 @@ public class TokensMakerCircular<T>:ITokensMaker<T>
         {
             if (!visited[i])
             {
-                values[index] = token.Values[i];
+                values[index] = token[i];
                 visited[i] = true;
                 CircularComb(values,token,visited,permutation,index+1);
                 visited[i] = false;

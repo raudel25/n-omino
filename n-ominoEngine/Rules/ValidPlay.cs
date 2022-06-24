@@ -35,7 +35,7 @@ public class ValidPlayDimension<T> : IValidPlay<T>
 
     public bool ValidPlay(INode<T> node, Token<T> token, TableGame<T> table)
     {
-        if (token.Values.Length != node.Connections.Length) return false;
+        if (token.CantValues != node.Connections.Length) return false;
         if (!table.FreeNode.Contains(node)) return false;
 
         NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
@@ -45,9 +45,9 @@ public class ValidPlayDimension<T> : IValidPlay<T>
         if (connection == -1) return true;
         T valueConnection = nodeDimension.ValuesConnections[connection];
 
-        for (int i = 0; i < token.Values.Length; i++)
+        foreach(var item in token)
         {
-            if (this._comparison.Compare(token.Values[i], valueConnection)) return true;
+            if (this._comparison.Compare(item, valueConnection)) return true;
         }
 
         return false;
@@ -55,14 +55,14 @@ public class ValidPlayDimension<T> : IValidPlay<T>
 
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table)
     {
-        if (token.Values.Length != node.Connections.Length) return Array.Empty<T>();
+        if (token.CantValues != node.Connections.Length) return Array.Empty<T>();
         if (!table.FreeNode.Contains(node)) return Array.Empty<T>();
 
         NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
         if (nodeDimension == null) return Array.Empty<T>();
 
-        T[] values = new T[token.Values.Length];
-        Array.Copy(token.Values, values, token.Values.Length);
+        T[] values = new T[token.CantValues];
+        Array.Copy(token.ToArray(), values, token.CantValues);
         int ind = nodeDimension.FirstConnection;
         if (ind == -1) return values;
         T connection = nodeDimension.ValuesConnections[ind];
@@ -98,16 +98,16 @@ public class ValidPlayGeometry<T> : IValidPlay<T>
 
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table)
     {
-        if (token.Values.Length != node.Connections.Length) return Array.Empty<T>();
+        if (token.CantValues != node.Connections.Length) return Array.Empty<T>();
         if (!table.FreeNode.Contains(node)) return Array.Empty<T>();
 
         TableGeometry<T>? tableGeometry = table as TableGeometry<T>;
         NodeGeometry<T>? nodeGeometry = node as NodeGeometry<T>;
         if (nodeGeometry == null || tableGeometry == null) return Array.Empty<T>();
 
-        for (int i = 0; i < token.Values.Length; i++)
+        for (int i = 0; i < token.CantValues; i++)
         {
-            T[] circular = AuxTable.CircularArray(token.Values, i);
+            T[] circular = AuxTable.CircularArray(token, i).ToArray();
             if (ValuesEquals(nodeGeometry, tableGeometry, circular)) return circular;
         }
 
@@ -146,7 +146,7 @@ public class ComodinTokenDimension<T> : IValidPlay<T>
 
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table)
     {
-        return this._comodinToken.Values.ToArray();
+        return this._comodinToken.ToArray();
     }
 }
 
@@ -178,10 +178,10 @@ public class ValidPlayLongana<T> : IValidPlay<T>
 
         if (tableLongana.PlayNode.Count == 0)
         {
-            T aux = token.Values[0];
-            for (int i = 1; i < token.Values.Length; i++)
+            T aux = token[0];
+            foreach(var item in token)
             {
-                if (aux!.Equals(token.Values[i])) return true;
+                if (aux!.Equals(item)) return true;
             }
 
             return false;
@@ -201,7 +201,7 @@ public class ValidPlayLongana<T> : IValidPlay<T>
             T[] aux = new T[node.Connections.Length];
             for (int i = 0; i < node.Connections.Length; i++)
             {
-                aux[i] = token.Values[0];
+                aux[i] = token[0];
             }
 
             return aux;

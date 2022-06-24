@@ -9,17 +9,21 @@ public static class AuxTable
     /// <param name="ind">Indice desde el cual queremos emepezar arotar</param>
     /// <typeparam name="T">Tipo de las Fichas</typeparam>
     /// <returns></returns>
-    public static T[] CircularArray<T>(T[] array, int ind)
+    public static IEnumerable<T> CircularArray<T>(IEnumerable<T> array, int ind)
     {
-        T[] aux = new T[array.Length];
-        for (int i = 0; i < array.Length; i++)
+        int i = 0;
+        foreach (var item in array)
         {
-            if (ind == array.Length) ind = 0;
-            aux[i] = array[ind];
-            ind++;
+            if (i >= ind) yield return item;
+            i++;
         }
 
-        return aux;
+        i = 0;
+        foreach (var item in array)
+        {
+            if (i < ind) yield return item;
+            i++;
+        }
     }
 
     /// <summary>

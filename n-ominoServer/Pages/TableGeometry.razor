@@ -1,45 +1,15 @@
 @using Game
 @using System.Runtime.Loader
 
-<h3>Game</h3>
-
 <div style="display: flex; justify-content: center">
-    <div style="overflow: auto;">
+    <div style="overflow: auto; height: 400px;">
         <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
             @foreach (var item in Locations)
             {
                 <div style="grid-row-start: @item.Location.Item1; grid-row-end: @item.Location.Item2; 
                     grid-column-start: @item.Location.Item3; grid-column-end: @item.Location.Item4">
-                    @if (item.Values.Length == 6)
-                    {
-                        <Hexagon Values="item.Values"></Hexagon>
-                    }
-                    @if (item.Values.Length == 3)
-                    {
-                        @if (item.Condition)
-                        {
-                            <TriangleTop Values="item.Values"></TriangleTop>
-                        }
-                        else
-                        {
-                            <TriangleBottom Values="item.Values"></TriangleBottom>
-                        }
-                    }
-                    @if (item.Values.Length == 4)
-                    {
-                        <Square Values="item.Values"></Square>
-                    }
-                    @if (item.Values.Length == 2)
-                    {
-                        @if (item.Condition)
-                        {
-                            <DominoHorzontal Values="item.Values"></DominoHorzontal>
-                        }
-                        else
-                        {
-                            <DominoVerical Values="item.Values"></DominoVerical>
-                        }
-                    }
+
+                    <TokenTypes Location="item"></TokenTypes>
                 </div>
             }
         </div>

@@ -1,77 +1,96 @@
 @using Game
 @using Table
-<h3>@Player</h3>
+<div style="display: flex; justify-content: center;">
+    <h3>@Player</h3>
+</div>
 
-<div style="display: flex; justify-content: center">
-    <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
-        @foreach (var item in Locations)
+<div style="display: grid; height: 200px; width: 100%; 
+            border: solid #1c1f23 2px; ">
+
+    @* <div style="height: 10px; grid-row: 1; grid-column-start: 1; grid-column-end: 4;"></div> *@
+    <div style="display: grid; grid-column: 1; grid-row: 2; width: 150px; border-right: solid #1c1f23 2px; ">
+
+        <div style="grid-row: 1; grid-column-start: 1; grid-column-end: 4;
+                            display: flex; justify-content: center;">
+                    
+            <p>@Action</p>
+        </div>
+        
+        @if (Play != null)
         {
-            <div style="grid-row-start: @item.Location.Item1; grid-row-end: @item.Location.Item2; 
-                    grid-column-start: @item.Location.Item3; grid-column-end: @item.Location.Item4"
-                 @ondblclick="() => Rotate(item)">
-                @if (item.Values.Length == 6)
-                {
-                    <Hexagon Values="item.Values"></Hexagon>
-                }
-                @if (item.Values.Length == 3)
-                {
-                    @if (item.Condition)
-                    {
-                        <TriangleTop Values="item.Values"></TriangleTop>
-                    }
-                    else
-                    {
-                        <TriangleBottom Values="item.Values"></TriangleBottom>
-                    }
-                }
-                @if (item.Values.Length == 4)
-                {
-                    <Square Values="item.Values"></Square>
-                }
-                @if (item.Values.Length == 2)
-                {
-                    @if (item.Condition)
-                    {
-                        <DominoHorzontal Values="item.Values"></DominoHorzontal>
-                    }
-                    else
-                    {
-                        <DominoVerical Values="item.Values"></DominoVerical>
-                    }
-                }
+            <div style="width: 30px; grid-row: 2; grid-column: 1"></div>
+            
+            <div @ondblclick="() => Rotate(Play)" style="grid-row: 2; grid-column: 2">
+                <TokenTypes Location="Play"></TokenTypes>
             </div>
+            
         }
+
+        <div style="width: 30px; grid-row: 2; grid-column: 3"></div>
+        
     </div>
+
+    <div style="display: flex; justify-content: center; grid-column: 2; grid-row: 2;">
+        <div style="overflow: auto; height: 180px; width: 1000px;">
+        
+            <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
+        
+                @foreach (var item in Locations)
+                {
+                    <div style="grid-row-start: @item.Location.Item1; grid-row-end: @item.Location.Item2; 
+                                grid-column-start: @item.Location.Item3; grid-column-end: @item.Location.Item4"
+                         @ondblclick="() => Rotate(item)">
+        
+                        <TokenTypes Location="item"></TokenTypes>
+                    </div>
+                }
+        
+            </div>
+        
+        </div>
+    </div>
+    
+    <div style="grid-column: 3;"></div>
+
 </div>
 
 @code {
 
-    [Parameter]
-    public LocationGui[] Locations { get; set; } = Array.Empty<LocationGui>();
+           [Parameter]
+           public IEnumerable<LocationGui> Locations { get; set; } = Array.Empty<LocationGui>();
 
-    [Parameter]
-    public string? Player { get; set; } = "";
+           [Parameter]
+           public LocationGui? Play { get; set; }
 
-    private void Rotate(LocationGui location)
-    {
-        location.Condition = !location.Condition;
+           [Parameter]
+           public string Action { get; set; } = "";
 
-        if (!location.Condition || location.Values.Length != 3) location.Values = AuxTable.CircularArray(location.Values, location.Values.Length - 1);
-    }
+           [Parameter]
+           public string? Player { get; set; } = "";
 
-    protected override void OnInitialized()
-    {
-        LocationGui.BindHandEvent += BindLocationGui;
-    }
+           private void Rotate(LocationGui location)
+           {
+               location.Condition = !location.Condition;
 
-    private void BindLocationGui(LocationGui[] location,string player)
-    {
-        _ = InvokeAsync(() =>
-        {
-            Locations = location;
-            Player = player;
-            StateHasChanged();
-        });
-    }
+               if (!location.Condition || location.Values.Length != 3) location.Values = AuxTable.CircularArray(location.Values, location.Values.Length - 1).ToArray();
+           }
+
+           protected override void OnInitialized()
+           {
+               LocationGui.BindHandEvent += BindLocationGui;
+           }
+
+           private void BindLocationGui(LocationGui[] location, LocationGui? play, string action, string player)
+           {
+               _ = InvokeAsync(() =>
+               {
+                   Locations = location;
+                   Player = player;
+                   Play = play;
+                   Action = action;
+                   StateHasChanged();
+               });
+           }
 
 }
+
