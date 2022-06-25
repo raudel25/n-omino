@@ -1,0 +1,14 @@
+<div class="DominoV">
+    <div class="DominoV1">
+        <span>@Values![0]</span>
+    </div>
+    <div class="DominoV2">
+        <span>@Values![1]</span>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public string[]? Values { get; set; }
+}

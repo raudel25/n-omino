@@ -1,0 +1,43 @@
+@using Game
+
+@if (Location!.TypeToken == Printer.TypeToken.Hexagon)
+{
+    <Hexagon Values="Location.Values"></Hexagon>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.TriangleTop)
+{
+    <TriangleTop Values="Location.Values"></TriangleTop>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.TriangleBottom)
+{
+    <TriangleBottom Values="Location.Values"></TriangleBottom>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.Square)
+{
+    <Square Values="Location.Values"></Square>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.NDimension)
+{
+    <NDimension></NDimension>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.DominoH)
+{
+    <DominoHorizontal Values="Location.Values"></DominoHorizontal>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.DominoV)
+{
+    <DominoVertical Values="Location.Values"></DominoVertical>
+}
+
+@code {
+
+    [Parameter]
+    public LocationGui? Location { get; set; }
+
+}
