@@ -5,7 +5,7 @@ using Player;
 
 namespace Game;
 
-public class Judge<T>
+public class Judge<T> where T : ICloneable<T> 
 {
     private InfoRules<T> _judgeRules;
     private GameStatus<T> _infoGame;
@@ -81,7 +81,7 @@ public class Judge<T>
     /// <param name="tokens">Fichas de las que dispone el jugador</param>
     /// <param name="table">Mesa para jugar</param>
     /// <returns>El jugador tiene opciones para jugar</returns>
-    private bool ValidPlayPlayer(List<Token<T>> tokens, TableGame<T> table)
+    private bool ValidPlayPlayer(Hand<T> tokens, TableGame<T> table)
     {
         foreach (var item in table.FreeNode)
         {

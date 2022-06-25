@@ -4,12 +4,12 @@ using InfoGame;
 
 namespace Player;
 
-public interface IStrategy<T>
+public interface IStrategy<T> where T : ICloneable<T>
 {
     public Jugada<T> Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules);
 }
 
-public class RandomPlayer<T> : IStrategy<T>
+public class RandomPlayer<T> : IStrategy<T> where T : ICloneable<T>
 {
     public Jugada<T> Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules)
     {
@@ -19,7 +19,7 @@ public class RandomPlayer<T> : IStrategy<T>
     }
 }
 
-public class GreedyPlayer<T> : IStrategy<T>
+public class GreedyPlayer<T> : IStrategy<T> where T : ICloneable<T>
 {
     public Jugada<T> Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules)
     {
@@ -27,5 +27,13 @@ public class GreedyPlayer<T> : IStrategy<T>
         for ( int i = 0; i < PossiblePlays.Count; i++ )
             if(rules.ScoreToken.ScoreToken(res.Token)<rules.ScoreToken.ScoreToken(PossiblePlays[i].Token)) res = PossiblePlays[i]; 
         return res;
+    }
+}
+
+public class PartnerPlayer<T> : IStrategy<T> where T : ICloneable<T>
+{
+    public Jugada<T> Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules)
+    {
+        throw new NotImplementedException();
     }
 }

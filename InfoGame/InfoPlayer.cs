@@ -1,52 +1,34 @@
-﻿using Table;
+﻿using System.Collections;
+using Table;
 namespace InfoGame;
-public class InfoPlayer<T>
+public class InfoPlayer<T> : ICloneable<InfoPlayer<T>> where T : ICloneable<T>
 {
-    public List<Token<T>> Hand { get; set; }
-    public int HandCount { get {return Hand!.Count();} }
-    public int Passes {get; set;}
-    //guarda el historial de jugadas de ese jugador
-    public Actions<T> Actions {get; set;}
-    public double Score { get; set; }
+    //ID del jugador
     public int Id { get; set; }
-
-    public InfoPlayer(List<Token<T>> hand, int passes, Actions<T> actions, double score, int id)
+    //mano del jugador
+    public Hand<T> Hand { get; set; }
+    //cantidad de fichas en la mano del jugador
+    public int HandCount { get {return Hand.Count();} }
+    //cantidad de pases que se ha dado el jugador
+    public int Passes { get {return History.Passes;} }
+    //guarda el historial de jugadas de ese jugador
+    public History<T> History {get; set;}
+    //puntuación del jugador
+    public double Score { get; set; }
+    public InfoPlayer(Hand<T> hand, History<T> history, double score, int id)
     {
         this.Hand = hand;
-        this.Passes = passes;
-        this.Actions = actions;
+        this.History = history;
         this.Score = score;
         this.Id = id;
     }
     public InfoPlayer<T> Clone()
     {
-        return new InfoPlayer<T>(Clone(Hand!), Passes, Clone(Actions), Score, Id);
+        return new InfoPlayer<T>(Hand.Clone(), History.Clone(), Score, Id);
     }
 
-    private List<Token<T>> Clone(List<Token<T>> collection)
+    object ICloneable.Clone()
     {
-        List<Token<T>> aux = new List<Token<T>>();
-        foreach (var item in collection)
-            aux.Add(item.Clone());
-        return aux;
-    }
-    private Actions<T> Clone(Actions<T> x)
-    {
-        return (Actions<T>)x.Clone();
+        return this.Clone();
     }
 }
-
-
-    public class Actions<T>
-{
-    public Actions()
-    {
-        
-    }
-
-    public object Clone()
-    {
-        throw new NotImplementedException();
-    }
-}
-

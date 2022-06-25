@@ -2,7 +2,7 @@ using Table;
 
 namespace InfoGame;
 
-public class GameStatus<T>
+public class GameStatus<T> where T : ICloneable<T>
 {
     public InfoPlayer<T>[] Players;
     public List<InfoPlayer<T>>[] Teams;

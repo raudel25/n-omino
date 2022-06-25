@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>
+public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T> where T : ICloneable<T>
 {
     private bool[] _checkValid;
 

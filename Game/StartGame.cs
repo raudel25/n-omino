@@ -37,7 +37,7 @@ public interface ITokensMaker<T>
     public List<Token<T>> MakeTokens (T[] values, int n);
 }
 
-public class TokensMaker<T>
+public class ClassicMaker<T> : ITokensMaker<T>
 {
     public List<Token<T>> MakeTokens (T[] array, int n)
     {

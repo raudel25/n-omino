@@ -1,8 +1,9 @@
 using InfoGame;
+using Table;
 
 namespace Rules;
 
-public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T>, T>
+public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T>, T> where T : ICloneable<T>
 {
     public AssignScorePlayerRule(IEnumerable<IAssignScorePlayer<T>> rules, IEnumerable<ICondition<T>> condition) : base(
         rules,

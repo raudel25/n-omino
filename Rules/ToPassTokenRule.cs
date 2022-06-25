@@ -1,8 +1,9 @@
 namespace Rules;
 
 using InfoGame;
+using Table;
 
-public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T>
+public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T> where T : ICloneable<T>
 {
     public bool PossibleToPass { get; private set; }
 

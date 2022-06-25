@@ -1,8 +1,9 @@
 using InfoGame;
+using Table;
 
 namespace Rules;
 
-public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T>
+public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T> where T : ICloneable<T>
 {
     public WinnerGameRule(IEnumerable<IWinnerGame<T>> rules, IEnumerable<ICondition<T>> condition) : base(rules,
         condition,

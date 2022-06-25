@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IStealToken<T>
+public interface IStealToken<T> where T : ICloneable<T>
 {
     /// <summary>
     /// Cantidad de fichas maximas que puede robar el jugador
@@ -21,7 +21,7 @@ public interface IStealToken<T>
     public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play);
 }
 
-public class NoStealToken<T> : IStealToken<T>
+public class NoStealToken<T> : IStealToken<T> where T : ICloneable<T>
 {
     public int CantMax { get; private set; }
 
@@ -36,7 +36,7 @@ public class NoStealToken<T> : IStealToken<T>
     }
 }
 
-public class ClassicStealToken<T> : IStealToken<T>
+public class ClassicStealToken<T> : IStealToken<T> where T : ICloneable<T>
 {
     public int CantMax { get; private set; }
 
@@ -69,7 +69,7 @@ public class ClassicStealToken<T> : IStealToken<T>
     }
 }
 
-public class ChooseStealToken<T> : IStealToken<T>
+public class ChooseStealToken<T> : IStealToken<T> where T : ICloneable<T>
 {
     public int CantMax { get; private set; }
 

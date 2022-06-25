@@ -1,8 +1,9 @@
 using InfoGame;
+using Table;
 
 namespace Rules;
 
-public abstract class ActionConditionRule<T1, T2>
+public abstract class ActionConditionRule<T1, T2> where T2 : ICloneable<T2>
 {
     /// <summary>
     /// Acciones que determinan las reglas
