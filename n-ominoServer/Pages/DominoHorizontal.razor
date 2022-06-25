@@ -1,14 +1,15 @@
-<div class="DominoV">
-    <div class="DominoV1">
+<div class="DominoH">
+    <div class="DominoH1">
         <span>@Values![0]</span>
     </div>
-    <div class="DominoV2">
+    <div class="DominoH2">
         <span>@Values![1]</span>
     </div>
 </div>
 
-@code
-{
+@code {
+
     [Parameter]
     public string[]? Values { get; set; }
+
 }

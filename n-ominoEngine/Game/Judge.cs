@@ -11,6 +11,8 @@ public class Judge<T>
     private InfoRules<T> _judgeRules;
     private GameStatus<T> _infoGame;
     public Token<T> t;
+    public PrinterGeometry g = new PrinterGeometry();
+    Printer q12 = new PrinterDomino();
 
     public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players)
     {
@@ -130,8 +132,11 @@ public class Judge<T>
     private void GuiJudge(Token<T>? play, int ind)
     {
         Thread.Sleep(1000);
-        LocationGui.FindLocationTable(_infoGame.Table);
-        LocationGui.FindLocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
+        g.LocationTable(_infoGame.Table);
+        g.LocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
+        // q12.LocationTable(_infoGame.Table);
+        // q12.LocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
         Thread.Sleep(1000);
+        
     }
 }

@@ -94,22 +94,22 @@ public class NoValidPLay<T> : ICondition<T>
     }
 }
 
-// public class SumFreeNode : ICondition<int>
-// {
-//     public int Value { get; private set; }
-//     private IComparison<int> _comparison;
-//
-//     public SumFreeNode(int value, IComparison<int> comparison)
-//     {
-//         this._comparison = comparison;
-//         this.Value = value;
-//     }
-//
-//     public bool RunRule(GameStatus<int> game, int ind)
-//     {
-//         return this._comparison.Compare(AuxTable.SumConnectionFree(game.Table), this.Value);
-//     }
-// }
+public class SumFreeNode : ICondition<int>
+{
+    public int Value { get; private set; }
+    private IComparison<int> _comparison;
+
+    public SumFreeNode(int value, IComparison<int> comparison)
+    {
+        this._comparison = comparison;
+        this.Value = value;
+    }
+
+    public bool RunRule(GameStatus<int> game, int ind)
+    {
+        return this._comparison.Compare(AuxTable.SumConnectionFree(game.Table), this.Value);
+    }
+}
 
 public class ConditionDefault<T> : ICondition<T>
 {

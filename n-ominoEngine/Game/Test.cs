@@ -10,9 +10,10 @@ public static class Test
 {
     public static Judge<int> Game()
     {
-        //TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
-        TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2),(3,1),(2,0) });
-        // TableDimension<int> table = new TableDimension<int>(2);
+        TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
+         // TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2),(3,1),(2,0) });
+        // TableGame<int> table = new TableTriangular<int>(new []{(0, 0), (1, 1), (2, 0)}); 
+         // TableDimension<int> table = new TableDimension<int>(2);
         int[] array = new int[10];
         for (int i = 0; i < 10; i++)
         {
@@ -22,7 +23,7 @@ public static class Test
         //Jugadores
         ITokensMaker<int> maker = new TokensMakerCircular<int>();
 
-        List<Token<int>> tokens = maker.MakeTokens(array, 6);
+        List<Token<int>> tokens = maker.MakeTokens(array, 4);
 
         IDealer<Token<int>> dealer = new RandomDealer<int>();
 
@@ -30,7 +31,7 @@ public static class Test
 
         for (int i = 0; i < 4; i++)
         {
-            var anabel = dealer.Deal(tokens, 10);
+            var anabel = dealer.Deal(tokens, 50);
 
             playersInfo[i] = new InfoPlayer<int>(anabel, 0, new Actions<int>(), 0, i);
         }
@@ -55,8 +56,8 @@ public static class Test
         GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
 
 
-        //IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
-        IValidPlay<int> valid = new ValidPlayGeometry<int>(new GcdComparison(1));
+        // IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
+        IValidPlay<int> valid = new ValidPlayGeometry<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();
         IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
         IAssignScorePlayer<int> scorePlayerNo = new AssignScoreHands<int>();
@@ -90,7 +91,7 @@ public static class Test
             assignScorePlayerRule, winnerGameRule, scoreToken);
 
         Judge<int> judge = new Judge<int>(rules, game, players);
-        judge.t = new Token<int>(new[] { 5, 5,5,5,5,5 });
+        judge.t = new Token<int>(new[] { 5, 5,5,5 });
 
         return judge;
     }

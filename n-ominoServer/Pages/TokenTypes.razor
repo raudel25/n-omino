@@ -1,42 +1,43 @@
 @using Game
 
-@if (Location!.Values.Length == 6)
+@if (Location!.TypeToken == Printer.TypeToken.Hexagon)
 {
-    <Hexagon Values="Location!.Values"></Hexagon>
+    <Hexagon Values="Location.Values"></Hexagon>
 }
 
-@if (Location!.Values.Length == 3)
+@if (Location!.TypeToken == Printer.TypeToken.TriangleTop)
 {
-    @if (Location.Condition)
-    {
-        <TriangleTop Values="Location.Values"></TriangleTop>
-    }
-    else
-    {
-        <TriangleBottom Values="Location.Values"></TriangleBottom>
-    }
+    <TriangleTop Values="Location.Values"></TriangleTop>
 }
 
-@if (Location.Values.Length == 4)
+@if (Location!.TypeToken == Printer.TypeToken.TriangleBottom)
+{
+    <TriangleBottom Values="Location.Values"></TriangleBottom>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.Square)
 {
     <Square Values="Location.Values"></Square>
 }
 
-@if (Location!.Values.Length == 2)
+@if (Location!.TypeToken == Printer.TypeToken.NDimension)
 {
-    @if (Location.Condition)
-    {
-        <DominoHorzontal Values="item.Values"></DominoHorzontal>
-    }
-    else
-    {
-        <DominoVerical Values="item.Values"></DominoVerical>
-    }
+    <NDimension></NDimension>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.DominoH)
+{
+    <DominoHorizontal Values="Location.Values"></DominoHorizontal>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.DominoV)
+{
+    <DominoVertical Values="Location.Values"></DominoVertical>
 }
 
 @code {
 
     [Parameter]
     public LocationGui? Location { get; set; }
-    
+
 }
