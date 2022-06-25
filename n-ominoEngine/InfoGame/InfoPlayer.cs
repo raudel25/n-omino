@@ -2,7 +2,7 @@
 namespace InfoGame;
 public class InfoPlayer<T>
 {
-    public List<Token<T>> Hand { get; set; }
+    public List<Token<T>>? Hand { get; set; }
     public int HandCount { get {return Hand!.Count();} }
     public int Passes {get; set;}
     //guarda el historial de jugadas de ese jugador

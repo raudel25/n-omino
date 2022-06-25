@@ -43,11 +43,12 @@ public class ValidPlayDimension<T> : IValidPlay<T>
 
         int connection = nodeDimension.FirstConnection;
         if (connection == -1) return true;
-        T valueConnection = nodeDimension.ValuesConnections[connection];
+        
+        ValuesNode<T> value = table.ValuesNodeTable(nodeDimension, connection)!;
 
         foreach(var item in token)
         {
-            if (this._comparison.Compare(item, valueConnection)) return true;
+            if (this._comparison.Compare(item, value.Values[0])) return true;
         }
 
         return false;
@@ -63,17 +64,19 @@ public class ValidPlayDimension<T> : IValidPlay<T>
 
         T[] values = new T[token.CantValues];
         Array.Copy(token.ToArray(), values, token.CantValues);
+        
         int ind = nodeDimension.FirstConnection;
         if (ind == -1) return values;
-        T connection = nodeDimension.ValuesConnections[ind];
+        
+        ValuesNode<T> value = table.ValuesNodeTable(nodeDimension, ind)!;
 
         for (int i = 0; i < values.Length; i++)
         {
-            if (this._comparison.Compare(values[i], connection))
+            if (this._comparison.Compare(values[i], value.Values[0]))
             {
                 //Realizamos el cambio correspondiente con el valor preasignado
                 values[i] = values[ind];
-                values[ind] = connection;
+                values[ind] = value.Values[0];
                 break;
             }
         }
@@ -118,11 +121,16 @@ public class ValidPlayGeometry<T> : IValidPlay<T>
     {
         for (int j = 0; j < circular.Length; j++)
         {
-            if (tableGeometry.CoordValor[nodeGeometry.Location.Coord[j]].Item2 &&
-                !this._comparison.Compare(tableGeometry.CoordValor[nodeGeometry.Location.Coord[j]].Item1!,
-                    circular[j]))
+            ValuesNode<T> valuesNode = tableGeometry.ValuesNodeTable(nodeGeometry, j)!;
+            if (valuesNode.IsAssignValue)
             {
-                return false;
+                foreach (var item in valuesNode.Values)
+                {
+                    if (!this._comparison.Compare(item, circular[j]))
+                    {
+                        return false;
+                    }
+                }
             }
         }
 

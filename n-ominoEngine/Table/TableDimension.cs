@@ -42,7 +42,8 @@ public class TableDimension<T> : TableGame<T>
         Array.Copy(values, nodeDimension.ValuesConnections, values.Length);
         for (int i = 0; i < nodeDimension.ValuesAssign.Length; i++)
         {
-            nodeDimension.ValuesAssign[i] = true;
+            nodeDimension.ValuesAssign[i].IsAssignValue = true;
+            nodeDimension.ValuesAssign[i].Values.Add(values[i]);
         }
     }
 
@@ -55,13 +56,23 @@ public class TableDimension<T> : TableGame<T>
         NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
         NodeDimension<T>? nodeDimensionConnect = nodeConnection as NodeDimension<T>;
         if (nodeDimension == null || nodeDimensionConnect == null) return;
-        nodeDimensionConnect.ValuesConnections[ind] = nodeDimension.ValuesConnections[ind];
-        nodeDimensionConnect.ValuesAssign[ind] = true;
+        // nodeDimensionConnect.ValuesConnections[ind] = nodeDimension.ValuesConnections[ind];
+        nodeDimensionConnect.ValuesAssign[ind].IsAssignValue = true;
+        nodeDimensionConnect.ValuesAssign[ind].Values.Add(nodeDimension.ValuesConnections[ind]);
     }
 
     public override TableGame<T> Clone()
     {
         TableGame<T> table = new TableDimension<T>(Dimension);
         return AuxClone(table);
+    }
+
+    public override ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind)
+    {
+        NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
+
+        if (nodeDimension == null) return null;
+
+        return nodeDimension.ValuesAssign[ind];
     }
 }

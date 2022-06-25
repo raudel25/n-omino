@@ -74,9 +74,9 @@ public class Judge<T>
                     T[] aux = _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
                         .AssignValues(jugada.Node, jugada.Token, _infoGame.Table);
                     _infoGame.Table.PlayTable(jugada.Node, jugada.Token, aux);
-                    _infoGame.Players[ind].Hand.Remove(jugada.Token);
+                    _infoGame.Players[ind].Hand!.Remove(jugada.Token);
                     Console.WriteLine("Jugador " + i + " jugo");
-                    Console.WriteLine((jugada.Token[0], jugada.Token[1], jugada.Token[2]));
+                    Console.WriteLine((jugada.Token[0], jugada.Token[1]));
                 }
 
                 GuiJudge(jugada.Token, ind);
@@ -131,7 +131,7 @@ public class Judge<T>
     {
         Thread.Sleep(1000);
         LocationGui.FindLocationTable(_infoGame.Table);
-        LocationGui.FindLocationHand(_infoGame.Players[ind].Hand, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
+        LocationGui.FindLocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
         Thread.Sleep(1000);
     }
 }

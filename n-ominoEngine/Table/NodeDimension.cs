@@ -8,7 +8,7 @@ public class NodeDimension<T> : INode<T>
     /// <summary>
     /// Determinar si el valor de una conexion ya fue asignado
     /// </summary>
-    public bool[] ValuesAssign { get; set; }
+    public ValuesNode<T>[] ValuesAssign { get; set; }
     public int Id { get; private set; }
     public int IdPlayer { get; set; }
     public List<INode<T>> Fathers { get; private set; }
@@ -29,7 +29,7 @@ public class NodeDimension<T> : INode<T>
     {
         for (int i = 0; i < this.Connections.Length; i++)
         {
-            if (this.ValuesAssign[i]) return i;
+            if (this.ValuesAssign[i].IsAssignValue) return i;
         }
 
         return -1;
@@ -39,9 +39,15 @@ public class NodeDimension<T> : INode<T>
     {
         this.ValueToken = null!;
         this.ValuesConnections = new T[n];
-        this.ValuesAssign = new bool[n];
+        this.ValuesAssign = new ValuesNode<T>[n];
         this.Connections = new INode<T>[n];
         this.Id = id;
         this.Fathers = new List<INode<T>>();
+        
+        //Asiganar valores
+        for (int i = 0; i < this.ValuesAssign.Length; i++)
+        {
+            this.ValuesAssign[i] = new ValuesNode<T>();
+        }
     }
 }

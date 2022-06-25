@@ -10,7 +10,7 @@ public interface IBeginGame<T>
 
 public class BeginGameToken<T> : IBeginGame<T>
 {
-    private Token<T> _token { get; set; }
+    private Token<T> _token;
 
     public BeginGameToken(Token<T> token)
     {
@@ -22,7 +22,7 @@ public class BeginGameToken<T> : IBeginGame<T>
         int id = -1;
         foreach (var item in game.Players)
         {
-            if (item.Hand.Contains(_token))
+            if (item.Hand!.Contains(_token))
             {
                 id = item.Id;
                 break;
@@ -36,7 +36,7 @@ public class BeginGameToken<T> : IBeginGame<T>
         }
         else
         {
-            game.Players[id].Hand.Remove(_token);
+            game.Players[id].Hand!.Remove(_token);
             game.Table.PlayTable(game.Table.TableNode[0], _token,
                 rules.IsValidPlay.Default!.AssignValues(game.Table.TableNode[0], _token, game.Table));
 

@@ -95,7 +95,7 @@ public class LocationGui
             NodeGeometry<T>? node = item as NodeGeometry<T>;
             if (node == null) yield break;
 
-            yield return CreateLocationTable(table, node, row, column, top, left, true);
+            yield return CreateLocationTable(node, row, column, top, left, true);
         }
     }
 
@@ -115,7 +115,6 @@ public class LocationGui
     /// <summary>
     /// Crear la distribucion en la GUI de un ficha
     /// </summary>
-    /// <param name="table">Mesa</param>
     /// <param name="node">Nodo</param>
     /// <param name="row">Incremento en las filas</param>
     /// <param name="column">Incremento en las columnas</param>
@@ -124,7 +123,7 @@ public class LocationGui
     /// <param name="play">Si el nodo esta ocupado</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la ficha</returns>
-    private static LocationGui CreateLocationTable<T>(TableGame<T> table, NodeGeometry<T> node, int row, int column,
+    private static LocationGui CreateLocationTable<T>(NodeGeometry<T> node, int row, int column,
         int top,
         int left, bool play)
     {

@@ -101,4 +101,6 @@ public abstract class TableGame<T>
     /// <summary>Clonar la mesa</summary>
     /// <returns>Mesa clonada</returns>
     public abstract TableGame<T> Clone();
+
+    public abstract ValuesNode<T>? ValuesNodeTable(INode<T> node,int ind);
 }

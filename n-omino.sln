@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Player", "n-ominoEngine\Pla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n-ominoServer", "n-ominoServer\n-ominoServer.csproj", "{EEF50E4B-BE1B-4E67-9983-C948E5ACD491}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{E0E4D247-72DD-4897-8C1D-57DAB4765AB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{EEF50E4B-BE1B-4E67-9983-C948E5ACD491}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEF50E4B-BE1B-4E67-9983-C948E5ACD491}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEF50E4B-BE1B-4E67-9983-C948E5ACD491}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0E4D247-72DD-4897-8C1D-57DAB4765AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0E4D247-72DD-4897-8C1D-57DAB4765AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0E4D247-72DD-4897-8C1D-57DAB4765AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0E4D247-72DD-4897-8C1D-57DAB4765AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C9DFC0AC-C84E-4D02-A01C-8D761A267B48} = {3C4AF272-12FA-4B58-BFCE-CCEEE12DB47A}
