@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>,T> where T : ICloneable<T>
+public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T> where T : struct
 {
     /// <summary>
     /// Cantidad maxima de fichas a robar

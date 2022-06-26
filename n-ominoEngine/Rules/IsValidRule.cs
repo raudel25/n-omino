@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T> where T : ICloneable<T>
+public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T> where T : struct
 {
     private bool[] _checkValid;
 
@@ -29,7 +29,7 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T> where T : IC
         for (int i = 0; i < this.Condition.Length; i++)
         {
             this._checkValid[i] = false;
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(original, ind))
             {
                 this._checkValid[i] = true;
                 activate = true;

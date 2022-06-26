@@ -1,6 +1,6 @@
 namespace Table;
 
-public interface INode<T>
+public interface INode<T> where T: struct
 {
     /// <summary>Nodos vecinos</summary>
     public INode<T>?[] Connections { get; }

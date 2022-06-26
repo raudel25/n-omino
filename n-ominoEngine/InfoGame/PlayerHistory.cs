@@ -2,10 +2,10 @@ using System.Collections;
 using Table;
 
 namespace InfoGame;
-public class History<T> : ICloneable<History<T>> where T : ICloneable<T>
+public class History<T> : ICloneable<History<T>> where T : struct
 {
     private List<Jugada<T>> _history;
-    public History() 
+    public History()
     {
         _history = new();
     }
@@ -18,17 +18,18 @@ public class History<T> : ICloneable<History<T>> where T : ICloneable<T>
     public int Passes => _history.Where(x => x is null).Count();
 
     //cantidad de pases consecutivos 
-    public int ConsecutivePasses 
-    { 
-        get { 
+    public int ConsecutivePasses
+    {
+        get
+        {
             int count = 0;
-            for (int i = this.Turns - 1 ; i > 0; i--) 
+            for (int i = this.Turns - 1; i > 0; i--)
             {
-                if(this[i] is not null) break;
+                if (this[i] is not null) break;
                 else count++;
             }
             return count;
-            }
+        }
     }
 
     //añadir una jugada al historial

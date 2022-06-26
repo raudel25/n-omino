@@ -4,6 +4,10 @@ public class Coordinates
 {
     /// <summary>Lista de coordenadas</summary>
     public (int, int)[] Coord { get; private set; }
+    
+    public int BorderLeft { get; private set; }
+    
+    public int BorderTop { get; private set; }
 
     /// <summary>Lista de coordenadas ordenadas</summary>
     private readonly (int, int)[] _listCoord;
@@ -17,6 +21,14 @@ public class Coordinates
         Array.Sort(listCopy);
         this._listCoord = listCopy;
         this.Coord = listCopy1;
+        this.BorderLeft = listCopy[0].Item1;
+        int max = int.MinValue;
+        for (int i = 0; i < listCopy.Length; i++)
+        {
+            max = Math.Max(max, listCopy[i].Item2);
+        }
+
+        this.BorderTop = max;
     }
 
     public override bool Equals(object? obj)

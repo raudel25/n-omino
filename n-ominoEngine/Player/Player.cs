@@ -4,7 +4,7 @@ using InfoGame;
 
 namespace Player;
 
-public abstract class Player<T> where T : ICloneable<T>
+public abstract class Player<T> where T : struct
 {
     public readonly int Id;
     public Player(int id)
@@ -12,7 +12,7 @@ public abstract class Player<T> where T : ICloneable<T>
         this.Id = id;
     }
     public abstract Jugada<T> Play(GameStatus<T> status, InfoRules<T> rules);
-    protected List<Jugada<T>> GetValidJugadas (Hand<T> myHand, GameStatus<T> status, InfoRules<T> rules)
+    protected List<Jugada<T>> GetValidJugadas(Hand<T> myHand, GameStatus<T> status, InfoRules<T> rules)
     {
         var res = new List<Jugada<T>>();
         foreach (var freNode in status.Table.FreeNode)
@@ -30,10 +30,10 @@ public abstract class Player<T> where T : ICloneable<T>
     }
 }
 
-public class PurePlayer<T> : Player<T> where T : ICloneable<T>
+public class PurePlayer<T> : Player<T> where T : struct
 {
     IStrategy<T> _strategy { get; set; }
-    public PurePlayer (int id, IStrategy<T> strategy) : base(id)
+    public PurePlayer(int id, IStrategy<T> strategy) : base(id)
     {
         this._strategy = strategy;
     }

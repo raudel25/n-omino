@@ -2,7 +2,7 @@ using Table;
 
 namespace InfoGame;
 
-public class GameStatus<T> where T : ICloneable<T>
+public class GameStatus<T> where T : struct
 {
     public InfoPlayer<T>[] Players;
     public List<InfoPlayer<T>>[] Teams;
@@ -24,6 +24,11 @@ public class GameStatus<T> where T : ICloneable<T>
     //Id Equipo que gano init -1 
     public int TeamWinner { get; set; }
 
+    /// <summary>
+    /// Indice del jugador que comienza el juego
+    /// </summary>
+    public int PlayerStart { get; set; }
+
     public GameStatus(InfoPlayer<T>[] players, List<InfoPlayer<T>>[] teams, TableGame<T> table, int[] turns, List<Token<T>> tokens)
     {
         this.Players = players;
@@ -31,6 +36,9 @@ public class GameStatus<T> where T : ICloneable<T>
         this.Table = table;
         this.Turns = turns;
         this.TokensTable = tokens;
+        this.PlayerWinner = -1;
+        this.TeamWinner = -1;
+        this.PlayerStart = -1;
     }
 
     //Determinar el equipo al que pertenece un jugador

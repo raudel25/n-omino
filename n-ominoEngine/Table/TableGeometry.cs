@@ -1,20 +1,20 @@
 namespace Table;
 
-public abstract class TableGeometry<T> : TableGame<T>
+public abstract class TableGeometry<T> : TableGame<T> where T: struct
 {
     // public override HashSet<Node> PlayNode { get; protected set; }
     // public override HashSet<Node> FreeNode { get; protected set; }
     // public override List<Node> TableNode { get; protected set; }
     /// <summary>Coordenadas con sus respectivos nodos</summary>
-    public Dictionary<Coordinates, INode<T>> TableCoord { get; protected set; }
+    protected Dictionary<Coordinates, INode<T>> TableCoord { get; set; }
 
     /// <summary>Valor que contiene cada coordenada</summary>
-    public Dictionary<(int, int), (T?, bool)> CoordValor { get; protected set; }
+    protected Dictionary<(int, int), ValuesNode<T>> CoordValor { get; set; }
 
     protected TableGeometry((int, int)[] coordinates)
     {
         this.TableCoord = new Dictionary<Coordinates, INode<T>>();
-        this.CoordValor = new Dictionary<(int, int), (T?, bool)>();
+        this.CoordValor = new Dictionary<(int, int), ValuesNode<T>>();
         INode<T> node = this.CreateNode(coordinates);
         this.FreeTable(node);
     }
@@ -61,7 +61,7 @@ public abstract class TableGeometry<T> : TableGame<T>
         {
             if (!this.CoordValor.ContainsKey(coordinates[i]))
             {
-                this.CoordValor.Add(coordinates[i], (default, false));
+                this.CoordValor.Add(coordinates[i], new ValuesNode<T>());
             }
         }
 
@@ -75,7 +75,19 @@ public abstract class TableGeometry<T> : TableGame<T>
         //Asignamos los valores
         for (int j = 0; j < values.Length; j++)
         {
-            this.CoordValor[nodeGeometry.Location.Coord[j]] = (values[j], true);
+            if (!this.CoordValor[nodeGeometry.Location.Coord[j]].IsAssignValue)
+            {
+                this.CoordValor[nodeGeometry.Location.Coord[j]].IsAssignValue = true;
+            }
+            this.CoordValor[nodeGeometry.Location.Coord[j]].Values.Add(values[j]);
         }
+    }
+
+    public override ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind)
+    {
+        NodeGeometry<T>? nodeGeometry = node as NodeGeometry<T>;
+        if (nodeGeometry == null) return null;
+
+        return this.CoordValor[nodeGeometry.Location.Coord[ind]];
     }
 }

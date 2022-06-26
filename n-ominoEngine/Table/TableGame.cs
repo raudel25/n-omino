@@ -1,6 +1,6 @@
 namespace Table;
 
-public abstract class TableGame<T>
+public abstract class TableGame<T> where T : struct
 {
     /// <summary>Nodos que contienen una ficha</summary>
     public HashSet<INode<T>> PlayNode { get; protected set; }
@@ -73,7 +73,7 @@ public abstract class TableGame<T>
         {
             if (node.Connections[i] != null)
             {
-                if (this.PlayNode.Contains(node.Connections[i]!))  node.Fathers.Add(node.Connections[i]!);
+                if (this.PlayNode.Contains(node.Connections[i]!)) node.Fathers.Add(node.Connections[i]!);
             }
         }
     }
@@ -101,4 +101,6 @@ public abstract class TableGame<T>
     /// <summary>Clonar la mesa</summary>
     /// <returns>Mesa clonada</returns>
     public abstract TableGame<T> Clone();
+
+    public abstract ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind);
 }

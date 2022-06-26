@@ -2,7 +2,7 @@ using Table;
 
 namespace Rules;
 
-public class InfoRules<T> where T : ICloneable<T>
+public class InfoRules<T> where T : struct
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     public IsValidRule<T> IsValidPlay { get; private set; }

@@ -1,18 +1,18 @@
-﻿using System.Collections;
+using System.Collections;
 using Table;
 namespace InfoGame;
-public class InfoPlayer<T> : ICloneable<InfoPlayer<T>> where T : ICloneable<T>
+public class InfoPlayer<T> : ICloneable<InfoPlayer<T>> where T : struct
 {
     //ID del jugador
     public int Id { get; set; }
     //mano del jugador
     public Hand<T> Hand { get; set; }
     //cantidad de fichas en la mano del jugador
-    public int HandCount { get {return Hand.Count();} }
+    public int HandCount { get { return Hand.Count(); } }
     //cantidad de pases que se ha dado el jugador
-    public int Passes { get {return History.Passes;} }
+    public int Passes { get { return History.Passes; } }
     //guarda el historial de jugadas de ese jugador
-    public History<T> History {get; set;}
+    public History<T> History { get; set; }
     //puntuación del jugador
     public double Score { get; set; }
     public InfoPlayer(Hand<T> hand, History<T> history, double score, int id)

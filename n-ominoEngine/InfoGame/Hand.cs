@@ -2,7 +2,7 @@ using System.Collections;
 using Table;
 namespace InfoGame;
 
-public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>> where T : ICloneable<T>
+public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>> where T : struct
 {
     private HashSet<Token<T>>? _hand;
     public Hand()
@@ -46,7 +46,7 @@ public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>> where T : IClo
     {
         return this.GetEnumerator();
     }
-    
+
     public Hand<T> Clone()
     {
         Hand<T> copy = new();

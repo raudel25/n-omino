@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class VisibilityPlayerRule<T> : ActionConditionRule<IVisibilityPlayer<T>, T> where T : ICloneable<T>
+public class VisibilityPlayerRule<T> : ActionConditionRule<IVisibilityPlayer<T>, T> where T : struct
 {
     public VisibilityPlayerRule(IEnumerable<IVisibilityPlayer<T>> rules, IEnumerable<ICondition<T>> condition,
         IVisibilityPlayer<T> rule) : base(rules, condition, rule)

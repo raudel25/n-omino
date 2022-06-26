@@ -5,21 +5,29 @@ using Player;
 
 namespace Game;
 
-public class Judge<T> where T : ICloneable<T> 
+public class Judge<T> where T : struct
 {
+    private Player<T>[] _players;
     private InfoRules<T> _judgeRules;
     private GameStatus<T> _infoGame;
+    public Token<T> t;
+    public PrinterGeometry g = new PrinterGeometry();
+    Printer q12 = new PrinterDomino();
 
-    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame)
+    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players)
     {
         this._judgeRules = infoRules;
         this._infoGame = infoGame;
-        this.Game();
+        this._players = players;
+        //this.Game();
     }
 
-    private void Game()
+    public void Game()
     {
-        int i = 0;
+        IBeginGame<T> a = new BeginGameToken<T>(t);
+        a.Start(new TournamentStatus(), _infoGame, _judgeRules);
+
+        int i = _infoGame.PlayerStart;
         bool noValid = false;
         int lastPlayerPass = -1;
         while (true)
@@ -29,7 +37,7 @@ public class Judge<T> where T : ICloneable<T>
 
             //Clonar el estado del juego
             GameStatus<T> copy = this._infoGame.Clone();
-            
+
             //Determinar si es posible jugar
             this._judgeRules.IsValidPlay.RunRule(copy, this._infoGame, this._judgeRules, i);
             bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
@@ -55,11 +63,36 @@ public class Judge<T> where T : ICloneable<T>
 
                 noValid = true;
             }
+            Console.WriteLine(play);
+
+            if (play)
+            {
+                this._infoGame.InmediatePass = false;
+                Jugada<T> jugada = _players[ind].Play(_infoGame, _judgeRules);
+                if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
+                    _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
+                        .ValidPlay(jugada.Node, jugada.Token, _infoGame.Table))
+                {
+                    T[] aux = _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
+                        .AssignValues(jugada.Node, jugada.Token, _infoGame.Table);
+                    _infoGame.Table.PlayTable(jugada.Node, jugada.Token, aux);
+                    _infoGame.Players[ind].Hand!.Remove(jugada.Token);
+                    Console.WriteLine("Jugador " + i + " jugo");
+                    Console.WriteLine((jugada.Token[0], jugada.Token[1]));
+                }
+
+                GuiJudge(jugada.Token, ind);
+            }
+            else
+            {
+                this._infoGame.InmediatePass = true;
+                GuiJudge(null, ind);
+            }
 
             //Determinar si es posible pasarse con fichas
-            this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
-            bool toPass = !play || this._judgeRules.ToPassToken.PossibleToPass;
-            //this._infoGame.ImmediatePass = toPass;
+            //this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
+            //bool toPass = !play || this._judgeRules.ToPassToken.PossibleToPass;
+            //this._infoGame.InmediatePass = toPass;
 
             //Determinar la distribucion de los turnos
             this._judgeRules.TurnPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -71,10 +104,12 @@ public class Judge<T> where T : ICloneable<T>
             this._judgeRules.WinnerGame.RunRule(copy, this._infoGame, this._judgeRules, i);
 
             if (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1) break;
+            //Console.WriteLine(this._infoGame.Players[ind].Score);
 
             i++;
             if (i == this._infoGame.Turns.Length) i = 0;
         }
+        Console.WriteLine("Termino");
     }
 
     /// <summary>Determina si el jugador tiene opciones para jugar</summary>
@@ -92,5 +127,16 @@ public class Judge<T> where T : ICloneable<T>
         }
 
         return false;
+    }
+
+    private void GuiJudge(Token<T>? play, int ind)
+    {
+        Thread.Sleep(1000);
+        g.LocationTable(_infoGame.Table);
+        g.LocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
+        // q12.LocationTable(_infoGame.Table);
+        // q12.LocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
+        Thread.Sleep(1000);
+
     }
 }

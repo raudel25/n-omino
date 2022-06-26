@@ -2,7 +2,7 @@ using Table;
 
 namespace Rules;
 
-public interface IAssignScoreToken<T>
+public interface IAssignScoreToken<T> where T : struct
 {
     /// <summary>
     /// Determinar el score de una ficha
@@ -16,6 +16,6 @@ public class AssignScoreTokenClassic : IAssignScoreToken<int>
 {
     public int ScoreToken(Token<int> token)
     {
-        return token.Values.Sum();
+        return token.Sum();
     }
 }

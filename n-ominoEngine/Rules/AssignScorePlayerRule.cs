@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T>, T> where T : ICloneable<T>
+public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T>, T> where T : struct
 {
     public AssignScorePlayerRule(IEnumerable<IAssignScorePlayer<T>> rules, IEnumerable<ICondition<T>> condition) : base(
         rules,
@@ -15,9 +15,9 @@ public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T
     {
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(original, ind))
             {
-                this.Actions[i].AssignScore(game, rules, ind);
+                this.Actions[i].AssignScore(original, rules, ind);
             }
         }
     }

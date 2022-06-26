@@ -1,0 +1,28 @@
+<div class="square">
+    <div class="square1">
+        <span>
+            @Values[1]
+        </span>
+    </div>
+    <div class="square2">
+        <span>
+            @Values[2]
+        </span>
+    </div>
+    <div class="square3">
+        <span>
+            @Values[0]
+        </span>
+        </div>
+    <div class="square4">
+        <span>
+            @Values[3]
+        </span>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public string[]? Values { get; set; }
+}

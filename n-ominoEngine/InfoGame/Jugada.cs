@@ -2,7 +2,7 @@ using Table;
 
 namespace InfoGame;
 
-public class Jugada<T> : ICloneable<Jugada<T>>
+public class Jugada<T> : ICloneable<Jugada<T>> where T : struct
 {
     //ficha que quiero jugar
     public Token<T> Token;

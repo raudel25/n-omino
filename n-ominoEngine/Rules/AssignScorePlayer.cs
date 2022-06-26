@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IAssignScorePlayer<T> where T : ICloneable<T>
+public interface IAssignScorePlayer<T> where T : struct
 {
     /// <summary>
     /// Determinar la forma de asignar puntos a un jugador
@@ -14,7 +14,7 @@ public interface IAssignScorePlayer<T> where T : ICloneable<T>
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind);
 }
 
-public class AssignScoreClassic<T> : IAssignScorePlayer<T> where T : ICloneable<T>
+public class AssignScoreClassic<T> : IAssignScorePlayer<T> where T : struct
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -22,7 +22,7 @@ public class AssignScoreClassic<T> : IAssignScorePlayer<T> where T : ICloneable<
     }
 }
 
-public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : ICloneable<T>
+public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : struct
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -39,7 +39,7 @@ public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : ICloneable<T>
     }
 }
 
-public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T> where T : ICloneable<T>
+public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T> where T : struct
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -56,7 +56,7 @@ public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T> where T : IClo
     }
 }
 
-public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T> where T : ICloneable<T>
+public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T> where T : struct
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -68,12 +68,12 @@ public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T> where T : ICl
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = (double) (sum) / game.Players[i].Hand!.Count;
+            game.Players[i].Score = (double)(sum) / game.Players[i].Hand!.Count;
         }
     }
 }
 
-public class AssignScoreSumFreeNode : IAssignScorePlayer<int> 
+public class AssignScoreSumFreeNode : IAssignScorePlayer<int>
 {
     public void AssignScore(GameStatus<int> game, InfoRules<int> rules, int ind)
     {

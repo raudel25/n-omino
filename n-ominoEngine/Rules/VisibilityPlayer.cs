@@ -3,7 +3,7 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IVisibilityPlayer<T> where T : ICloneable<T>
+public interface IVisibilityPlayer<T> where T : struct
 {
     /// <summary>
     /// Determinar la visibilidad de los jugadores sobre las fichas del juego
@@ -13,7 +13,7 @@ public interface IVisibilityPlayer<T> where T : ICloneable<T>
     public void Visibility(GameStatus<T> game, int ind);
 }
 
-public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T> where T : ICloneable<T>
+public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T> where T : struct
 {
     public void Visibility(GameStatus<T> game, int ind)
     {
@@ -27,7 +27,7 @@ public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T> where T : IClonea
     }
 }
 
-public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T> where T : ICloneable<T>
+public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T> where T : struct
 {
     public void Visibility(GameStatus<T> game, int ind)
     {

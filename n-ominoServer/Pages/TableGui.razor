@@ -1,0 +1,38 @@
+@using Game
+@using System.Runtime.Loader
+
+<div style="display: flex; justify-content: center">
+    <div style="overflow: auto; height: 400px; max-width:1250px;">
+        <div style="display: grid; grid-column-gap:2px; grid-row-gap: 3px;">
+            @foreach (var item in Locations)
+            {
+                <div style="grid-row-start: @item.Location.Item1; grid-row-end: @item.Location.Item2; 
+                    grid-column-start: @item.Location.Item3; grid-column-end: @item.Location.Item4">
+
+                    <TokenTypes Location="item"></TokenTypes>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public IEnumerable<LocationGui> Locations { get; set; } = Array.Empty<LocationGui>();
+
+    protected override void OnInitialized()
+    {
+        Printer.BindTableEvent += BindLocationGui;
+    }
+
+    private void BindLocationGui(IEnumerable<LocationGui> location)
+    {
+        _ = InvokeAsync(() =>
+        {
+            Locations = location;
+            StateHasChanged();
+        });
+    }
+
+}

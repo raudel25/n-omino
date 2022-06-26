@@ -1,0 +1,22 @@
+@page "/Game"
+@using Game
+
+<button @onclick="Start">Start</button>
+
+<TableGui></TableGui>
+
+<HandPlayer></HandPlayer>
+
+@code
+{
+    public Judge<int> Judge = Test.Game();
+    
+    private LocationGui[] LocationTable { get; set; } = Array.Empty<LocationGui>();
+    
+    private LocationGui[] LocationHand { get; set; } = Array.Empty<LocationGui>();
+    
+    private async Task Start()
+    {
+        await Task.Run(() =>Judge.Game());
+    }
+}

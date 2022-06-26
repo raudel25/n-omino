@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableLongana<T>:TableDimension<T>
+public class TableLongana<T> : TableDimension<T> where T: struct
 {
     /// <summary>
     /// Cantidad de jugadores
@@ -9,8 +9,8 @@ public class TableLongana<T>:TableDimension<T>
     /// <summary>
     /// Ramas por las que se ubican los nodos
     /// </summary>
-    public Dictionary<INode<T>,int> BranchNode { get; private set; }
-    public TableLongana(int n,int players) : base(n)
+    public Dictionary<INode<T>, int> BranchNode { get; private set; }
+    public TableLongana(int n, int players) : base(n)
     {
         this.FreeNode = new HashSet<INode<T>>();
         this.TableNode = new List<INode<T>>();
@@ -18,7 +18,7 @@ public class TableLongana<T>:TableDimension<T>
         this.FreeTable(node);
         this.CantPlayer = players;
         this.BranchNode = new Dictionary<INode<T>, int>();
-        this.BranchNode.Add(node,-1);
+        this.BranchNode.Add(node, -1);
     }
 
     protected override void Expand(INode<T> node)
@@ -31,7 +31,7 @@ public class TableLongana<T>:TableDimension<T>
                 UnionNode(node, CreateNode(this.Dimension), i);
                 AssignValueConnection(node, node.Connections[i]!, 0);
                 FreeTable(node.Connections[i]!);
-                this.BranchNode.Add(node.Connections[i]!,i);
+                this.BranchNode.Add(node.Connections[i]!, i);
             }
         }
         else
@@ -49,7 +49,7 @@ public class TableLongana<T>:TableDimension<T>
 
     public override TableGame<T> Clone()
     {
-        TableGame<T> table = new TableLongana<T>(this.Dimension,this.CantPlayer);
+        TableGame<T> table = new TableLongana<T>(this.Dimension, this.CantPlayer);
         return AuxClone(table);
     }
 

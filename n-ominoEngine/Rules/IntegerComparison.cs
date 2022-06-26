@@ -87,6 +87,7 @@ public class GcdComparison : IComparison<int>
 
     public bool Compare(int a, int b)
     {
+        if(a==0||b==0) return false;
         return GCD(a, b) == this._gcd;
     }
 
