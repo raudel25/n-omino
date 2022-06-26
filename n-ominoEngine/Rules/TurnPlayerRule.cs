@@ -1,8 +1,9 @@
 using InfoGame;
+using Table;
 
 namespace Rules;
 
-public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>
+public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T> where T : struct
 {
     public TurnPlayerRule(IEnumerable<ITurnPlayer> rules, IEnumerable<ICondition<T>> condition, ITurnPlayer rule) :
         base(

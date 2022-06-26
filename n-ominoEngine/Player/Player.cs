@@ -4,7 +4,7 @@ using InfoGame;
 
 namespace Player;
 
-public abstract class Player<T>
+public abstract class Player<T> where T : struct
 {
     public readonly int Id;
     public Player(int id)
@@ -12,17 +12,17 @@ public abstract class Player<T>
         this.Id = id;
     }
     public abstract Jugada<T> Play(GameStatus<T> status, InfoRules<T> rules);
-    protected List<Jugada<T>> GetValidJugadas(IList<Token<T>> items, GameStatus<T> status, InfoRules<T> rules)
+    protected List<Jugada<T>> GetValidJugadas(Hand<T> myHand, GameStatus<T> status, InfoRules<T> rules)
     {
         var res = new List<Jugada<T>>();
-        foreach (var item in status.Table.FreeNode)
+        foreach (var freNode in status.Table.FreeNode)
         {
-            foreach (var x in items)
+            foreach (var token in myHand)
             {
-                var validMoves = rules.IsValidPlay.ValidPlays(item, x, status.Table);
-                for (int i = 0; i < validMoves.Count; i++)
+                var validmoves = rules.IsValidPlay.ValidPlays(freNode, token, status.Table);
+                for (int i = 0; i < validmoves.Count; i++)
                 {
-                    res.Add(new Jugada<T>(x,item,i));
+                    res.Add(new Jugada<T>(token, freNode, validmoves[i]));
                 }
             }
         }
@@ -30,7 +30,7 @@ public abstract class Player<T>
     }
 }
 
-public class PurePlayer<T> : Player<T>
+public class PurePlayer<T> : Player<T> where T : struct
 {
     IStrategy<T> _strategy { get; set; }
     public PurePlayer(int id, IStrategy<T> strategy) : base(id)
@@ -42,9 +42,4 @@ public class PurePlayer<T> : Player<T>
         var possibleJugadas = this.GetValidJugadas(status.Players[Id].Hand!, status, rules);
         return _strategy.Play(possibleJugadas, status, rules);
     }
-}
-
-public interface ICloneable<T> : ICloneable
-{
-    public T Clone();
 }

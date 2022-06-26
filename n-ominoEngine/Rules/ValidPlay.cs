@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IValidPlay<T>
+public interface IValidPlay<T> where T : struct
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     /// <param name="node">Nodo por el que se va a jugar</param>
@@ -21,7 +21,7 @@ public interface IValidPlay<T>
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table);
 }
 
-public class ValidPlayDimension<T> : IValidPlay<T>
+public class ValidPlayDimension<T> : IValidPlay<T> where T : struct
 {
     /// <summary>
     /// Criterio para comparar los valores de las fichas
@@ -43,10 +43,10 @@ public class ValidPlayDimension<T> : IValidPlay<T>
 
         int connection = nodeDimension.FirstConnection;
         if (connection == -1) return true;
-        
+
         ValuesNode<T> value = table.ValuesNodeTable(nodeDimension, connection)!;
 
-        foreach(var item in token)
+        foreach (var item in token)
         {
             if (this._comparison.Compare(item, value.Values[0])) return true;
         }
@@ -64,10 +64,10 @@ public class ValidPlayDimension<T> : IValidPlay<T>
 
         T[] values = new T[token.CantValues];
         Array.Copy(token.ToArray(), values, token.CantValues);
-        
+
         int ind = nodeDimension.FirstConnection;
         if (ind == -1) return values;
-        
+
         ValuesNode<T> value = table.ValuesNodeTable(nodeDimension, ind)!;
 
         for (int i = 0; i < values.Length; i++)
@@ -85,7 +85,7 @@ public class ValidPlayDimension<T> : IValidPlay<T>
     }
 }
 
-public class ValidPlayGeometry<T> : IValidPlay<T>
+public class ValidPlayGeometry<T> : IValidPlay<T> where T : struct
 {
     private IComparison<T> _comparison;
 
@@ -138,7 +138,7 @@ public class ValidPlayGeometry<T> : IValidPlay<T>
     }
 }
 
-public class ComodinTokenDimension<T> : IValidPlay<T>
+public class ComodinTokenDimension<T> : IValidPlay<T> where T : struct
 {
     private Token<T> _comodinToken;
 
@@ -158,7 +158,7 @@ public class ComodinTokenDimension<T> : IValidPlay<T>
     }
 }
 
-public class ValidPlayLongana<T> : IValidPlay<T>
+public class ValidPlayLongana<T> : IValidPlay<T> where T : struct
 {
     private IComparison<T> _comparison;
 
@@ -187,7 +187,7 @@ public class ValidPlayLongana<T> : IValidPlay<T>
         if (tableLongana.PlayNode.Count == 0)
         {
             T aux = token[0];
-            foreach(var item in token)
+            foreach (var item in token)
             {
                 if (aux!.Equals(item)) return true;
             }

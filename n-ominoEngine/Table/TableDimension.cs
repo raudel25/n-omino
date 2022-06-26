@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableDimension<T> : TableGame<T>
+public class TableDimension<T> : TableGame<T> where T: struct
 {
     /// <summary>Cantidad de conexiones de un nodo de la mesa</summary>
     public int Dimension { get; protected set; }

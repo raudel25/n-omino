@@ -2,7 +2,7 @@ using Table;
 
 namespace InfoGame;
 
-public class GameStatus<T>
+public class GameStatus<T> where T : struct
 {
     public InfoPlayer<T>[] Players;
     public List<InfoPlayer<T>>[] Teams;
@@ -23,7 +23,7 @@ public class GameStatus<T>
 
     //Id Equipo que gano init -1 
     public int TeamWinner { get; set; }
-    
+
     /// <summary>
     /// Indice del jugador que comienza el juego
     /// </summary>

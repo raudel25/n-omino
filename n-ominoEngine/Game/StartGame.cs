@@ -1,23 +1,25 @@
 using Table;
+using InfoGame;
 
 namespace Game;
 
-public interface IDealer<T>
+public interface IDealer<T> where T : struct
 {
     /// <summary>Reparte una cantidad de T</summary>
     /// <param name="items">Elementos a repartir</param>
     /// <param name="cant">Cantidad de elementos que se quieren</param>
     /// <returns>Una lista con lo que repartió</returns>
-    public List<T> Deal(List<T> items, int cant);
+    public Hand<T> Deal(List<Token<T>> items, int cant);
 }
 
-public class RandomDealer<T> : IDealer<Token<T>>
+public class RandomDealer<T> : IDealer<T> where T : struct
 {
-    public List<Token<T>> Deal(List<Token<T>> items, int cant)
+    public Hand<T> Deal(List<Token<T>> items, int cant)
     {
-        List<Token<T>> res = new();
+        Hand<T> res = new();
         Random r = new Random();
         int count = 0;
+
         while (count++ < cant)
         {
             int index = r.Next(items.Count);
@@ -29,7 +31,7 @@ public class RandomDealer<T> : IDealer<Token<T>>
     }
 }
 
-public interface ITokensMaker<T>
+public interface ITokensMaker<T> where T : struct
 {
     /// <summary>Genera las fichas</summary>
     /// <param name="values">Valores que tendrán las fichas</param>
@@ -38,7 +40,7 @@ public interface ITokensMaker<T>
     public List<Token<T>> MakeTokens(T[] values, int n);
 }
 
-public class TokensMakerClassic<T> : ITokensMaker<T>
+public class TokensMakerClassic<T> : ITokensMaker<T> where T : struct
 {
     public List<Token<T>> MakeTokens(T[] array, int n)
     {
@@ -66,7 +68,7 @@ public class TokensMakerClassic<T> : ITokensMaker<T>
     }
 }
 
-public class TokensMakerCircular<T> : ITokensMaker<T>
+public class TokensMakerCircular<T> : ITokensMaker<T> where T : struct
 {
     public List<Token<T>> MakeTokens(T[] array, int n)
     {

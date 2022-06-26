@@ -1,4 +1,5 @@
 using Table;
+using InfoGame;
 
 namespace Game;
 
@@ -50,7 +51,7 @@ public abstract class Printer
     /// <param name="table">Mesa</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la mesa para la GUI</returns>
-    public abstract void LocationTable<T>(TableGame<T> table);
+    public abstract void LocationTable<T>(TableGame<T> table) where T : struct;
 
     /// <summary>
     /// Determinar la posicion de la mano de los jugadores
@@ -61,7 +62,7 @@ public abstract class Printer
     /// <param name="player">Jugador</param>
     /// <typeparam name="T">Tipo de ficha para el juego</typeparam>
     /// <returns>Ubicacion en la GUI para la mano del play</returns>
-    public abstract void LocationHand<T>(List<Token<T>> tokens, Token<T>? play, TableGame<T> table, string player);
+    public abstract void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player) where T : struct;
 
     /// <summary>
     /// Asignar los valores a las fichas
@@ -71,7 +72,7 @@ public abstract class Printer
     /// <param name="row">Filas</param>
     /// <param name="column">Columnas</param>
     /// <typeparam name="T">Tipo de juego</typeparam>
-    protected IEnumerable<LocationGui> AssignValues<T>(List<Token<T>> tokens, int row, int column, TypeToken type)
+    protected IEnumerable<LocationGui> AssignValues<T>(Hand<T> tokens, int row, int column, TypeToken type) where T : struct
     {
         int indColumn = 0;
         int indRow = 0;
@@ -96,8 +97,8 @@ public abstract class Printer
         }
     }
 
-    protected void DeterminateLocationHand<T>(List<Token<T>> tokens, Token<T>? play, TableGame<T> table, string player,
-        int row, int column, TypeToken type)
+    protected void DeterminateLocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player,
+        int row, int column, TypeToken type) where T : struct
     {
         IEnumerable<LocationGui> location = AssignValues(tokens, row, column, type);
 

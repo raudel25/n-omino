@@ -1,4 +1,5 @@
 using Table;
+using InfoGame;
 
 namespace Game;
 
@@ -10,35 +11,35 @@ public class PrinterDimension : Printer
         // {
         //     
         // }
-        int height = Dfs(table.TableNode[0],new HashSet<INode<T>>());
-        
-        Printer.ExecuteTableEvent(Bfs(table.TableNode[0],height,new HashSet<INode<T>>()));
+        int height = Dfs(table.TableNode[0], new HashSet<INode<T>>());
+
+        Printer.ExecuteTableEvent(Bfs(table.TableNode[0], height, new HashSet<INode<T>>()));
         // foreach (var item in Bfs(table.TableNode[0],height,new HashSet<INode<T>>()))
         // {
         //     
         // }
     }
-    
-    public override void LocationHand<T>(List<Token<T>> tokens, Token<T>? play, TableGame<T> table, string player)
+
+    public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
     {
-        
+
     }
 
-    private int Dfs<T>(INode<T> node,HashSet<INode<T>> visited)
+    private int Dfs<T>(INode<T> node, HashSet<INode<T>> visited) where T : struct
     {
         int max = 0;
         visited.Add(node);
         foreach (var item in node.Connections)
         {
-            if(item == null) continue;
-            if(visited.Contains(item)) continue;
-            max = Math.Max(max, Dfs(item,visited));
+            if (item == null) continue;
+            if (visited.Contains(item)) continue;
+            max = Math.Max(max, Dfs(item, visited));
         }
 
         return max + 1;
     }
 
-    private IEnumerable<LocationGui> Bfs<T>(INode<T> node,int height,HashSet<INode<T>> visited)
+    private IEnumerable<LocationGui> Bfs<T>(INode<T> node, int height, HashSet<INode<T>> visited) where T : struct
     {
         TypeToken type = TypeToken.NDimension;
         Queue<INode<T>> queue1 = new Queue<INode<T>>();
@@ -61,11 +62,11 @@ public class PrinterDimension : Printer
                 //Console.WriteLine(column+"*****");
                 visited.Add(element);
                 column += 2;
-                    
+
                 for (int i = 0; i < element.Connections.Length; i++)
                 {
-                    if(element.Connections[i]==null) continue;
-                    if(visited.Contains(element.Connections[i]!)) continue;
+                    if (element.Connections[i] == null) continue;
+                    if (visited.Contains(element.Connections[i]!)) continue;
                     queue2.Enqueue(element.Connections[i]!);
                 }
             }
@@ -76,16 +77,16 @@ public class PrinterDimension : Printer
             {
                 INode<T> element = queue2.Peek();
                 queue2.Dequeue();
-                
+
                 yield return new LocationGui((row, row + 1, column, column + 2), new string[dimension], type);
                 //Console.WriteLine(column+"*****");
                 visited.Add(element);
                 column += 2;
-                
+
                 for (int i = 0; i < element.Connections.Length; i++)
                 {
-                    if(element.Connections[i]==null) continue;
-                    if(visited.Contains(element.Connections[i]!)) continue;
+                    if (element.Connections[i] == null) continue;
+                    if (visited.Contains(element.Connections[i]!)) continue;
                     queue1.Enqueue(element.Connections[i]!);
                 }
             }

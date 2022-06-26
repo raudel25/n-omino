@@ -1,13 +1,14 @@
 using Table;
-using Rules;
-using InfoGame;
 
-namespace Player;
+namespace InfoGame;
 
-public class Jugada<T> : ICloneable<Jugada<T>>
+public class Jugada<T> : ICloneable<Jugada<T>> where T : struct
 {
+    //ficha que quiero jugar
     public Token<T> Token;
+    //nodo por el que lo quiero jugar
     public INode<T> Node;
+    //índice de la regla que valida la jugada
     public int ValidPlay;
     public Jugada(Token<T> token, INode<T> node, int validPlay)
     {

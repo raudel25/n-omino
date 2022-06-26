@@ -1,6 +1,6 @@
 namespace Table;
 
-public class NodeDimension<T> : INode<T>
+public class NodeDimension<T> : INode<T> where T : struct
 {
     public Token<T> ValueToken { get; set; }
     public INode<T>?[] Connections { get; set; }
@@ -43,7 +43,7 @@ public class NodeDimension<T> : INode<T>
         this.Connections = new INode<T>[n];
         this.Id = id;
         this.Fathers = new List<INode<T>>();
-        
+
         //Asiganar valores
         for (int i = 0; i < this.ValuesAssign.Length; i++)
         {

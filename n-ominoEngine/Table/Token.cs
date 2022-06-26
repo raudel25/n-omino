@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace Table;
 
-public class Token<T>:IEnumerable<T>
+public class Token<T> : IEnumerable<T> where T : struct
 {
     public IEnumerator<T> GetEnumerator()
     {
@@ -25,7 +25,7 @@ public class Token<T>:IEnumerable<T>
             return this._values[index];
         }
     }
-    
+
     public int CantValues
     {
         get { return this._values.Length; }

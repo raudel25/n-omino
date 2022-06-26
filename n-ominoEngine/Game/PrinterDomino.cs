@@ -1,4 +1,5 @@
 using Table;
+using InfoGame;
 
 namespace Game;
 
@@ -12,12 +13,12 @@ public class PrinterDomino : Printer
     {
         INode<T> actualhead = table.TableNode[this.IdLastHead];
         INode<T> head = actualhead;
-        
+
         //Determinar la cabeza acual correspondiente al juego
         foreach (var item in actualhead.Connections)
         {
             if (table.FreeNode.Contains(item!)) break;
-            
+
             foreach (var itemConnection in item!.Connections)
             {
                 if (table.FreeNode.Contains(itemConnection!))
@@ -26,20 +27,20 @@ public class PrinterDomino : Printer
                     break;
                 }
             }
-            
+
         }
 
         this.IdLastHead = head.Id;
 
         Printer.ExecuteTableEvent(DeterminateLocation(table, head));
     }
-    
-    public override void LocationHand<T>(List<Token<T>> tokens, Token<T>? play, TableGame<T> table, string player)
+
+    public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
     {
-        DeterminateLocationHand(tokens,play,table,player,3,1,TypeToken.DominoV);
+        DeterminateLocationHand(tokens, play, table, player, 3, 1, TypeToken.DominoV);
     }
 
-    private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node)
+    private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node) where T : struct
     {
         HashSet<INode<T>> visited = new HashSet<INode<T>>();
 
@@ -47,7 +48,7 @@ public class PrinterDomino : Printer
         INode<T> aux = node;
         int column = 1;
         Parity func = (table.FreeNode.Contains(node.Connections[0]!)) ? (n) => ((n & 1) == 1) : (n) => ((n & 1) == 0);
-        
+
         //Distribuir la ubicacion de la ficha en la Gui
         while (cant < table.PlayNode.Count)
         {
@@ -57,11 +58,11 @@ public class PrinterDomino : Printer
             (string values1, string values2) = (func(cant))
                 ? (aux.ValuesConnections[0]!.ToString()!, aux.ValuesConnections[1]!.ToString()!)
                 : (aux.ValuesConnections[1]!.ToString()!, aux.ValuesConnections[0]!.ToString()!);
-            string[] values = new[] {values1, values2};
+            string[] values = new[] { values1, values2 };
 
             if (aux.ValuesConnections[0]!.Equals(aux.ValuesConnections[1]))
             {
-                yield return new LocationGui((1, 4, column, column + 1),values, TypeToken.DominoV);
+                yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoV);
                 column++;
             }
             else

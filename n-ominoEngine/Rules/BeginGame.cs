@@ -3,12 +3,12 @@ using Table;
 
 namespace Rules;
 
-public interface IBeginGame<T>
+public interface IBeginGame<T> where T : struct
 {
     public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules);
 }
 
-public class BeginGameToken<T> : IBeginGame<T>
+public class BeginGameToken<T> : IBeginGame<T> where T : struct
 {
     private Token<T> _token;
 
@@ -52,7 +52,7 @@ public class BeginGameToken<T> : IBeginGame<T>
     }
 }
 
-public class BeginGameRandom<T> : IBeginGame<T>
+public class BeginGameRandom<T> : IBeginGame<T> where T : struct
 {
     public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
     {
