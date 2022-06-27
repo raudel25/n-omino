@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableTriangular<T> : TableGeometry<T> where T : struct
+public class TableTriangular<T> : TableGeometry<T>, ICloneable<TableGame<T>> where T : struct
 {
     public TableTriangular((int, int)[] coordinates) : base(coordinates)
     {
@@ -67,5 +67,10 @@ public class TableTriangular<T> : TableGeometry<T> where T : struct
         Array.Copy(((NodeGeometry<T>)this.TableNode[0]).Location.Coord, aux, 3);
         TableGame<T> table = new TableTriangular<T>(aux);
         return this.AuxClone(table);
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

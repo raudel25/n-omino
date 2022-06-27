@@ -103,4 +103,5 @@ public abstract class TableGame<T> where T : struct
     public abstract TableGame<T> Clone();
 
     public abstract ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind);
+
 }

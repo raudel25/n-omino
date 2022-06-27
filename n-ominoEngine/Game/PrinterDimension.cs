@@ -5,8 +5,13 @@ namespace Game;
 
 public class PrinterDimension : Printer
 {
+    public PrinterDimension(int speed) : base(speed)
+    {
+    }
+
     public override void LocationTable<T>(TableGame<T> table)
     {
+        Thread.Sleep(this.Speed);
         // foreach (var item in Bfs(table.TableNode[0]))
         // {
         //     
@@ -22,7 +27,7 @@ public class PrinterDimension : Printer
 
     public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
     {
-
+        Thread.Sleep(this.Speed);
     }
 
     private int Dfs<T>(INode<T> node, HashSet<INode<T>> visited) where T : struct
@@ -52,7 +57,7 @@ public class PrinterDimension : Printer
         while (queue1.Count != 0 || queue2.Count != 0)
         {
             row++;
-            column = (int)Math.Pow(dimension, height - row);
+            column = (int) Math.Pow(dimension, height - row);
             while (queue1.Count != 0)
             {
                 INode<T> element = queue1.Peek();
@@ -72,7 +77,7 @@ public class PrinterDimension : Printer
             }
 
             row++;
-            column = (int)Math.Pow(dimension, height - row);
+            column = (int) Math.Pow(dimension, height - row);
             while (queue2.Count != 0)
             {
                 INode<T> element = queue2.Peek();

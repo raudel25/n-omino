@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableHexagonal<T> : TableGeometry<T> where T: struct
+public class TableHexagonal<T> : TableGeometry<T>, ICloneable<TableGame<T>> where T : struct
 {
     public TableHexagonal((int, int)[] coordinates) : base(coordinates)
     {
@@ -64,5 +64,10 @@ public class TableHexagonal<T> : TableGeometry<T> where T: struct
         Array.Copy(((NodeGeometry<T>)TableNode[0]).Location.Coord, aux, 6);
         TableGame<T> table = new TableHexagonal<T>(aux);
         return AuxClone(table);
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

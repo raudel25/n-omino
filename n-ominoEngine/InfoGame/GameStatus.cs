@@ -28,6 +28,8 @@ public class GameStatus<T> where T : struct
     /// Indice del jugador que comienza el juego
     /// </summary>
     public int PlayerStart { get; set; }
+    
+    public Token<T>? TokenStart { get; set; }
 
     public GameStatus(InfoPlayer<T>[] players, List<InfoPlayer<T>>[] teams, TableGame<T> table, int[] turns, List<Token<T>> tokens)
     {

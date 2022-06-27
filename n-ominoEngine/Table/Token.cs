@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace Table;
 
-public class Token<T> : IEnumerable<T> where T : struct
+public class Token<T> : IEnumerable<T>, ICloneable<Token<T>> where T : struct
 {
     public IEnumerator<T> GetEnumerator()
     {
@@ -61,5 +61,10 @@ public class Token<T> : IEnumerable<T> where T : struct
     public override int GetHashCode()
     {
         return this._values[0]!.GetHashCode();
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

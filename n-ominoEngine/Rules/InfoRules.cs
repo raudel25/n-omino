@@ -1,5 +1,3 @@
-using Table;
-
 namespace Rules;
 
 public class InfoRules<T> where T : struct
@@ -32,13 +30,19 @@ public class InfoRules<T> where T : struct
     public WinnerGameRule<T> WinnerGame { get; private set; }
 
     /// <summary>
+    /// Determinar como se inicia el juego
+    /// </summary>
+    public BeginGameRule<T> Begin { get; private set; }
+
+    /// <summary>
     /// Determinar el Score de una ficha
     /// </summary>
     public IAssignScoreToken<T> ScoreToken { get; private set; }
 
     public InfoRules(IsValidRule<T> validPlay, VisibilityPlayerRule<T> visibility, TurnPlayerRule<T> turn,
         StealTokenRule<T> steal, ToPassTokenRule<T> toPass,
-        AssignScorePlayerRule<T> assign, WinnerGameRule<T> winnerGame, IAssignScoreToken<T> scoreToken)
+        AssignScorePlayerRule<T> assign, WinnerGameRule<T> winnerGame, IAssignScoreToken<T> scoreToken,
+        BeginGameRule<T> begin)
     {
         this.IsValidPlay = validPlay;
         this.AsignScorePlayer = assign;
@@ -48,6 +52,7 @@ public class InfoRules<T> where T : struct
         this.VisibilityPlayer = visibility;
         this.StealTokens = steal;
         this.ScoreToken = scoreToken;
+        this.Begin = begin;
     }
 
     /// <summary>Clonar el objeto InfoRules</summary>
@@ -56,6 +61,6 @@ public class InfoRules<T> where T : struct
     {
         return new InfoRules<T>(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
             this.StealTokens.Clone(), this.ToPassToken.Clone(),
-            this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken);
+            this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken, this.Begin.Clone());
     }
 }

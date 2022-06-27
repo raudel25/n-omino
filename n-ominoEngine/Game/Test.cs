@@ -10,31 +10,31 @@ public static class Test
 {
     public static Judge<int> Game()
     {
-        TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
+        //TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
         // TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2),(3,1),(2,0) });
         // TableGame<int> table = new TableTriangular<int>(new []{(0, 0), (1, 1), (2, 0)}); 
-        // TableDimension<int> table = new TableDimension<int>(2);
-        int[] array = new int[10];
-        for (int i = 0; i < 10; i++)
+        TableDimension<int> table = new TableDimension<int>(2);
+        int[] array = new int[7];
+        for (int i = 0; i < 7; i++)
         {
             array[i] = i;
         }
 
         //Jugadores
-        ITokensMaker<int> maker = new TokensMakerCircular<int>();
+        ITokensMaker<int> maker = new TokensMakerClassic<int>();
 
-        List<Token<int>> tokens = maker.MakeTokens(array, 4);
+        // List<Token<int>> tokens = maker.MakeTokens(array, 4);
 
         IDealer<int> dealer = new RandomDealer<int>();
 
         InfoPlayer<int>[] playersInfo = new InfoPlayer<int>[4];
 
-        for (int i = 0; i < 4; i++)
-        {
-            var anabel = dealer.Deal(tokens, 50);
+        // for (int i = 0; i < 4; i++)
+        // {
+        //     var anabel = dealer.Deal(tokens, 50);
 
-            playersInfo[i] = new InfoPlayer<int>(anabel, new History<int>(), 0, i);
-        }
+        //     playersInfo[i] = new InfoPlayer<int>(anabel, new History<int>(), 0, i);
+        // }
 
         Player.Player<int>[] players = new Player<int>[4];
 
@@ -45,19 +45,22 @@ public static class Test
             players[i] = new PurePlayer<int>(i, strategy);
         }
 
-        List<InfoPlayer<int>>[] team = new List<InfoPlayer<int>>[4];
+        // List<InfoPlayer<int>>[] team = new List<InfoPlayer<int>>[4];
 
-        for (int i = 0; i < 4; i++)
-        {
-            team[i] = new List<InfoPlayer<int>>();
-            team[i].Add(playersInfo[i]);
-        }
+        // for (int i = 0; i < 4; i++)
+        // {
+        //     team[i] = new List<InfoPlayer<int>>();
+        //     team[i].Add(playersInfo[i]);
+        // }
 
-        GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
+        List<int>[] op = new[] { new List<int>() { 0 }, new List<int>() { 1 }, new List<int>() { 2 }, new List<int>() { 3 } };
+        InitializerGame<int> init = new InitializerGame<int>(maker, dealer, op, table, array, 4, 7, 2);
 
+        //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
+        GameStatus<int> game = init.StartGame();
 
-        // IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
-        IValidPlay<int> valid = new ValidPlayGeometry<int>(new ClassicComparison<int>());
+        IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
+        // IValidPlay<int> valid = new ValidPlayGeometry<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();
         IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
         IAssignScorePlayer<int> scorePlayerNo = new AssignScoreHands<int>();
@@ -86,12 +89,19 @@ public static class Test
         WinnerGameRule<int> winnerGameRule = new WinnerGameRule<int>(new[] { winnerGame, winnerGameTranque },
             new[] { conditionWin, conditionTranque });
 
+        IBeginGame<int> beginGame = new BeginGameToken<int>(new Token<int>(new[] { 6, 6 }));
+
+        BeginGameRule<int> beginGameRule = new BeginGameRule<int>(new[] { beginGame }, new[] { condition }, beginGame);
+
+        // Printer print = new PrinterGeometry(1000);
+        Printer print = new PrinterDomino(1000);
+
         InfoRules<int> rules = new InfoRules<int>(isValidRule, visibilityPlayerRule, turnPlayerRule, stealTokenRule,
             null,
-            assignScorePlayerRule, winnerGameRule, scoreToken);
+            assignScorePlayerRule, winnerGameRule, scoreToken, beginGameRule);
 
-        Judge<int> judge = new Judge<int>(rules, game, players);
-        judge.t = new Token<int>(new[] { 5, 5, 5, 5 });
+        Judge<int> judge = new Judge<int>(new TournamentStatus(), rules, game, players, print);
+
 
         return judge;
     }

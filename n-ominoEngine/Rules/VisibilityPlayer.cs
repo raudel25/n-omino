@@ -21,7 +21,7 @@ public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T> where T : struct
         {
             if (i != game.Turns[ind])
             {
-                game.Players[i].Hand = null!;
+                game.Players[i].Hand = null;
             }
         }
     }

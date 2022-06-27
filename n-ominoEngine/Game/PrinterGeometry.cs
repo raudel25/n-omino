@@ -5,15 +5,21 @@ namespace Game;
 
 public class PrinterGeometry : Printer
 {
+    public PrinterGeometry(int speed) : base(speed)
+    {
+    }
+
     public override void LocationTable<T>(TableGame<T> table)
     {
+        Thread.Sleep(this.Speed);
+        
         //Buscamos las cooredenadas extremas
         int left = int.MaxValue;
         int top = int.MinValue;
         for (int i = 0; i < table.TableNode.Count; i++)
         {
-            left = Math.Min(((NodeGeometry<T>)table.TableNode[i]).Location.BorderLeft, left);
-            top = Math.Max(((NodeGeometry<T>)table.TableNode[i]).Location.BorderTop, top);
+            left = Math.Min(((NodeGeometry<T>) table.TableNode[i]).Location.BorderLeft, left);
+            top = Math.Max(((NodeGeometry<T>) table.TableNode[i]).Location.BorderTop, top);
         }
 
         TypeToken type = TypeToken.TriangleTop;
@@ -38,6 +44,8 @@ public class PrinterGeometry : Printer
         TypeToken type = TypeToken.TriangleTop;
         (int row, int column) = DeterminateTypeToken(table, ref type);
         DeterminateLocationHand(tokens, play, table, player, row, column, type);
+        
+        Thread.Sleep(this.Speed);
     }
 
     /// <summary>
@@ -118,7 +126,7 @@ public class PrinterGeometry : Printer
 
         for (int i = 0; i < values.Length; i++)
         {
-            values[i] = auxValues[i]!.ToString()!;
+            values[i] = auxValues[i].ToString()!;
         }
 
         if (type == TypeToken.TriangleTop)

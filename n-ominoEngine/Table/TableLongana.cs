@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableLongana<T> : TableDimension<T> where T: struct
+public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>> where T : struct
 {
     /// <summary>
     /// Cantidad de jugadores
@@ -61,5 +61,10 @@ public class TableLongana<T> : TableDimension<T> where T: struct
             left.Connections[ind] = right;
         }
         else base.UnionNode(right, left, ind);
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

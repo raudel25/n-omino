@@ -1,9 +1,8 @@
 using InfoGame;
-using Table;
 
 namespace Rules;
 
-public abstract class ActionConditionRule<T1, T2> where T2 :struct
+public abstract class ActionConditionRule<T1, T2> where T2 : struct
 {
     /// <summary>
     /// Acciones que determinan las reglas
@@ -30,9 +29,10 @@ public abstract class ActionConditionRule<T1, T2> where T2 :struct
     /// <summary>
     /// Determinar la regla a utilizar
     /// </summary>
+    /// <param name="tournament">Datos del torneo</param>
     /// <param name="game">Estado del juego clonado</param>
     /// <param name="original">Estado del juego original</param>
     /// <param name="rules">Reglas</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
-    public abstract void RunRule(GameStatus<T2> game, GameStatus<T2> original, InfoRules<T2> rules, int ind);
+    public abstract void RunRule(TournamentStatus tournament,GameStatus<T2> game, GameStatus<T2> original, InfoRules<T2> rules, int ind);
 }

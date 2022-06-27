@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T> where T : struct
+public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, ICloneable<StealTokenRule<T>> where T : struct
 {
     /// <summary>
     /// Cantidad maxima de fichas a robar
@@ -16,13 +16,13 @@ public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T> where T 
     {
     }
 
-    public override void RunRule(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
+    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
     {
         bool activate = false;
         bool play = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(game, ind))
+            if (this.Condition[i].RunRule(tournament, game, ind))
             {
                 this.Actions[i].Steal(game, original, rules, ind, ref play);
                 this.CantMax = this.Actions[i].CantMax;
@@ -42,5 +42,10 @@ public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T> where T 
     public StealTokenRule<T> Clone()
     {
         return new StealTokenRule<T>(this.Actions, this.Condition, this.Default!);
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

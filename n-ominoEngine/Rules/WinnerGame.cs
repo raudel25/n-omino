@@ -1,5 +1,4 @@
 using InfoGame;
-using Table;
 
 namespace Rules;
 

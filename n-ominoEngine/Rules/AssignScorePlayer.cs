@@ -29,7 +29,7 @@ public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : struct
         for (int i = 0; i < game.Players.Length; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand!)
+            foreach (var item in game.Players[i].Hand)
             {
                 sum += rules.ScoreToken.ScoreToken(item);
             }
@@ -46,12 +46,12 @@ public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T> where T : stru
         for (int i = 0; i < game.Players.Length; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand!)
+            foreach (var item in game.Players[i].Hand)
             {
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = sum * game.Players[i].Hand!.Count;
+            game.Players[i].Score = sum * game.Players[i].Hand.Count;
         }
     }
 }
@@ -63,12 +63,12 @@ public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T> where T : str
         for (int i = 0; i < game.Players.Length; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand!)
+            foreach (var item in game.Players[i].Hand)
             {
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = (double)(sum) / game.Players[i].Hand!.Count;
+            game.Players[i].Score = (double)(sum) / game.Players[i].Hand.Count;
         }
     }
 }

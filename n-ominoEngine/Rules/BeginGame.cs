@@ -5,6 +5,12 @@ namespace Rules;
 
 public interface IBeginGame<T> where T : struct
 {
+    /// <summary>
+    /// Determinar como se inicia el juego
+    /// </summary>
+    /// <param name="tournament">Datos del torneo</param>
+    /// <param name="game">Datos del juego</param>
+    /// <param name="rules">Reglas del juego</param>
     public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules);
 }
 
@@ -36,18 +42,8 @@ public class BeginGameToken<T> : IBeginGame<T> where T : struct
         }
         else
         {
-            game.Players[id].Hand!.Remove(_token);
-            game.Table.PlayTable(game.Table.TableNode[0], _token,
-                rules.IsValidPlay.Default!.AssignValues(game.Table.TableNode[0], _token, game.Table));
-
-            for (int i = 0; i < game.Turns.Length; i++)
-            {
-                if (id == game.Turns[i])
-                {
-                    game.PlayerStart = (id == game.Turns.Length - 1) ? 0 : id + 1;
-                    break;
-                }
-            }
+            game.TokenStart = this._token;
+            game.PlayerStart = id;
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableSquare<T> : TableGeometry<T> where T: struct
+public class TableSquare<T> : TableGeometry<T>, ICloneable<TableGame<T>> where T : struct
 {
     public TableSquare((int, int)[] coordinates) : base(coordinates)
     {
@@ -76,5 +76,10 @@ public class TableSquare<T> : TableGeometry<T> where T: struct
         Array.Copy(((NodeGeometry<T>)this.TableNode[0]).Location.Coord, aux, 4);
         TableGame<T> table = new TableSquare<T>(aux);
         return this.AuxClone(table);
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

@@ -19,6 +19,13 @@ public abstract class Printer
         DominoH
     }
 
+    public int Speed { get; protected set; }
+
+    public Printer(int speed)
+    {
+        this.Speed = speed;
+    }
+
     public delegate void BindLocationTable(IEnumerable<LocationGui> location);
 
     public delegate void BindLocationHand(IEnumerable<LocationGui> location, LocationGui? play, string action,
@@ -62,7 +69,8 @@ public abstract class Printer
     /// <param name="player">Jugador</param>
     /// <typeparam name="T">Tipo de ficha para el juego</typeparam>
     /// <returns>Ubicacion en la GUI para la mano del play</returns>
-    public abstract void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player) where T : struct;
+    public abstract void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
+        where T : struct;
 
     /// <summary>
     /// Asignar los valores a las fichas
@@ -72,7 +80,8 @@ public abstract class Printer
     /// <param name="row">Filas</param>
     /// <param name="column">Columnas</param>
     /// <typeparam name="T">Tipo de juego</typeparam>
-    protected IEnumerable<LocationGui> AssignValues<T>(Hand<T> tokens, int row, int column, TypeToken type) where T : struct
+    protected IEnumerable<LocationGui> AssignValues<T>(Hand<T> tokens, int row, int column, TypeToken type)
+        where T : struct
     {
         int indColumn = 0;
         int indRow = 0;
@@ -81,7 +90,7 @@ public abstract class Printer
             string[] values = new string[item.CantValues];
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = item[i]!.ToString()!;
+                values[i] = item[i].ToString()!;
             }
 
             yield return new LocationGui(
@@ -110,7 +119,7 @@ public abstract class Printer
             string[] valuesPlay = new string[play.CantValues];
             for (int i = 0; i < valuesPlay.Length; i++)
             {
-                valuesPlay[i] = play[i]!.ToString()!;
+                valuesPlay[i] = play[i].ToString()!;
             }
 
             locationPlay = new LocationGui((0, 0, 0, 0), valuesPlay, type);
