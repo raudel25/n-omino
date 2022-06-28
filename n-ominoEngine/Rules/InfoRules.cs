@@ -1,6 +1,6 @@
 namespace Rules;
 
-public class InfoRules<T> where T : struct
+public class InfoRules<T>
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     public IsValidRule<T> IsValidPlay { get; private set; }

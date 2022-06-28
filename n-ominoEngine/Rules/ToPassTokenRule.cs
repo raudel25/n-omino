@@ -3,7 +3,7 @@ namespace Rules;
 using InfoGame;
 using Table;
 
-public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T>, ICloneable<ToPassTokenRule<T>> where T : struct
+public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T>, ICloneable<ToPassTokenRule<T>>
 {
     public bool PossibleToPass { get; private set; }
 
@@ -12,7 +12,8 @@ public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T>, ICloneab
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
+    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
+        InfoRules<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)

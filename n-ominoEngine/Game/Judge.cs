@@ -5,7 +5,7 @@ using Player;
 
 namespace Game;
 
-public class Judge<T> where T : struct
+public class Judge<T> 
 {
     private Player<T>[] _players;
     private InfoRules<T> _judgeRules;
@@ -35,7 +35,7 @@ public class Judge<T> where T : struct
             if (i == this._infoGame.Turns.Length) i = 0;
 
             int ind = this._infoGame.Turns[i];
-            InfoPlayer<T> player = this._infoGame.Players[_infoGame.Turns[ind]];
+            InfoPlayer<T> player = this._infoGame.Players[ind];
 
             //Clonar el estado del juego
             GameStatus<T> copy = this._infoGame.Clone();
@@ -135,11 +135,12 @@ public class Judge<T> where T : struct
 
     private void PlayToken(int valid, INode<T> node, Token<T> token, int ind)
     {
-        Console.WriteLine(token.CantValues);
         T[] aux = _judgeRules.IsValidPlay[valid].Item1
             .AssignValues(node, token, _infoGame.Table);
+
         _infoGame.Table.PlayTable(node, token, aux);
         _infoGame.Players[ind].Hand!.Remove(token);
+
         GuiJudge(token, ind);
     }
 

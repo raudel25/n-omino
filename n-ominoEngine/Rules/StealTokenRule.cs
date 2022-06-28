@@ -3,20 +3,23 @@ using Table;
 
 namespace Rules;
 
-public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, ICloneable<StealTokenRule<T>> where T : struct
+public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, ICloneable<StealTokenRule<T>>
 {
     /// <summary>
     /// Cantidad maxima de fichas a robar
     /// </summary>
     public int CantMax { get; private set; }
+
     public bool Play { get; private set; }
 
-    public StealTokenRule(IEnumerable<IStealToken<T>> rules, IEnumerable<ICondition<T>> condition, IStealToken<T> rule) : base(
+    public StealTokenRule(IEnumerable<IStealToken<T>> rules, IEnumerable<ICondition<T>> condition,
+        IStealToken<T> rule) : base(
         rules, condition, rule)
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
+    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
+        InfoRules<T> rules, int ind)
     {
         bool activate = false;
         bool play = false;

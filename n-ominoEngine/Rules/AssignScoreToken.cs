@@ -2,7 +2,7 @@ using Table;
 
 namespace Rules;
 
-public interface IAssignScoreToken<T> where T : struct
+public interface IAssignScoreToken<T>
 {
     /// <summary>
     /// Determinar el score de una ficha

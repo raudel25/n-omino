@@ -30,7 +30,7 @@ public class PrinterDimension : Printer
         Thread.Sleep(this.Speed);
     }
 
-    private int Dfs<T>(INode<T> node, HashSet<INode<T>> visited) where T : struct
+    private int Dfs<T>(INode<T> node, HashSet<INode<T>> visited) 
     {
         int max = 0;
         visited.Add(node);
@@ -44,7 +44,7 @@ public class PrinterDimension : Printer
         return max + 1;
     }
 
-    private IEnumerable<LocationGui> Bfs<T>(INode<T> node, int height, HashSet<INode<T>> visited) where T : struct
+    private IEnumerable<LocationGui> Bfs<T>(INode<T> node, int height, HashSet<INode<T>> visited) 
     {
         TypeToken type = TypeToken.NDimension;
         Queue<INode<T>> queue1 = new Queue<INode<T>>();
@@ -57,7 +57,7 @@ public class PrinterDimension : Printer
         while (queue1.Count != 0 || queue2.Count != 0)
         {
             row++;
-            column = (int) Math.Pow(dimension, height - row);
+            column = (int)Math.Pow(dimension, height - row);
             while (queue1.Count != 0)
             {
                 INode<T> element = queue1.Peek();
@@ -77,7 +77,7 @@ public class PrinterDimension : Printer
             }
 
             row++;
-            column = (int) Math.Pow(dimension, height - row);
+            column = (int)Math.Pow(dimension, height - row);
             while (queue2.Count != 0)
             {
                 INode<T> element = queue2.Peek();

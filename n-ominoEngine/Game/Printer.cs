@@ -58,7 +58,7 @@ public abstract class Printer
     /// <param name="table">Mesa</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la mesa para la GUI</returns>
-    public abstract void LocationTable<T>(TableGame<T> table) where T : struct;
+    public abstract void LocationTable<T>(TableGame<T> table) ;
 
     /// <summary>
     /// Determinar la posicion de la mano de los jugadores
@@ -70,7 +70,7 @@ public abstract class Printer
     /// <typeparam name="T">Tipo de ficha para el juego</typeparam>
     /// <returns>Ubicacion en la GUI para la mano del play</returns>
     public abstract void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
-        where T : struct;
+        ;
 
     /// <summary>
     /// Asignar los valores a las fichas
@@ -81,7 +81,7 @@ public abstract class Printer
     /// <param name="column">Columnas</param>
     /// <typeparam name="T">Tipo de juego</typeparam>
     protected IEnumerable<LocationGui> AssignValues<T>(Hand<T> tokens, int row, int column, TypeToken type)
-        where T : struct
+        
     {
         int indColumn = 0;
         int indRow = 0;
@@ -90,7 +90,7 @@ public abstract class Printer
             string[] values = new string[item.CantValues];
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = item[i].ToString()!;
+                values[i] = item[i]!.ToString()!;
             }
 
             yield return new LocationGui(
@@ -107,7 +107,7 @@ public abstract class Printer
     }
 
     protected void DeterminateLocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player,
-        int row, int column, TypeToken type) where T : struct
+        int row, int column, TypeToken type) 
     {
         IEnumerable<LocationGui> location = AssignValues(tokens, row, column, type);
 
@@ -119,7 +119,7 @@ public abstract class Printer
             string[] valuesPlay = new string[play.CantValues];
             for (int i = 0; i < valuesPlay.Length; i++)
             {
-                valuesPlay[i] = play[i].ToString()!;
+                valuesPlay[i] = play[i]!.ToString()!;
             }
 
             locationPlay = new LocationGui((0, 0, 0, 0), valuesPlay, type);

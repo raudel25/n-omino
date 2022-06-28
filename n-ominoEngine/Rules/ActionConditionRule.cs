@@ -2,7 +2,7 @@ using InfoGame;
 
 namespace Rules;
 
-public abstract class ActionConditionRule<T1, T2> where T2 : struct
+public abstract class ActionConditionRule<T1, T2>
 {
     /// <summary>
     /// Acciones que determinan las reglas
@@ -34,5 +34,6 @@ public abstract class ActionConditionRule<T1, T2> where T2 : struct
     /// <param name="original">Estado del juego original</param>
     /// <param name="rules">Reglas</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
-    public abstract void RunRule(TournamentStatus tournament,GameStatus<T2> game, GameStatus<T2> original, InfoRules<T2> rules, int ind);
+    public abstract void RunRule(TournamentStatus tournament, GameStatus<T2> game, GameStatus<T2> original,
+        InfoRules<T2> rules, int ind);
 }

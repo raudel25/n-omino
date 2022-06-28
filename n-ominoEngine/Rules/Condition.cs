@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface ICondition<T> where T : struct
+public interface ICondition<T>
 {
     /// <summary>
     /// Determinar bajo que condiciones se ejecuta una regla
@@ -12,10 +12,10 @@ public interface ICondition<T> where T : struct
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
     /// <returns>Si es valido que se ejecute la regla</returns>
-    public bool RunRule(TournamentStatus tournament,GameStatus<T> game, int ind);
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind);
 }
 
-public class ClassicWin<T> : ICondition<T> where T : struct
+public class ClassicWin<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
@@ -23,7 +23,7 @@ public class ClassicWin<T> : ICondition<T> where T : struct
     }
 }
 
-public class ClassicTeamWin<T> : ICondition<T> where T : struct
+public class ClassicTeamWin<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
@@ -40,7 +40,7 @@ public class ClassicTeamWin<T> : ICondition<T> where T : struct
     }
 }
 
-public class CantToPass<T> : ICondition<T> where T : struct
+public class CantToPass<T> : ICondition<T>
 {
     public int Cant { get; private set; }
 
@@ -55,7 +55,7 @@ public class CantToPass<T> : ICondition<T> where T : struct
     }
 }
 
-public class CantToPassTeam<T> : ICondition<T> where T : struct
+public class CantToPassTeam<T> : ICondition<T>
 {
     public int Cant { get; private set; }
 
@@ -79,7 +79,7 @@ public class CantToPassTeam<T> : ICondition<T> where T : struct
     }
 }
 
-public class ImmediatePass<T> : ICondition<T> where T : struct
+public class ImmediatePass<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
@@ -87,7 +87,7 @@ public class ImmediatePass<T> : ICondition<T> where T : struct
     }
 }
 
-public class NoValidPLay<T> : ICondition<T> where T : struct
+public class NoValidPLay<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
@@ -112,7 +112,7 @@ public class SumFreeNode : ICondition<int>
     }
 }
 
-public class ConditionDefault<T> : ICondition<T> where T : struct
+public class ConditionDefault<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {

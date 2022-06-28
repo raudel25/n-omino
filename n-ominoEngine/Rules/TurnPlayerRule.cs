@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable<TurnPlayerRule<T>> where T : struct
+public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable<TurnPlayerRule<T>>
 {
     public TurnPlayerRule(IEnumerable<ITurnPlayer> rules, IEnumerable<ICondition<T>> condition, ITurnPlayer rule) :
         base(
@@ -11,7 +11,8 @@ public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
+    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
+        InfoRules<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)

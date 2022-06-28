@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IAssignScorePlayer<T> where T : struct
+public interface IAssignScorePlayer<T>
 {
     /// <summary>
     /// Determinar la forma de asignar puntos a un jugador
@@ -14,7 +14,7 @@ public interface IAssignScorePlayer<T> where T : struct
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind);
 }
 
-public class AssignScoreClassic<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreClassic<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -22,14 +22,14 @@ public class AssignScoreClassic<T> : IAssignScorePlayer<T> where T : struct
     }
 }
 
-public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreHands<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < game.Players.Length; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand)
+            foreach (var item in game.Players[i].Hand!)
             {
                 sum += rules.ScoreToken.ScoreToken(item);
             }
@@ -39,36 +39,36 @@ public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : struct
     }
 }
 
-public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < game.Players.Length; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand)
+            foreach (var item in game.Players[i].Hand!)
             {
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = sum * game.Players[i].Hand.Count;
+            game.Players[i].Score = sum * game.Players[i].Hand!.Count;
         }
     }
 }
 
-public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < game.Players.Length; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand)
+            foreach (var item in game.Players[i].Hand!)
             {
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = (double)(sum) / game.Players[i].Hand.Count;
+            game.Players[i].Score = (double) (sum) / game.Players[i].Hand!.Count;
         }
     }
 }

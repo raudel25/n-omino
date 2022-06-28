@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableSquare<T> : TableGeometry<T>, ICloneable<TableGame<T>> where T : struct
+public class TableSquare<T> : TableGeometry<T>, ICloneable<TableGame<T>>
 {
     public TableSquare((int, int)[] coordinates) : base(coordinates)
     {
@@ -14,15 +14,15 @@ public class TableSquare<T> : TableGeometry<T>, ICloneable<TableGame<T>> where T
         (int, int)[] expand = FindCenterExpand(center);
         for (int i = 0; i < expand.Length; i++)
         {
-            AssignCoordinates(geometry, ExpandGeometry(new[] { expand[i] }));
+            AssignCoordinates(geometry, ExpandGeometry(new[] {expand[i]}));
         }
     }
 
     protected override (int, int)[] ExpandGeometry((int, int)[] coordinates)
     {
         (int, int)[] expand = new (int, int)[4];
-        int[] x = new int[] { -1, 1, 1, -1 };
-        int[] y = new int[] { 1, 1, -1, -1 };
+        int[] x = new int[] {-1, 1, 1, -1};
+        int[] y = new int[] {1, 1, -1, -1};
         for (int i = 0; i < expand.Length; i++)
         {
             expand[i] = ((coordinates[0].Item1 + x[i]), (coordinates[0].Item2 + y[i]));
@@ -37,8 +37,8 @@ public class TableSquare<T> : TableGeometry<T>, ICloneable<TableGame<T>> where T
     protected (int, int)[] FindCenterExpand((int, int) coordinates)
     {
         (int, int)[] expand = new (int, int)[4];
-        int[] x = new int[] { -2, 0, 2, 0 };
-        int[] y = new int[] { 0, -2, 0, 2 };
+        int[] x = new int[] {-2, 0, 2, 0};
+        int[] y = new int[] {0, -2, 0, 2};
         for (int i = 0; i < expand.Length; i++)
         {
             expand[i] = (coordinates.Item1 + x[i], coordinates.Item2 + y[i]);
@@ -73,7 +73,7 @@ public class TableSquare<T> : TableGeometry<T>, ICloneable<TableGame<T>> where T
     public override TableGame<T> Clone()
     {
         (int, int)[] aux = new (int, int)[4];
-        Array.Copy(((NodeGeometry<T>)this.TableNode[0]).Location.Coord, aux, 4);
+        Array.Copy(((NodeGeometry<T>) this.TableNode[0]).Location.Coord, aux, 4);
         TableGame<T> table = new TableSquare<T>(aux);
         return this.AuxClone(table);
     }

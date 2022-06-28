@@ -47,7 +47,7 @@ public class PrinterDomino : Printer
         Thread.Sleep(this.Speed);
     }
 
-    private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node) where T : struct
+    private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node)
     {
         HashSet<INode<T>> visited = new HashSet<INode<T>>();
 
@@ -63,11 +63,11 @@ public class PrinterDomino : Printer
             visited.Add(aux);
 
             (string values1, string values2) = (func(cant))
-                ? (aux.ValuesConnections[0].ToString()!, aux.ValuesConnections[1]!.ToString()!)
-                : (aux.ValuesConnections[1].ToString()!, aux.ValuesConnections[0]!.ToString()!);
+                ? (aux.ValuesConnections[0]!.ToString()!, aux.ValuesConnections[1]!.ToString()!)
+                : (aux.ValuesConnections[1]!.ToString()!, aux.ValuesConnections[0]!.ToString()!);
             string[] values = new[] {values1, values2};
 
-            if (aux.ValuesConnections[0].Equals(aux.ValuesConnections[1]))
+            if (aux.ValuesConnections[0]!.Equals(aux.ValuesConnections[1]))
             {
                 yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoV);
                 column++;

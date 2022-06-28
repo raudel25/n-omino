@@ -11,8 +11,8 @@ public static class Test
     public static Judge<int> Game()
     {
         //TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
-        // TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2),(3,1),(2,0) });
-        // TableGame<int> table = new TableTriangular<int>(new []{(0, 0), (1, 1), (2, 0)}); 
+        // TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2), (3, 1), (2, 0) });
+        // TableGame<int> table = new TableTriangular<int>(new[] { (0, 0), (1, 1), (2, 0) });
         TableDimension<int> table = new TableDimension<int>(2);
         int[] array = new int[7];
         for (int i = 0; i < 7; i++)
@@ -59,8 +59,10 @@ public static class Test
         //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
         GameStatus<int> game = init.StartGame();
 
-        IValidPlay<int> valid = new ValidPlayDimension<int>(new ClassicComparison<int>());
-        // IValidPlay<int> valid = new ValidPlayGeometry<int>(new ClassicComparison<int>());
+        IValidPlay<int> valid = new ValidPlayDimension<int>(new GcdComparison(1));
+        IValidPlay<int> valid3 = new ValidPlayDimension<int>(new ClassicComparison<int>());
+        IValidPlay<int> valid2 = new ValidPlayDimension<int>(new ComodinComparison(0));
+        IValidPlay<int> valid4 = new ValidPlayDimension<int>(new HighNumberComparison(4));
         ITurnPlayer turn = new TurnPlayerClassic();
         IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
         IAssignScorePlayer<int> scorePlayerNo = new AssignScoreHands<int>();
@@ -73,13 +75,17 @@ public static class Test
         ICondition<int> conditionWin = new ClassicWin<int>();
         ICondition<int> condition = new ConditionDefault<int>();
         ICondition<int> conditionTranque = new NoValidPLay<int>();
+        ICondition<int> conditionToPass = new ImmediatePass<int>();
+        ITurnPlayer turnPass = new TurnPlayerInvert();
 
-        IsValidRule<int> isValidRule = new IsValidRule<int>(new[] { valid }, new[] { condition }, valid);
+        IsValidRule<int> isValidRule = new IsValidRule<int>(new[] { valid2, valid, valid4 }, new[] { condition, condition, condition }, valid3);
 
-        TurnPlayerRule<int> turnPlayerRule = new TurnPlayerRule<int>(new[] { turn }, new[] { condition }, turn);
+        TurnPlayerRule<int> turnPlayerRule = new TurnPlayerRule<int>(new[] { turnPass }, new[] { conditionToPass }, turn);
 
         VisibilityPlayerRule<int> visibilityPlayerRule =
             new VisibilityPlayerRule<int>(new[] { visibilityPlayer }, new[] { condition }, visibilityPlayer);
+
+
 
         StealTokenRule<int> stealTokenRule = new StealTokenRule<int>(new[] { steal }, new[] { condition }, steal);
 

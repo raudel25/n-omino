@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace Table;
 
-public class Token<T> : IEnumerable<T>, ICloneable<Token<T>> where T : struct
+public class Token<T> : IEnumerable<T>, ICloneable<Token<T>>
 {
     public IEnumerator<T> GetEnumerator()
     {

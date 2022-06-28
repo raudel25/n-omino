@@ -1,6 +1,6 @@
 namespace Table;
 
-public abstract class TableGame<T> where T : struct
+public abstract class TableGame<T>
 {
     /// <summary>Nodos que contienen una ficha</summary>
     public HashSet<INode<T>> PlayNode { get; protected set; }
@@ -103,5 +103,4 @@ public abstract class TableGame<T> where T : struct
     public abstract TableGame<T> Clone();
 
     public abstract ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind);
-
 }

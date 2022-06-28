@@ -1,6 +1,6 @@
 namespace Table;
 
-public abstract class TableGeometry<T> : TableGame<T> where T : struct
+public abstract class TableGeometry<T> : TableGame<T>
 {
     /// <summary>Coordenadas con sus respectivos nodos</summary>
     protected Dictionary<Coordinates, INode<T>> TableCoord { get; set; }
@@ -76,6 +76,7 @@ public abstract class TableGeometry<T> : TableGame<T> where T : struct
             {
                 this.CoordValor[nodeGeometry.Location.Coord[j]].IsAssignValue = true;
             }
+
             this.CoordValor[nodeGeometry.Location.Coord[j]].Values.Add(values[j]);
         }
     }

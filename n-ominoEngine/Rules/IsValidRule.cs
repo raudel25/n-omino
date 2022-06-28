@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<IsValidRule<T>> where T : struct
+public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<IsValidRule<T>>
 {
     private bool[] _checkValid;
 
@@ -31,18 +31,16 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
     public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
         InfoRules<T> rules, int ind)
     {
-        bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
             this._checkValid[i] = false;
             if (this.Condition[i].RunRule(tournament, original, ind))
             {
                 this._checkValid[i] = true;
-                activate = true;
             }
         }
 
-        if (!activate) this._checkValid[this.Actions.Length] = true;
+        this._checkValid[this.Actions.Length] = true;
     }
 
     /// <summary>Determinar si una jugada es correcta segun las reglas existentes</summary>

@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T>, ICloneable<WinnerGameRule<T>> where T : struct
+public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T>, ICloneable<WinnerGameRule<T>>
 {
     public WinnerGameRule(IEnumerable<IWinnerGame<T>> rules, IEnumerable<ICondition<T>> condition) : base(rules,
         condition,
@@ -11,7 +11,8 @@ public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T>, IClonea
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind)
+    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
+        InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < this.Condition.Length; i++)
         {

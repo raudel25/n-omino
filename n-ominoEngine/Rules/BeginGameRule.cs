@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public class BeginGameRule<T> : ActionConditionRule<IBeginGame<T>, T>, ICloneable<BeginGameRule<T>> where T : struct
+public class BeginGameRule<T> : ActionConditionRule<IBeginGame<T>, T>, ICloneable<BeginGameRule<T>>
 {
     public BeginGameRule(IEnumerable<IBeginGame<T>> rules, IEnumerable<ICondition<T>> condition,
         IBeginGame<T> rule) : base(

@@ -4,7 +4,7 @@ using Rules;
 
 namespace Game;
 
-public class JudgeTournament<T> where T : struct
+public class JudgeTournament<T>
 {
     private InitializerGame<T>[] _games;
     private InfoRules<T>[] _rules;

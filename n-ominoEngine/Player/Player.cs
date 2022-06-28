@@ -4,7 +4,7 @@ using InfoGame;
 
 namespace Player;
 
-public abstract class Player<T> where T : struct
+public abstract class Player<T>
 {
     public readonly int Id;
     public Player(int id)

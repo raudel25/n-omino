@@ -3,7 +3,7 @@ using InfoGame;
 
 namespace Game;
 
-public interface IDealer<T> where T : struct
+public interface IDealer<T>
 {
     /// <summary>Reparte una cantidad de T</summary>
     /// <param name="items">Elementos a repartir</param>
@@ -12,7 +12,7 @@ public interface IDealer<T> where T : struct
     public Hand<T> Deal(List<Token<T>> items, int cant);
 }
 
-public class RandomDealer<T> : IDealer<T> where T : struct
+public class RandomDealer<T> : IDealer<T>
 {
     public Hand<T> Deal(List<Token<T>> items, int cant)
     {
@@ -31,7 +31,7 @@ public class RandomDealer<T> : IDealer<T> where T : struct
     }
 }
 
-public interface ITokensMaker<T> where T : struct
+public interface ITokensMaker<T>
 {
     /// <summary>Genera las fichas</summary>
     /// <param name="values">Valores que tendrán las fichas</param>
@@ -40,7 +40,7 @@ public interface ITokensMaker<T> where T : struct
     public List<Token<T>> MakeTokens(T[] values, int n);
 }
 
-public class TokensMakerClassic<T> : ITokensMaker<T> where T : struct
+public class TokensMakerClassic<T> : ITokensMaker<T>
 {
     public List<Token<T>> MakeTokens(T[] array, int n)
     {
@@ -68,7 +68,7 @@ public class TokensMakerClassic<T> : ITokensMaker<T> where T : struct
     }
 }
 
-public class TokensMakerCircular<T> : ITokensMaker<T> where T : struct
+public class TokensMakerCircular<T> : ITokensMaker<T>
 {
     public List<Token<T>> MakeTokens(T[] array, int n)
     {

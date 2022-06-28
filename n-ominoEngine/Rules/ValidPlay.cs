@@ -1,9 +1,8 @@
-using InfoGame;
 using Table;
 
 namespace Rules;
 
-public interface IValidPlay<T> where T : struct
+public interface IValidPlay<T>
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     /// <param name="node">Nodo por el que se va a jugar</param>
@@ -21,7 +20,7 @@ public interface IValidPlay<T> where T : struct
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table);
 }
 
-public class ValidPlayDimension<T> : IValidPlay<T> where T : struct
+public class ValidPlayDimension<T> : IValidPlay<T>
 {
     /// <summary>
     /// Criterio para comparar los valores de las fichas
@@ -75,8 +74,7 @@ public class ValidPlayDimension<T> : IValidPlay<T> where T : struct
             if (this._comparison.Compare(values[i], value.Values[0]))
             {
                 //Realizamos el cambio correspondiente con el valor preasignado
-                values[i] = values[ind];
-                values[ind] = value.Values[0];
+                (values[i], values[ind]) = (values[ind], values[i]);
                 break;
             }
         }
@@ -85,7 +83,7 @@ public class ValidPlayDimension<T> : IValidPlay<T> where T : struct
     }
 }
 
-public class ValidPlayGeometry<T> : IValidPlay<T> where T : struct
+public class ValidPlayGeometry<T> : IValidPlay<T>
 {
     private IComparison<T> _comparison;
 
@@ -138,11 +136,11 @@ public class ValidPlayGeometry<T> : IValidPlay<T> where T : struct
     }
 }
 
-public class ComodinTokenDimension<T> : IValidPlay<T> where T : struct
+public class ComodinToken<T> : IValidPlay<T>
 {
     private Token<T> _comodinToken;
 
-    public ComodinTokenDimension(Token<T> token)
+    public ComodinToken(Token<T> token)
     {
         this._comodinToken = token;
     }
@@ -158,10 +156,8 @@ public class ComodinTokenDimension<T> : IValidPlay<T> where T : struct
     }
 }
 
-public class ValidPlayLongana<T> : IValidPlay<T> where T : struct
+public class ValidPlayLongana<T> : IValidPlay<T>
 {
-    private IComparison<T> _comparison;
-
     /// <summary>
     /// Criterior valido para comparar
     /// </summary>
@@ -172,9 +168,8 @@ public class ValidPlayLongana<T> : IValidPlay<T> where T : struct
     /// </summary>
     private int _player;
 
-    public ValidPlayLongana(IComparison<T> comp, IValidPlay<T> valid, int player)
+    public ValidPlayLongana(IValidPlay<T> valid, int player)
     {
-        this._comparison = comp;
         this._valid = valid;
         this._player = player;
     }
