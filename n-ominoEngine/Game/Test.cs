@@ -11,17 +11,17 @@ public static class Test
     public static Judge<int> Game()
     {
         //TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
-        // TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2), (3, 1), (2, 0) });
+        TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2), (3, 1), (2, 0) });
         // TableGame<int> table = new TableTriangular<int>(new[] { (0, 0), (1, 1), (2, 0) });
-        TableDimension<int> table = new TableDimension<int>(2);
-        int[] array = new int[7];
-        for (int i = 0; i < 7; i++)
+       // TableDimension<int> table = new TableDimension<int>(2);
+        int[] array = new int[10];
+        for (int i = 0; i < 10; i++)
         {
             array[i] = i;
         }
 
         //Jugadores
-        ITokensMaker<int> maker = new TokensMakerClassic<int>();
+        ITokensMaker<int> maker = new TokensMakerCircular<int>();
 
         // List<Token<int>> tokens = maker.MakeTokens(array, 4);
 
@@ -54,15 +54,15 @@ public static class Test
         // }
 
         List<int>[] op = new[] { new List<int>() { 0 }, new List<int>() { 1 }, new List<int>() { 2 }, new List<int>() { 3 } };
-        InitializerGame<int> init = new InitializerGame<int>(maker, dealer, op, table, array, 4, 7, 2);
+        InitializerGame<int> init = new InitializerGame<int>(maker, dealer, table, array, 20, 6);
 
         //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
-        GameStatus<int> game = init.StartGame();
+        GameStatus<int> game = init.StartGame(new List<int>(){0,1,2,3},op);
 
-        IValidPlay<int> valid = new ValidPlayDimension<int>(new GcdComparison(1));
-        IValidPlay<int> valid3 = new ValidPlayDimension<int>(new ClassicComparison<int>());
-        IValidPlay<int> valid2 = new ValidPlayDimension<int>(new ComodinComparison(0));
-        IValidPlay<int> valid4 = new ValidPlayDimension<int>(new HighNumberComparison(4));
+        IValidPlay<int> valid = new ValidPlayGeometry<int>(new GcdComparison(1));
+        IValidPlay<int> valid3 = new ValidPlayGeometry<int>(new ClassicComparison<int>());
+        IValidPlay<int> valid2 = new ValidPlayGeometry<int>(new ComodinComparison(0));
+        IValidPlay<int> valid4 = new ValidPlayGeometry<int>(new HighNumberComparison(4));
         ITurnPlayer turn = new TurnPlayerClassic();
         IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
         IAssignScorePlayer<int> scorePlayerNo = new AssignScoreHands<int>();
@@ -95,18 +95,18 @@ public static class Test
         WinnerGameRule<int> winnerGameRule = new WinnerGameRule<int>(new[] { winnerGame, winnerGameTranque },
             new[] { conditionWin, conditionTranque });
 
-        IBeginGame<int> beginGame = new BeginGameToken<int>(new Token<int>(new[] { 6, 6 }));
+        IBeginGame<int> beginGame = new BeginGameToken<int>(new Token<int>(new[] { 6, 6,6,6,6,6 }));
 
         BeginGameRule<int> beginGameRule = new BeginGameRule<int>(new[] { beginGame }, new[] { condition }, beginGame);
 
-        // Printer print = new PrinterGeometry(1000);
-        Printer print = new PrinterDomino(1000);
+        Printer print = new PrinterGeometry(1000);
+        // Printer print = new PrinterDomino(1000);
 
         InfoRules<int> rules = new InfoRules<int>(isValidRule, visibilityPlayerRule, turnPlayerRule, stealTokenRule,
             null,
             assignScorePlayerRule, winnerGameRule, scoreToken, beginGameRule);
 
-        Judge<int> judge = new Judge<int>(new TournamentStatus(), rules, game, players, print);
+        Judge<int> judge = new Judge<int>(new TournamentStatus(Array.Empty<InfoPlayerTournament>(),Array.Empty<List<InfoPlayerTournament>>()), rules, game, players, print);
 
 
         return judge;

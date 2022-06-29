@@ -24,7 +24,7 @@ public class InfoRules<T>
     public TurnPlayerRule<T> TurnPlayer { get; private set; }
 
     /// <summary>Asignar un score a cada jugador</summary>
-    public AssignScorePlayerRule<T> AsignScorePlayer { get; private set; }
+    public AssignScorePlayerRule<T> AssignScorePlayer { get; private set; }
 
     /// <summary>Determinar el ganador del juego</summary>
     public WinnerGameRule<T> WinnerGame { get; private set; }
@@ -45,7 +45,7 @@ public class InfoRules<T>
         BeginGameRule<T> begin)
     {
         this.IsValidPlay = validPlay;
-        this.AsignScorePlayer = assign;
+        this.AssignScorePlayer = assign;
         this.TurnPlayer = turn;
         this.ToPassToken = toPass;
         this.WinnerGame = winnerGame;
@@ -61,6 +61,6 @@ public class InfoRules<T>
     {
         return new InfoRules<T>(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
             this.StealTokens.Clone(), this.ToPassToken.Clone(),
-            this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken, this.Begin.Clone());
+            this.AssignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken, this.Begin.Clone());
     }
 }

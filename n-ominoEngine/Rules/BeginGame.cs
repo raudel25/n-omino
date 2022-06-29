@@ -56,3 +56,19 @@ public class BeginGameRandom<T> : IBeginGame<T>
         game.PlayerStart = rnd.Next(game.Turns.Length);
     }
 }
+
+public class BeginGameLastWinner<T> : IBeginGame<T>
+{
+    public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
+    {
+        if (tournament.Index > 0)
+        {
+            int ind = tournament.ImmediateWinnerTeam;
+            
+            Random rnd = new Random();
+            int aux = rnd.Next(tournament.Teams[ind].Count);
+            
+            game.PlayerStart = tournament.Players[aux].Id;
+        }
+    }
+}

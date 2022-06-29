@@ -16,7 +16,7 @@ public class GameStatus<T>
     public bool NoValidPlay { get; set; }
 
     //Determinar cuando se hizo un pase inmediatamente init false
-    public bool InmediatePass { get; set; }
+    public bool ImmediatePass { get; set; }
 
     //Id Jugador que gano init -1
     public int PlayerWinner { get; set; }

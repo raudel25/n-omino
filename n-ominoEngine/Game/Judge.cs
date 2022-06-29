@@ -61,7 +61,7 @@ public class Judge<T>
 
             if (play)
             {
-                this._infoGame.InmediatePass = false;
+                this._infoGame.ImmediatePass = false;
                 Jugada<T> jugada = _players[ind].Play(_infoGame, _judgeRules);
                 if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
                     _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
@@ -74,7 +74,7 @@ public class Judge<T>
             }
             else
             {
-                this._infoGame.InmediatePass = true;
+                this._infoGame.ImmediatePass = true;
                 GuiJudge(null, ind);
             }
 
@@ -166,7 +166,7 @@ public class Judge<T>
         this._judgeRules.TurnPlayer.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
 
         //Asignar Score a los jugadores
-        this._judgeRules.AsignScorePlayer.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
+        this._judgeRules.AssignScorePlayer.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
 
         //Determinar el ganador del juego
         this._judgeRules.WinnerGame.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);

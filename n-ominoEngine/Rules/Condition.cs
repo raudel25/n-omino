@@ -83,7 +83,7 @@ public class ImmediatePass<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
-        return game.InmediatePass;
+        return game.ImmediatePass;
     }
 }
 
@@ -117,5 +117,13 @@ public class ConditionDefault<T> : ICondition<T>
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
         return true;
+    }
+}
+
+public class SecondRoundTournament<T> : ICondition<T>
+{
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    {
+        return tournament.Index > 0;
     }
 }
