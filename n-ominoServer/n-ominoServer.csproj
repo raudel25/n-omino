@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\n-ominoEngine\Game\Game.csproj" />
+    <ProjectReference Include="..\n-ominoEngine\InteractionGui\InteractionGui.csproj" />
   </ItemGroup>
 
 </Project>

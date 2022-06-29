@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using Rules
+@using InteractionGui
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +9,9 @@
 Welcome to your new app.
 
 <a href="/Game"><button>Game</button></a>
+
+<SelectVariant Cant="5" VariantGui="new SelectAssignScorePlayerInt()"></SelectVariant>
+
+<SelectVariant Cant="5" VariantGui="new SelectConditionInt()"></SelectVariant>
+
+<SelectVariant Cant="5" VariantGui="new SelectWinnerGameInt()"></SelectVariant>

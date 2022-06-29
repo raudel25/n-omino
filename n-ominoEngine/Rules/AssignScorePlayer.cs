@@ -56,7 +56,7 @@ public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T>
     }
 }
 
-public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T>
+public class AssignScoreHandsHighCant<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {

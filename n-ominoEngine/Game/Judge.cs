@@ -2,6 +2,7 @@ using InfoGame;
 using Table;
 using Rules;
 using Player;
+using InteractionGui;
 
 namespace Game;
 

@@ -1,0 +1,48 @@
+@using Rules
+@using InteractionGui
+@typeparam T
+
+@if (Cant != 0)
+{
+    <div class="Select">
+        <div class="HeadSelect">
+            <h5>Seleccionar la forma en que se determina el ganador de un juego</h5>
+        </div>
+
+        <div>
+        
+            @foreach (var item in VariantGui.Param)
+            {
+                <input type="radio" name="Conditions" @oninput="() => { _selcted = VariantGui.Values[item.Index]; }"/>
+                <label>@item.Name</label>
+                <br/>
+            }
+            <button @onclick="Next">@_valueButton</button>
+        </div>
+    </div>
+}
+
+
+@code {
+
+    [Parameter] 
+    public ISelectVariantGui<T> VariantGui { get; set; }
+    
+    [Parameter]
+    public int Cant { get; set; }
+    
+    private T? _selcted;
+
+    private string _valueButton = "Siguiente";
+
+    private void Next()
+    {
+        if (_selcted != null)
+        {
+            VariantGui.ValueParam.Add(_selcted);
+            Cant--;
+            if (Cant == 1) _valueButton = "Terminar";
+        }
+    }
+
+}

@@ -1,7 +1,7 @@
 using Table;
 using InfoGame;
 
-namespace Game;
+namespace InteractionGui;
 
 public abstract class Printer
 {

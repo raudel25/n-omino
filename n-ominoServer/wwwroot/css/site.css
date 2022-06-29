@@ -455,3 +455,12 @@ a, .btn-link {
 .contentBottom{
     align-self: flex-end;
 }
+
+.Select{
+    /*border: solid #1c1f23 2px;*/
+}
+.HeadSelect{
+    display: flex;
+    justify-content: center;
+    /*border: solid #1c1f23 2px;*/
+}
