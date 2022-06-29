@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IAssignScorePlayer<T> where T : struct
+public interface IAssignScorePlayer<T>
 {
     /// <summary>
     /// Determinar la forma de asignar puntos a un jugador
@@ -14,7 +14,7 @@ public interface IAssignScorePlayer<T> where T : struct
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind);
 }
 
-public class AssignScoreClassic<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreClassic<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -22,7 +22,7 @@ public class AssignScoreClassic<T> : IAssignScorePlayer<T> where T : struct
     }
 }
 
-public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreHands<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -39,7 +39,7 @@ public class AssignScoreHands<T> : IAssignScorePlayer<T> where T : struct
     }
 }
 
-public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -56,7 +56,7 @@ public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T> where T : stru
     }
 }
 
-public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T> where T : struct
+public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
     {
@@ -68,7 +68,7 @@ public class AssignScoreHandsHighTokens<T> : IAssignScorePlayer<T> where T : str
                 sum += rules.ScoreToken.ScoreToken(item);
             }
 
-            game.Players[i].Score = (double)(sum) / game.Players[i].Hand!.Count;
+            game.Players[i].Score = (double) (sum) / game.Players[i].Hand!.Count;
         }
     }
 }

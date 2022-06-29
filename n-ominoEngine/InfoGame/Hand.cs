@@ -1,14 +1,16 @@
 using System.Collections;
 using Table;
+
 namespace InfoGame;
 
-public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>> where T : struct
+public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>>
 {
     private HashSet<Token<T>> _hand;
     public Hand()
     {
         this._hand = new();
     }
+
     //cuántas fichas tienes en la mano
     public int Count => _hand.Count;
 
@@ -40,7 +42,7 @@ public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>> where T : stru
     {
         return _hand.GetEnumerator();
     }
-    
+
     //quitar una ficha de la mano
     public bool Remove(Token<T> item)
     {

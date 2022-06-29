@@ -1,15 +1,17 @@
 namespace Table;
 
-public class TableLongana<T> : TableDimension<T> where T: struct
+public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
 {
     /// <summary>
     /// Cantidad de jugadores
     /// </summary>
     public int CantPlayer { get; private set; }
+
     /// <summary>
     /// Ramas por las que se ubican los nodos
     /// </summary>
     public Dictionary<INode<T>, int> BranchNode { get; private set; }
+
     public TableLongana(int n, int players) : base(n)
     {
         this.FreeNode = new HashSet<INode<T>>();
@@ -61,5 +63,10 @@ public class TableLongana<T> : TableDimension<T> where T: struct
             left.Connections[ind] = right;
         }
         else base.UnionNode(right, left, ind);
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

@@ -5,15 +5,21 @@ namespace Game;
 
 public class PrinterGeometry : Printer
 {
+    public PrinterGeometry(int speed) : base(speed)
+    {
+    }
+
     public override void LocationTable<T>(TableGame<T> table)
     {
+        Thread.Sleep(this.Speed);
+
         //Buscamos las cooredenadas extremas
         int left = int.MaxValue;
         int top = int.MinValue;
         for (int i = 0; i < table.TableNode.Count; i++)
         {
-            left = Math.Min(((NodeGeometry<T>)table.TableNode[i]).Location.BorderLeft, left);
-            top = Math.Max(((NodeGeometry<T>)table.TableNode[i]).Location.BorderTop, top);
+            left = Math.Min(((NodeGeometry<T>) table.TableNode[i]).Location.BorderLeft, left);
+            top = Math.Max(((NodeGeometry<T>) table.TableNode[i]).Location.BorderTop, top);
         }
 
         TypeToken type = TypeToken.TriangleTop;
@@ -38,6 +44,8 @@ public class PrinterGeometry : Printer
         TypeToken type = TypeToken.TriangleTop;
         (int row, int column) = DeterminateTypeToken(table, ref type);
         DeterminateLocationHand(tokens, play, table, player, row, column, type);
+
+        Thread.Sleep(this.Speed);
     }
 
     /// <summary>
@@ -52,7 +60,7 @@ public class PrinterGeometry : Printer
     /// <typeparam name="T">Tipo para el juego</typeparam>
     private IEnumerable<LocationGui> AssignFindLocationGui<T>(TableGame<T> table, int row, int column,
         int top,
-        int left, TypeToken type) where T : struct
+        int left, TypeToken type)
     {
         foreach (var item in table.PlayNode)
         {
@@ -69,7 +77,7 @@ public class PrinterGeometry : Printer
     /// <param name="table">Mesa</param>
     /// <param name="type">Tipo de ficha</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
-    private static (int, int) DeterminateTypeToken<T>(TableGame<T> table, ref TypeToken type) where T : struct
+    private static (int, int) DeterminateTypeToken<T>(TableGame<T> table, ref TypeToken type)
     {
         if (table is TableTriangular<T>)
         {
@@ -105,7 +113,7 @@ public class PrinterGeometry : Printer
     /// <returns>Distribucion de la ficha</returns>
     private LocationGui CreateLocationTable<T>(NodeGeometry<T> node, int row, int column,
         int top,
-        int left, TypeToken type) where T : struct
+        int left, TypeToken type)
     {
         int n = node.Location.BorderLeft;
         int m = node.Location.BorderTop;

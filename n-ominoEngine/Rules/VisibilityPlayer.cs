@@ -1,9 +1,8 @@
-using Table;
 using InfoGame;
 
 namespace Rules;
 
-public interface IVisibilityPlayer<T> where T : struct
+public interface IVisibilityPlayer<T>
 {
     /// <summary>
     /// Determinar la visibilidad de los jugadores sobre las fichas del juego
@@ -13,7 +12,7 @@ public interface IVisibilityPlayer<T> where T : struct
     public void Visibility(GameStatus<T> game, int ind);
 }
 
-public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T> where T : struct
+public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T>
 {
     public void Visibility(GameStatus<T> game, int ind)
     {
@@ -21,13 +20,13 @@ public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T> where T : struct
         {
             if (i != game.Turns[ind])
             {
-                game.Players[i].Hand = null!;
+                game.Players[i].Hand = null;
             }
         }
     }
 }
 
-public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T> where T : struct
+public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T>
 {
     public void Visibility(GameStatus<T> game, int ind)
     {
@@ -37,7 +36,7 @@ public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T> where T : struct
         //Guardamos las manos de los miembros del equipo
         for (int i = 0; i < game.Teams[team].Count; i++)
         {
-            aux.Add(game.Teams[team][i].Hand);
+            aux.Add(game.Teams[team][i].Hand!);
         }
 
         for (int i = 0; i < game.Players.Length; i++)

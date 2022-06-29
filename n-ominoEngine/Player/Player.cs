@@ -4,7 +4,7 @@ using InfoGame;
 
 namespace Player;
 
-public abstract class Player<T> where T : struct
+public abstract class Player<T>
 {
     public readonly int Id;
     public Player(int id)
@@ -45,13 +45,13 @@ public class PurePlayer<T> : Player<T> where T : struct
     {
         var possibleJugadas = this.GetValidJugadas(status.Players[Id].Hand!, status, rules);
         int index = _strategy.Play(possibleJugadas, status, rules, Id);
-        if(index == -1) index = _default.Play(possibleJugadas, status, rules, Id);
+        if (index == -1) index = _default.Play(possibleJugadas, status, rules, Id);
         return possibleJugadas[index];
     }
 }
 
 
-public abstract class ConditionPlayer<T>: Player<T> where T :struct 
+public abstract class ConditionPlayer<T> : Player<T> where T : struct
 {
     /// <summary>
     /// Acciones que determinan las reglas
@@ -86,10 +86,10 @@ public abstract class ConditionPlayer<T>: Player<T> where T :struct
 }
 
 //Evalúa y elige la mejor estrategia para jugar
-public class EvaluatePlayer<T> : ConditionPlayer<T> where T : struct 
+public class EvaluatePlayer<T> : ConditionPlayer<T> where T : struct
 {
-    Func<Jugada<T>,GameStatus<T>,InfoRules<T>, int> _moveScorer;
-    public EvaluatePlayer(IEnumerable<IStrategy<T>> strategies, IEnumerable<ICondition<T>> condition, IStrategy<T> def, int Id, Func<Jugada<T>,GameStatus<T>,InfoRules<T>, int> moveScorer) : base(strategies,condition,def,Id)
+    Func<Jugada<T>, GameStatus<T>, InfoRules<T>, int> _moveScorer;
+    public EvaluatePlayer(IEnumerable<IStrategy<T>> strategies, IEnumerable<ICondition<T>> condition, IStrategy<T> def, int Id, Func<Jugada<T>, GameStatus<T>, InfoRules<T>, int> moveScorer) : base(strategies, condition, def, Id)
     {
         this._moveScorer = moveScorer;
     }
@@ -97,14 +97,14 @@ public class EvaluatePlayer<T> : ConditionPlayer<T> where T : struct
     {
         var myHand = status.Players[Id].Hand;
         var validMoves = GetValidJugadas(myHand, status, rules);
-        int index = this.Default.Play(validMoves,status,rules,Id);
+        int index = this.Default.Play(validMoves, status, rules, Id);
         for (int i = 0; i < Conditions.Length; i++)
         {
             //si la condición no está activa, continúo
-            if(!Conditions[i].RunRule(status,Id)) continue;
+            if (!Conditions[i].RunRule(null, status, Id)) continue;
             //si lo está compruebo si la estrategia me aporta más que la que tenía
             int possibleMove = Strategies[i].Play(validMoves, status, rules, Id);
-            if(_moveScorer(validMoves[possibleMove], status, rules) > _moveScorer(validMoves[index], status, rules))
+            if (_moveScorer(validMoves[possibleMove], status, rules) > _moveScorer(validMoves[index], status, rules))
                 index = possibleMove;
         }
         return validMoves[index];
@@ -113,5 +113,5 @@ public class EvaluatePlayer<T> : ConditionPlayer<T> where T : struct
 
 // public class RandomStrategyPlayer<T> : ConditionPlayer<T> where T : struct 
 // {
-    
+
 // }

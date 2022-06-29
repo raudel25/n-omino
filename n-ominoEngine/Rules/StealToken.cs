@@ -3,7 +3,7 @@ using Table;
 
 namespace Rules;
 
-public interface IStealToken<T> where T : struct
+public interface IStealToken<T>
 {
     /// <summary>
     /// Cantidad de fichas maximas que puede robar el jugador
@@ -21,7 +21,7 @@ public interface IStealToken<T> where T : struct
     public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play);
 }
 
-public class NoStealToken<T> : IStealToken<T> where T : struct
+public class NoStealToken<T> : IStealToken<T>
 {
     public int CantMax { get; private set; }
 
@@ -36,7 +36,7 @@ public class NoStealToken<T> : IStealToken<T> where T : struct
     }
 }
 
-public class ClassicStealToken<T> : IStealToken<T> where T : struct
+public class ClassicStealToken<T> : IStealToken<T>
 {
     public int CantMax { get; private set; }
 
@@ -69,7 +69,7 @@ public class ClassicStealToken<T> : IStealToken<T> where T : struct
     }
 }
 
-public class ChooseStealToken<T> : IStealToken<T> where T : struct
+public class ChooseStealToken<T> : IStealToken<T>
 {
     public int CantMax { get; private set; }
 

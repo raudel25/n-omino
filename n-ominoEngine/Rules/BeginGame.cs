@@ -3,12 +3,18 @@ using Table;
 
 namespace Rules;
 
-public interface IBeginGame<T> where T : struct
+public interface IBeginGame<T>
 {
+    /// <summary>
+    /// Determinar como se inicia el juego
+    /// </summary>
+    /// <param name="tournament">Datos del torneo</param>
+    /// <param name="game">Datos del juego</param>
+    /// <param name="rules">Reglas del juego</param>
     public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules);
 }
 
-public class BeginGameToken<T> : IBeginGame<T> where T : struct
+public class BeginGameToken<T> : IBeginGame<T>
 {
     private Token<T> _token;
 
@@ -36,27 +42,33 @@ public class BeginGameToken<T> : IBeginGame<T> where T : struct
         }
         else
         {
-            game.Players[id].Hand!.Remove(_token);
-            game.Table.PlayTable(game.Table.TableNode[0], _token,
-                rules.IsValidPlay.Default!.AssignValues(game.Table.TableNode[0], _token, game.Table));
-
-            for (int i = 0; i < game.Turns.Length; i++)
-            {
-                if (id == game.Turns[i])
-                {
-                    game.PlayerStart = (id == game.Turns.Length - 1) ? 0 : id + 1;
-                    break;
-                }
-            }
+            game.TokenStart = this._token;
+            game.PlayerStart = id;
         }
     }
 }
 
-public class BeginGameRandom<T> : IBeginGame<T> where T : struct
+public class BeginGameRandom<T> : IBeginGame<T>
 {
     public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
     {
         Random rnd = new Random();
         game.PlayerStart = rnd.Next(game.Turns.Length);
+    }
+}
+
+public class BeginGameLastWinner<T> : IBeginGame<T>
+{
+    public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
+    {
+        if (tournament.Index > 0)
+        {
+            int ind = tournament.ImmediateWinnerTeam;
+            
+            Random rnd = new Random();
+            int aux = rnd.Next(tournament.Teams[ind].Count);
+            
+            game.PlayerStart = tournament.Players[aux].Id;
+        }
     }
 }

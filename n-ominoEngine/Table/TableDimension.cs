@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableDimension<T> : TableGame<T> where T: struct
+public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
 {
     /// <summary>Cantidad de conexiones de un nodo de la mesa</summary>
     public int Dimension { get; protected set; }
@@ -38,10 +38,14 @@ public class TableDimension<T> : TableGame<T> where T: struct
     protected override void AssignValues(INode<T> node, T[] values)
     {
         NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
+
         if (nodeDimension == null) return;
+
         Array.Copy(values, nodeDimension.ValuesConnections, values.Length);
+
         for (int i = 0; i < nodeDimension.ValuesAssign.Length; i++)
         {
+            if (nodeDimension.ValuesAssign[i].IsAssignValue) continue;
             nodeDimension.ValuesAssign[i].IsAssignValue = true;
             nodeDimension.ValuesAssign[i].Values.Add(values[i]);
         }
@@ -74,5 +78,10 @@ public class TableDimension<T> : TableGame<T> where T: struct
         if (nodeDimension == null) return null;
 
         return nodeDimension.ValuesAssign[ind];
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

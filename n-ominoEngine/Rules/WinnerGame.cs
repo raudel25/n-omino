@@ -1,10 +1,9 @@
 using InfoGame;
-using Table;
 
 namespace Rules;
 
 //Falta determinar cuando los puntos de dos jugadores sean iguales
-public interface IWinnerGame<T> where T : struct
+public interface IWinnerGame<T>
 {
     /// <summary>
     /// Determinar el ganador del juego
@@ -14,7 +13,7 @@ public interface IWinnerGame<T> where T : struct
     public void Winner(GameStatus<T> game, int ind);
 }
 
-public class WinnerGameHigh<T> : IWinnerGame<T> where T : struct
+public class WinnerGameHigh<T> : IWinnerGame<T>
 {
     public void Winner(GameStatus<T> game, int ind)
     {
@@ -25,7 +24,7 @@ public class WinnerGameHigh<T> : IWinnerGame<T> where T : struct
     }
 }
 
-public class WinnerGameSmall<T> : IWinnerGame<T> where T : struct
+public class WinnerGameSmall<T> : IWinnerGame<T>
 {
     public void Winner(GameStatus<T> game, int ind)
     {
@@ -36,7 +35,7 @@ public class WinnerGameSmall<T> : IWinnerGame<T> where T : struct
     }
 }
 
-public class WinnerGameTeamHigh<T> : IWinnerGame<T> where T : struct
+public class WinnerGameTeamHigh<T> : IWinnerGame<T>
 {
     public void Winner(GameStatus<T> game, int ind)
     {
@@ -61,7 +60,7 @@ public class WinnerGameTeamHigh<T> : IWinnerGame<T> where T : struct
     }
 }
 
-public class WinnerGameTeamSmall<T> : IWinnerGame<T> where T : struct
+public class WinnerGameTeamSmall<T> : IWinnerGame<T>
 {
     public void Winner(GameStatus<T> game, int ind)
     {

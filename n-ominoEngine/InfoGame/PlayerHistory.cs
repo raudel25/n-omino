@@ -2,14 +2,21 @@ using System.Collections;
 using Table;
 
 namespace InfoGame;
-public class History<T> : ICloneable<History<T>> where T : struct
+
+public class History<T> : ICloneable<History<T>>
 {
     private List<Jugada<T>> _history;
+
     public History()
     {
         _history = new();
     }
-    public Jugada<T> this[int index] { get => _history[index]; set => _history[index] = value; }
+
+    public Jugada<T> this[int index]
+    {
+        get => _history[index];
+        set => _history[index] = value;
+    }
 
     //turnos que han pasado
     public int Turns => _history.Count;
@@ -28,6 +35,7 @@ public class History<T> : ICloneable<History<T>> where T : struct
                 if (this[i] is not null) break;
                 count++;
             }
+
             return count;
         }
     }

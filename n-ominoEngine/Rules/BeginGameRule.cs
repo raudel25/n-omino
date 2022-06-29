@@ -3,11 +3,12 @@ using Table;
 
 namespace Rules;
 
-public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable<TurnPlayerRule<T>>
+public class BeginGameRule<T> : ActionConditionRule<IBeginGame<T>, T>, ICloneable<BeginGameRule<T>>
 {
-    public TurnPlayerRule(IEnumerable<ITurnPlayer> rules, IEnumerable<ICondition<T>> condition, ITurnPlayer rule) :
-        base(
-            rules, condition, rule)
+    public BeginGameRule(IEnumerable<IBeginGame<T>> rules, IEnumerable<ICondition<T>> condition,
+        IBeginGame<T> rule) : base(
+        rules,
+        condition, rule)
     {
     }
 
@@ -19,17 +20,17 @@ public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable
         {
             if (this.Condition[i].RunRule(tournament, original, ind))
             {
-                this.Actions[i].Turn(original.Turns, ind);
+                this.Actions[i].Start(tournament, original, rules);
                 activate = true;
             }
         }
 
-        if (!activate) this.Default!.Turn(original.Turns, ind);
+        if (!activate) this.Default!.Start(tournament, original, rules);
     }
 
-    public TurnPlayerRule<T> Clone()
+    public BeginGameRule<T> Clone()
     {
-        return new TurnPlayerRule<T>(this.Actions, this.Condition, this.Default!);
+        return new BeginGameRule<T>(this.Actions, this.Condition, this.Default!);
     }
 
     object ICloneable.Clone()

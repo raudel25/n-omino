@@ -1,8 +1,6 @@
-using Table;
-
 namespace Rules;
 
-public class InfoRules<T> where T : struct
+public class InfoRules<T>
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     public IsValidRule<T> IsValidPlay { get; private set; }
@@ -26,10 +24,15 @@ public class InfoRules<T> where T : struct
     public TurnPlayerRule<T> TurnPlayer { get; private set; }
 
     /// <summary>Asignar un score a cada jugador</summary>
-    public AssignScorePlayerRule<T> AsignScorePlayer { get; private set; }
+    public AssignScorePlayerRule<T> AssignScorePlayer { get; private set; }
 
     /// <summary>Determinar el ganador del juego</summary>
     public WinnerGameRule<T> WinnerGame { get; private set; }
+
+    /// <summary>
+    /// Determinar como se inicia el juego
+    /// </summary>
+    public BeginGameRule<T> Begin { get; private set; }
 
     /// <summary>
     /// Determinar el Score de una ficha
@@ -38,16 +41,18 @@ public class InfoRules<T> where T : struct
 
     public InfoRules(IsValidRule<T> validPlay, VisibilityPlayerRule<T> visibility, TurnPlayerRule<T> turn,
         StealTokenRule<T> steal, ToPassTokenRule<T> toPass,
-        AssignScorePlayerRule<T> assign, WinnerGameRule<T> winnerGame, IAssignScoreToken<T> scoreToken)
+        AssignScorePlayerRule<T> assign, WinnerGameRule<T> winnerGame, IAssignScoreToken<T> scoreToken,
+        BeginGameRule<T> begin)
     {
         this.IsValidPlay = validPlay;
-        this.AsignScorePlayer = assign;
+        this.AssignScorePlayer = assign;
         this.TurnPlayer = turn;
         this.ToPassToken = toPass;
         this.WinnerGame = winnerGame;
         this.VisibilityPlayer = visibility;
         this.StealTokens = steal;
         this.ScoreToken = scoreToken;
+        this.Begin = begin;
     }
 
     /// <summary>Clonar el objeto InfoRules</summary>
@@ -56,6 +61,6 @@ public class InfoRules<T> where T : struct
     {
         return new InfoRules<T>(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
             this.StealTokens.Clone(), this.ToPassToken.Clone(),
-            this.AsignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken);
+            this.AssignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken, this.Begin.Clone());
     }
 }

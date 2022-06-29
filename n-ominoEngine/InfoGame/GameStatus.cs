@@ -2,7 +2,7 @@ using Table;
 
 namespace InfoGame;
 
-public class GameStatus<T> where T : struct
+public class GameStatus<T>
 {
     public InfoPlayer<T>[] Players;
     public List<InfoPlayer<T>>[] Teams;
@@ -16,7 +16,7 @@ public class GameStatus<T> where T : struct
     public bool NoValidPlay { get; set; }
 
     //Determinar cuando se hizo un pase inmediatamente init false
-    public bool InmediatePass { get; set; }
+    public bool ImmediatePass { get; set; }
 
     //Id Jugador que gano init -1
     public int PlayerWinner { get; set; }
@@ -29,7 +29,10 @@ public class GameStatus<T> where T : struct
     /// </summary>
     public int PlayerStart { get; set; }
 
-    public GameStatus(InfoPlayer<T>[] players, List<InfoPlayer<T>>[] teams, TableGame<T> table, int[] turns, List<Token<T>> tokens)
+    public Token<T>? TokenStart { get; set; }
+
+    public GameStatus(InfoPlayer<T>[] players, List<InfoPlayer<T>>[] teams, TableGame<T> table, int[] turns,
+        List<Token<T>> tokens)
     {
         this.Players = players;
         this.Teams = teams;
@@ -54,6 +57,7 @@ public class GameStatus<T> where T : struct
 
         return -1;
     }
+
     public GameStatus<T> Clone()
     {
         InfoPlayer<T>[] players = new InfoPlayer<T>[this.Players.Length];

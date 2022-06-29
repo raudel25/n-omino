@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableTriangular<T> : TableGeometry<T> where T : struct
+public class TableTriangular<T> : TableGeometry<T>, ICloneable<TableGame<T>>
 {
     public TableTriangular((int, int)[] coordinates) : base(coordinates)
     {
@@ -31,41 +31,46 @@ public class TableTriangular<T> : TableGeometry<T> where T : struct
 
         if (ne)
         {
-            if (coord3.Item1 > coord1.Item1) return new[] { coord1, (coord2.Item1 - 2, coord2.Item2), coord2 };
-            return new[] { coord1, coord2, (coord1.Item1 + 2, coord1.Item2) };
+            if (coord3.Item1 > coord1.Item1) return new[] {coord1, (coord2.Item1 - 2, coord2.Item2), coord2};
+            return new[] {coord1, coord2, (coord1.Item1 + 2, coord1.Item2)};
         }
         else if (e)
         {
-            if (coord3.Item2 < coord1.Item2) return new[] { coord1, (coord3.Item1, coord3.Item2 + 2), coord2 };
-            return new[] { coord1, coord2, (coord3.Item1, coord3.Item2 - 2) };
+            if (coord3.Item2 < coord1.Item2) return new[] {coord1, (coord3.Item1, coord3.Item2 + 2), coord2};
+            return new[] {coord1, coord2, (coord3.Item1, coord3.Item2 - 2)};
         }
         else if (se)
         {
-            if (coord3.Item1 < coord1.Item1) return new[] { coord1, (coord1.Item1 + 2, coord1.Item2), coord2 };
-            return new[] { coord1, coord2, (coord2.Item1 - 2, coord2.Item2) };
+            if (coord3.Item1 < coord1.Item1) return new[] {coord1, (coord1.Item1 + 2, coord1.Item2), coord2};
+            return new[] {coord1, coord2, (coord2.Item1 - 2, coord2.Item2)};
         }
         else if (sw)
         {
-            if (coord3.Item1 < coord1.Item1) return new[] { coord1, (coord2.Item1 + 2, coord2.Item2), coord2 };
-            return new[] { coord1, coord2, (coord1.Item1 - 2, coord1.Item2) };
+            if (coord3.Item1 < coord1.Item1) return new[] {coord1, (coord2.Item1 + 2, coord2.Item2), coord2};
+            return new[] {coord1, coord2, (coord1.Item1 - 2, coord1.Item2)};
         }
         else if (w)
         {
-            if (coord3.Item2 < coord1.Item2) return new[] { coord1, coord2, (coord3.Item1, coord3.Item2 + 2) };
-            return new[] { coord1, (coord3.Item1, coord3.Item2 - 2), coord2 };
+            if (coord3.Item2 < coord1.Item2) return new[] {coord1, coord2, (coord3.Item1, coord3.Item2 + 2)};
+            return new[] {coord1, (coord3.Item1, coord3.Item2 - 2), coord2};
         }
         else
         {
-            if (coord3.Item1 > coord1.Item1) return new[] { coord1, (coord1.Item1 - 2, coord1.Item2), coord2 };
-            return new[] { coord1, coord2, (coord2.Item1 + 2, coord2.Item2) };
+            if (coord3.Item1 > coord1.Item1) return new[] {coord1, (coord1.Item1 - 2, coord1.Item2), coord2};
+            return new[] {coord1, coord2, (coord2.Item1 + 2, coord2.Item2)};
         }
     }
 
     public override TableGame<T> Clone()
     {
         (int, int)[] aux = new (int, int)[3];
-        Array.Copy(((NodeGeometry<T>)this.TableNode[0]).Location.Coord, aux, 3);
+        Array.Copy(((NodeGeometry<T>) this.TableNode[0]).Location.Coord, aux, 3);
         TableGame<T> table = new TableTriangular<T>(aux);
         return this.AuxClone(table);
+    }
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
     }
 }

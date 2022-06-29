@@ -1,14 +1,16 @@
 namespace Table;
 
-public class NodeDimension<T> : INode<T> where T : struct
+public class NodeDimension<T> : INode<T>
 {
     public Token<T> ValueToken { get; set; }
     public INode<T>?[] Connections { get; set; }
     public T[] ValuesConnections { get; set; }
+
     /// <summary>
     /// Determinar si el valor de una conexion ya fue asignado
     /// </summary>
     public ValuesNode<T>[] ValuesAssign { get; set; }
+
     public int Id { get; private set; }
     public int IdPlayer { get; set; }
     public List<INode<T>> Fathers { get; private set; }

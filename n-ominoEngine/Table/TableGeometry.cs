@@ -1,10 +1,7 @@
 namespace Table;
 
-public abstract class TableGeometry<T> : TableGame<T> where T: struct
+public abstract class TableGeometry<T> : TableGame<T>
 {
-    // public override HashSet<Node> PlayNode { get; protected set; }
-    // public override HashSet<Node> FreeNode { get; protected set; }
-    // public override List<Node> TableNode { get; protected set; }
     /// <summary>Coordenadas con sus respectivos nodos</summary>
     protected Dictionary<Coordinates, INode<T>> TableCoord { get; set; }
 
@@ -79,6 +76,7 @@ public abstract class TableGeometry<T> : TableGame<T> where T: struct
             {
                 this.CoordValor[nodeGeometry.Location.Coord[j]].IsAssignValue = true;
             }
+
             this.CoordValor[nodeGeometry.Location.Coord[j]].Values.Add(values[j]);
         }
     }

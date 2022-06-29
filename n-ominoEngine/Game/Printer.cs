@@ -19,6 +19,13 @@ public abstract class Printer
         DominoH
     }
 
+    public int Speed { get; protected set; }
+
+    public Printer(int speed)
+    {
+        this.Speed = speed;
+    }
+
     public delegate void BindLocationTable(IEnumerable<LocationGui> location);
 
     public delegate void BindLocationHand(IEnumerable<LocationGui> location, LocationGui? play, string action,
@@ -51,7 +58,7 @@ public abstract class Printer
     /// <param name="table">Mesa</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la mesa para la GUI</returns>
-    public abstract void LocationTable<T>(TableGame<T> table) where T : struct;
+    public abstract void LocationTable<T>(TableGame<T> table) ;
 
     /// <summary>
     /// Determinar la posicion de la mano de los jugadores
@@ -62,7 +69,8 @@ public abstract class Printer
     /// <param name="player">Jugador</param>
     /// <typeparam name="T">Tipo de ficha para el juego</typeparam>
     /// <returns>Ubicacion en la GUI para la mano del play</returns>
-    public abstract void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player) where T : struct;
+    public abstract void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
+        ;
 
     /// <summary>
     /// Asignar los valores a las fichas
@@ -72,7 +80,8 @@ public abstract class Printer
     /// <param name="row">Filas</param>
     /// <param name="column">Columnas</param>
     /// <typeparam name="T">Tipo de juego</typeparam>
-    protected IEnumerable<LocationGui> AssignValues<T>(Hand<T> tokens, int row, int column, TypeToken type) where T : struct
+    protected IEnumerable<LocationGui> AssignValues<T>(Hand<T> tokens, int row, int column, TypeToken type)
+        
     {
         int indColumn = 0;
         int indRow = 0;
@@ -98,7 +107,7 @@ public abstract class Printer
     }
 
     protected void DeterminateLocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player,
-        int row, int column, TypeToken type) where T : struct
+        int row, int column, TypeToken type) 
     {
         IEnumerable<LocationGui> location = AssignValues(tokens, row, column, type);
 

@@ -42,7 +42,7 @@ public static class AuxTable
                 TableGeometry<int> tableGeometry = (TableGeometry<int>) table;
                 for (int i = 0; i < node.Location.Coord.Length; i++)
                 {
-                    if (tableGeometry.ValuesNodeTable(node,i)!.IsAssignValue)
+                    if (tableGeometry.ValuesNodeTable(node, i)!.IsAssignValue)
                     {
                         sum += item.ValuesConnections[i];
                     }
@@ -59,7 +59,7 @@ public static class AuxTable
                 }
             }
         }
-    
+
         return sum;
     }
 }

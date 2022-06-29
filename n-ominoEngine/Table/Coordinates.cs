@@ -4,9 +4,9 @@ public class Coordinates
 {
     /// <summary>Lista de coordenadas</summary>
     public (int, int)[] Coord { get; private set; }
-    
+
     public int BorderLeft { get; private set; }
-    
+
     public int BorderTop { get; private set; }
 
     /// <summary>Lista de coordenadas ordenadas</summary>

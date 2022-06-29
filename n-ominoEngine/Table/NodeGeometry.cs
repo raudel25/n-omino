@@ -1,6 +1,6 @@
 namespace Table;
 
-public class NodeGeometry<T> : INode<T> where T: struct
+public class NodeGeometry<T> : INode<T>
 {
     public Token<T> ValueToken { get; set; }
     public INode<T>[] Connections { get; set; }

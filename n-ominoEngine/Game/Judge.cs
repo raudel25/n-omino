@@ -5,49 +5,42 @@ using Player;
 
 namespace Game;
 
-public class Judge<T> where T : struct
+public class Judge<T> 
 {
     private Player<T>[] _players;
     private InfoRules<T> _judgeRules;
     private GameStatus<T> _infoGame;
-    public Token<T> t;
-    public PrinterGeometry g = new PrinterGeometry();
-    Printer q12 = new PrinterDomino();
+    private Printer _print;
+    private TournamentStatus _tournament;
 
-    public Judge(InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players)
+    public Judge(TournamentStatus tournament, InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players,
+        Printer print)
     {
         this._judgeRules = infoRules;
         this._infoGame = infoGame;
         this._players = players;
+        this._print = print;
+        this._tournament = tournament;
         //this.Game();
     }
 
     public void Game()
     {
-        IBeginGame<T> a = new BeginGameToken<T>(t);
-        a.Start(new TournamentStatus(), _infoGame, _judgeRules);
-
-        int i = _infoGame.PlayerStart;
+        int i = StartGame();
         bool noValid = false;
         int lastPlayerPass = -1;
-        while (true)
+
+        while (!EndGame())
         {
+            if (i == this._infoGame.Turns.Length) i = 0;
+
             int ind = this._infoGame.Turns[i];
-            InfoPlayer<T> player = this._infoGame.Players[_infoGame.Turns[ind]];
+            InfoPlayer<T> player = this._infoGame.Players[ind];
 
             //Clonar el estado del juego
             GameStatus<T> copy = this._infoGame.Clone();
 
-            //Determinar si es posible jugar
-            this._judgeRules.IsValidPlay.RunRule(copy, this._infoGame, this._judgeRules, i);
-            bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
-
-            //Determinar la visibilidad y posibilidades de robar
-            this._judgeRules.VisibilityPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
-            this._judgeRules.StealTokens.RunRule(copy, this._infoGame, this._judgeRules, i);
-
-            //Determinar si es posible jugar con el criterio de robar
-            play = play || this._judgeRules.StealTokens.Play;
+            bool play = PrePlay(copy, player, i);
 
             if (play) noValid = false;
             else
@@ -63,29 +56,25 @@ public class Judge<T> where T : struct
 
                 noValid = true;
             }
+
             Console.WriteLine(play);
 
             if (play)
             {
-                this._infoGame.InmediatePass = false;
+                this._infoGame.ImmediatePass = false;
                 Jugada<T> jugada = _players[ind].Play(_infoGame, _judgeRules);
                 if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
                     _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
                         .ValidPlay(jugada.Node, jugada.Token, _infoGame.Table))
                 {
-                    T[] aux = _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
-                        .AssignValues(jugada.Node, jugada.Token, _infoGame.Table);
-                    _infoGame.Table.PlayTable(jugada.Node, jugada.Token, aux);
-                    _infoGame.Players[ind].Hand!.Remove(jugada.Token);
+                    PlayToken(jugada.ValidPlay, jugada.Node, jugada.Token, ind);
                     Console.WriteLine("Jugador " + i + " jugo");
                     Console.WriteLine((jugada.Token[0], jugada.Token[1]));
                 }
-
-                GuiJudge(jugada.Token, ind);
             }
             else
             {
-                this._infoGame.InmediatePass = true;
+                this._infoGame.ImmediatePass = true;
                 GuiJudge(null, ind);
             }
 
@@ -94,21 +83,11 @@ public class Judge<T> where T : struct
             //bool toPass = !play || this._judgeRules.ToPassToken.PossibleToPass;
             //this._infoGame.InmediatePass = toPass;
 
-            //Determinar la distribucion de los turnos
-            this._judgeRules.TurnPlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
-
-            //Asignar Score a los jugadores
-            this._judgeRules.AsignScorePlayer.RunRule(copy, this._infoGame, this._judgeRules, i);
-
-            //Determinar el ganador del juego
-            this._judgeRules.WinnerGame.RunRule(copy, this._infoGame, this._judgeRules, i);
-
-            if (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1) break;
-            //Console.WriteLine(this._infoGame.Players[ind].Score);
+            PostPlay(copy, i);
 
             i++;
-            if (i == this._infoGame.Turns.Length) i = 0;
         }
+
         Console.WriteLine("Termino");
     }
 
@@ -131,12 +110,70 @@ public class Judge<T> where T : struct
 
     private void GuiJudge(Token<T>? play, int ind)
     {
-        Thread.Sleep(1000);
-        g.LocationTable(_infoGame.Table);
-        g.LocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
-        // q12.LocationTable(_infoGame.Table);
-        // q12.LocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
-        Thread.Sleep(1000);
+        this._print.LocationTable(_infoGame.Table);
+        this._print.LocationHand(_infoGame.Players[ind].Hand!, play, _infoGame.Table, _infoGame.Players[ind].Id + "");
+    }
 
+    private int StartGame()
+    {
+        this._judgeRules.Begin.RunRule(this._tournament, this._infoGame, this._infoGame, this._judgeRules, -1);
+
+        int ind = this._infoGame.PlayerStart;
+
+        if (this._infoGame.TokenStart != null)
+        {
+            PlayToken(this._judgeRules.IsValidPlay.CantValid - 1, this._infoGame.Table.TableNode[0],
+                this._infoGame.TokenStart, this._infoGame.PlayerStart);
+
+            PostPlay(this._infoGame, ind);
+
+            ind++;
+        }
+
+        return ind;
+    }
+
+    private void PlayToken(int valid, INode<T> node, Token<T> token, int ind)
+    {
+        T[] aux = _judgeRules.IsValidPlay[valid].Item1
+            .AssignValues(node, token, _infoGame.Table);
+
+        _infoGame.Table.PlayTable(node, token, aux);
+        _infoGame.Players[ind].Hand!.Remove(token);
+
+        GuiJudge(token, ind);
+    }
+
+    private bool PrePlay(GameStatus<T> copy, InfoPlayer<T> player, int ind)
+    {
+        //Determinar si es posible jugar
+        this._judgeRules.IsValidPlay.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
+        bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
+
+        //Determinar la visibilidad y posibilidades de robar
+        this._judgeRules.VisibilityPlayer.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
+        this._judgeRules.StealTokens.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
+
+        //Determinar si es posible jugar con el criterio de robar
+        play = play || this._judgeRules.StealTokens.Play;
+
+        return play;
+    }
+
+    private void PostPlay(GameStatus<T> copy, int ind)
+    {
+        //Determinar la distribucion de los turnos
+        this._judgeRules.TurnPlayer.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
+
+        //Asignar Score a los jugadores
+        this._judgeRules.AssignScorePlayer.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
+
+        //Determinar el ganador del juego
+        this._judgeRules.WinnerGame.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, ind);
+    }
+
+    private bool EndGame()
+    {
+        return (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1);
     }
 }

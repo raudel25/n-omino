@@ -5,8 +5,13 @@ namespace Game;
 
 public class PrinterDimension : Printer
 {
+    public PrinterDimension(int speed) : base(speed)
+    {
+    }
+
     public override void LocationTable<T>(TableGame<T> table)
     {
+        Thread.Sleep(this.Speed);
         // foreach (var item in Bfs(table.TableNode[0]))
         // {
         //     
@@ -22,10 +27,10 @@ public class PrinterDimension : Printer
 
     public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
     {
-
+        Thread.Sleep(this.Speed);
     }
 
-    private int Dfs<T>(INode<T> node, HashSet<INode<T>> visited) where T : struct
+    private int Dfs<T>(INode<T> node, HashSet<INode<T>> visited) 
     {
         int max = 0;
         visited.Add(node);
@@ -39,7 +44,7 @@ public class PrinterDimension : Printer
         return max + 1;
     }
 
-    private IEnumerable<LocationGui> Bfs<T>(INode<T> node, int height, HashSet<INode<T>> visited) where T : struct
+    private IEnumerable<LocationGui> Bfs<T>(INode<T> node, int height, HashSet<INode<T>> visited) 
     {
         TypeToken type = TypeToken.NDimension;
         Queue<INode<T>> queue1 = new Queue<INode<T>>();

@@ -1,6 +1,6 @@
 namespace Table;
 
-public class ValuesNode<T> where T : struct
+public class ValuesNode<T>
 {
     public List<T> Values { get; set; }
     public bool IsAssignValue { get; set; }

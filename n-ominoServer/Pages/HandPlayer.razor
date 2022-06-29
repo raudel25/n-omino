@@ -4,11 +4,11 @@
     <h5>@Player</h5>
 </div>
 
-<div style="display: grid; height: 160px; width: 100%; 
+<div style="display: grid; height: 140px; width: 100%; 
             border: solid #1c1f23 2px; ">
 
     @* <div style="height: 10px; grid-row: 1; grid-column-start: 1; grid-column-end: 4;"></div> *@
-    <div style="display: grid; grid-column: 1; grid-row: 2; width: 150px; border-right: solid #1c1f23 2px; ">
+    <div style="display: grid; grid-column: 1; height: 138px; width: 150px; border-right: solid #1c1f23 2px; ">
 
         <div style="grid-row: 1; grid-column-start: 1; grid-column-end: 4;
                             display: flex; justify-content: center;">
@@ -18,19 +18,28 @@
 
         @if (Play != null)
         {
-            <div style="width: 30px; grid-row: 2; grid-column: 1"></div>
+            @* <div style="width: 30px; grid-row: 2; grid-column: 1"></div> *@
 
             <div @ondblclick="() => Rotate(Play)" style="grid-row: 2; grid-column: 2">
-                <TokenTypes Location="Play"></TokenTypes>
+                <div style="display: flex; justify-content: center;">
+                    <TokenTypes Location="Play"></TokenTypes>
+                </div>
+                
             </div>
         }
 
-        <div style="width: 30px; grid-row: 2; grid-column: 3"></div>
+        @* <div style="width: 30px; grid-row: 2; grid-column: 3"></div> *@
 
     </div>
 
-    <div style="display: flex; justify-content: center; grid-column: 2; grid-row: 2;">
-        <div style="overflow: auto; height: 150px; width: 1000px;">
+    <div style=" grid-column:2; display: grid; width=1010px; grid-template-columns:20px 970px 20px; ">
+
+        
+
+        <div style="grid-colum:1; grid-row=2;"></div>
+
+        
+        <div style="overflow: auto; height: 135px; grid-column=2;grid-row=2;">
 
             <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
 
@@ -47,9 +56,12 @@
             </div>
 
         </div>
+
+        <div style="grid-colum:3; grid-row=2;"></div>
+
     </div>
 
-    <div style="grid-column: 3;"></div>
+    <div style="grid-column: 3;height: 138px; width: 150px; border-left: solid #1c1f23 2px; "></div>
 
 </div>
 

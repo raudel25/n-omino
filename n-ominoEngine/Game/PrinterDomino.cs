@@ -9,8 +9,14 @@ public class PrinterDomino : Printer
 
     private delegate bool Parity(int n);
 
+    public PrinterDomino(int speed) : base(speed)
+    {
+    }
+
     public override void LocationTable<T>(TableGame<T> table)
     {
+        Thread.Sleep(this.Speed);
+
         INode<T> actualhead = table.TableNode[this.IdLastHead];
         INode<T> head = actualhead;
 
@@ -27,7 +33,6 @@ public class PrinterDomino : Printer
                     break;
                 }
             }
-
         }
 
         this.IdLastHead = head.Id;
@@ -38,9 +43,11 @@ public class PrinterDomino : Printer
     public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
     {
         DeterminateLocationHand(tokens, play, table, player, 3, 1, TypeToken.DominoV);
+
+        Thread.Sleep(this.Speed);
     }
 
-    private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node) where T : struct
+    private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node)
     {
         HashSet<INode<T>> visited = new HashSet<INode<T>>();
 
@@ -58,7 +65,7 @@ public class PrinterDomino : Printer
             (string values1, string values2) = (func(cant))
                 ? (aux.ValuesConnections[0]!.ToString()!, aux.ValuesConnections[1]!.ToString()!)
                 : (aux.ValuesConnections[1]!.ToString()!, aux.ValuesConnections[0]!.ToString()!);
-            string[] values = new[] { values1, values2 };
+            string[] values = new[] {values1, values2};
 
             if (aux.ValuesConnections[0]!.Equals(aux.ValuesConnections[1]))
             {
