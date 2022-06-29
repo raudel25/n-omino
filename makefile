@@ -1,2 +1,2 @@
 dev:
-	dotnet run --project Test/
+	dotnet run --project n-ominoServer/

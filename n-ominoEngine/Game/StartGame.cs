@@ -9,6 +9,7 @@ public interface IDealer<T> where T : struct
     /// <param name="items">Elementos a repartir</param>
     /// <param name="cant">Cantidad de elementos que se quieren</param>
     /// <returns>Una lista con lo que repartió</returns>
+    public IEnumerable<Hand<T>> Deal(List<Token<T>> items, int[] tokensperplayer);
     public Hand<T> Deal(List<Token<T>> items, int cant);
 }
 
@@ -29,6 +30,14 @@ public class RandomDealer<T> : IDealer<T> where T : struct
 
         return res;
     }
+
+    public IEnumerable<Hand<T>> Deal(List<Token<T>> items, int[] tokensperplayer)
+    {
+        foreach (var canttokens in tokensperplayer)
+        {
+            yield return Deal(items, canttokens);
+        }
+    }
 }
 
 public interface ITokensMaker<T> where T : struct
@@ -40,7 +49,7 @@ public interface ITokensMaker<T> where T : struct
     public List<Token<T>> MakeTokens(T[] values, int n);
 }
 
-public class TokensMakerClassic<T> : ITokensMaker<T> where T : struct
+public class ClassicTokensMaker<T> : ITokensMaker<T> where T : struct
 {
     public List<Token<T>> MakeTokens(T[] array, int n)
     {
@@ -68,11 +77,11 @@ public class TokensMakerClassic<T> : ITokensMaker<T> where T : struct
     }
 }
 
-public class TokensMakerCircular<T> : ITokensMaker<T> where T : struct
+public class CircularTokensMaker<T> : ITokensMaker<T> where T : struct
 {
     public List<Token<T>> MakeTokens(T[] array, int n)
     {
-        var r = new TokensMakerClassic<T>();
+        var r = new ClassicTokensMaker<T>();
         var tokens = r.MakeTokens(array, n);
         var permutation = new List<Token<T>>();
 
