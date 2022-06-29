@@ -26,12 +26,54 @@ public class History<T> : ICloneable<History<T>> where T : struct
             for (int i = this.Turns - 1; i > 0; i--)
             {
                 if (this[i] is not null) break;
-                else count++;
+                count++;
             }
             return count;
         }
     }
+    
+    //guarda la
+    public Dictionary<T, int> Puestas
+    {
+        get
+        {
+            Dictionary<T, int> puestas = new();
+            foreach (var item in _history)
+            {
+                for (int i = 0; i < item.Token.CantValues; i++)
+                {
+                    //Si este valor lo había matado continúo
+                    if (item.Node.Fathers.Contains(item.Node.Connections[i]!)) continue;
+                    //Si el valor lo puse, lo cuento
+                    if(!puestas.ContainsKey(item.Token[i])) puestas.Add(item.Token[i], 1);
+                    else puestas[item.Token[i]]++;
+                }
+            }
+            //ordenar el diccionario
+            return puestas;
+        }
+    }
 
+    public Dictionary<T, int> Matadas
+    {
+        get
+        {
+            Dictionary<T, int> puestas = new();
+            foreach (var item in _history)
+            {
+                for (int i = 0; i < item.Token.CantValues; i++)
+                {
+                    //Si este valor no lo había matado continúo
+                    if (!item.Node.Fathers.Contains(item.Node.Connections[i]!)) continue;
+                    //Si el valor lo maté, lo cuento
+                    if(!puestas.ContainsKey(item.Token[i])) puestas.Add(item.Token[i], 1);
+                    else puestas[item.Token[i]]++;
+                }
+            }
+            //ordenar el diccionario
+            return puestas;
+        }
+    }
     //añadir una jugada al historial
     public void Add(Jugada<T> item)
     {

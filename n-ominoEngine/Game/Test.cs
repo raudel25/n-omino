@@ -21,7 +21,7 @@ public static class Test
         }
 
         //Jugadores
-        ITokensMaker<int> maker = new TokensMakerCircular<int>();
+        ITokensMaker<int> maker = new CircularTokensMaker<int>();
 
         List<Token<int>> tokens = maker.MakeTokens(array, 4);
 
@@ -42,7 +42,7 @@ public static class Test
 
         for (int i = 0; i < 4; i++)
         {
-            players[i] = new PurePlayer<int>(i, strategy);
+            players[i] = new PurePlayer<int>(i, strategy, strategy);
         }
 
         List<InfoPlayer<int>>[] team = new List<InfoPlayer<int>>[4];

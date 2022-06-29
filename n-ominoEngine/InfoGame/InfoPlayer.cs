@@ -8,9 +8,9 @@ public class InfoPlayer<T> : ICloneable<InfoPlayer<T>> where T : struct
     //mano del jugador
     public Hand<T> Hand { get; set; }
     //cantidad de fichas en la mano del jugador
-    public int HandCount { get { return Hand.Count(); } }
+    public int HandCount  => Hand.Count();
     //cantidad de pases que se ha dado el jugador
-    public int Passes { get { return History.Passes; } }
+    public int Passes => History.Passes;
     //guarda el historial de jugadas de ese jugador
     public History<T> History { get; set; }
     //puntuación del jugador
