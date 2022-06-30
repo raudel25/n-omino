@@ -30,7 +30,7 @@ public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
         {
             for (int i = 0; i < node.Connections.Length; i++)
             {
-                UnionNode(node, CreateNode(this.Dimension), i);
+                UnionNode(node, CreateNode(this.DimensionToken), i);
                 AssignValueConnection(node, node.Connections[i]!, 0);
                 FreeTable(node.Connections[i]!);
                 this.BranchNode.Add(node.Connections[i]!, i);
@@ -51,7 +51,7 @@ public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
 
     public override TableGame<T> Clone()
     {
-        TableGame<T> table = new TableLongana<T>(this.Dimension, this.CantPlayer);
+        TableGame<T> table = new TableLongana<T>(this.DimensionToken, this.CantPlayer);
         return AuxClone(table);
     }
 

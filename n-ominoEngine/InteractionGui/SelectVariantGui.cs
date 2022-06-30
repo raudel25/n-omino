@@ -1,10 +1,14 @@
+using Rules;
+
 namespace InteractionGui;
 
-public interface ISelectVariantGui<T>
+public interface ISelectVariantGui<T1, T2>
 {
-    public List<T> ValueParam { get; }
+    public delegate T1 Select(IComparison<T2> comparison, int a, int b);
 
-    public T[] Values { get; }
+    public List<T1> ValueParam { get; }
+
+    public Select[] Values { get; }
 
     public ParamSelect[] Param { get; }
 }

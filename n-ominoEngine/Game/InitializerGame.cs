@@ -1,5 +1,6 @@
 using Table;
 using InfoGame;
+using Rules;
 
 namespace Game;
 
@@ -8,25 +9,22 @@ public class InitializerGame<T>
     private ITokensMaker<T> _maker;
     private IDealer<T> _dealer;
     private TableGame<T> _table;
-    private int _dimensionToken;
     private int _cantTokenToDeal;
     private T[] _generator;
 
     public InitializerGame(ITokensMaker<T> maker, IDealer<T> dealer,
-        TableGame<T> table,
-        T[] generator, int cantDeal, int dimension)
+        TableGame<T> table, T[] generator, int cantDeal)
     {
         this._dealer = dealer;
         this._maker = maker;
         this._table = table;
         this._generator = generator;
-        this._dimensionToken = dimension;
         this._cantTokenToDeal = cantDeal;
     }
 
-    public GameStatus<T> StartGame(List<int> players,List<int>[] teams)
+    public GameStatus<T> StartGame(List<int> players, List<int>[] teams)
     {
-        List<Token<T>> tokens = this._maker.MakeTokens(this._generator, this._dimensionToken);
+        List<Token<T>> tokens = this._maker.MakeTokens(this._generator, this._table.DimensionToken);
         InfoPlayer<T>[] playersInfo = new InfoPlayer<T>[players.Count];
 
         for (int i = 0; i < players.Count; i++)

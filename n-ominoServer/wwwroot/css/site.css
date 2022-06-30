@@ -457,10 +457,12 @@ a, .btn-link {
 }
 
 .Select{
-    /*border: solid #1c1f23 2px;*/
+    /*border: solid #1c1f23 1px;*/
+    width: 500px;
+    /*border-radius: 10px;*/
 }
 .HeadSelect{
     display: flex;
     justify-content: center;
-    /*border: solid #1c1f23 2px;*/
+    /*border-bottom: solid #1c1f23 2px;*/
 }

@@ -98,7 +98,7 @@ public class NoValidPLay<T> : ICondition<T>
 public class SumFreeNode : ICondition<int>
 {
     public int Value { get; private set; }
-    private IComparison<int> _comparison;
+    public IComparison<int> _comparison;
 
     public SumFreeNode(int value, IComparison<int> comparison)
     {
