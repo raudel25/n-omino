@@ -18,3 +18,14 @@ public class ParamSelect
         this.Description = description;
     }
 }
+
+public class ParamSelectFunction<T>
+{
+    public Comparison<T>? Comp { get; set; }
+
+    public int Cant { get; set; }
+    
+    public T? Left { get; set; }
+    
+    public T? Right { get; set; }
+}

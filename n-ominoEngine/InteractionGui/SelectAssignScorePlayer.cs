@@ -2,21 +2,19 @@ using Rules;
 
 namespace InteractionGui;
 
-public class SelectAssignScorePlayerInt : ISelectVariantGui<IAssignScorePlayer<int>, int>
+public class SelectAssignScorePlayer<T> : IVariant<IAssignScorePlayer<T>,T>
 {
-    public List<IAssignScorePlayer<int>> ValueParam { get; } = new List<IAssignScorePlayer<int>>();
+    public string Description { get; } = "Asignar score a los jugadores";
 
-    public ISelectVariantGui<IAssignScorePlayer<int>, int>.Select[] Values { get; } =
-        new ISelectVariantGui<IAssignScorePlayer<int>, int>.Select[]
-        {
-            ((comparison, a, b) => (new AssignScoreClassic<int>())),
-            ((comparison, a, b) => (new AssignScoreHands<int>())),
-            ((comparison, a, b) => (new AssignScoreHandsSmallCant<int>())),
-            ((comparison, a, b) => (new AssignScoreHandsHighCant<int>())),
-            ((comparison, a, b) => (new AssignScoreSumFreeNode()))
-        };
+    public List<IVariant<IAssignScorePlayer<T>,T>.Select> Values { get; }= new List<IVariant<IAssignScorePlayer<T>, T>.Select>()
+    {
+        (comp)=>new AssignScoreClassic<T>(),
+        (comp)=>new AssignScoreHands<T>(),
+        (comp)=>new AssignScoreHandsSmallCant<T>(),
+        (comp)=>new AssignScoreHandsHighCant<T>(),
+    };
 
-    public ParamSelect[] Param { get; } = new ParamSelect[]
+    public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
         new ParamSelect("Score clasico", "Asignar el Score cuando un jugador se pega", 0),
         new ParamSelect("Score relativo al tranque",
@@ -28,8 +26,22 @@ public class SelectAssignScorePlayerInt : ISelectVariantGui<IAssignScorePlayer<i
         new ParamSelect(
             "Mano del jugador por la mayor cantidad",
             "Asignar el Score por el valor de las fichas en la mano del jugador, dandole prioridad al que mas fichas tenga",
-            3),
-        new ParamSelect("Score por los nodos libres",
-            "Asignar el Score por la suma de los valores de las posiciones libres", 4)
+            3)
     };
+    
+    public SelectAssignScorePlayer()
+    {
+        T? a = default;
+        if (a is int)
+        {
+            Values.Add(SelectInt);
+            Param.Add(new ParamSelect("Score por los nodos libres",
+                "Asignar el Score por la suma de los valores de las posiciones libres", 4));
+        }
+    }
+
+    private IAssignScorePlayer<T> SelectInt(ParamSelectFunction<T> comp)
+    {
+        return (new AssignScoreSumFreeNode() as IAssignScorePlayer<T>)!;
+    }
 }

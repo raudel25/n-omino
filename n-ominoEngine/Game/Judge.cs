@@ -27,6 +27,8 @@ public class Judge<T>
 
     public void Game()
     {
+        Printer.ExecuteWinnerEvent("");
+        
         int i = StartGame();
         bool noValid = false;
         int lastPlayerPass = -1;
@@ -90,6 +92,8 @@ public class Judge<T>
         }
 
         Console.WriteLine("Termino");
+        
+        Printer.ExecuteWinnerEvent("El Jugador "+_infoGame.PlayerWinner+" ha ganado");
     }
 
     /// <summary>Determina si el jugador tiene opciones para jugar</summary>

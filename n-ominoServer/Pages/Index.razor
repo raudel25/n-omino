@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Rules
 @using InteractionGui
+@using Table
 
 <PageTitle>Index</PageTitle>
 
@@ -10,8 +11,6 @@ Welcome to your new app.
 
 <a href="/Game"><button>Game</button></a>
 
-<SelectVariant Cant="5" VariantGui="new SelectAssignScorePlayerInt()"></SelectVariant>
+<SelectVariantGui Cant="1" ValueParam="new List<TableGame<int>>()" VariantGui="new SelectTable<int>()"></SelectVariantGui>
 
-<SelectVariant Cant="5" VariantGui="new SelectConditionInt()"></SelectVariant>
-
-<SelectVariant Cant="5" VariantGui="new SelectWinnerGameInt()"></SelectVariant>
+<SelectWinnerGameRuleGui a="new List<int>()"></SelectWinnerGameRuleGui>

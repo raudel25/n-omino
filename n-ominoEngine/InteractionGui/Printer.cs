@@ -31,6 +31,8 @@ public abstract class Printer
     public delegate void BindLocationHand(IEnumerable<LocationGui> location, LocationGui? play, string action,
         string player);
 
+    public delegate void BindWinner(string winner);
+
     /// <summary>
     /// Bindiar el tablero logico con el front-end
     /// </summary>
@@ -40,6 +42,13 @@ public abstract class Printer
     /// Bindiar la mano del jugador con el front-end
     /// </summary>
     public static event BindLocationHand? BindHandEvent;
+
+    public static event BindWinner? BindWinnerEvent;
+
+    public static void ExecuteWinnerEvent(string winner)
+    {
+        BindWinnerEvent!(winner);
+    }
 
     public static void ExecuteTableEvent(IEnumerable<LocationGui> location)
     {

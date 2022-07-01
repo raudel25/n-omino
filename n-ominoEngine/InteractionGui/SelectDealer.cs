@@ -2,17 +2,16 @@ using Rules;
 
 namespace InteractionGui;
 
-public class SelectDealerInt : ISelectVariantGui<IDealer<int>, int>
+public class SelectDealer<T> : IVariant<IDealer<T>,T>
 {
-    public List<IDealer<int>> ValueParam { get; } = new List<IDealer<int>>();
+    public string Description { get; } = "Forma de repartir fichas";
 
-    public ISelectVariantGui<IDealer<int>, int>.Select[] Values { get; } =
-        new ISelectVariantGui<IDealer<int>, int>.Select[]
-        {
-            ((comparison, a, b) => (new RandomDealer<int>()))
-        };
+    public List<IVariant<IDealer<T>,T>.Select> Values { get; }= new List<IVariant<IDealer<T>,T>.Select>()
+    {
+        (comp)=>new RandomDealer<T>()
+    };
 
-    public ParamSelect[] Param { get; } = new ParamSelect[]
+    public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
         new ParamSelect("Repartidor Clasico", "Modo clasico para repartir las fichas", 0),
     };

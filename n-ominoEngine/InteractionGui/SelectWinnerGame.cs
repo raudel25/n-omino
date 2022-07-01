@@ -2,20 +2,19 @@ using Rules;
 
 namespace InteractionGui;
 
-public class SelectWinnerGameInt : ISelectVariantGui<IWinnerGame<int>, int>
+public class SelectWinnerGame<T> : IVariant<IWinnerGame<T>,T>
 {
-    public List<IWinnerGame<int>> ValueParam { get; } = new List<IWinnerGame<int>>();
+    public string Description { get; } = "Forma de seleccionar el jugador del juego";
 
-    public ISelectVariantGui<IWinnerGame<int>, int>.Select[] Values { get; } =
-        new ISelectVariantGui<IWinnerGame<int>, int>.Select[]
-        {
-            ((comparison, a, b) => (new WinnerGameHigh<int>())),
-            ((comparison, a, b) => (new WinnerGameSmall<int>())),
-            ((comparison, a, b) => (new WinnerGameTeamHigh<int>())),
-            ((comparison, a, b) => (new WinnerGameSmall<int>()))
-        };
+    public List<IVariant<IWinnerGame<T>,T>.Select> Values { get; }= new List<IVariant<IWinnerGame<T>,T>.Select>()
+    {
+        (comp)=>new WinnerGameHigh<T>(),
+        (comp)=>new WinnerGameSmall<T>(),
+        (comp)=>new WinnerGameTeamHigh<T>(),
+        (comp)=>new WinnerGameSmall<T>()
+    };
 
-    public ParamSelect[] Param { get; } = new ParamSelect[]
+    public List<ParamSelect> Param { get; } = new List<ParamSelect>
     {
         new ParamSelect("Mayor puntuacion", "El ganador es el que mayor puntuacion acumule", 0),
         new ParamSelect("Menor puntuacion", "El ganador es el que menor puntuacion acumule", 1),
