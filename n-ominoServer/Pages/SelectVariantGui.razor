@@ -7,12 +7,12 @@
 {
     <div class="Select">
         <div class="HeadSelect">
-            <label>@VariantGui.Description</label>
+            <label>@VariantGui!.Description</label>
         </div>
 
         <div style="display: flex">
             <EditForm Model="VariantGui">
-                <InputSelect @bind-Value="_selcted" style="width: 320px; height: 30px;">
+                <InputSelect @bind-Value="_selcted" class="InputSelect">
                     @foreach (var item in VariantGui.Param)
                     {
                         <option value="@item.Index">@item.Name</option>
@@ -21,11 +21,11 @@
             </EditForm>
             @if (Cant == 1)
             {
-                <button @onclick="Next" style="width: 80px;">Terminar</button>
+                <button @onclick="Next" class="ButtonSelect">Terminar</button>
             }
             else
             {
-                <button @onclick="Next" style="width: 80px;">Siguiente</button>
+                <button @onclick="Next" class="ButtonSelect">Siguiente</button>
             }
         </div>
 
@@ -35,6 +35,15 @@
                 @if (VariantGui.Param[_selcted].Values == 1)
                 {
                     <input type="number" @bind="_valueLeft"/>
+                }
+                @if (VariantGui.Param[_selcted].Values == 2)
+                {
+                    <input type="number" @bind="_valueLeft"/>
+                    <input type="number" @bind="_valueRight"/>
+                }
+                @if (VariantGui.Param[_selcted].Cant)
+                {
+                    <input type="number" @bind="_cantParam"/>
                 }
             }
         </div>
@@ -52,25 +61,36 @@
 @code {
 
     [Parameter]
-    public List<T1> ValueParam { get; set; }
+    public List<T1>? ValueParam { get; set; }
 
     [Parameter]
     public int Cant { get; set; } = 1;
     
     [Parameter]
-    public IVariant<T1, T2> VariantGui { get; set; }
+    public IVariant<T1, T2>? VariantGui { get; set; }
 
     private int _selcted = -1;
 
     private int _valueLeft = 1;
 
-    private int _valueRight;
+    private int _valueRight = 1;
+
+    private int _cantParam = 1;
 
     private void Next()
     {
         if (_selcted != -1)
         {
-            ValueParam.Add(VariantGui.Values[_selcted](null));
+            T2? aux = default;
+            ParamSelectFunction<T2> param = new ParamSelectFunction<T2>(); 
+            if (aux is int)
+            {
+                ParamSelectFunction<int> paramInt=(param as ParamSelectFunction<int>)!;
+                paramInt.Left = _valueLeft;
+                paramInt.Right = _valueRight;
+                paramInt.Cant = _cantParam;
+            }
+            ValueParam!.Add(VariantGui!.Values[_selcted](param));
             Cant--;
         }
     }

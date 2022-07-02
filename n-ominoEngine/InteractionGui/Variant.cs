@@ -1,5 +1,3 @@
-using Rules;
-
 namespace InteractionGui;
 
 public interface IVariant<T1,T2>

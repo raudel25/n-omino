@@ -1,0 +1,75 @@
+@using Rules
+@using InteractionGui
+@typeparam T 
+
+@if (_vilibility)
+{
+    <div class="SelectRule">
+        <div class="HeadSelect">
+            <h5>Asignar score a los jugadores</h5>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            @if (!_selectValue)
+            {
+                <div style="width: 150px;">
+                    <label>Cantidad de reglas</label>
+                </div>
+
+                <input type="number" @bind="_cant" class="InputSelectHead"/>
+
+                <button @onclick="Select" class="ButtonSelectHeadT">Seleccionar</button>
+            }
+        </div>
+
+        @if (_selectValue)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui Cant="_cant" ValueParam="_valuesRule" VariantGui="new SelectAssignScorePlayer<T>()"></SelectVariantGui>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui Cant="_cant" ValueParam="_valuesCondition" VariantGui="new SelectCondition<T>()"></SelectVariantGui>
+            </div>
+        }
+
+        <div style="height: 10px"></div>
+
+        <div style="display: flex; justify-content: center;">
+            <button @onclick="CreateRule" class="ButtonSelectHeadB">Crear</button>
+        </div>
+
+        <div style="height: 5px"></div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public BuildRules<T>? Build { get; set; }
+
+    private int _cant = 1;
+
+    private bool _selectValue = false;
+
+    private List<IAssignScorePlayer<T>> _valuesRule = new List<IAssignScorePlayer<T>>();
+
+    private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
+
+    private bool _vilibility = true;
+
+    private void Select()
+    {
+        _selectValue = true;
+    }
+
+    private void CreateRule()
+    {
+        if (_valuesRule.Count != 0 && _valuesCondition.Count != 0)
+        {
+            Build!.AssignScorePlayer = new AssignScorePlayerRule<T>(_valuesRule, _valuesCondition);
+            _vilibility = false;
+        }
+    }
+
+}

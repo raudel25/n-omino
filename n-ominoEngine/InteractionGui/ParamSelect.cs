@@ -7,15 +7,17 @@ public class ParamSelect
     public string Description { get; private set; }
     public int Index { get; private set; }
     public int Values { get; private set; }
+    public bool Cant { get; private set; }
     public bool Comparison { get; private set; }
 
-    public ParamSelect(string name,string description, int ind, int values = 0, bool comparison = false)
+    public ParamSelect(string name,string description, int ind, int values = 0,bool cant=false, bool comparison = false)
     {
         this.Name = name;
         this.Index = ind;
         this.Comparison = comparison;
         this.Values = values;
         this.Description = description;
+        this.Cant = cant;
     }
 }
 

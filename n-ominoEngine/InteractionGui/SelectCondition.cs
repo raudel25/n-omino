@@ -24,8 +24,8 @@ public class SelectCondition<T> : IVariant<ICondition<T>,T>
     {
         new ParamSelect("Ganar el juego clasico", "Condicion clasica para ganar un jugador", 0),
         new ParamSelect("Ganar el juego clasico (team)", "Condicion clasica para ganar un equipo", 1),
-        new ParamSelect("Cantidad de pases", "Cantidad de pases de un jugador", 2, 1),
-        new ParamSelect("Cantidad de pases (team)", "Cantidad de pases de un equipo", 3, 1),
+        new ParamSelect("Cantidad de pases", "Cantidad de pases de un jugador", 2, 0,true),
+        new ParamSelect("Cantidad de pases (team)", "Cantidad de pases de un equipo", 3, 0,true),
         new ParamSelect("Pase inmediato", "Pase inmediato de un jugador", 4),
         new ParamSelect("Tranque clasico", "Ningun jugador tiene jugada valida", 5),
         new ParamSelect("Defecto", "Condicion activa por defecto", 6),

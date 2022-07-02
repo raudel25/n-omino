@@ -2,6 +2,7 @@
 @using Rules
 @using InteractionGui
 @using Table
+@using Game
 
 <PageTitle>Index</PageTitle>
 
@@ -13,4 +14,8 @@ Welcome to your new app.
 
 <SelectVariantGui Cant="1" ValueParam="new List<TableGame<int>>()" VariantGui="new SelectTable<int>()"></SelectVariantGui>
 
-<SelectWinnerGameRuleGui a="new List<int>()"></SelectWinnerGameRuleGui>
+<SelectWinnerGameGui Build="new BuildRules<int>()"></SelectWinnerGameGui>
+
+<SelectAssignScorePlayerGui Build="new BuildRules<string>()"></SelectAssignScorePlayerGui>
+
+<SelectInitializerGameGui Initializer="new List<InitializerGame<int>>()"></SelectInitializerGameGui>

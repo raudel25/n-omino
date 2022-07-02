@@ -466,3 +466,71 @@ a, .btn-link {
     justify-content: center;
     /*border-bottom: solid #1c1f23 2px;*/
 }
+.InputSelect{
+    width: 320px; height: 30px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left: groove 2px;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 0;
+    outline: none;
+}
+.ButtonSelect{
+    width: 80px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: groove 0;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 2px;
+    outline: none;
+}
+
+.InputSelectHead{
+    width: 100px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: 30px;
+    border-left: groove 2px;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 0;
+    outline: none;
+}
+
+.ButtonSelectHeadT
+{
+    width: 100px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 30px;
+    border-left: groove 0;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 2px;
+    outline: none;
+}
+
+.ButtonSelectHeadB
+{
+    width: 100px;
+    border-radius: 10px;
+    height: 30px;
+    border: groove 2px;
+    outline: none;
+}
+
+.SelectRule{
+    width: 410px;
+    border: groove 2px;
+    border-radius: 5px;
+}
+
+.InputSelectToken{
+    width: 100px;
+    border-radius: 10px;
+    height: 30px;
+    border: groove 2px;
+    outline: none;
+}

@@ -14,7 +14,7 @@ public class SelectMaker<T> : IVariant<ITokensMaker<T>,T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
-        new ParamSelect("Repartidor clasico", "Modo clasico de generar las fichas", 0),
-        new ParamSelect("Repartidor circular", "Permutacion circular sobre las fichas", 1)
+        new ParamSelect("Generador clasico", "Modo clasico de generar las fichas", 0),
+        new ParamSelect("Generador circular", "Permutacion circular sobre las fichas", 1)
     };
 }
