@@ -25,7 +25,7 @@ public class PrinterDimension : Printer
         // }
     }
 
-    public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
+    public override void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table)
     {
         Thread.Sleep(this.Speed);
     }

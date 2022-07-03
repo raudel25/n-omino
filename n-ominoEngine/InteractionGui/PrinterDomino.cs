@@ -40,9 +40,9 @@ public class PrinterDomino : Printer
         Printer.ExecuteTableEvent(DeterminateLocation(table, head));
     }
 
-    public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
+    public override void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table)
     {
-        DeterminateLocationHand(tokens, play, table, player, 3, 1, TypeToken.DominoV);
+        DeterminateLocationHand(play, table, player, 3, 1, TypeToken.DominoV);
 
         Thread.Sleep(this.Speed);
     }

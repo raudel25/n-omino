@@ -31,10 +31,9 @@ public class SelectCondition<T> : IVariant<ICondition<T>,T>
         new ParamSelect("Defecto", "Condicion activa por defecto", 6),
     };
 
-    public SelectCondition()
+    public SelectCondition(T value)
     {
-        T? a = default;
-        if (a is int)
+        if (value is int)
         {
             Values.Add(SelectInt);
             Param.Add(new ParamSelect("Suma de los nodos libre",

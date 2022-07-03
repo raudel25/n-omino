@@ -19,6 +19,9 @@ public abstract class Printer
         DominoH
     }
 
+    /// <summary>
+    /// Velocidad del juego
+    /// </summary>
     public int Speed { get; protected set; }
 
     public Printer(int speed)
@@ -29,7 +32,7 @@ public abstract class Printer
     public delegate void BindLocationTable(IEnumerable<LocationGui> location);
 
     public delegate void BindLocationHand(IEnumerable<LocationGui> location, LocationGui? play, string action,
-        string player);
+        InfoPlayerGui player);
 
     public delegate void BindWinner(string winner);
 
@@ -56,9 +59,9 @@ public abstract class Printer
     }
 
     public static void ExecuteHandEvent(IEnumerable<LocationGui> location, LocationGui? play, string action,
-        string player)
+        InfoPlayerGui player)
     {
-        BindHandEvent!(location, play, action, "Jugador " + player);
+        BindHandEvent!(location, play, action, player);
     }
 
     /// <summary>
@@ -72,14 +75,12 @@ public abstract class Printer
     /// <summary>
     /// Determinar la posicion de la mano de los jugadores
     /// </summary>
-    /// <param name="tokens">Lista de fichas</param>
     /// <param name="play">Jugada actual</param>
     /// <param name="table">Mesa</param>
     /// <param name="player">Jugador</param>
     /// <typeparam name="T">Tipo de ficha para el juego</typeparam>
     /// <returns>Ubicacion en la GUI para la mano del play</returns>
-    public abstract void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
-        ;
+    public abstract void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table);
 
     /// <summary>
     /// Asignar los valores a las fichas
@@ -115,10 +116,10 @@ public abstract class Printer
         }
     }
 
-    protected void DeterminateLocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player,
+    protected void DeterminateLocationHand<T>(Token<T>? play, TableGame<T> table, InfoPlayer<T> player,
         int row, int column, TypeToken type) 
     {
-        IEnumerable<LocationGui> location = AssignValues(tokens, row, column, type);
+        IEnumerable<LocationGui> location = AssignValues(player.Hand!, row, column, type);
 
         string action = "Jugada";
         LocationGui? locationPlay = null;
@@ -135,6 +136,8 @@ public abstract class Printer
         }
         else action = "Pase";
 
-        Printer.ExecuteHandEvent(location, locationPlay, action, player);
+        InfoPlayerGui playerInfo = new InfoPlayerGui("Jugador " + player.Id, player.Passes, player.Score);
+        
+        Printer.ExecuteHandEvent(location, locationPlay, action, playerInfo);
     }
 }

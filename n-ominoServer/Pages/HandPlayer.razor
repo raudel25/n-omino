@@ -93,12 +93,12 @@
         Printer.BindHandEvent += BindLocationGui;
     }
 
-    private void BindLocationGui(IEnumerable<LocationGui> location, LocationGui? play, string action, string player)
+    private void BindLocationGui(IEnumerable<LocationGui> location, LocationGui? play, string action, InfoPlayerGui player)
     {
         _ = InvokeAsync(() =>
         {
             Locations = location;
-            Player = player;
+            Player = player.Name;
             Play = play;
             Action = action;
             StateHasChanged();
