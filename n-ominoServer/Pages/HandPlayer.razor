@@ -3,7 +3,7 @@
 @using InteractionGui
 
 <div style="display: flex; justify-content: center;">
-    <h5>@Player</h5>
+    <h5>@Player!.Name</h5>
 </div>
 
 <div style="display: grid; height: 140px; width: 100%; 
@@ -63,7 +63,9 @@
 
     </div>
 
-    <div style="grid-column: 3;height: 138px; width: 150px; border-left: solid #1c1f23 2px; "></div>
+    <div style="grid-column: 3;height: 138px; width: 150px; border-left: solid #1c1f23 2px; ">
+        <p>@Player.Score</p>
+    </div>
 
 </div>
 
@@ -79,7 +81,7 @@
     public string Action { get; set; } = "";
 
     [Parameter]
-    public string? Player { get; set; } = "";
+    public InfoPlayerGui? Player { get; set; } = new InfoPlayerGui("", 0, 0);
 
     private void Rotate(LocationGui location)
     {
@@ -98,7 +100,7 @@
         _ = InvokeAsync(() =>
         {
             Locations = location;
-            Player = player.Name;
+            Player = player;
             Play = play;
             Action = action;
             StateHasChanged();

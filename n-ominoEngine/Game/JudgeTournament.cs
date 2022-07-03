@@ -16,36 +16,36 @@ public class JudgeTournament
 
     public JudgeTournament(InitializerGame<dynamic>[] games, InfoRules<dynamic>[] rules, Player<dynamic>[] playersPlay,
         Printer[] print,
-        List<int>[] teams,InfoRulesTournament<dynamic> rulesTournament)
+        List<(int,int)> playerTeams,InfoRulesTournament<dynamic> rulesTournament)
     {
         this._games = games;
         this._rules = rules;
         this._playersPlay = playersPlay;
         this._print = print;
-        this._tournament = CreateTournament(teams);
+        this._tournament = CreateTournament(playerTeams);
         this._tournamentRules = rulesTournament;
     }
 
-    private TournamentStatus CreateTournament(List<int>[] team)
+    private TournamentStatus CreateTournament(List<(int,int)> playerTeams)
     {
-        InfoPlayerTournament[] players = new InfoPlayerTournament[this._playersPlay.Length];
-        List<InfoPlayerTournament>[] teamsPlayer = new List<InfoPlayerTournament>[team.Length];
+        List<InfoPlayerTournament> players = new List<InfoPlayerTournament>();
+        List<InfoTeams<InfoPlayerTournament>> teams = new List<InfoTeams<InfoPlayerTournament>>();
 
-        for (int i = 0; i < players.Length; i++)
+        int teamId = -1;
+        foreach (var item in playerTeams)
         {
-            players[i] = new InfoPlayerTournament(i);
-        }
-
-        for (int i = 0; i < teamsPlayer.Length; i++)
-        {
-            teamsPlayer[i] = new List<InfoPlayerTournament>();
-            for (int j = 0; j < team[i].Count; j++)
+            if (item.Item1 != teamId)
             {
-                teamsPlayer[i].Add(players[team[i][j]]);
+                teams.Add(new InfoTeams<InfoPlayerTournament>(item.Item1));
+                teamId = item.Item1;
             }
+
+            var aux = new InfoPlayerTournament(item.Item2);
+            teams[teams.Count-1].Add(aux);
+            players.Add(aux);
         }
 
-        return new TournamentStatus(players, teamsPlayer);
+        return new TournamentStatus(players, teams);
     }
 
     public void TournamentGame()
@@ -57,18 +57,17 @@ public class JudgeTournament
             {
                 PreGame(ind,i);
                 
-                List<int> playersInfo = DeterminatePlayer();
-                List<int>[] teams = DeterminateTeams();
+                List<(int,int)> playerTeams = DeterminatePlayerTeams();
 
                 //Crear los players para usar en el juego
-                Player<dynamic>[] players = new Player<dynamic>[playersInfo.Count];
+                Player<dynamic>[] players = new Player<dynamic>[playerTeams.Count];
 
                 for (int j = 0; j < players.Length; j++)
                 {
-                    players[j] = this._playersPlay[playersInfo[j]];
+                    players[j] = this._playersPlay[playerTeams[j].Item2];
                 }
 
-                GameStatus<dynamic> init = this._games[i].StartGame(playersInfo, teams);
+                GameStatus<dynamic> init = this._games[i].StartGame(playerTeams);
 
                 Judge<dynamic> judge = new Judge<dynamic>(this._tournament, this._rules[i], init, players,
                     this._print[i]);
@@ -98,29 +97,19 @@ public class JudgeTournament
     {
         return this._tournament.TeamWinner != -1;
     }
-    private List<int> DeterminatePlayer()
+    
+    private List<(int,int)> DeterminatePlayerTeams()
     {
-        List<int> aux = new List<int>();
-
-        for (int i = 0; i < this._tournament.ValidPlayer.Length; i++)
+        List<(int, int)> aux = new List<(int, int)>();
+        
+        for (int i = 0; i < this._tournament.Teams.Count; i++)
         {
-            if (this._tournament.ValidPlayer[i]) aux.Add(i);
-        }
-
-        return aux;
-    }
-
-    private List<int>[] DeterminateTeams()
-    {
-        List<int>[] aux = new List<int>[this._tournament.Teams.Length];
-
-        for (int i = 0; i < aux.Length; i++)
-        {
-            aux[i] = new List<int>();
-            for (int j = 0; j < this._tournament.Teams[i].Count; j++)
+            if (this._tournament.ValidTeam[i])
             {
-                if (this._tournament.ValidPlayer[this._tournament.Teams[i][j].Id])
-                    aux[i].Add(this._tournament.Teams[i][j].Id);
+                foreach (var item in _tournament.Teams[i])
+                {
+                    if(this._tournament.ValidPlayer[item.Id]) aux.Add((this._tournament.Teams[i].Id,item.Id));   
+                }
             }
         }
 

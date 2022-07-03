@@ -28,7 +28,7 @@ public class ClassicTeamWin<T> : ICondition<T>
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
         bool win = true;
-        for (int i = 0; i < game.Teams.Length; i++)
+        for (int i = 0; i < game.Teams.Count; i++)
         {
             for (int j = 0; j < game.Teams[i].Count; j++)
             {
@@ -67,7 +67,7 @@ public class CantToPassTeam<T> : ICondition<T>
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
         bool condition = true;
-        for (int i = 0; i < game.Teams.Length; i++)
+        for (int i = 0; i < game.Teams.Count; i++)
         {
             for (int j = 0; j < game.Teams[i].Count; j++)
             {

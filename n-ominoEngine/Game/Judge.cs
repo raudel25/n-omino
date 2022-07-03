@@ -92,12 +92,14 @@ public class Judge<T>
     {
         this._judgeRules.Begin.RunRule(this._tournament, this._infoGame, this._infoGame, this._judgeRules, -1);
 
-        int ind = this._infoGame.PlayerStart;
+        int id = this._infoGame.PlayerStart;
+
+        int ind = this._infoGame.FindPLayerById(id);
 
         if (this._infoGame.TokenStart != null)
         {
             PlayToken(this._judgeRules.IsValidPlay.CantValid - 1, this._infoGame.Table.TableNode[0],
-                this._infoGame.TokenStart, this._infoGame.PlayerStart);
+                this._infoGame.TokenStart, ind);
 
             PostPlay(ind);
 
@@ -120,12 +122,22 @@ public class Judge<T>
             Jugada<T> jugada = _players[ind].Play(_infoGame, _judgeRules);
             if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
                 _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
-                    .ValidPlay(jugada.Node, jugada.Token, _infoGame.Table))
+                    .ValidPlay(jugada.Node!, jugada.Token!, _infoGame.Table))
             {
-                PlayToken(jugada.ValidPlay, jugada.Node, jugada.Token, ind);
+                PlayToken(jugada.ValidPlay, jugada.Node!, jugada.Token!, ind);
+                HistoryPlayer(jugada,ind);
             }
         }
-        else GuiJudge(null, ind);
+        else
+        {
+            HistoryPlayer(new Jugada<T>(null,null,-1),ind);
+            GuiJudge(null, ind);
+        }
+    }
+
+    private void HistoryPlayer(Jugada<T> play,int ind)
+    {
+        this._infoGame.Players[ind].History.Add(play);
     }
 
     /// <summary>

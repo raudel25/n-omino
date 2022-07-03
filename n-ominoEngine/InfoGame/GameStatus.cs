@@ -4,8 +4,8 @@ namespace InfoGame;
 
 public class GameStatus<T>
 {
-    public InfoPlayer<T>[] Players;
-    public List<InfoPlayer<T>>[] Teams;
+    public List<InfoPlayer<T>> Players;
+    public List<InfoTeams<InfoPlayer<T>>> Teams;
     public TableGame<T> Table;
     public int[] Turns { get; set; }
 
@@ -31,7 +31,7 @@ public class GameStatus<T>
 
     public Token<T>? TokenStart { get; set; }
 
-    public GameStatus(InfoPlayer<T>[] players, List<InfoPlayer<T>>[] teams, TableGame<T> table, int[] turns,
+    public GameStatus(List<InfoPlayer<T>> players, List<InfoTeams<InfoPlayer<T>>> teams, TableGame<T> table, int[] turns,
         List<Token<T>> tokens)
     {
         this.Players = players;
@@ -44,10 +44,20 @@ public class GameStatus<T>
         this.PlayerStart = -1;
     }
 
+    public int FindPLayerById(int id)
+    {
+        for (int i = 0; i < this.Players.Count; i++)
+        {
+            if (this.Players[i].Id == id) return i;
+        }
+
+        return -1;
+    }
+
     //Determinar el equipo al que pertenece un jugador
     public int FindTeamPlayer(int id)
     {
-        for (int i = 0; i < this.Teams.Length; i++)
+        for (int i = 0; i < this.Teams.Count; i++)
         {
             for (int j = 0; j < this.Teams[i].Count; j++)
             {
@@ -60,19 +70,20 @@ public class GameStatus<T>
 
     public GameStatus<T> Clone()
     {
-        InfoPlayer<T>[] players = new InfoPlayer<T>[this.Players.Length];
-        List<InfoPlayer<T>>[] teams = new List<InfoPlayer<T>>[this.Teams.Length];
-        for (int i = 0; i < this.Players.Length; i++)
+        List<InfoPlayer<T>> players = new List<InfoPlayer<T>>();
+        List<InfoTeams<InfoPlayer<T>>> teams = new List<InfoTeams<InfoPlayer<T>>>();
+        
+        for (int i = 0; i < this.Players.Count; i++)
         {
-            players[i] = this.Players[i].Clone();
+            players.Add(this.Players[i].Clone());
         }
 
-        for (int i = 0; i < this.Teams.Length; i++)
+        for (int i = 0; i < this.Teams.Count; i++)
         {
-            teams[i] = new List<InfoPlayer<T>>();
+            teams.Add(new InfoTeams<InfoPlayer<T>>(this.Teams[i].Id));
             for (int j = 0; j < this.Teams[i].Count; j++)
             {
-                teams[i].Add(players[this.Teams[i][j].Id]);
+                teams[teams.Count-1].Add(players[this.Teams[i][j].Id]);
             }
         }
 

@@ -42,20 +42,18 @@ public static class AuxTable
                 TableGeometry<int> tableGeometry = (TableGeometry<int>) table;
                 for (int i = 0; i < node.Location.Coord.Length; i++)
                 {
-                    if (tableGeometry.ValuesNodeTable(node, i)!.IsAssignValue)
-                    {
-                        sum += item.ValuesConnections[i];
-                    }
+                    ValuesNode<int> aux = table.ValuesNodeTable(item, i)!;
+                    if(!aux.IsAssignValue) continue;
+                    sum += aux.Values[0];
                 }
             }
             else
             {
                 for (int i = 0; i < item.ValuesConnections.Length; i++)
                 {
-                    if (item.ValuesConnections[i] != -1)
-                    {
-                        sum += item.ValuesConnections[i];
-                    }
+                    ValuesNode<int> aux = table.ValuesNodeTable(item, i)!;
+                    if(!aux.IsAssignValue) continue;
+                    sum += aux.Values[0];
                 }
             }
         }

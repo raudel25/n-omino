@@ -13,7 +13,7 @@ public class ClassicScoreTeamTournament<T>:IScoreTeamTournament<T>
     {
         int score = 0;
 
-        for (int i = 0; i < game.Teams.Length; i++)
+        for (int i = 0; i < game.Teams.Count; i++)
         {
             if (i != game.TeamWinner)
             {
