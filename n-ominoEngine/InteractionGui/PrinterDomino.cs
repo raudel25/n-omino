@@ -9,8 +9,11 @@ public class PrinterDomino : Printer
 
     private delegate bool Parity(int n);
 
-    public PrinterDomino(int speed) : base(speed)
+    private bool _classic;
+
+    public PrinterDomino(int speed,bool classic) : base(speed)
     {
+        this._classic = classic;
     }
 
     public override void LocationTable<T>(TableGame<T> table)
@@ -42,7 +45,14 @@ public class PrinterDomino : Printer
 
     public override void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table)
     {
-        DeterminateLocationHand(play, table, player, 3, 1, TypeToken.DominoV);
+        if (_classic)
+        {
+            DeterminateLocationHand(play, table, player, 3, 1, TypeToken.DominoVC);
+        }
+        else
+        {
+            DeterminateLocationHand(play, table, player, 3, 1, TypeToken.DominoV);
+        }
 
         Thread.Sleep(this.Speed);
     }
@@ -69,12 +79,26 @@ public class PrinterDomino : Printer
 
             if (aux.ValuesConnections[0]!.Equals(aux.ValuesConnections[1]))
             {
-                yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoV);
+                if (_classic)
+                {
+                    yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoVC);
+                }
+                else
+                {
+                    yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoV);
+                }
                 column++;
             }
             else
             {
-                yield return new LocationGui((2, 3, column, column + 3), values, TypeToken.DominoH);
+                if (_classic)
+                {
+                    yield return new LocationGui((2, 3, column, column + 3), values, TypeToken.DominoHC);
+                }
+                else
+                {
+                    yield return new LocationGui((2, 3, column, column + 3), values, TypeToken.DominoH);
+                }
                 column += 3;
             }
 

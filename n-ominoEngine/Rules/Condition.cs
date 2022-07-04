@@ -126,7 +126,6 @@ public class NoValidPlay<T> : ICondition<T>
         foreach (var player in game.Players)
         {
             if (rules.IsValidPlay.ValidPlayPlayer(player.Hand!, game.Table)) return false;
-            Console.WriteLine(game.Table.FreeNode.Count);
         }
 
         return true;

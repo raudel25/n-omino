@@ -15,8 +15,8 @@ public static class Test
          // TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2), (3, 1), (2, 0) });
         // TableGame<int> table = new TableTriangular<int>(new[] { (0, 0), (1, 1), (2, 0) });
        TableDimension<int> table = new TableDimension<int>(2);
-        int[] array = new int[7];
-        for (int i = 0; i < 7; i++)
+        int[] array = new int[10];
+        for (int i = 0; i < 10; i++)
         {
             array[i] = i;
         }
@@ -55,7 +55,7 @@ public static class Test
         // }
 
         List<int>[] op = new[] { new List<int>() { 0 }, new List<int>() { 1 }, new List<int>() { 2 }, new List<int>() { 3 } };
-        InitializerGame<int> init = new InitializerGame<int>(maker, dealer, table, array, 7);
+        InitializerGame<int> init = new InitializerGame<int>(maker, dealer, table, array, 10);
 
         //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
         GameStatus<int> game = init.StartGame(new List<(int,int)>(){(0,0),(1,1),(2,2),(3,3)});
@@ -105,7 +105,7 @@ public static class Test
         BeginGameRule<int> beginGameRule = new BeginGameRule<int>(new[] { beginGame }, new[] { condition }, beginGame);
 
         // Printer print = new PrinterGeometry(1000);
-        Printer print = new PrinterDomino(1000);
+        Printer print = new PrinterDomino(1000,true);
 
         InfoRules<int> rules = new InfoRules<int>(isValidRule, visibilityPlayerRule, turnPlayerRule, stealTokenRule,
             null,

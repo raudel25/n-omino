@@ -16,7 +16,9 @@ public abstract class Printer
         Hexagon,
         NDimension,
         DominoV,
-        DominoH
+        DominoH,
+        DominoVC,
+        DominoHC
     }
 
     /// <summary>
