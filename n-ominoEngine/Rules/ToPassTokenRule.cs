@@ -18,7 +18,7 @@ public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T>, ICloneab
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(tournament, original, ind))
+            if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
                 this.PossibleToPass = this.PossibleToPass || this.Actions[i].ToPass();
                 activate = true;

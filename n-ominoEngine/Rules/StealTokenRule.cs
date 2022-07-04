@@ -25,7 +25,7 @@ public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, IClonea
         bool play = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(tournament, original, ind))
+            if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
                 this.Actions[i].Steal(game, original, rules, ind, ref play);
                 this.CantMax = this.Actions[i].CantMax;

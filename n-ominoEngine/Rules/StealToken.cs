@@ -59,16 +59,11 @@ public class ClassicStealToken<T> : IStealToken<T>
             original.Players[original.Turns[ind]].Hand!.Add(aux);
             game.TokensTable!.Remove(aux);
             original.TokensTable!.Remove(aux);
-            
-            foreach (var item in game.Table.FreeNode)
-            {
-                if (rules.IsValidPlay.ValidPlays(item, aux, game.Table).Count != 0)
-                {
-                    play = true;
-                    break;
-                }
-            }
-            
+
+            var hand = new Hand<T>();
+            hand.Add(aux);
+            play = rules.IsValidPlay.ValidPlayPlayer(hand, game.Table);
+
             if(play) break;
         }
 

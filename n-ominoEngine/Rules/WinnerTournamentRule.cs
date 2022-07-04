@@ -16,7 +16,7 @@ public class WinnerTournamentRule<T> : ActionConditionRule<IWinnerTournament, T>
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(tournament, original, ind))
+            if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
                 this.Actions[i].DeterminateWinner(tournament, ind);
                 activate = true;

@@ -11,18 +11,9 @@ public static class AuxTable
     /// <returns></returns>
     public static IEnumerable<T> CircularArray<T>(IEnumerable<T> array, int ind)
     {
-        int i = 0;
-        foreach (var item in array)
+        foreach (var item in array.Skip(ind).Concat(array.Take(ind)))
         {
-            if (i >= ind) yield return item;
-            i++;
-        }
-
-        i = 0;
-        foreach (var item in array)
-        {
-            if (i < ind) yield return item;
-            i++;
+            yield return item;
         }
     }
 

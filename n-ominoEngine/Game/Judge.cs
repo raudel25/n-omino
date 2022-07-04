@@ -30,8 +30,6 @@ public class Judge<T>
         Printer.ExecuteWinnerEvent("");
 
         int i = StartGame();
-        bool noValid = false;
-        int lastPlayerPass = -1;
 
         while (!EndGame())
         {
@@ -39,7 +37,7 @@ public class Judge<T>
             
             bool play = PrePlay(i);
 
-            DeterminateNoValidPlay(play, ref noValid, ref lastPlayerPass, i);
+           // DeterminateNoValidPlay(play, ref noValid, ref lastPlayerPass, i);
 
             PlayPlayer(play, this._infoGame.Turns[i]);
 
@@ -55,24 +53,7 @@ public class Judge<T>
         
         Printer.ExecuteWinnerEvent("El jugador "+this._infoGame.PlayerWinner+" ha ganado");
     }
-
-    /// <summary>Determina si el jugador tiene opciones para jugar</summary>
-    /// <param name="tokens">Fichas de las que dispone el jugador</param>
-    /// <param name="table">Mesa para jugar</param>
-    /// <returns>El jugador tiene opciones para jugar</returns>
-    private bool ValidPlayPlayer(Hand<T> tokens, TableGame<T> table)
-    {
-        foreach (var item in table.FreeNode)
-        {
-            foreach (var token in tokens)
-            {
-                if (this._judgeRules.IsValidPlay.ValidPlays(item, token, table).Count != 0) return true;
-            }
-        }
-
-        return false;
-    }
-
+    
     /// <summary>
     /// Printiar el estado del juego
     /// </summary>
@@ -98,9 +79,11 @@ public class Judge<T>
 
         if (this._infoGame.TokenStart != null)
         {
+            PrePlay(ind);
+            
             PlayToken(this._judgeRules.IsValidPlay.CantValid - 1, this._infoGame.Table.TableNode[0],
                 this._infoGame.TokenStart, ind);
-
+            
             PostPlay(ind);
 
             ind++;
@@ -172,7 +155,7 @@ public class Judge<T>
 
         //Determinar si es posible jugar
         this._judgeRules.IsValidPlay.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, indTable);
-        bool play = this.ValidPlayPlayer(player.Hand!, _infoGame.Table);
+        bool play = this._judgeRules.IsValidPlay.ValidPlayPlayer(player.Hand!, _infoGame.Table);
 
         this._infoGame.ImmediatePass = !play;
 
@@ -185,32 +168,7 @@ public class Judge<T>
 
         return play;
     }
-
-    /// <summary>
-    /// Determinar si no existe jugada valida
-    /// </summary>
-    /// <param name="play">Determina si se puede jugar</param>
-    /// <param name="noValid">Determina si no se ha realizado jugada valida</param>
-    /// <param name="firstPlayerPass">Primer jugador en pasarse en la actual ronda</param>
-    /// <param name="indTable">Indice del jugador relaivo a la mesa</param>
-    private void DeterminateNoValidPlay(bool play, ref bool noValid, ref int firstPlayerPass, int indTable)
-    {
-        if (play) noValid = false;
-        else
-        {
-            if (!noValid)
-            {
-                firstPlayerPass = this._infoGame.Turns[indTable];
-            }
-            else
-            {
-                if (firstPlayerPass == this._infoGame.Turns[indTable]) this._infoGame.NoValidPlay = true;
-            }
-
-            noValid = true;
-        }
-    }
-
+    
     /// <summary>
     /// Determinar las reglas despues de ejecutar la jugada
     /// </summary>

@@ -10,14 +10,15 @@ public interface ICondition<T>
     /// </summary>
     /// <param name="tournament">Datos del torneo</param>
     /// <param name="game">Estado del juego</param>
+    /// <param name="rules">Reglas del torneo</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
     /// <returns>Si es valido que se ejecute la regla</returns>
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind);
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind);
 }
 
 public class ClassicWin<T> : ICondition<T>
 {
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
         return game.Players[game.Turns[ind]].Hand!.Count == 0;
     }
@@ -25,7 +26,7 @@ public class ClassicWin<T> : ICondition<T>
 
 public class ClassicTeamWin<T> : ICondition<T>
 {
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
         bool win = true;
         for (int i = 0; i < game.Teams.Count; i++)
@@ -49,7 +50,7 @@ public class CantToPass<T> : ICondition<T>
         this.Cant = cant;
     }
 
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
         return game.Players[game.Turns[ind]].Passes == this.Cant;
     }
@@ -64,7 +65,7 @@ public class CantToPassTeam<T> : ICondition<T>
         this.Cant = cant;
     }
 
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
         bool condition = true;
         for (int i = 0; i < game.Teams.Count; i++)
@@ -81,17 +82,54 @@ public class CantToPassTeam<T> : ICondition<T>
 
 public class ImmediatePass<T> : ICondition<T>
 {
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
         return game.ImmediatePass;
     }
 }
 
-public class NoValidPLay<T> : ICondition<T>
+public class NoValidPlayFirstPlayerPass<T> : ICondition<T>
 {
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    private bool _noValid;
+    private int _firstPlayerPass;
+
+    public NoValidPlayFirstPlayerPass()
     {
-        return game.NoValidPlay;
+        this._noValid = false;
+        this._firstPlayerPass = -1;
+    }
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
+    {
+        if (!game.ImmediatePass) _noValid = false;
+        else
+        {
+            if (!_noValid)
+            {
+                _firstPlayerPass = game.Turns[ind];
+            }
+            else
+            {
+                if (_firstPlayerPass == game.Turns[ind]) return true;
+            }
+
+            _noValid = true;
+        }
+
+        return false;
+    }
+}
+
+public class NoValidPlay<T> : ICondition<T>
+{
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
+    {
+        foreach (var player in game.Players)
+        {
+            if (rules.IsValidPlay.ValidPlayPlayer(player.Hand!, game.Table)) return false;
+            Console.WriteLine(game.Table.FreeNode.Count);
+        }
+
+        return true;
     }
 }
 
@@ -106,7 +144,7 @@ public class SumFreeNode : ICondition<int>
         this.Value = value;
     }
 
-    public bool RunRule(TournamentStatus tournament, GameStatus<int> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<int> game,InfoRules<int> rules,int ind)
     {
         return this._comparison.Compare(AuxTable.SumConnectionFree(game.Table), this.Value);
     }
@@ -114,7 +152,7 @@ public class SumFreeNode : ICondition<int>
 
 public class ConditionDefault<T> : ICondition<T>
 {
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
         return true;
     }
@@ -122,7 +160,7 @@ public class ConditionDefault<T> : ICondition<T>
 
 public class SecondRoundTournament<T> : ICondition<T>
 {
-    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
         return tournament.Index > 0;
     }

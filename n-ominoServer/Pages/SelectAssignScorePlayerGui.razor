@@ -68,7 +68,9 @@
 
     private void CreateRule()
     {
-        if (_valuesRule.Count != 0 && _valuesCondition.Count != 0)
+        if(_cant<1) return;
+        
+        if (_valuesRule.Count == _cant && _valuesCondition.Count == _cant)
         {
             Build!.AssignScorePlayer = new AssignScorePlayerRule<T>(_valuesRule, _valuesCondition);
             _vilibility = false;
