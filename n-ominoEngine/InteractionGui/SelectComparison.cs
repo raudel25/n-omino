@@ -16,6 +16,12 @@ public class SelectComparison<T> : IVariant<IComparison<T>, T>
         new ParamSelect("Comparador clásico", "Equals", 0)
     };
 
+    public SelectComparison(T val)
+    {
+        this.Value = val;
+        this.SelectComparisons();
+    }
+
     public void SelectComparisons()
     {
         if(this.Value is int)
@@ -39,6 +45,12 @@ public class SelectComparison<T> : IVariant<IComparison<T>, T>
             Param.Add(new ParamSelect("Comparador por distancia de Levenshtein", "", 1, 0, false,false));
         }
         //chars
+        if(this.Value is char)
+        {
+            Values.Add(SelectLetterComparisonVocalsComodin);
+            Param.Add(new ParamSelect("Comparador de vocales", "", 1, 0,false,false));
+
+        }
     }
     private IComparison<T> SelectCongruenceComparison(ParamSelectFunction<T> fun)
     {
@@ -80,5 +92,17 @@ public class SelectComparison<T> : IVariant<IComparison<T>, T>
     {
         var a = fun as ParamSelectFunction<string>;
         return (new StringComparisonLevenshtein(a!.n) as IComparison<T>)!;
+    }
+
+    private IComparison<T> SelectLetterComparisonVocalsComodin (ParamSelectFunction<T> fun)
+    {
+        var a = fun as ParamSelectFunction<char>;
+        return (new LetterComparisonVocalsComodin() as IComparison<T>)!;
+    }
+
+    private IComparison<T> SelectLetterComparisonAlphabet (ParamSelectFunction<T> fun)
+    {
+        var a = fun as ParamSelectFunction<char>;
+        return (new LetterComparisonAlphabet() as IComparison<T>)!;
     }
 }

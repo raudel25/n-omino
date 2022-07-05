@@ -20,7 +20,7 @@ public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T>
         {
             if (i != game.Turns[ind])
             {
-                game.Players[i].Hand = null;
+                game.Players[i].Hand = null!;
             }
         }
     }
