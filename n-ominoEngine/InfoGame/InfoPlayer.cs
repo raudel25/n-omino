@@ -8,7 +8,7 @@ public class InfoPlayer<T> : ICloneable<InfoPlayer<T>>
     public int Id { get; set; }
 
     //mano del jugador
-    public Hand<T>? Hand { get; set; }
+    public Hand<T> Hand { get; set; }
 
     //cantidad de fichas en la mano del jugador
     public int HandCount => Hand.Count();

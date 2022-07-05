@@ -1,3 +1,6 @@
+using Table;
+using Rules;
+
 namespace InteractionGui;
 
 public class ParamSelect
@@ -23,11 +26,15 @@ public class ParamSelect
 
 public class ParamSelectFunction<T>
 {
-    public Comparison<T>? Comp { get; set; }
+    public IComparison<T>? Comp { get; set; }
 
     public int Cant { get; set; }
     
     public T? Left { get; set; }
     
     public T? Right { get; set; }
+
+    public Token<T>? Token { get; set; }
+
+    public int n { get; set; }
 }
