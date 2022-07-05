@@ -118,6 +118,16 @@ public abstract class Printer
         }
     }
 
+    /// <summary>
+    /// Determina las posiciones de las fichas en la mano
+    /// </summary>
+    /// <param name="play">Ficha a jugar</param>
+    /// <param name="table">Mesa</param>
+    /// <param name="player">Datos del jugador</param>
+    /// <param name="row">Fila</param>
+    /// <param name="column">Columna</param>
+    /// <param name="type">Tipo de ficha</param>
+    /// <typeparam name="T">Tipo que se utiliza en el juego</typeparam>
     protected void DeterminateLocationHand<T>(Token<T>? play, TableGame<T> table, InfoPlayer<T> player,
         int row, int column, TypeToken type) 
     {

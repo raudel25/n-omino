@@ -5,6 +5,9 @@ namespace InteractionGui;
 
 public class PrinterDomino : Printer
 {
+    /// <summary>
+    /// Ultima ficha refernte a la cabeza del juego
+    /// </summary>
     public int IdLastHead;
 
     private delegate bool Parity(int n);
@@ -57,6 +60,13 @@ public class PrinterDomino : Printer
         Thread.Sleep(this.Speed);
     }
 
+    /// <summary>
+    /// Detrminar la ubicacion de las fichas
+    /// </summary>
+    /// <param name="table">Mesa</param>
+    /// <param name="node">Nodo que de encuentra en la cabeza</param>
+    /// <typeparam name="T">Tipo que de utiliza en el juego</typeparam>
+    /// <returns>Ubicacion de las fichas</returns>
     private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node)
     {
         HashSet<INode<T>> visited = new HashSet<INode<T>>();

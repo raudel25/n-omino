@@ -8,10 +8,25 @@ namespace Game;
 
 public class Judge<T>
 {
+    /// <summary>
+    /// Jugadores
+    /// </summary>
     private Player<T>[] _players;
+    /// <summary>
+    /// Reglas del juego
+    /// </summary>
     private InfoRules<T> _judgeRules;
+    /// <summary>
+    /// Estado del juego
+    /// </summary>
     private GameStatus<T> _infoGame;
+    /// <summary>
+    /// Printiador del juego
+    /// </summary>
     private Printer _print;
+    /// <summary>
+    /// Estado del torneo
+    /// </summary>
     private TournamentStatus _tournament;
 
     public Judge(TournamentStatus tournament, InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players,

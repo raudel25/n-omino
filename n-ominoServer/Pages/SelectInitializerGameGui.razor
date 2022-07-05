@@ -35,7 +35,7 @@
         @if (_generator.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_generator" Cant="1" VariantGui="new SelectGenerator<T>()"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_generator" Cant="1" VariantGui="new SelectGenerator<T>(DefaultValue!)"></SelectVariantGui>
             </div>
         }
 
@@ -61,6 +61,9 @@
 
     [Parameter]
     public List<InitializerGame<T>>? Initializer { get; set; }
+    
+    [Parameter]
+    public T? DefaultValue { get; set; }
 
     private List<TableGame<T>> _table = new List<TableGame<T>>();
 

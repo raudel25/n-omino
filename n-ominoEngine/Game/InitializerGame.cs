@@ -6,10 +6,25 @@ namespace Game;
 
 public class InitializerGame<T>
 {
+    /// <summary>
+    /// Forma de generar las fichas de fichas
+    /// </summary>
     private ITokensMaker<T> _maker;
+    /// <summary>
+    /// Reaprtidor de fichas
+    /// </summary>
     private IDealer<T> _dealer;
+    /// <summary>
+    /// Tablero a usar
+    /// </summary>
     private TableGame<T> _table;
+    /// <summary>
+    /// Cantidad de fichas a repartir
+    /// </summary>
     private int _cantTokenToDeal;
+    /// <summary>
+    /// Generador de fichas
+    /// </summary>
     private T[] _generator;
 
     public InitializerGame(ITokensMaker<T> maker, IDealer<T> dealer,
@@ -22,12 +37,19 @@ public class InitializerGame<T>
         this._cantTokenToDeal = cantDeal;
     }
 
+    /// <summary>
+    /// Determinar el estado del juego necesario para iniciar el juego
+    /// </summary>
+    /// <param name="playerTeams">Distribucion de los jugadores</param>
+    /// <returns>Estado del juego</returns>
     public GameStatus<T> StartGame(List<(int,int)> playerTeams)
     {
+        //Generar las fichas
         List<Token<T>> tokens = this._maker.MakeTokens(this._generator, this._table.DimensionToken);
         List<InfoPlayer<T>> playersInfo = new List<InfoPlayer<T>>();
         List<InfoTeams<InfoPlayer<T>>> teamGame = new List<InfoTeams<InfoPlayer<T>>>();
 
+        //Distribur los jugadores
         int teamId = -1;
 
         foreach (var item in playerTeams)
