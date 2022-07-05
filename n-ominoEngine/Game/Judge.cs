@@ -12,18 +12,22 @@ public class Judge<T>
     /// Jugadores
     /// </summary>
     private Player<T>[] _players;
+
     /// <summary>
     /// Reglas del juego
     /// </summary>
     private InfoRules<T> _judgeRules;
+
     /// <summary>
     /// Estado del juego
     /// </summary>
     private GameStatus<T> _infoGame;
+
     /// <summary>
     /// Printiador del juego
     /// </summary>
     private Printer _print;
+
     /// <summary>
     /// Estado del torneo
     /// </summary>
@@ -49,10 +53,10 @@ public class Judge<T>
         while (!EndGame())
         {
             if (i == this._infoGame.Turns.Length) i = 0;
-            
+
             bool play = PrePlay(i);
 
-           // DeterminateNoValidPlay(play, ref noValid, ref lastPlayerPass, i);
+            // DeterminateNoValidPlay(play, ref noValid, ref lastPlayerPass, i);
 
             PlayPlayer(play, this._infoGame.Turns[i]);
 
@@ -65,10 +69,10 @@ public class Judge<T>
 
             i++;
         }
-        
-        Printer.ExecuteWinnerEvent("El jugador "+this._infoGame.PlayerWinner+" ha ganado");
+
+        Printer.ExecuteWinnerEvent("El jugador " + this._infoGame.PlayerWinner + " ha ganado");
     }
-    
+
     /// <summary>
     /// Printiar el estado del juego
     /// </summary>
@@ -95,10 +99,10 @@ public class Judge<T>
         if (this._infoGame.TokenStart != null)
         {
             PrePlay(ind);
-            
+
             PlayToken(this._judgeRules.IsValidPlay.CantValid - 1, this._infoGame.Table.TableNode[0],
                 this._infoGame.TokenStart, ind);
-            
+
             PostPlay(ind);
 
             ind++;
@@ -123,17 +127,17 @@ public class Judge<T>
                     .ValidPlay(jugada.Node!, jugada.Token!, _infoGame.Table))
             {
                 PlayToken(jugada.ValidPlay, jugada.Node!, jugada.Token!, ind);
-                HistoryPlayer(jugada,ind);
+                HistoryPlayer(jugada, ind);
             }
         }
         else
         {
-            HistoryPlayer(new Jugada<T>(null,null,-1),ind);
+            HistoryPlayer(new Jugada<T>(null, null, -1), ind);
             GuiJudge(null, ind);
         }
     }
 
-    private void HistoryPlayer(Jugada<T> play,int ind)
+    private void HistoryPlayer(Jugada<T> play, int ind)
     {
         this._infoGame.Players[ind].History.Add(play);
     }
@@ -155,7 +159,7 @@ public class Judge<T>
 
         GuiJudge(token, ind);
     }
-    
+
     /// <summary>
     /// Determinar las reglas antes de ejecutar la jugada
     /// </summary>
@@ -165,7 +169,7 @@ public class Judge<T>
     {
         //Clonar el estado del juego
         GameStatus<T> copy = this._infoGame.Clone();
-        
+
         InfoPlayer<T> player = this._infoGame.Players[this._infoGame.Turns[indTable]];
 
         //Determinar si es posible jugar
@@ -183,7 +187,7 @@ public class Judge<T>
 
         return play;
     }
-    
+
     /// <summary>
     /// Determinar las reglas despues de ejecutar la jugada
     /// </summary>

@@ -13,9 +13,9 @@ public class SelectGenerator<T> : IVariant<T[], T>
             Values.Add(SelectInt0_n);
             Values.Add(SelectIntEven);
             Values.Add(SelectIntOdd);
-            Param.Add(new ParamSelect("Del 0 a n", "Genera numeros del 0 a n", 0, 0, true));
-            Param.Add(new ParamSelect("Pares", "Genera numeros pares hasta n", 0, 0, true));
-            Param.Add(new ParamSelect("Impares", "Genera numeros impares hasta n", 0, 0, true));
+            Param.Add(new ParamSelect("Del 0 a n", "Genera numeros del 0 a n", 0, false, true));
+            Param.Add(new ParamSelect("Pares", "Genera numeros pares hasta n", 0, false, true));
+            Param.Add(new ParamSelect("Impares", "Genera numeros impares hasta n", 0, false, true));
         }
 
         if (value is char)

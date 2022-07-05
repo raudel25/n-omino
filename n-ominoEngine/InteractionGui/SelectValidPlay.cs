@@ -14,9 +14,9 @@ public class SelectValidPlay<T> : IVariant<IValidPlay<T>, T>
     public string Description => "Elija el tipo de juego";
 
     public List<ParamSelect> Param {get; } = new List<ParamSelect>(){
-        new ParamSelect("Validador clásico","Valida las jugadas según el comparador que reciba", 0, 0, false, true),
-        new ParamSelect("Con comodín","", 1, 0, false, true),
-        new ParamSelect("Longana", "", 2, 0, false, true),
-        new ParamSelect("Tablero geométrico", "", 3, 0, false, true)
+        new ParamSelect("Validador clásico","Valida las jugadas según el comparador que reciba", 0, false, false, true),
+        new ParamSelect("Con comodín","", 1, false, false, true),
+        new ParamSelect("Longana", "", 2, false, false, true),
+        new ParamSelect("Tablero geométrico", "", 3, false, false, true)
     };
 }

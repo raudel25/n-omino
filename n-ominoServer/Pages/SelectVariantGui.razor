@@ -32,14 +32,16 @@
         <div>
             @if (_selcted != -1)
             {
-                @if (VariantGui.Param[_selcted].Values == 1)
+                @if (VariantGui.Param[_selcted].ValueForParam)
                 {
-                    <input type="number" @bind="_valueLeft"/>
-                }
-                @if (VariantGui.Param[_selcted].Values == 2)
-                {
-                    <input type="number" @bind="_valueLeft"/>
-                    <input type="number" @bind="_valueRight"/>
+                    @if (DefaultValue is int)
+                    {
+                        <input type="number" @bind="_valueInt"/>
+                    }
+                    @if (DefaultValue is char || DefaultValue is string)
+                    {
+                        <input @bind="_valueString"/>
+                    }
                 }
                 @if (VariantGui.Param[_selcted].Cant)
                 {
@@ -47,7 +49,7 @@
                 }
                 @if (VariantGui.Param[_selcted].Comparison)
                 {
-                    <SelectVariantGui ></SelectVariantGui>
+                    
                 }
             }
         </div>
@@ -75,9 +77,9 @@
 
     private int _selcted = -1;
 
-    private int _valueLeft = 1;
+    private int _valueInt = 1;
 
-    private int _valueRight = 1;
+    private string _valueString = "";
 
     private int _cantParam = 1;
 
@@ -85,15 +87,29 @@
     {
         if (_selcted != -1)
         {
-            T2? aux = default;
             ParamSelectFunction<T2> param = new ParamSelectFunction<T2>(); 
-            if (aux is int)
+            
+            if (DefaultValue is int)
             {
                 ParamSelectFunction<int> paramInt=(param as ParamSelectFunction<int>)!;
-                paramInt.Left = _valueLeft;
-                paramInt.Right = _valueRight;
-                paramInt.Cant = _cantParam;
+                paramInt.ValueForParam = _valueInt;
             }
+
+            if (DefaultValue is char)
+            {
+                ParamSelectFunction<char> paramChar=(param as ParamSelectFunction<char>)!;
+                if(_valueString.Length==0) return;
+                paramChar.ValueForParam = _valueString[0];
+            }
+
+            if (DefaultValue is string)
+            {
+                ParamSelectFunction<string> paramString=(param as ParamSelectFunction<string>)!;
+                paramString.ValueForParam = _valueString;
+            }
+            
+            paramInt.Cant = _cantParam;
+            
             ValueParam!.Add(VariantGui!.Values[_selcted](param));
             Cant--;
         }

@@ -106,9 +106,11 @@ public static class Test
 
         Printer print = new PrinterGeometry(1000);
         // Printer print = new PrinterDomino(1000, true);
+        
+        ToPassTokenRule<int> qwe=new ToPassTokenRule<int>(new[] {new NoToPassToken()}, new[] {new ConditionDefault<int>()}, new NoToPassToken());
 
         InfoRules<int> rules = new InfoRules<int>(isValidRule, visibilityPlayerRule, turnPlayerRule, stealTokenRule,
-            null!,
+            qwe,
             assignScorePlayerRule, winnerGameRule, scoreToken, beginGameRule);
 
         Judge<int> judge = new Judge<int>(new TournamentStatus(new List<InfoPlayerTournament>(), new List<InfoTeams<InfoPlayerTournament>>()), rules, game, players, print);

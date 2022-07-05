@@ -21,64 +21,64 @@ public class SelectComparison<T> : IVariant<IComparison<T>, T>
         if(this.Value is int)
         {
             Values.Add(SelectCongruenceComparison);
-            Param.Add(new ParamSelect("Comparador por congruencia módulo ?", "", 1, 1, false));
+            Param.Add(new ParamSelect("Comparador por congruencia módulo ?", "", 1, false, false));
             Values.Add(SelectHighNumberComparison);
-            Param.Add(new ParamSelect("Comparador por mayor que número ?", "", 2, 1, false));
+            Param.Add(new ParamSelect("Comparador por mayor que número ?", "", 2, false, false));
             Values.Add(SelectSmallNumberComparison);
-            Param.Add(new ParamSelect("Comparador por menor que número ?", "", 3, 1, false));
+            Param.Add(new ParamSelect("Comparador por menor que número ?", "", 3, false, false));
             Values.Add(SelectComodinComparison);
-            Param.Add(new ParamSelect("Comparador por comodín", "", 3, 1, false));
+            Param.Add(new ParamSelect("Comparador por comodín", "", 3, false, false));
             Values.Add(SelectDivisibleComparison);
-            Param.Add(new ParamSelect("Comparador por divisivilidad con ?", "", 3, 1, false));
+            Param.Add(new ParamSelect("Comparador por divisivilidad con ?", "", 3, false, false));
             Values.Add(SelectGcdComparison);
-            Param.Add(new ParamSelect("Comparador por máximo común divisor con ?", "", 3, 1, false));
+            Param.Add(new ParamSelect("Comparador por máximo común divisor con ?", "", 3, false, false));
         }
         if(this.Value is string)
         {
             Values.Add(SelectStringComparisonLevenshtein);
-            Param.Add(new ParamSelect("Comparador por distancia de Levenshtein", "", 1, 0, false,false));
+            Param.Add(new ParamSelect("Comparador por distancia de Levenshtein", "", 1, false, false,false));
         }
         //chars
     }
     private IComparison<T> SelectCongruenceComparison(ParamSelectFunction<T> fun)
     {
         var a = fun as ParamSelectFunction<int>;
-        return (new CongruenceComparison(a!.Left) as IComparison<T>)!;
+        return (new CongruenceComparison(a!.ValueForParam) as IComparison<T>)!;
     }
 
     private IComparison<T> SelectHighNumberComparison(ParamSelectFunction<T> fun)
     {
         var a = fun as ParamSelectFunction<int>;
-        return (new HighNumberComparison(a!.Left) as IComparison<T>)!;
+        return (new HighNumberComparison(a!.ValueForParam) as IComparison<T>)!;
     }
 
     private IComparison<T> SelectSmallNumberComparison(ParamSelectFunction<T> fun)
     {
         var a = fun as ParamSelectFunction<int>;
-        return (new SmallNumberComparison(a!.Left) as IComparison<T>)!;
+        return (new SmallNumberComparison(a!.ValueForParam) as IComparison<T>)!;
     }
 
     private IComparison<T> SelectComodinComparison(ParamSelectFunction<T> fun)
     {
         var a = fun as ParamSelectFunction<int>;
-        return (new ComodinComparison(a!.Left) as IComparison<T>)!;
+        return (new ComodinComparison(a!.ValueForParam) as IComparison<T>)!;
     }
 
     private IComparison<T> SelectDivisibleComparison(ParamSelectFunction<T> fun)
     {
         var a = fun as ParamSelectFunction<int>;
-        return (new DivisibleComparison(a!.Left) as IComparison<T>)!;
+        return (new DivisibleComparison(a!.ValueForParam) as IComparison<T>)!;
     }
 
     private IComparison<T> SelectGcdComparison(ParamSelectFunction<T> fun)
     {
         var a = fun as ParamSelectFunction<int>;
-        return (new GcdComparison(a!.Left) as IComparison<T>)!;
+        return (new GcdComparison(a!.ValueForParam) as IComparison<T>)!;
     }
 
     private IComparison<T> SelectStringComparisonLevenshtein(ParamSelectFunction<T> fun)
     {
         var a = fun as ParamSelectFunction<string>;
-        return (new StringComparisonLevenshtein(a!.n) as IComparison<T>)!;
+        return (new StringComparisonLevenshtein(a!.Cant) as IComparison<T>)!;
     }
 }
