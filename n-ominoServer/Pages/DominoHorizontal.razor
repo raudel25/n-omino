@@ -1,15 +1,15 @@
 <div class="DominoH">
     <div class="DominoH1">
-        <span>@Values![0]</span>
+        <span>@Values[0]</span>
     </div>
     <div class="DominoH2">
-        <span>@Values![1]</span>
+        <span>@Values[1]</span>
     </div>
 </div>
 
 @code {
 
     [Parameter]
-    public string[]? Values { get; set; }
+    public string[] Values { get; set; } = new string[2];
 
 }

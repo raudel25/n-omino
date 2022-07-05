@@ -452,6 +452,32 @@ a, .btn-link {
     justify-content: center;
 }
 
+.Point{
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    background-color: black;
+}
+
+.ContainsPoint
+{
+    display: flex; align-items: center; justify-content: center;width: 20px; height: 20px;
+}
+
+.DominoNumber{
+    display: grid; width: 60px; height: 60px;
+}
+
+.DominoHC{
+    display: grid; width: 123px; border: solid #000 1px; border-radius:5px;
+    height: 61px;
+}
+
+.DominoVC{
+    display: grid; height: 121px; border: solid #000 1px; border-radius:5px;
+    width: 63px;
+}
+
 .contentBottom{
     align-self: flex-end;
 }

@@ -6,7 +6,7 @@
 {
     <div class="SelectRule">
         <div class="HeadSelect">
-            <h5>Determinar el ganador de un juego</h5>
+            <h5>Seleccionar la forma de calcular el valor de una ficha</h5>
         </div>
 
         <div style="display: flex; justify-content: center;">
@@ -16,7 +16,7 @@
                     <label>Cantidad de reglas</label>
                 </div>
 
-                <input type="number" @bind="_cant" class="InputSelectHead"/>
+                <input type="number" class="InputSelectHead"/>
 
                 <button @onclick="Select" class="ButtonSelectHeadT">Seleccionar</button>
             }
@@ -25,11 +25,7 @@
         @if (_selectValue)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="_cant" ValueParam="_valuesRule" VariantGui="new SelectWinnerGame<T>()"></SelectVariantGui>
-            </div>
-
-            <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="_cant" ValueParam="_valuesCondition" VariantGui="new SelectCondition<T>(DefaultValue!)"></SelectVariantGui>
+                <SelectVariantGui Cant="1" ValueParam="_valuesRule" VariantGui="new SelectAssignScoreToken<T>()"></SelectVariantGui>
             </div>
         }
 
@@ -40,7 +36,6 @@
         </div>
 
         <div style="height: 5px"></div>
-
     </div>
 }
 
@@ -48,7 +43,7 @@
 
     [Parameter]
     public BuildRules<T>? Build { get; set; }
-
+    
     [Parameter]
     public T? DefaultValue { get; set; }
 
@@ -56,9 +51,7 @@
 
     private bool _selectValue = false;
 
-    private List<IWinnerGame<T>> _valuesRule = new List<IWinnerGame<T>>();
-
-    private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
+    private List<IAssignScoreToken<T>> _valuesRule = new List<IAssignScoreToken<T>>();
 
     private bool _vilibility = true;
 
@@ -69,13 +62,12 @@
 
     private void CreateRule()
     {
-        if (_cant < 1) return;
-
-        if (_valuesRule.Count == _cant && _valuesCondition.Count == _cant)
+        if(_cant < 1) return;
+        
+        if (_valuesRule.Count == _cant+1)
         {
-            Build!.WinnerGame = new WinnerGameRule<T>(_valuesRule, _valuesCondition);
+            Build!.ScoreToken = _valuesRule[0];
             _vilibility = false;
         }
     }
-
 }

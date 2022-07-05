@@ -1,0 +1,15 @@
+<div class="DominoVC">
+    <div style="grid-row: 1;">
+        <NumberClassic Value = "new []{Values[0]}" Horizontal="false"></NumberClassic>
+    </div>
+    <div style="grid-row: 2; border-top: solid #000 1px;">
+        <NumberClassic Value = "new []{Values[1]}" Horizontal="false"></NumberClassic>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string[] Values { get; set; } = new string[2];
+    
+}

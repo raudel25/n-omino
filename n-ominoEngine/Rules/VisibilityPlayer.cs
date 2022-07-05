@@ -16,11 +16,11 @@ public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T>
 {
     public void Visibility(GameStatus<T> game, int ind)
     {
-        for (int i = 0; i < game.Players.Length; i++)
+        for (int i = 0; i < game.Players.Count; i++)
         {
             if (i != game.Turns[ind])
             {
-                game.Players[i].Hand = null;
+                game.Players[i].Hand = null!;
             }
         }
     }
@@ -39,7 +39,7 @@ public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T>
             aux.Add(game.Teams[team][i].Hand!);
         }
 
-        for (int i = 0; i < game.Players.Length; i++)
+        for (int i = 0; i < game.Players.Count; i++)
         {
             if (i != game.Turns[ind])
             {

@@ -105,5 +105,11 @@ public abstract class TableGame<T>
     /// <returns>Mesa clonada</returns>
     public abstract TableGame<T> Clone();
 
+    /// <summary>
+    /// Determinar el valor de las conexiones del nodo
+    /// </summary>
+    /// <param name="node">Nodo a determinar</param>
+    /// <param name="ind">Indice de la conexion</param>
+    /// <returns></returns>
     public abstract ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind);
 }

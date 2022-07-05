@@ -6,10 +6,25 @@ namespace Game;
 
 public class InitializerGame<T>
 {
+    /// <summary>
+    /// Forma de generar las fichas de fichas
+    /// </summary>
     private ITokensMaker<T> _maker;
+    /// <summary>
+    /// Reaprtidor de fichas
+    /// </summary>
     private IDealer<T> _dealer;
+    /// <summary>
+    /// Tablero a usar
+    /// </summary>
     private TableGame<T> _table;
+    /// <summary>
+    /// Cantidad de fichas a repartir
+    /// </summary>
     private int _cantTokenToDeal;
+    /// <summary>
+    /// Generador de fichas
+    /// </summary>
     private T[] _generator;
 
     public InitializerGame(ITokensMaker<T> maker, IDealer<T> dealer,
@@ -22,27 +37,32 @@ public class InitializerGame<T>
         this._cantTokenToDeal = cantDeal;
     }
 
-    public GameStatus<T> StartGame(List<int> players, List<int>[] teams)
+    /// <summary>
+    /// Determinar el estado del juego necesario para iniciar el juego
+    /// </summary>
+    /// <param name="playerTeams">Distribucion de los jugadores</param>
+    /// <returns>Estado del juego</returns>
+    public GameStatus<T> StartGame(List<(int,int)> playerTeams)
     {
+        //Generar las fichas
         List<Token<T>> tokens = this._maker.MakeTokens(this._generator, this._table.DimensionToken);
-        InfoPlayer<T>[] playersInfo = new InfoPlayer<T>[players.Count];
+        List<InfoPlayer<T>> playersInfo = new List<InfoPlayer<T>>();
+        List<InfoTeams<InfoPlayer<T>>> teamGame = new List<InfoTeams<InfoPlayer<T>>>();
 
-        for (int i = 0; i < players.Count; i++)
+        //Distribur los jugadores
+        int teamId = -1;
+
+        foreach (var item in playerTeams)
         {
-            var hand = this._dealer.Deal(tokens, this._cantTokenToDeal);
-
-            playersInfo[i] = new InfoPlayer<T>(hand, new History<T>(), 0, players[i]);
-        }
-
-        List<InfoPlayer<T>>[] teamGame = new List<InfoPlayer<T>>[teams.Length];
-
-        for (int i = 0; i < teamGame.Length; i++)
-        {
-            teamGame[i] = new List<InfoPlayer<T>>();
-            for (int j = 0; j < teams[i].Count; j++)
+            if (teamId != item.Item1)
             {
-                teamGame[i].Add(playersInfo[teams[i][j]]);
+                teamGame.Add(new InfoTeams<InfoPlayer<T>>(item.Item1));
+                teamId = item.Item1;
             }
+            
+            var hand = this._dealer.Deal(tokens, this._cantTokenToDeal);
+            var aux = new InfoPlayer<T>(hand, new History<T>(), 0, item.Item2);
+            playersInfo.Add(aux);
         }
 
         return new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), new[] {0, 1, 2, 3}, tokens);

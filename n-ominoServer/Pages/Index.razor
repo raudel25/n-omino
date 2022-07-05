@@ -10,12 +10,8 @@
 
 Welcome to your new app.
 
-<a href="/Game"><button>Game</button></a>
+<a href="/Game">
+    <button>Game</button>
+</a>
 
-<SelectVariantGui Cant="1" ValueParam="new List<TableGame<int>>()" VariantGui="new SelectTable<int>()"></SelectVariantGui>
-
-<SelectWinnerGameGui Build="new BuildRules<int>()"></SelectWinnerGameGui>
-
-<SelectAssignScorePlayerGui Build="new BuildRules<string>()"></SelectAssignScorePlayerGui>
-
-<SelectInitializerGameGui Initializer="new List<InitializerGame<int>>()"></SelectInitializerGameGui>
+<SelectAssignScoreTokenGui Build = "new BuildRules<int>()" DefaultValue = "1"></SelectAssignScoreTokenGui>

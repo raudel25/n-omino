@@ -16,7 +16,7 @@ public class PlayerGameRule<T> : ActionConditionRule<IPlayerGame, T>, ICloneable
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(tournament, game, ind))
+            if (this.Condition[i].RunRule(tournament, game, rules, ind))
             {
                 this.Actions[i].DeterminatePlayers(tournament, ind);
                 activate = true;

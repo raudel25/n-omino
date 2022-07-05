@@ -36,6 +36,16 @@
     <DominoVertical Values="Location.Values"></DominoVertical>
 }
 
+@if (Location!.TypeToken == Printer.TypeToken.DominoHC)
+{
+    <DominoHorizontalC Values="Location.Values"></DominoHorizontalC>
+}
+
+@if (Location!.TypeToken == Printer.TypeToken.DominoVC)
+{
+    <DominoVerticalC Values="Location.Values"></DominoVerticalC>
+}
+
 @code {
 
     [Parameter]
