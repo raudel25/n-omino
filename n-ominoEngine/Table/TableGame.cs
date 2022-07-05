@@ -10,12 +10,15 @@ public abstract class TableGame<T>
 
     /// <summary>Nodos contenidos en el grafo</summary>
     public List<INode<T>> TableNode { get; protected set; }
+    
+    public int DimensionToken { get; protected set; }
 
-    protected TableGame()
+    protected TableGame(int dimension)
     {
         this.PlayNode = new HashSet<INode<T>>();
         this.FreeNode = new HashSet<INode<T>>();
         this.TableNode = new List<INode<T>>();
+        this.DimensionToken = dimension;
     }
 
     /// <summary>Expandir un nodo</summary>
@@ -102,5 +105,11 @@ public abstract class TableGame<T>
     /// <returns>Mesa clonada</returns>
     public abstract TableGame<T> Clone();
 
+    /// <summary>
+    /// Determinar el valor de las conexiones del nodo
+    /// </summary>
+    /// <param name="node">Nodo a determinar</param>
+    /// <param name="ind">Indice de la conexion</param>
+    /// <returns></returns>
     public abstract ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind);
 }

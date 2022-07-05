@@ -1,16 +1,22 @@
 using Table;
 using InfoGame;
 
-namespace Game;
+namespace InteractionGui;
 
 public class PrinterDomino : Printer
 {
+    /// <summary>
+    /// Ultima ficha refernte a la cabeza del juego
+    /// </summary>
     public int IdLastHead;
 
     private delegate bool Parity(int n);
 
-    public PrinterDomino(int speed) : base(speed)
+    private bool _classic;
+
+    public PrinterDomino(int speed,bool classic) : base(speed)
     {
+        this._classic = classic;
     }
 
     public override void LocationTable<T>(TableGame<T> table)
@@ -40,13 +46,27 @@ public class PrinterDomino : Printer
         Printer.ExecuteTableEvent(DeterminateLocation(table, head));
     }
 
-    public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
+    public override void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table)
     {
-        DeterminateLocationHand(tokens, play, table, player, 3, 1, TypeToken.DominoV);
+        if (_classic)
+        {
+            DeterminateLocationHand(play, table, player, 3, 1, TypeToken.DominoVC);
+        }
+        else
+        {
+            DeterminateLocationHand(play, table, player, 3, 1, TypeToken.DominoV);
+        }
 
         Thread.Sleep(this.Speed);
     }
 
+    /// <summary>
+    /// Detrminar la ubicacion de las fichas
+    /// </summary>
+    /// <param name="table">Mesa</param>
+    /// <param name="node">Nodo que de encuentra en la cabeza</param>
+    /// <typeparam name="T">Tipo que de utiliza en el juego</typeparam>
+    /// <returns>Ubicacion de las fichas</returns>
     private IEnumerable<LocationGui> DeterminateLocation<T>(TableGame<T> table, INode<T> node)
     {
         HashSet<INode<T>> visited = new HashSet<INode<T>>();
@@ -69,12 +89,26 @@ public class PrinterDomino : Printer
 
             if (aux.ValuesConnections[0]!.Equals(aux.ValuesConnections[1]))
             {
-                yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoV);
+                if (_classic)
+                {
+                    yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoVC);
+                }
+                else
+                {
+                    yield return new LocationGui((1, 4, column, column + 1), values, TypeToken.DominoV);
+                }
                 column++;
             }
             else
             {
-                yield return new LocationGui((2, 3, column, column + 3), values, TypeToken.DominoH);
+                if (_classic)
+                {
+                    yield return new LocationGui((2, 3, column, column + 3), values, TypeToken.DominoHC);
+                }
+                else
+                {
+                    yield return new LocationGui((2, 3, column, column + 3), values, TypeToken.DominoH);
+                }
                 column += 3;
             }
 

@@ -1,45 +1,35 @@
 @using Game
 @using Table
+@using InteractionGui
+
 <div style="display: flex; justify-content: center;">
-    <h5>@Player</h5>
+    <h5>@Player!.Name</h5>
 </div>
 
-<div style="display: grid; height: 140px; width: 100%; 
-            border: solid #1c1f23 2px; ">
+<div style="display: grid; height: 160px; width: 100%; 
+            border: solid #1c1f23 2px; border-radius: 10px;">
+    
+    <div style="display: grid; grid-column: 1; height: 158px; width: 150px; border-right: solid #1c1f23 2px; ">
 
-    @* <div style="height: 10px; grid-row: 1; grid-column-start: 1; grid-column-end: 4;"></div> *@
-    <div style="display: grid; grid-column: 1; height: 138px; width: 150px; border-right: solid #1c1f23 2px; ">
-
-        <div style="grid-row: 1; grid-column-start: 1; grid-column-end: 4;
-                            display: flex; justify-content: center;">
-
+        <div style="grid-row: 1; display: flex; justify-content: center; height: 25px;">
             <p>@Action</p>
         </div>
 
         @if (Play != null)
         {
-            @* <div style="width: 30px; grid-row: 2; grid-column: 1"></div> *@
-
-            <div @ondblclick="() => Rotate(Play)" style="grid-row: 2; grid-column: 2">
+            <div @ondblclick="() => Rotate(Play)" style="grid-row: 2;">
                 <div style="display: flex; justify-content: center;">
                     <TokenTypes Location="Play"></TokenTypes>
                 </div>
                 
             </div>
         }
-
-        @* <div style="width: 30px; grid-row: 2; grid-column: 3"></div> *@
-
+        
     </div>
 
-    <div style=" grid-column:2; display: grid; width=1010px; grid-template-columns:20px 970px 20px; ">
-
+    <div style=" grid-column:2; width: 1000px; ">
         
-
-        <div style="grid-colum:1; grid-row=2;"></div>
-
-        
-        <div style="overflow: auto; height: 135px; grid-column=2;grid-row=2;">
+        <div style="overflow: auto; height: 135px; margin: 2px;">
 
             <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
 
@@ -57,11 +47,19 @@
 
         </div>
 
-        <div style="grid-colum:3; grid-row=2;"></div>
-
     </div>
 
-    <div style="grid-column: 3;height: 138px; width: 150px; border-left: solid #1c1f23 2px; "></div>
+    <div style="grid-column: 3;height: 158px; width: 150px; border-left: solid #1c1f23 2px; display: grid">
+        <div style="grid-row: 1; grid-column-start: 1; grid-column-end: 4;">
+            
+        </div>
+        <div style="grid-row: 2; grid-column: 2; display: flex; justify-content: center">
+            <div>
+                <p>Score: @Player.Score</p>
+                <p>Pases: @Player.Passes</p>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -77,7 +75,7 @@
     public string Action { get; set; } = "";
 
     [Parameter]
-    public string? Player { get; set; } = "";
+    public InfoPlayerGui? Player { get; set; } = new InfoPlayerGui("", 0, 0);
 
     private void Rotate(LocationGui location)
     {
@@ -91,7 +89,7 @@
         Printer.BindHandEvent += BindLocationGui;
     }
 
-    private void BindLocationGui(IEnumerable<LocationGui> location, LocationGui? play, string action, string player)
+    private void BindLocationGui(IEnumerable<LocationGui> location, LocationGui? play, string action, InfoPlayerGui player)
     {
         _ = InvokeAsync(() =>
         {

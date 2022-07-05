@@ -8,7 +8,7 @@ public abstract class TableGeometry<T> : TableGame<T>
     /// <summary>Valor que contiene cada coordenada</summary>
     protected Dictionary<(int, int), ValuesNode<T>> CoordValor { get; set; }
 
-    protected TableGeometry((int, int)[] coordinates)
+    protected TableGeometry((int, int)[] coordinates) : base(coordinates.Length)
     {
         this.TableCoord = new Dictionary<Coordinates, INode<T>>();
         this.CoordValor = new Dictionary<(int, int), ValuesNode<T>>();

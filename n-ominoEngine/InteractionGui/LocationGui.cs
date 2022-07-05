@@ -1,4 +1,4 @@
-namespace Game;
+namespace InteractionGui;
 
 public class LocationGui
 {

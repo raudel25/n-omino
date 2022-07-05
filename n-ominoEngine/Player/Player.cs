@@ -101,7 +101,7 @@ public class EvaluatePlayer<T> : ConditionPlayer<T> where T : struct
         for (int i = 0; i < Conditions.Length; i++)
         {
             //si la condición no está activa, continúo
-            if (!Conditions[i].RunRule(null, status, Id)) continue;
+            if (!Conditions[i].RunRule(null, status, rules, Id)) continue;
             //si lo está compruebo si la estrategia me aporta más que la que tenía
             int possibleMove = Strategies[i].Play(validMoves, status, rules, Id);
             if (_moveScorer(validMoves[possibleMove], status, rules) > _moveScorer(validMoves[index], status, rules))

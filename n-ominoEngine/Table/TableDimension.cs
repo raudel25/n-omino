@@ -3,11 +3,9 @@ namespace Table;
 public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
 {
     /// <summary>Cantidad de conexiones de un nodo de la mesa</summary>
-    public int Dimension { get; protected set; }
 
-    public TableDimension(int n)
+    public TableDimension(int n):base(n)
     {
-        this.Dimension = n;
         INode<T> node = CreateNode(n);
         FreeTable(node);
     }
@@ -67,7 +65,7 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
 
     public override TableGame<T> Clone()
     {
-        TableGame<T> table = new TableDimension<T>(Dimension);
+        TableGame<T> table = new TableDimension<T>(this.DimensionToken);
         return AuxClone(table);
     }
 

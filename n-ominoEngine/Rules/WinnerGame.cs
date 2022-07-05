@@ -41,7 +41,7 @@ public class WinnerGameTeamHigh<T> : IWinnerGame<T>
     {
         double max = double.MinValue;
         int win = 0;
-        for (int i = 0; i < game.Teams.Length; i++)
+        for (int i = 0; i < game.Teams.Count; i++)
         {
             double sum = 0;
             for (int j = 0; j < game.Teams[i].Count; j++)
@@ -66,7 +66,7 @@ public class WinnerGameTeamSmall<T> : IWinnerGame<T>
     {
         double min = double.MaxValue;
         int win = 0;
-        for (int i = 0; i < game.Teams.Length; i++)
+        for (int i = 0; i < game.Teams.Count; i++)
         {
             double sum = 0;
             for (int j = 0; j < game.Teams[i].Count; j++)

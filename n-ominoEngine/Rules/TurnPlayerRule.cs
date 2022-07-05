@@ -17,7 +17,7 @@ public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(tournament, original, ind))
+            if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
                 this.Actions[i].Turn(original.Turns, ind);
                 activate = true;

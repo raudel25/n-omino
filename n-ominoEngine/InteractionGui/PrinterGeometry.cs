@@ -1,7 +1,7 @@
 using Table;
 using InfoGame;
 
-namespace Game;
+namespace InteractionGui;
 
 public class PrinterGeometry : Printer
 {
@@ -39,11 +39,11 @@ public class PrinterGeometry : Printer
         Printer.ExecuteTableEvent(locationGui);
     }
 
-    public override void LocationHand<T>(Hand<T> tokens, Token<T>? play, TableGame<T> table, string player)
+    public override void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table)
     {
         TypeToken type = TypeToken.TriangleTop;
         (int row, int column) = DeterminateTypeToken(table, ref type);
-        DeterminateLocationHand(tokens, play, table, player, row, column, type);
+        DeterminateLocationHand(play, table, player, row, column, type);
 
         Thread.Sleep(this.Speed);
     }

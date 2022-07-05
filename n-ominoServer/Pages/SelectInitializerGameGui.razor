@@ -1,0 +1,89 @@
+@using Table
+@using InteractionGui
+@using Rules
+@using Game
+@typeparam T
+
+@if (_visibility)
+{
+    <div class="SelectRule">
+        <div class="HeadSelect">
+            <h5>Inicialice un juego</h5>
+        </div>
+
+        @if (_table.Count == 0)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui ValueParam="_table" Cant="1" VariantGui="new SelectTable<T>()"></SelectVariantGui>
+            </div>
+        }
+
+        @if (_dealer.Count == 0)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui ValueParam="_dealer" Cant="1" VariantGui="new SelectDealer<T>()"></SelectVariantGui>
+            </div>
+        }
+
+        @if (_maker.Count == 0)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui ValueParam="_maker" Cant="1" VariantGui="new SelectMaker<T>()"></SelectVariantGui>
+            </div>
+        }
+
+        @if (_generator.Count == 0)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui ValueParam="_generator" Cant="1" VariantGui="new SelectGenerator<T>(DefaultValue!)"></SelectVariantGui>
+            </div>
+        }
+
+        <div class="HeadSelect">
+            <label>Cantidad de fichas a repartir</label>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            <input type="number" @bind="_cantToDeal" class="InputSelectToken"/>
+
+            <div style="width: 50px"></div>
+
+            <button @onclick="CreateRule" class="ButtonSelectHeadB">Crear</button>
+        </div>
+
+        <div style="height: 5px"></div>
+    </div>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public List<InitializerGame<T>>? Initializer { get; set; }
+    
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    private List<TableGame<T>> _table = new List<TableGame<T>>();
+
+    private List<IDealer<T>> _dealer = new List<IDealer<T>>();
+
+    private List<ITokensMaker<T>> _maker = new List<ITokensMaker<T>>();
+
+    private List<T[]> _generator = new List<T[]>();
+
+    private int _cantToDeal = 1;
+
+    private bool _visibility = true;
+
+    private void CreateRule()
+    {
+        if (_table.Count != 0 && _dealer.Count != 0 && _maker.Count != 0)
+        {
+            _visibility = false;
+            Initializer!.Add(new InitializerGame<T>(_maker[0], _dealer[0], _table[0], _generator[0], _cantToDeal));
+        }
+    }
+
+}

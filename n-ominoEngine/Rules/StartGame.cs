@@ -1,7 +1,7 @@
 using Table;
 using InfoGame;
 
-namespace Game;
+namespace Rules;
 
 public interface IDealer<T>
 {

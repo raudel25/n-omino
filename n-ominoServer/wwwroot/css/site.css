@@ -73,14 +73,14 @@ a, .btn-link {
     grid-column: 3;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-bottom: 24px solid burlywood;
+    border-bottom: 24px solid #0dcaf0;
 }
 
 .t2Top {
     grid-row: 2;
     grid-column: 2;
     border-left: 24px solid transparent;
-    border-bottom: 42px solid burlywood;
+    border-bottom: 42px solid #0dcaf0;;
 }
 
 .t3Top {
@@ -89,7 +89,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 42px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -97,14 +97,14 @@ a, .btn-link {
     grid-row: 2;
     grid-column: 4;
     border-right: 24px solid transparent;
-    border-bottom: 42px solid burlywood;
+    border-bottom: 42px solid #0dcaf0;;
 }
 
 .t5Top {
     grid-row: 3;
     grid-column: 1;
     border-left: 14px solid transparent;
-    border-bottom: 24px solid burlywood;
+    border-bottom: 24px solid #0dcaf0;
 }
 
 .t6Top {
@@ -113,7 +113,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -122,7 +122,7 @@ a, .btn-link {
     grid-row: 3;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
 }
 
 .t8Top {
@@ -131,7 +131,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -139,7 +139,7 @@ a, .btn-link {
     grid-row: 3;
     grid-column: 5;
     border-right: 14px solid transparent;
-    border-bottom: 24px solid burlywood;
+    border-bottom: 24px solid #0dcaf0;
 }
 
 .triangleBottom {
@@ -151,14 +151,14 @@ a, .btn-link {
     grid-column: 3;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-top: 24px solid burlywood;
+    border-top: 24px solid #0dcaf0;
 }
 
 .t2Bottom {
     grid-row: 2;
     grid-column: 2;
     border-left: 24px solid transparent;
-    border-top: 42px solid burlywood;
+    border-top: 42px solid #0dcaf0;;
 }
 
 .t3Bottom {
@@ -167,7 +167,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 42px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -175,14 +175,14 @@ a, .btn-link {
     grid-row: 2;
     grid-column: 4;
     border-right: 24px solid transparent;
-    border-top: 42px solid burlywood;
+    border-top: 42px solid #0dcaf0;;
 }
 
 .t5Bottom {
     grid-row: 1;
     grid-column: 1;
     border-left: 14px solid transparent;
-    border-top: 24px solid burlywood;
+    border-top: 24px solid #0dcaf0;
 }
 
 .t6Bottom {
@@ -191,7 +191,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -200,7 +200,7 @@ a, .btn-link {
     grid-row: 1;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
 }
 
 .t8Bottom {
@@ -209,7 +209,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -217,7 +217,7 @@ a, .btn-link {
     grid-row: 1;
     grid-column: 5;
     border-right: 14px solid transparent;
-    border-top: 24px solid burlywood;
+    border-top: 24px solid #0dcaf0;
 }
 
 .hexagon {
@@ -229,7 +229,7 @@ a, .btn-link {
     grid-row-end: 3;
     grid-column: 2;
     border-left: 16px solid transparent;
-    border-bottom: 30px solid burlywood;
+    border-bottom: 30px solid #0dcaf0;
 }
 
 .hexagon2 {
@@ -238,7 +238,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -248,7 +248,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -257,7 +257,7 @@ a, .btn-link {
     grid-row-end: 3;
     grid-column: 5;
     border-right: 16px solid transparent;
-    border-bottom: 30px solid burlywood;
+    border-bottom: 30px solid #0dcaf0;
 }
 
 .hexagon5 {
@@ -266,7 +266,7 @@ a, .btn-link {
     grid-row: 2;
     width: 48px;
     height: 6px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
 }
 
 .hexagon6 {
@@ -274,7 +274,7 @@ a, .btn-link {
     grid-column: 1;
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
-    border-right: 7px solid burlywood;
+    border-right: 7px solid #0dcaf0;;
 }
 
 .hexagon7 {
@@ -283,7 +283,7 @@ a, .btn-link {
     display: flex;
     width: 16px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -294,7 +294,7 @@ a, .btn-link {
     display: flex;
     width: 48px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -304,7 +304,7 @@ a, .btn-link {
     display: flex;
     width: 16px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -313,7 +313,7 @@ a, .btn-link {
     grid-column: 6;
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
-    border-left: 7px solid burlywood;
+    border-left: 7px solid #0dcaf0;;
 }
 
 .hexagon11 {
@@ -321,7 +321,7 @@ a, .btn-link {
     grid-row-end: 6;
     grid-column: 2;
     border-left: 16px solid transparent;
-    border-top: 30px solid burlywood;
+    border-top: 30px solid #0dcaf0;
 }
 
 .hexagon12 {
@@ -330,7 +330,7 @@ a, .btn-link {
     grid-row: 4;
     width: 48px;
     height: 6px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
 }
 
 .hexagon13 {
@@ -338,7 +338,7 @@ a, .btn-link {
     grid-row-end: 6;
     grid-column: 5;
     border-right: 16px solid transparent;
-    border-top: 30px solid burlywood;
+    border-top: 30px solid #0dcaf0;
 }
 
 .hexagon14 {
@@ -347,7 +347,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -357,7 +357,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 .square{
@@ -370,7 +370,7 @@ a, .btn-link {
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -380,7 +380,7 @@ a, .btn-link {
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -390,7 +390,7 @@ a, .btn-link {
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -400,7 +400,7 @@ a, .btn-link {
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -414,7 +414,7 @@ a, .btn-link {
     display: flex;
     width: 45px;
     height: 30px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -424,7 +424,7 @@ a, .btn-link {
     display: flex;
     width: 45px;
     height: 30px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -438,7 +438,7 @@ a, .btn-link {
     display: flex;
     width: 30px;
     height: 45px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
 }
 
@@ -448,10 +448,115 @@ a, .btn-link {
     display: flex;
     width: 30px;
     height: 45px;
-    background-color: burlywood;
+    background-color: #0dcaf0;
     justify-content: center;
+}
+
+.Point{
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    background-color: black;
+}
+
+.ContainsPoint
+{
+    display: flex; align-items: center; justify-content: center;width: 20px; height: 20px;
+}
+
+.DominoNumber{
+    display: grid; width: 60px; height: 60px;
+}
+
+.DominoHC{
+    display: grid; width: 123px; border: solid #000 1px; border-radius:5px;
+    height: 61px;
+}
+
+.DominoVC{
+    display: grid; height: 121px; border: solid #000 1px; border-radius:5px;
+    width: 63px;
 }
 
 .contentBottom{
     align-self: flex-end;
+}
+
+.Select{
+    /*border: solid #1c1f23 1px;*/
+    width: 400px;
+    /*border-radius: 10px;*/
+}
+.HeadSelect{
+    display: flex;
+    justify-content: center;
+    /*border-bottom: solid #1c1f23 2px;*/
+}
+.InputSelect{
+    width: 320px; height: 30px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left: groove 2px;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 0;
+    outline: none;
+}
+.ButtonSelect{
+    width: 80px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: groove 0;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 2px;
+    outline: none;
+}
+
+.InputSelectHead{
+    width: 100px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: 30px;
+    border-left: groove 2px;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 0;
+    outline: none;
+}
+
+.ButtonSelectHeadT
+{
+    width: 100px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 30px;
+    border-left: groove 0;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 2px;
+    outline: none;
+}
+
+.ButtonSelectHeadB
+{
+    width: 100px;
+    border-radius: 10px;
+    height: 30px;
+    border: groove 2px;
+    outline: none;
+}
+
+.SelectRule{
+    width: 410px;
+    border: groove 2px;
+    border-radius: 5px;
+}
+
+.InputSelectToken{
+    width: 100px;
+    border-radius: 10px;
+    height: 30px;
+    border: groove 2px;
+    outline: none;
 }

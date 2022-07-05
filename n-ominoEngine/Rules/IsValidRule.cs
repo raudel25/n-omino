@@ -34,7 +34,7 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
         for (int i = 0; i < this.Condition.Length; i++)
         {
             this._checkValid[i] = false;
-            if (this.Condition[i].RunRule(tournament, original, ind))
+            if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
                 this._checkValid[i] = true;
             }
@@ -60,6 +60,23 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
             valid.Add(this.Actions.Length);
 
         return valid;
+    }
+    
+    /// <summary>Determina si el jugador tiene opciones para jugar</summary>
+    /// <param name="tokens">Fichas de las que dispone el jugador</param>
+    /// <param name="table">Mesa para jugar</param>
+    /// <returns>El jugador tiene opciones para jugar</returns>
+    public bool ValidPlayPlayer(Hand<T> tokens, TableGame<T> table)
+    {
+        foreach (var item in table.FreeNode)
+        {
+            foreach (var token in tokens)
+            {
+                if (this.ValidPlays(item, token, table).Count != 0) return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>

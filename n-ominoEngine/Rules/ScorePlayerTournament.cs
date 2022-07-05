@@ -11,7 +11,7 @@ public class ClassicScorePlayerTournament<T> : IScorePlayerTournament<T>
 {
     public void AssignScore(TournamentStatus tournament, GameStatus<T> game, int ind)
     {
-        int win = game.PlayerWinner;
+        int win = game.FindPLayerById(game.PlayerWinner);
         tournament.Players[win].ScoreTournament = 100;
         tournament.Players[win].GamesToWin++;
     }

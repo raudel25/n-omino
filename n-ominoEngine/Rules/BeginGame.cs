@@ -53,7 +53,8 @@ public class BeginGameRandom<T> : IBeginGame<T>
     public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
     {
         Random rnd = new Random();
-        game.PlayerStart = rnd.Next(game.Turns.Length);
+        int ind = rnd.Next(game.Turns.Length);
+        game.PlayerStart = game.Players[ind].Id;
     }
 }
 
