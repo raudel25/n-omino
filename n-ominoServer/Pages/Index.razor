@@ -10,7 +10,9 @@
 
 Welcome to your new app.
 
-<a href="/Game"><button>Game</button></a>
+<a href="/Game">
+    <button>Game</button>
+</a>
 
 <SelectVariantGui Cant="1" ValueParam="new List<TableGame<int>>()" VariantGui="new SelectTable<int>()"></SelectVariantGui>
 
@@ -19,3 +21,55 @@ Welcome to your new app.
 <SelectAssignScorePlayerGui Build="new BuildRules<string>()"></SelectAssignScorePlayerGui>
 
 <SelectInitializerGameGui Initializer="new List<InitializerGame<int>>()"></SelectInitializerGameGui>
+
+<SelectStealGui Build="new BuildRules<int>()"></SelectStealGui>
+
+<div style="display: grid; width: 123px; border: solid #000 1px; border-radius:5px;">
+    <div class="DominoNumber" style="grid-column: 1; ">
+        <div class="ContainsPoint" style="grid-column: 1; grid-row: 1;">
+            <div class="Point">
+    
+            </div>
+        </div>
+        <div class="ContainsPoint" style="grid-column: 2; grid-row: 2;">
+            <div class="Point">
+    
+            </div>
+        </div>
+        <div class="ContainsPoint" style="grid-column: 3; grid-row: 3; ">
+            <div class="Point">
+            </div>
+        </div>
+    </div>
+    <div class="DominoNumber" style="grid-column: 2; border-left: solid #000 1px;">
+        <div class="ContainsPoint" style="grid-column: 1; grid-row: 1;">
+            <div class="Point">
+    
+            </div>
+        </div>
+        <div class="ContainsPoint" style="grid-column: 2; grid-row: 2;">
+            <div class="Point">
+    
+            </div>
+        </div>
+        <div class="ContainsPoint" style="grid-column: 3; grid-row: 3; ">
+            <div class="Point">
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <NumberClassic Value="0"></NumberClassic> *@
+@* *@
+@* <NumberClassic Value="6"></NumberClassic> *@
+@* *@
+@* <NumberClassic Value="7"></NumberClassic> *@
+
+<DominoHorizontalC Values="new []{a,b}"></DominoHorizontalC>
+
+<DominoVerticalC Values="new []{a,b}"></DominoVerticalC>
+
+@code{
+    private string a="8";
+    private string b="9";
+}

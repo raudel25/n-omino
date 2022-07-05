@@ -1,0 +1,94 @@
+<div class="DominoNumber">
+    <div class="ContainsPoint" style="grid-column: 1; grid-row: 1;">
+        @if (int.Parse(Value[0]) > 1)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 2; grid-row: 1;">
+        @if (int.Parse(Value[0]) > 5 && Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+        @if (int.Parse(Value[0]) > 7 && !Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 3; grid-row: 1;">
+        @if (int.Parse(Value[0]) > 3)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 1; grid-row: 2;">
+        @if (int.Parse(Value[0]) > 7 && Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+        @if (int.Parse(Value[0]) > 5 && !Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 2; grid-row: 2;">
+        @if ((int.Parse(Value[0]) & 1) == 1)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 3; grid-row: 2;">
+        @if (int.Parse(Value[0]) > 7 && Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+        @if (int.Parse(Value[0]) > 5 && !Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 1; grid-row: 3;">
+        @if (int.Parse(Value[0]) > 3)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 2; grid-row: 3;">
+        @if (int.Parse(Value[0]) > 5 && Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+        @if (int.Parse(Value[0]) > 7 && !Horizontal)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+    <div class="ContainsPoint" style="grid-column: 3; grid-row: 3; ">
+        @if (int.Parse(Value[0]) > 1)
+        {
+            <div class="Point">
+            </div>
+        }
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public string[] Value { get; set; } = new string[1];
+
+    [Parameter]
+    public bool Horizontal { get; set; } = true;
+}

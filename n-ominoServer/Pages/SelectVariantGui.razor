@@ -45,6 +45,10 @@
                 {
                     <input type="number" @bind="_cantParam"/>
                 }
+                @if (VariantGui.Param[_selcted].Comparison)
+                {
+                    <SelectVariantGui ></SelectVariantGui>
+                }
             }
         </div>
 

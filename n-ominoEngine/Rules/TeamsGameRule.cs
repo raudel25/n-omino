@@ -16,7 +16,7 @@ public class TeamsGameRule<T> : ActionConditionRule<ITeamsGame, T>, ICloneable<T
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
-            if (this.Condition[i].RunRule(tournament, game, ind))
+            if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
                 this.Actions[i].DeterminateTeams(tournament, ind);
                 activate = true;

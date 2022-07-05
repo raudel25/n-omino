@@ -6,7 +6,7 @@
 {
     <div class="SelectRule">
         <div class="HeadSelect">
-            <h5>Determinar el ganador de un juego</h5>
+            <h5>Asignar score a los jugadores</h5>
         </div>
 
         <div style="display: flex; justify-content: center;">
@@ -25,7 +25,7 @@
         @if (_selectValue)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="_cant" ValueParam="_valuesRule" VariantGui="new SelectWinnerGame<T>()"></SelectVariantGui>
+                <SelectVariantGui Cant="_cant + 1" ValueParam="_valuesRule" VariantGui="new SelectSteal<T>()"></SelectVariantGui>
             </div>
 
             <div style="display: flex; justify-content: center;">
@@ -40,7 +40,6 @@
         </div>
 
         <div style="height: 5px"></div>
-
     </div>
 }
 
@@ -52,11 +51,11 @@
     [Parameter]
     public T? DefaultValue { get; set; }
 
-    private int _cant = 1;
+    private int _cant = 0;
 
     private bool _selectValue = false;
 
-    private List<IWinnerGame<T>> _valuesRule = new List<IWinnerGame<T>>();
+    private List<IStealToken<T>> _valuesRule = new List<IStealToken<T>>();
 
     private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
 
@@ -69,11 +68,9 @@
 
     private void CreateRule()
     {
-        if (_cant < 1) return;
-
-        if (_valuesRule.Count == _cant && _valuesCondition.Count == _cant)
+        if (_valuesRule.Count == _cant + 1 && _valuesCondition.Count == _cant)
         {
-            Build!.WinnerGame = new WinnerGameRule<T>(_valuesRule, _valuesCondition);
+            Build!.StealTokens = new StealTokenRule<T>(_valuesRule.Take(_valuesRule.Count - 2), _valuesCondition, _valuesRule[_valuesRule.Count - 1]);
             _vilibility = false;
         }
     }

@@ -50,19 +50,21 @@ public class ClassicStealToken<T> : IStealToken<T>
         Random rnd = new Random();
         while (true)
         {
+            if (game.TokensTable!.Count == 0) break;
+            
             Token<T> aux = game.TokensTable![rnd.Next(game.TokensTable.Count)];
+            
             //Actualizar la mano
             game.Players[original.Turns[ind]].Hand!.Add(aux);
             original.Players[original.Turns[ind]].Hand!.Add(aux);
             game.TokensTable!.Remove(aux);
             original.TokensTable!.Remove(aux);
-            foreach (var item in game.Table.FreeNode)
-            {
-                if (rules.IsValidPlay.ValidPlays(item, aux, game.Table).Count != 0) break;
-                play = true;
-            }
 
-            if (game.TokensTable.Count == 0) break;
+            var hand = new Hand<T>();
+            hand.Add(aux);
+            play = rules.IsValidPlay.ValidPlayPlayer(hand, game.Table);
+
+            if(play) break;
         }
 
         game.TokensTable = null;

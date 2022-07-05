@@ -5,15 +5,15 @@ namespace InfoGame;
 public class Jugada<T> : ICloneable<Jugada<T>>
 {
     //ficha que quiero jugar
-    public Token<T> Token;
+    public Token<T>? Token;
 
     //nodo por el que lo quiero jugar
-    public INode<T> Node;
+    public INode<T>? Node;
 
     //índice de la regla que valida la jugada
     public int ValidPlay;
 
-    public Jugada(Token<T> token, INode<T> node, int validPlay)
+    public Jugada(Token<T>? token, INode<T>? node, int validPlay)
     {
         this.Token = token;
         this.Node = node;
@@ -22,7 +22,8 @@ public class Jugada<T> : ICloneable<Jugada<T>>
 
     public Jugada<T> Clone()
     {
-        return new Jugada<T>(Token.Clone(), Node, ValidPlay); //hacer nodo ICloneable
+        if (this.ValidPlay == -1) return new Jugada<T>(Token, Node, ValidPlay);
+        return new Jugada<T>(Token!.Clone(), Node, ValidPlay); //hacer nodo ICloneable
     }
 
     object ICloneable.Clone()
