@@ -108,7 +108,7 @@ public static class Test
         // Printer print = new PrinterDomino(1000, true);
 
         InfoRules<int> rules = new InfoRules<int>(isValidRule, visibilityPlayerRule, turnPlayerRule, stealTokenRule,
-            null,
+            null!,
             assignScorePlayerRule, winnerGameRule, scoreToken, beginGameRule);
 
         Judge<int> judge = new Judge<int>(new TournamentStatus(new List<InfoPlayerTournament>(), new List<InfoTeams<InfoPlayerTournament>>()), rules, game, players, print);

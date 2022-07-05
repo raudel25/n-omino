@@ -168,9 +168,9 @@ public class ValidPlayLongana<T> : IValidPlay<T>
     /// </summary>
     private int _player;
 
-    public ValidPlayLongana(IValidPlay<T> valid, int player)
+    public ValidPlayLongana(IComparison<T> comp, int player)
     {
-        this._valid = valid;
+        this._valid = new ValidPlayDimension<T>(comp);
         this._player = player;
     }
 
