@@ -27,17 +27,17 @@ public class SelectComparison<T> : IVariant<IComparison<T>, T>
         if(this.Value is int)
         {
             Values.Add(SelectCongruenceComparison);
-            Param.Add(new ParamSelect("Comparador por congruencia módulo ?", "", 1, false, false));
+            Param.Add(new ParamSelect("Comparador por congruencia módulo ?", "", 1, true));
             Values.Add(SelectHighNumberComparison);
-            Param.Add(new ParamSelect("Comparador por mayor que número ?", "", 2, false, false));
+            Param.Add(new ParamSelect("Comparador por mayor que número ?", "", 2, true));
             Values.Add(SelectSmallNumberComparison);
-            Param.Add(new ParamSelect("Comparador por menor que número ?", "", 3, false, false));
+            Param.Add(new ParamSelect("Comparador por menor que número ?", "", 3, true));
             Values.Add(SelectComodinComparison);
-            Param.Add(new ParamSelect("Comparador por comodín", "", 3, false, false));
+            Param.Add(new ParamSelect("Comparador por comodín", "", 4, true));
             Values.Add(SelectDivisibleComparison);
-            Param.Add(new ParamSelect("Comparador por divisivilidad con ?", "", 3, false, false));
+            Param.Add(new ParamSelect("Comparador por divisivilidad con ?", "", 5, true));
             Values.Add(SelectGcdComparison);
-            Param.Add(new ParamSelect("Comparador por máximo común divisor con ?", "", 3, false, false));
+            Param.Add(new ParamSelect("Comparador por máximo común divisor con ?", "", 6, true));
         }
         if(this.Value is string)
         {

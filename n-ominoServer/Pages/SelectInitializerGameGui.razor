@@ -50,8 +50,6 @@
 
             <button @onclick="CreateRule" class="ButtonSelectHeadB">Crear</button>
         </div>
-        
-        
 
         <div style="height: 5px"></div>
     </div>
@@ -69,6 +67,9 @@
     
     [Parameter]
     public List<Printer>? Printers { get; set; }
+    
+    [Parameter]
+    public BuildRules<T>? Rules { get; set; }
 
     private List<TableGame<T>> _table = new List<TableGame<T>>();
 
@@ -89,6 +90,7 @@
             _visibility = false;
             Initializer!.Add(new InitializerGame<T>(_maker[0], _dealer[0], _table[0], _generator[0], _cantToDeal));
             Printers!.Add(Determinate()!);
+            Rules!.Table = _table[0];
         }
     }
 

@@ -3,6 +3,7 @@
 @using InteractionGui
 @using Table
 @using Game
+@using Player
 
 <PageTitle>Index</PageTitle>
 
@@ -13,5 +14,25 @@ Welcome to your new app.
 <a href="/Game">
     <button>Game</button>
 </a>
+<button @onclick="() => { a=true;}">Game1</button>
 
-<SelectAssignScoreTokenGui Build = "new BuildRules<int>()" DefaultValue = "1"></SelectAssignScoreTokenGui>
+<BuildGameGui DefaultValue="2" Game="game"></BuildGameGui>
+
+<GameGui Judge1="_judge"></GameGui>
+
+<button @onclick="() => { _judge=new Judge<int>(null,game[0].Rules,
+    game[0].Initializer.StartGame(new List<(int, int)>() { (0, 0), (1, 1), (2, 2), (3, 3) }),
+    _players,game[0].Print);}">lnksv</button>
+
+@code
+{
+    private bool a;
+
+    private List<BuildGame<int>> game =new List<BuildGame<int>>();
+
+    private Judge<int> _judge;
+
+    private Player.Player<int>[] _players = new[] {new PurePlayer<int>(0, new RandomPlayer<int>()), new PurePlayer<int>(1, new RandomPlayer<int>()),
+        new PurePlayer<int>(2, new RandomPlayer<int>()), new PurePlayer<int>(3, new RandomPlayer<int>())};
+
+}

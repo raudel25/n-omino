@@ -1,0 +1,78 @@
+@using InteractionGui
+@using Game
+@using Rules
+@typeparam T
+
+@if (!Rules!.IsReady)
+{
+    <div style="display: flex; justify-content: center">
+        <h5>Construya las reglas para su juego</h5>
+    </div>
+    <div style="display: flex; justify-content: center">
+        <div>
+
+
+            <SelectValidPlayGui DefaultValue="DefaultValue!" Build="Rules"></SelectValidPlayGui>
+
+            <SelectTurnPlayerGui DefaultValue="DefaultValue!" Build="Rules"></SelectTurnPlayerGui>
+        </div>
+
+        <div>
+
+
+            <SelectVisibilityPlayerGui DefaultValue="DefaultValue!" Build="Rules"></SelectVisibilityPlayerGui>
+
+            <SelectStealGui DefaultValue="DefaultValue!" Build="Rules"></SelectStealGui>
+        </div>
+
+        <div>
+            <SelectAssignScorePlayerGui DefaultValue="DefaultValue!" Build="Rules"></SelectAssignScorePlayerGui>
+
+            <SelectAssignScoreTokenGui DefaultValue="DefaultValue!" Build="Rules"></SelectAssignScoreTokenGui>
+
+            <SelectWinnerGameGui DefaultValue="DefaultValue!" Build="Rules"></SelectWinnerGameGui>
+        </div>
+    </div>
+
+    <div style="height: 10px;">
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        <button class="Create" @onclick="CreateGame">Crear Reglas</button>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    [Parameter]
+    public BuildRules<T>? Rules { get; set; }
+
+    private void CreateGame()
+    {
+        if (SteelRules())
+        {
+            Rules!.ToPassToken = new ToPassTokenRule<T>(new[] {new NoToPassToken()}, new[] {new ConditionDefault<T>()}, new NoToPassToken());
+            Rules.Begin = new BeginGameRule<T>(new List<IBeginGame<T>>(), new List<ICondition<T>>(), new BeginGameRandom<T>());
+            Rules.IsReady = true;
+        }
+    }
+
+    public bool SteelRules()
+    {
+    //if (Rules!.Begin == null) return false;
+        if (Rules!.ScoreToken == null) return false;
+        if (Rules.StealTokens == null) return false;
+        if (Rules.TurnPlayer == null) return false;
+        if (Rules.VisibilityPlayer == null) return false;
+        if (Rules.WinnerGame == null) return false;
+        if (Rules.AssignScorePlayer == null) return false;
+        if (Rules.IsValidPlay == null) return false;
+    //if (Rules.ToPassToken == null) return false;
+        return true;
+    }
+
+
+}

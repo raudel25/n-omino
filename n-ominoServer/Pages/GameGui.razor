@@ -1,4 +1,4 @@
-@page "/Game"
+
 @using InteractionGui
 @using Game
 
@@ -18,6 +18,9 @@ else
 
 @code
 {
+    [Parameter]
+    public Judge<int> Judge1 { get; set; }
+
     public Judge<int> Judge = Test.Game();
     
     private LocationGui[] LocationTable { get; set; } = Array.Empty<LocationGui>();
@@ -28,7 +31,7 @@ else
     
     private async Task Start()
     {
-        await Task.Run(() =>Judge.Game());
+        await Task.Run(() =>Judge1.Game());
     }
     
     protected override void OnInitialized()

@@ -37,7 +37,7 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
             Values.Add(SelectInt);
             Param.Add(new ParamSelect("Suma de los nodos libre",
                 "Se activa cuando la suma de los nodos tiene un valor especifico",
-                7));
+                8,false,false,true));
         }
     }
 

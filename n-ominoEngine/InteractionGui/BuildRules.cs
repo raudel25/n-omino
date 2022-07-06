@@ -1,4 +1,5 @@
 using Rules;
+using Table;
 
 namespace InteractionGui;
 
@@ -40,7 +41,11 @@ public class BuildRules<T>
     /// Determinar el Score de una ficha
     /// </summary>
     public IAssignScoreToken<T>? ScoreToken { get; set; }
+
+    public TableGame<T>? Table { get; set; }
     
+    public bool IsReady { get; set; }
+
     public InfoRules<T> Build()
     {
         return new InfoRules<T>(this.IsValidPlay!, this.VisibilityPlayer!, this.TurnPlayer!,
