@@ -1,5 +1,6 @@
 @using InteractionGui
 @using Rules
+@using Table
 @typeparam T1
 @typeparam T2
 
@@ -32,28 +33,40 @@
         <div>
             @if (_selcted != -1)
             {
-                @if (VariantGui.Param[_selcted].ValueForParam)
+                if (VariantGui.Param[_selcted].ValueForParam)
                 {
-                    @if (DefaultValue is int)
-                    {
-                        <input type="number" @bind="_valueInt"/>
-                    }
-                    @if (DefaultValue is char || DefaultValue is string)
-                    {
-                        <input @bind="_valueString"/>
-                    }
+                    <div style="height: 5px"></div>
+
+                    <div style="display: flex; justify-content: center;">
+                        @if (DefaultValue is int)
+                        {
+                            <input type="number" class="InputSelectValue"
+                                   @bind="_valueInt"/>
+                        }
+                        @if (DefaultValue is char || DefaultValue is string)
+                        {
+                            <input @bind="_valueString" class="InputSelectValue"/>
+                        }
+                    </div>
                 }
-                @if (VariantGui.Param[_selcted].Cant)
+                if (VariantGui.Param[_selcted].Cant)
                 {
-                    <input type="number" @bind="_cantParam"/>
+                    <div style="height: 5px"></div>
+                    <div style="display: flex; justify-content: center;">
+                        <input type="number" @bind="_cantParam" class="InputSelectValue"/>
+                    </div>
                 }
-                @if (VariantGui.Param[_selcted].Comparison)
+                if (VariantGui.Param[_selcted].Comparison)
                 {
-                    <SelectVariantGui Cant="1" ValueParam="_comparisons" VariantGui="new SelectComparison<T2>(DefaultValue!)"></SelectVariantGui>
+                    <SelectVariantGui Cant="1" ValueParam="_comparisons" VariantGui="new SelectComparison<T2>(DefaultValue!)" Build="Build"></SelectVariantGui>
                 }
-                @if (VariantGui.Param[_selcted].Strategy)
+                if (VariantGui.Param[_selcted].Strategy)
                 {
                     //<SelectVariantGui Cant="1" ValueParam="_co" VariantGui="new SelectStrategies<T2>()"></SelectVariantGui>
+                }
+                if (VariantGui.Param[_selcted].Token)
+                {
+                    <SelectToken DefaultValue="DefaultValue!" Tokens="_tokens" Build="Build"></SelectToken>
                 }
             }
         </div>
@@ -72,15 +85,18 @@
 
     [Parameter]
     public List<T1>? ValueParam { get; set; }
-    
+
     [Parameter]
     public T2? DefaultValue { get; set; }
 
     [Parameter]
     public int Cant { get; set; } = 1;
-    
+
     [Parameter]
     public IVariant<T1, T2>? VariantGui { get; set; }
+    
+    [Parameter]
+    public BuildRules<T2>? Build { get; set; }
 
     private int _selcted = -1;
 
@@ -91,43 +107,53 @@
     private int _cantParam = 1;
 
     private List<IComparison<T2>> _comparisons = new();
-        
+
+    private List<Token<T2>> _tokens = new();
+
 
     private void Next()
     {
         if (_selcted != -1)
         {
-            ParamSelectFunction<T2> param = new ParamSelectFunction<T2>(); 
+            ParamSelectFunction<T2> param = new ParamSelectFunction<T2>();
 
             if (DefaultValue is int)
             {
-                ParamSelectFunction<int> paramInt=(param as ParamSelectFunction<int>)!;
+                ParamSelectFunction<int> paramInt = (param as ParamSelectFunction<int>)!;
                 paramInt.ValueForParam = _valueInt;
             }
 
             if (DefaultValue is char)
             {
-                ParamSelectFunction<char> paramChar=(param as ParamSelectFunction<char>)!;
-                if(_valueString.Length==0) return;
+                ParamSelectFunction<char> paramChar = (param as ParamSelectFunction<char>)!;
+                if (_valueString.Length == 0) return;
                 paramChar.ValueForParam = _valueString[0];
             }
 
             if (DefaultValue is string)
             {
-                ParamSelectFunction<string> paramString=(param as ParamSelectFunction<string>)!;
+                ParamSelectFunction<string> paramString = (param as ParamSelectFunction<string>)!;
                 paramString.ValueForParam = _valueString;
             }
-            
+
             param.Cant = _cantParam;
-            
-            if(VariantGui!.Param[_selcted].Comparison)
+
+            if (VariantGui!.Param[_selcted].Comparison)
             {
-                if(_comparisons.Count == 1) param.Comp = _comparisons[0];
+                if (_comparisons.Count == 1) param.Comp = _comparisons[0];
+                else return;
+            }
+
+            if (VariantGui!.Param[_selcted].Token)
+            {
+                if (_tokens.Count == 1) param.Token = _tokens[0];
                 else return;
             }
 
             ValueParam!.Add(VariantGui!.Values[_selcted](param));
+            
             _comparisons = new();
+            _tokens = new List<Token<T2>>();
             Cant--;
         }
     }

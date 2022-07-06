@@ -14,28 +14,28 @@
         @if (_table.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_table" Cant="1" VariantGui="new SelectTable<T>()"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_table" Cant="1" VariantGui="new SelectTable<T>()" Build="Rules"></SelectVariantGui>
             </div>
         }
 
         @if (_dealer.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_dealer" Cant="1" VariantGui="new SelectDealer<T>()"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_dealer" Cant="1" VariantGui="new SelectDealer<T>()" Build="Rules"></SelectVariantGui>
             </div>
         }
 
         @if (_maker.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_maker" Cant="1" VariantGui="new SelectMaker<T>()"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_maker" Cant="1" VariantGui="new SelectMaker<T>()" Build="Rules"></SelectVariantGui>
             </div>
         }
 
         @if (_generator.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_generator" Cant="1" VariantGui="new SelectGenerator<T>(DefaultValue!)"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_generator" Cant="1" VariantGui="new SelectGenerator<T>(DefaultValue!)" Build="Rules"></SelectVariantGui>
             </div>
         }
 
@@ -44,7 +44,7 @@
         </div>
 
         <div style="display: flex; justify-content: center;">
-            <input type="number" @bind="_cantToDeal" class="InputSelectToken"/>
+            <input type="number" @bind="_cantToDeal" class="InputSelectValue"/>
 
             <div style="width: 50px"></div>
 

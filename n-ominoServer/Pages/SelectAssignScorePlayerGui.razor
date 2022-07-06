@@ -25,11 +25,11 @@
         @if (_selectValue)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="_cant" ValueParam="_valuesRule" VariantGui="new SelectAssignScorePlayer<T>()"></SelectVariantGui>
+                <SelectVariantGui Cant="_cant" ValueParam="_valuesRule" VariantGui="new SelectAssignScorePlayer<T>()" Build="Build"></SelectVariantGui>
             </div>
 
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="_cant" ValueParam="_valuesCondition" VariantGui="new SelectCondition<T>(DefaultValue!)"></SelectVariantGui>
+                <SelectVariantGui Cant="_cant" ValueParam="_valuesCondition" VariantGui="new SelectCondition<T>(DefaultValue!)" Build="Build"></SelectVariantGui>
             </div>
         }
 

@@ -1,6 +1,7 @@
 @using InteractionGui
 @using Game
 @using Rules
+@using Table
 @typeparam T
 
 @if (!Rules!.IsReady)
@@ -10,7 +11,7 @@
     </div>
     <div style="display: flex; justify-content: center">
         <div>
-
+            <SelectBeginGameGui DefaultValue="DefaultValue!" Build="Rules"></SelectBeginGameGui>
 
             <SelectValidPlayGui DefaultValue="DefaultValue!" Build="Rules"></SelectValidPlayGui>
 
@@ -55,14 +56,14 @@
         if (SteelRules())
         {
             Rules!.ToPassToken = new ToPassTokenRule<T>(new[] {new NoToPassToken()}, new[] {new ConditionDefault<T>()}, new NoToPassToken());
-            Rules.Begin = new BeginGameRule<T>(new List<IBeginGame<T>>(), new List<ICondition<T>>(), new BeginGameRandom<T>());
+    //Rules.Begin = new BeginGameRule<T>(new List<IBeginGame<T>>(), new List<ICondition<T>>(), new BeginGameRandom<T>());
             Rules.IsReady = true;
         }
     }
 
     public bool SteelRules()
     {
-    //if (Rules!.Begin == null) return false;
+        if (Rules!.Begin == null) return false;
         if (Rules!.ScoreToken == null) return false;
         if (Rules.StealTokens == null) return false;
         if (Rules.TurnPlayer == null) return false;

@@ -14,7 +14,7 @@ public class SelectValidPlay<T> : IVariant<IValidPlay<T>, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
-        new ParamSelect("Con comodín", "", 0, false, false, true)
+        new ParamSelect("Con comodín", "", 0, false, false, false,false,true)
     };
 
     public SelectValidPlay(TableGame<T> table)
