@@ -49,7 +49,11 @@
                 }
                 @if (VariantGui.Param[_selcted].Comparison)
                 {
-                    
+                    <SelectVariantGui Cant="1" ValueParam="_comparisons" VariantGui="new SelectComparison<T2>(DefaultValue!)"></SelectVariantGui>
+                }
+                @if (VariantGui.Param[_selcted].Strategy)
+                {
+                    //<SelectVariantGui Cant="1" ValueParam="_co" VariantGui="new SelectStrategies<T2>()"></SelectVariantGui>
                 }
             }
         </div>
@@ -68,6 +72,9 @@
 
     [Parameter]
     public List<T1>? ValueParam { get; set; }
+    
+    [Parameter]
+    public T2? DefaultValue { get; set; }
 
     [Parameter]
     public int Cant { get; set; } = 1;
@@ -83,12 +90,15 @@
 
     private int _cantParam = 1;
 
+    private List<IComparison<T2>> _comparisons = new();
+        
+
     private void Next()
     {
         if (_selcted != -1)
         {
             ParamSelectFunction<T2> param = new ParamSelectFunction<T2>(); 
-            
+
             if (DefaultValue is int)
             {
                 ParamSelectFunction<int> paramInt=(param as ParamSelectFunction<int>)!;
@@ -108,9 +118,16 @@
                 paramString.ValueForParam = _valueString;
             }
             
-            paramInt.Cant = _cantParam;
+            param.Cant = _cantParam;
             
+            if(VariantGui!.Param[_selcted].Comparison)
+            {
+                if(_comparisons.Count == 1) param.Comp = _comparisons[0];
+                else return;
+            }
+
             ValueParam!.Add(VariantGui!.Values[_selcted](param));
+            _comparisons = new();
             Cant--;
         }
     }

@@ -30,28 +30,28 @@ public abstract class Player<T>
     }
 }
 
-public class PurePlayer<T> : Player<T> where T : struct
+public class PurePlayer<T> : Player<T>
 {
     //va a jugar con esta estrategia siempre que sea posible
     IStrategy<T> _strategy { get; set; }
     //si no lo es juega con esta
-    IStrategy<T> _default { get; set; }
-    public PurePlayer(int id, IStrategy<T> strategy, IStrategy<T> def) : base(id)
+    //IStrategy<T> _default { get; set; }
+    public PurePlayer(int id, IStrategy<T> strategy) : base(id)
     {
         this._strategy = strategy;
-        this._default = def;
+        //this._default = def;
     }
     public override Jugada<T> Play(GameStatus<T> status, InfoRules<T> rules)
     {
         var possibleJugadas = this.GetValidJugadas(status.Players[Id].Hand!, status, rules);
         int index = _strategy.Play(possibleJugadas, status, rules, Id);
-        if (index == -1) index = _default.Play(possibleJugadas, status, rules, Id);
+        //if (index == -1) index = _default.Play(possibleJugadas, status, rules, Id);
         return possibleJugadas[index];
     }
 }
 
 
-public abstract class ConditionPlayer<T> : Player<T> where T : struct
+public abstract class ConditionPlayer<T> : Player<T>
 {
     /// <summary>
     /// Acciones que determinan las reglas

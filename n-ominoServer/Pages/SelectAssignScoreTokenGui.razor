@@ -1,0 +1,73 @@
+@using Rules
+@using InteractionGui
+@typeparam T 
+
+@if (_vilibility)
+{
+    <div class="SelectRule">
+        <div class="HeadSelect">
+            <h5>Seleccionar la forma de calcular el valor de una ficha</h5>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            @if (!_selectValue)
+            {
+                <div style="width: 150px;">
+                    <label>Cantidad de reglas</label>
+                </div>
+
+                <input type="number" class="InputSelectHead"/>
+
+                <button @onclick="Select" class="ButtonSelectHeadT">Seleccionar</button>
+            }
+        </div>
+
+        @if (_selectValue)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui Cant="1" ValueParam="_valuesRule" VariantGui="new SelectAssignScoreToken<T>()"></SelectVariantGui>
+            </div>
+        }
+
+        <div style="height: 10px"></div>
+
+        <div style="display: flex; justify-content: center;">
+            <button @onclick="CreateRule" class="ButtonSelectHeadB">Crear</button>
+        </div>
+
+        <div style="height: 5px"></div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public BuildRules<T>? Build { get; set; }
+    
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    private int _cant = 1;
+
+    private bool _selectValue = false;
+
+    private List<IAssignScoreToken<T>> _valuesRule = new List<IAssignScoreToken<T>>();
+
+    private bool _vilibility = true;
+
+    private void Select()
+    {
+        _selectValue = true;
+    }
+
+    private void CreateRule()
+    {
+        if(_cant < 1) return;
+        
+        if (_valuesRule.Count == _cant+1)
+        {
+            Build!.ScoreToken = _valuesRule[0];
+            _vilibility = false;
+        }
+    }
+}

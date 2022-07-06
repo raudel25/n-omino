@@ -4,13 +4,13 @@ using InfoGame;
 
 namespace Player;
 
-public interface IStrategy<T> where T : struct
+public interface IStrategy<T>
 {
     //indice de la lista donde está la jugada que quiero, si es -1 no hay jugada posible
     public int Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules, int id);
 }
 
-public class RandomPlayer<T> : IStrategy<T> where T : struct
+public class RandomPlayer<T> : IStrategy<T>
 {
     public int Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules, int id)
     {
@@ -20,7 +20,7 @@ public class RandomPlayer<T> : IStrategy<T> where T : struct
     }
 }
 
-public class GreedyPlayer<T> : IStrategy<T> where T : struct
+public class GreedyPlayer<T> : IStrategy<T>
 {
     public int Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules, int id)
     {
@@ -28,7 +28,7 @@ public class GreedyPlayer<T> : IStrategy<T> where T : struct
         int index = 0;
         Jugada<T> res = PossiblePlays[0];
         for (int i = 1; i < PossiblePlays.Count; i++)
-            if (rules.ScoreToken.ScoreToken(res.Token) < rules.ScoreToken.ScoreToken(PossiblePlays[i].Token)) 
+            if (rules.ScoreToken.ScoreToken(res.Token!) < rules.ScoreToken.ScoreToken(PossiblePlays[i].Token!)) 
             {
                 index = i;
                 res = PossiblePlays[i];
@@ -37,7 +37,7 @@ public class GreedyPlayer<T> : IStrategy<T> where T : struct
     }
 }
 
-public class PartnerPlayer<T> : IStrategy<T> where T : struct
+public class PartnerPlayer<T> : IStrategy<T>
 {
     IComparison<T>? comp;
     public int Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules,int id)
@@ -52,7 +52,7 @@ public class PartnerPlayer<T> : IStrategy<T> where T : struct
             {
                 for (int i = 0; i < PossiblePlays.Count; i++)
                 {
-                    if(PossiblePlays[i].Token.Contains(value) && !Mata(value, PossiblePlays[i])) return i;
+                    if(PossiblePlays[i].Token!.Contains(value) && !Mata(value, PossiblePlays[i])) return i;
                 }
             }
         }
@@ -62,7 +62,7 @@ public class PartnerPlayer<T> : IStrategy<T> where T : struct
     public bool Mata (T value, Jugada<T> jugada)
     {
         //busco por los nodos si el valor T está en algún "no padre" retorno true
-        for (int i = 0; i < jugada.Node.Connections.Length; i++)
+        for (int i = 0; i < jugada.Node!.Connections.Length; i++)
         {
             if(!jugada.Node.Fathers.Contains(jugada.Node.Connections[i]!)) continue;
             if(comp!.Compare(jugada.Node.Connections[i]!.ValueToken[i], value)) return true;
@@ -71,7 +71,7 @@ public class PartnerPlayer<T> : IStrategy<T> where T : struct
     }
 
 }
-public class OponentPlayer<T> : IStrategy<T> where T : struct
+public class OponentPlayer<T> : IStrategy<T>
 {
     public int Play(IList<Jugada<T>> PossiblePlays, GameStatus<T> status, InfoRules<T> rules, int id)
     {

@@ -43,7 +43,7 @@ public static class Test
 
         for (int i = 0; i < 4; i++)
         {
-            players[i] = new PurePlayer<int>(i, strategy, strategy);
+            players[i] = new PurePlayer<int>(i, strategy);
         }
 
         // List<InfoPlayer<int>>[] team = new List<InfoPlayer<int>>[4];
