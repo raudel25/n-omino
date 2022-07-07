@@ -18,6 +18,19 @@ public class RandomDealer<T> : IDealer<T>
     public Hand<T> Deal(List<Token<T>> items, int cant)
     {
         Hand<T> res = new();
+
+        if(items.Count == 0) return res;
+
+        if(items.Count <= cant)
+        {
+            foreach (var item in items)
+            {
+                res.Add(item);
+            }
+            items.Clear();
+            return res;
+        }
+
         Random r = new Random();
         int count = 0;
 

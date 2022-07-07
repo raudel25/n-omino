@@ -22,28 +22,31 @@ public static class Test
         }
 
         //Jugadores
-        ITokensMaker<int> maker = new CircularTokensMaker<int>();
+        ITokensMaker<int> maker = new ClassicTokensMaker<int>();
 
-        // List<Token<int>> tokens = maker.MakeTokens(array, 4);
+        // List<Token<int>> tokens = maker.MakeTokens(array, 2);
 
         IDealer<int> dealer = new RandomDealer<int>();
 
-        InfoPlayer<int>[] playersInfo = new InfoPlayer<int>[4];
+        // InfoPlayer<int>[] playersInfo = new InfoPlayer<int>[4];
 
         // for (int i = 0; i < 4; i++)
         // {
-        //     var anabel = dealer.Deal(tokens, 50);
+        //     var anabel = dealer.Deal(tokens, 7);
 
         //     playersInfo[i] = new InfoPlayer<int>(anabel, new History<int>(), 0, i);
         // }
 
-        Player.Player<int>[] players = new Player<int>[4];
+        ICondition<int> cond = new PostRoundCondition<int>(5);
+        ICondition<int> cond1 = new HigherThanScoreHandCondition<int>(10);
+        IStrategy<int> random = new RandomPlayer<int>();
+        IStrategy<int> botagorda = new GreedyPlayer<int>();
 
-        IStrategy<int> strategy = new RandomPlayer<int>();
+        Player.Player<int>[] players = new Player<int>[4];
 
         for (int i = 0; i < 4; i++)
         {
-            players[i] = new PurePlayer<int>(i, strategy);
+            players[i] = new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, random, i);
         }
 
         // List<InfoPlayer<int>>[] team = new List<InfoPlayer<int>>[4];
@@ -58,12 +61,8 @@ public static class Test
         InitializerGame<int> init = new InitializerGame<int>(maker, dealer, table, array, 7);
 
         //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
-        GameStatus<int> game = init.StartGame(new List<(int, int)>() { (0, 0), (1, 1), (2, 2), (3, 3) });
+        GameStatus<int> game = init.StartGame(new List<(int,int)>{(0,0),(1,1), (2,2), (3,3)});
 
-        IValidPlay<int> valid = new ValidPlayGeometry<int>(new GcdComparison(1));
-        IValidPlay<int> valid3 = new ValidPlayGeometry<int>(new ClassicComparison<int>());
-        IValidPlay<int> valid2 = new ValidPlayGeometry<int>(new ComodinComparison(0));
-        IValidPlay<int> valid4 = new ValidPlayGeometry<int>(new HighNumberComparison(4));
         IValidPlay<int> valid5 = new ValidPlayDimension<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();
         IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
@@ -72,7 +71,6 @@ public static class Test
         IWinnerGame<int> winnerGameTranque = new WinnerGameSmall<int>();
         IVisibilityPlayer<int> visibilityPlayer = new ClassicVisibilityPlayer<int>();
         IStealToken<int> steal = new NoStealToken<int>();
-        IStealToken<int> stealToken = new ClassicStealToken<int>();
         IAssignScoreToken<int> scoreToken = new AssignScoreTokenClassic();
 
         ICondition<int> conditionWin = new ClassicWin<int>();

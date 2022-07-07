@@ -117,7 +117,7 @@ public class Judge<T>
     }
 
     /// <summary>
-    /// Determinar la jugada del jugador
+    /// Determinar la Move del jugador
     /// </summary>
     /// <param name="copy">Copia del juego</param>
     /// <param name="copyRules">Copia de las reglas</param>
@@ -131,7 +131,7 @@ public class Judge<T>
         {
             this._infoGame.ImmediatePass = false;
 
-            Jugada<T> jugada = _players[ind].Play(copy, copyRules, indTable);
+            Move<T> jugada = _players[ind].Play(copy, copyRules, indTable);
 
             INode<T> aux = this._infoGame.Table.TableNode[jugada.Node!.Id];
 
@@ -147,12 +147,11 @@ public class Judge<T>
         }
         else
         {
-            HistoryPlayer(new Jugada<T>(null, null, -1), ind);
+            HistoryPlayer(new Move<T>(null,null,-1),ind);
             GuiJudge(null, ind);
         }
     }
-
-    private void HistoryPlayer(Jugada<T> play, int ind)
+    private void HistoryPlayer(Move<T> play,int ind)
     {
         this._infoGame.Players[ind].History.Add(play);
     }
@@ -176,7 +175,7 @@ public class Judge<T>
     }
 
     /// <summary>
-    /// Determinar las reglas antes de ejecutar la jugada
+    /// Determinar las reglas antes de ejecutar la Move
     /// </summary>
     /// <param name="copy">Estado conado del juego</param>
     /// <param name="indTable">Indice del jugador relativo a la mesa</param>
@@ -202,7 +201,7 @@ public class Judge<T>
     }
 
     /// <summary>
-    /// Determinar las reglas despues de ejecutar la jugada
+    /// Determinar las reglas despues de ejecutar la Move
     /// </summary>
     /// <param name="indTable">Indice del jugador relativo a la mesa</param>
     private void PostPlay(int indTable)

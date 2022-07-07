@@ -164,3 +164,33 @@ public class SecondRoundTournament<T> : ICondition<T>
         return tournament.Index > 0;
     }
 }
+
+public class HigherThanScoreHandCondition<T> : ICondition<T>
+{
+    int MinScore { get; }
+    public HigherThanScoreHandCondition(int n)
+    {
+        MinScore = n;
+    }
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind)
+    {
+        int sum = 0;
+        foreach (var item in game.Players[ind].Hand!)
+            sum += rules.ScoreToken.ScoreToken(item);
+
+        return sum > MinScore;
+    }
+}
+
+public class PostRoundCondition<T> : ICondition<T>
+{
+    int MinRound { get; }
+    public PostRoundCondition(int n)
+    {
+        MinRound = n;
+    }
+    public bool RunRule(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind)
+    {
+        return game.Round > MinRound;
+    }
+}
