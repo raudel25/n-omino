@@ -25,7 +25,7 @@ public class ValidPlayDimension<T> : IValidPlay<T>
     /// <summary>
     /// Criterio para comparar los valores de las fichas
     /// </summary>
-    private IComparison<T> _comparison;
+    public readonly IComparison<T> _comparison;
 
     public ValidPlayDimension(IComparison<T> comp)
     {
@@ -85,7 +85,7 @@ public class ValidPlayDimension<T> : IValidPlay<T>
 
 public class ValidPlayGeometry<T> : IValidPlay<T>
 {
-    private IComparison<T> _comparison;
+    public readonly IComparison<T> _comparison;
 
     public ValidPlayGeometry(IComparison<T> comp)
     {

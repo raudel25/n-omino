@@ -4,10 +4,15 @@ namespace InfoGame;
 
 public class GameStatus<T>
 {
-    public List<InfoPlayer<T>> Players;
-    public List<InfoTeams<InfoPlayer<T>>> Teams;
-    public TableGame<T> Table;
+    public List<InfoPlayer<T>> Players { get; set; }
+    public List<InfoTeams<InfoPlayer<T>>> Teams { get; set;}
+    public TableGame<T> Table { get; set; }
     public int[] Turns { get; set; }
+    
+    //public T[] values { get; set; }
+
+    //cantidad de rondas que lleva el juego
+    public int Round { get; set; }
 
     //Lista de fichas fuera de la mesa
     public List<Token<T>>? TokensTable { get; set; }

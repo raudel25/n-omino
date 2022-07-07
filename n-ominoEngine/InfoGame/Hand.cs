@@ -66,4 +66,14 @@ public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>>
     {
         return this.Clone();
     }
+
+    public int HowManyTokensContains(T value)
+    {
+        int cont = 0;
+        foreach (var token in this)
+        {
+            if(token.Contains(value)) cont++;
+        }
+        return cont;
+    }
 }

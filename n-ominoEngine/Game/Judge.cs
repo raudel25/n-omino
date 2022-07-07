@@ -108,7 +108,7 @@ public class Judge<T>
     }
 
     /// <summary>
-    /// Determinar la jugada del jugador
+    /// Determinar la Move del jugador
     /// </summary>
     /// <param name="play">Si es posible jugar</param>
     /// <param name="ind">Inidice del jugador relativo a la mesa</param>
@@ -117,23 +117,24 @@ public class Judge<T>
         if (play)
         {
             this._infoGame.ImmediatePass = false;
-            Jugada<T> jugada = _players[ind].Play(_infoGame, _judgeRules);
-            if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
-                _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
-                    .ValidPlay(jugada.Node!, jugada.Token!, _infoGame.Table))
+            Move<T> Move = _players[ind].Play(_infoGame, _judgeRules);
+            if (_judgeRules.IsValidPlay[Move.ValidPlay].Item2 &&
+                _judgeRules.IsValidPlay[Move.ValidPlay].Item1
+                    .ValidPlay(Move.Node!, Move.Token!, _infoGame.Table))
             {
-                PlayToken(jugada.ValidPlay, jugada.Node!, jugada.Token!, ind);
-                HistoryPlayer(jugada,ind);
+                PlayToken(Move.ValidPlay, Move.Node!, Move.Token!, ind);
+                Console.WriteLine($"jugador {ind} jugó {Move.Token}");
+                HistoryPlayer(Move,ind);
             }
         }
         else
         {
-            HistoryPlayer(new Jugada<T>(null,null,-1),ind);
+            HistoryPlayer(new Move<T>(null,null,-1),ind);
             GuiJudge(null, ind);
         }
     }
 
-    private void HistoryPlayer(Jugada<T> play,int ind)
+    private void HistoryPlayer(Move<T> play,int ind)
     {
         this._infoGame.Players[ind].History.Add(play);
     }
@@ -157,7 +158,7 @@ public class Judge<T>
     }
     
     /// <summary>
-    /// Determinar las reglas antes de ejecutar la jugada
+    /// Determinar las reglas antes de ejecutar la Move
     /// </summary>
     /// <param name="indTable">Indice del jugador relativo a la mesa</param>
     /// <returns>Si es posible jugar</returns>
@@ -185,7 +186,7 @@ public class Judge<T>
     }
     
     /// <summary>
-    /// Determinar las reglas despues de ejecutar la jugada
+    /// Determinar las reglas despues de ejecutar la Move
     /// </summary>
     /// <param name="indTable">Indice del jugador relativo a la mesa</param>
     private void PostPlay(int indTable)
