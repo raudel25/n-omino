@@ -115,6 +115,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .t7Top {
@@ -133,6 +134,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .t9Top {
@@ -193,6 +195,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .t7Bottom {
@@ -201,6 +204,7 @@ a, .btn-link {
     width: 24px;
     height: 24px;
     background-color: #0dcaf0;
+    align-items: center;
 }
 
 .t8Bottom {
@@ -211,6 +215,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .t9Bottom {
@@ -240,6 +245,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .hexagon3 {
@@ -250,6 +256,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .hexagon4 {
@@ -285,6 +292,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .hexagon8 {
@@ -306,6 +314,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .hexagon10 {
@@ -349,6 +358,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .hexagon15 {
@@ -359,6 +369,7 @@ a, .btn-link {
     height: 24px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 .square{
     display: inline-grid;
@@ -372,6 +383,7 @@ a, .btn-link {
     height: 30px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .square2{
@@ -382,6 +394,7 @@ a, .btn-link {
     height: 30px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .square3{
@@ -392,6 +405,7 @@ a, .btn-link {
     height: 30px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .square4{
@@ -402,6 +416,7 @@ a, .btn-link {
     height: 30px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .DominoH {
@@ -416,6 +431,7 @@ a, .btn-link {
     height: 30px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .DominoH2{
@@ -426,6 +442,7 @@ a, .btn-link {
     height: 30px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .DominoV {
@@ -440,6 +457,7 @@ a, .btn-link {
     height: 45px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .DominoV2{
@@ -450,6 +468,7 @@ a, .btn-link {
     height: 45px;
     background-color: #0dcaf0;
     justify-content: center;
+    align-items: center;
 }
 
 .Point{

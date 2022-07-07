@@ -14,7 +14,7 @@ public class SelectSteal<T>: IVariant<IStealToken<T>, T>
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
         new ParamSelect("No robar", "No esta permitido robar", 0),
-        new ParamSelect("Robar si no se puede jugar", "Se le da a al jugador una ficha aleatoria cuando este no lleva",
+        new ParamSelect("Robar una ficha ramdom", "Se le da a al jugador una ficha aleatoria hasta que tenga posibilidades de jugar",
             1)
     };
 }

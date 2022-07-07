@@ -99,7 +99,6 @@ public class RandomStrategyPlayer<T> : Player<T> where T : struct
     {
         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
         var validMoves = GetValidMoves(myHand, status, rules, ind);
-        Console.WriteLine(validMoves.Count);
 
         List<int> indexes = new();
         for (int i = 0; i < Conditions.Length; i++)

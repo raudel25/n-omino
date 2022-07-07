@@ -85,6 +85,10 @@
 
     private void CreateRule()
     {
+        if (_cantToDeal < 1)
+        {
+            _cantToDeal = 1; return;
+        }
         if (_table.Count != 0 && _dealer.Count != 0 && _maker.Count != 0)
         {
             _visibility = false;
