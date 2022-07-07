@@ -11,6 +11,6 @@ public class SelectPlayer<T> : IVariant<Player<T>, T>
     public string Description => throw new NotImplementedException();
 
     public List<ParamSelect> Param {get; } = new(){
-        new ParamSelect("Jugador Puro", "Juega con una sola estrategia", 0, 0, true, false, true)
+        new ParamSelect("Jugador Puro", "Juega con una sola estrategia", 0, false, true, false, true)
     };
 }

@@ -1,0 +1,53 @@
+@using Game
+@using InteractionGui
+@typeparam T
+
+@if (!_select)
+{
+    <div style="display: flex; justify-content: center;">
+        <h3>Cree un juego</h3>
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        <SelectInitializerGameGui DefaultValue="DefaultValue!" Initializer="_initializer" Printers="_printers" Rules="_rules"></SelectInitializerGameGui>
+    </div>
+
+    if (_initializer.Count == 1)
+    {
+        <SelectRules Rules="_rules" DefaultValue="DefaultValue!"></SelectRules>
+    }
+
+    <div style="height: 10px;">
+    </div>
+    
+    <div style="display: flex; justify-content: center;">
+        <button class="Create" @onclick="CreateGame">Crear Juego</button>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public List<BuildGame<T>>? Game { get; set; }
+
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    private List<InitializerGame<T>> _initializer = new List<InitializerGame<T>>();
+
+    private BuildRules<T> _rules = new BuildRules<T>();
+
+    private List<Printer> _printers = new List<Printer>();
+
+    private bool _select;
+
+    private void CreateGame()
+    {
+        if (_initializer.Count == 1 && _rules.IsReady)
+        {
+            Game!.Add(new BuildGame<T>(_initializer[0], _rules.Build(), _printers[0]));
+            _select = true;
+        }
+    }
+
+}

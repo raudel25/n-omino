@@ -22,8 +22,8 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
     {
         new ParamSelect("Ganar el juego clasico", "Condicion clasica para ganar un jugador", 0),
         new ParamSelect("Ganar el juego clasico (team)", "Condicion clasica para ganar un equipo", 1),
-        new ParamSelect("Cantidad de pases", "Cantidad de pases de un jugador", 2, 0, true),
-        new ParamSelect("Cantidad de pases (team)", "Cantidad de pases de un equipo", 3, 0, true),
+        new ParamSelect("Cantidad de pases", "Cantidad de pases de un jugador", 2, false, true),
+        new ParamSelect("Cantidad de pases (team)", "Cantidad de pases de un equipo", 3, false, true),
         new ParamSelect("Pase inmediato", "Pase inmediato de un jugador", 4),
         new ParamSelect("Tranque clasico (primero en pasarse)", "Ningun jugador tiene jugada valida", 5),
         new ParamSelect("Tranque clasico", "Ningun jugador tiene jugada valida", 6),
@@ -37,7 +37,7 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
             Values.Add(SelectInt);
             Param.Add(new ParamSelect("Suma de los nodos libre",
                 "Se activa cuando la suma de los nodos tiene un valor especifico",
-                7));
+                8,false,false,true));
         }
     }
 

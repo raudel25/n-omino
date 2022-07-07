@@ -14,28 +14,28 @@
         @if (_table.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_table" Cant="1" VariantGui="new SelectTable<T>()"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_table" Cant="1" VariantGui="new SelectTable<T>()" Build="Rules"></SelectVariantGui>
             </div>
         }
 
         @if (_dealer.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_dealer" Cant="1" VariantGui="new SelectDealer<T>()"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_dealer" Cant="1" VariantGui="new SelectDealer<T>()" Build="Rules"></SelectVariantGui>
             </div>
         }
 
         @if (_maker.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_maker" Cant="1" VariantGui="new SelectMaker<T>()"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_maker" Cant="1" VariantGui="new SelectMaker<T>()" Build="Rules"></SelectVariantGui>
             </div>
         }
 
         @if (_generator.Count == 0)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui ValueParam="_generator" Cant="1" VariantGui="new SelectGenerator<T>(DefaultValue!)"></SelectVariantGui>
+                <SelectVariantGui ValueParam="_generator" Cant="1" VariantGui="new SelectGenerator<T>(DefaultValue!)" Build="Rules"></SelectVariantGui>
             </div>
         }
 
@@ -44,7 +44,7 @@
         </div>
 
         <div style="display: flex; justify-content: center;">
-            <input type="number" @bind="_cantToDeal" class="InputSelectToken"/>
+            <input type="number" @bind="_cantToDeal" class="InputSelectValue"/>
 
             <div style="width: 50px"></div>
 
@@ -61,9 +61,15 @@
 
     [Parameter]
     public List<InitializerGame<T>>? Initializer { get; set; }
-    
+
     [Parameter]
     public T? DefaultValue { get; set; }
+    
+    [Parameter]
+    public List<Printer>? Printers { get; set; }
+    
+    [Parameter]
+    public BuildRules<T>? Rules { get; set; }
 
     private List<TableGame<T>> _table = new List<TableGame<T>>();
 
@@ -83,7 +89,39 @@
         {
             _visibility = false;
             Initializer!.Add(new InitializerGame<T>(_maker[0], _dealer[0], _table[0], _generator[0], _cantToDeal));
+            Printers!.Add(Determinate()!);
+            Rules!.Table = _table[0];
         }
     }
 
+    private Printer? Determinate()
+    {
+        if (_table[0] is TableGeometry<T>)
+        {
+            return new PrinterGeometry(1000);
+        }
+        if (_table[0] is TableDimension<T>)
+        {
+            if (_table[0].DimensionToken == 2)
+            {
+                if (DefaultValue is int)
+                {
+                    if(ClassicDomino((_generator[0] as int[])!))
+                    return new PrinterDomino(1000, true);
+                }
+                return new PrinterDomino(1000);
+            }
+        }
+        return null;
+    }
+
+    private bool ClassicDomino(int[] domino)
+    {
+        foreach (var item in domino)
+        {
+            if (item > 9) return false;
+        }
+        
+        return true;
+    }
 }

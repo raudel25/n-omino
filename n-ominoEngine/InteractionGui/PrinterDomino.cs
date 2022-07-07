@@ -14,7 +14,7 @@ public class PrinterDomino : Printer
 
     private bool _classic;
 
-    public PrinterDomino(int speed,bool classic) : base(speed)
+    public PrinterDomino(int speed,bool classic=false) : base(speed)
     {
         this._classic = classic;
     }

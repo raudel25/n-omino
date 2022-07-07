@@ -13,9 +13,11 @@ public class SelectGenerator<T> : IVariant<T[], T>
             Values.Add(SelectInt0_n);
             Values.Add(SelectIntEven);
             Values.Add(SelectIntOdd);
-            Param.Add(new ParamSelect("Del 0 a n", "Genera numeros del 0 a n", 0, 0, true));
-            Param.Add(new ParamSelect("Pares", "Genera numeros pares hasta n", 0, 0, true));
-            Param.Add(new ParamSelect("Impares", "Genera numeros impares hasta n", 0, 0, true));
+            Values.Add(PrimeNumber);
+            Param.Add(new ParamSelect("Del 0 a n", "Genera numeros del 0 a n", 0, false, true));
+            Param.Add(new ParamSelect("Pares", "Genera numeros pares hasta n", 1, false, true));
+            Param.Add(new ParamSelect("Impares", "Genera numeros impares hasta n", 2, false, true));
+            Param.Add(new ParamSelect("Numeros primos", "Genera numeros primos hasta n", 3, false, true));
         }
 
         if (value is char)
@@ -38,10 +40,10 @@ public class SelectGenerator<T> : IVariant<T[], T>
 
     private T[] SelectIntEven(ParamSelectFunction<T> comp)
     {
-        int[] aux = new int[comp.Cant];
-        for (int i = 0; i < comp.Cant * 2; i += 2)
+        int[] aux = new int[comp.Cant/2];
+        for (int i = 0; i < comp.Cant/2; i++)
         {
-            aux[i] = i;
+            aux[i] = 2 * i;
         }
 
         return (aux as T[])!;
@@ -49,13 +51,34 @@ public class SelectGenerator<T> : IVariant<T[], T>
 
     private T[] SelectIntOdd(ParamSelectFunction<T> comp)
     {
-        int[] aux = new int[comp.Cant];
-        for (int i = 1; i < comp.Cant * 2; i += 2)
+        int[] aux = new int[comp.Cant/2];
+        for (int i = 1; i < comp.Cant/2; i++)
         {
-            aux[i] = i;
+            aux[i] = 2 * i + 1;
         }
 
         return (aux as T[])!;
+    }
+
+    private T[] PrimeNumber(ParamSelectFunction<T> comp)
+    {
+        bool[] aux = new bool[comp.Cant];
+        for (int i = 2; i <= comp.Cant; i++)
+        {
+            for (int j = i * i; j <= comp.Cant; j += i)
+            {
+                aux[j - 1] = true;
+            }
+        }
+
+        List<int> generator = new List<int>();
+
+        for (int i = 1; i < comp.Cant; i++)
+        {
+            if (!aux[i]) generator.Add(i + 1);
+        }
+
+        return (generator.ToArray() as T[])!;
     }
 
     private T[] SelectLetter(ParamSelectFunction<T> comp)

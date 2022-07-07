@@ -1,0 +1,122 @@
+@using Table
+@using InteractionGui
+@typeparam T
+
+@if (_visibility)
+{
+    <div class="HeadSelect">
+        <label>Seleccione un ficha</label>
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        @if (DefaultValue is int)
+        {
+            foreach (var item in _items)
+            {
+                if (item == 0)
+                {
+                    if (DefaultValue is int)
+                    {
+                        <input type="number" @bind="_numbers[item]" class="SelectTokenL"/>   
+                    }
+                    if (DefaultValue is string || DefaultValue is char)
+                    {
+                        <input @bind="_text[item]" class="SelectTokenL"/>
+                    }
+                }
+                if (item == _items.Length - 1)
+                {
+                    if (DefaultValue is int)
+                    {
+                        <input type="number" @bind="_numbers[item]" class="SelectTokenR"/>
+                    }
+                    if (DefaultValue is string || DefaultValue is char)
+                    {
+                        <input @bind="_text[item]" class="SelectTokenR"/>
+                    }
+                }
+                if (item > 0 && item < _items.Length - 1)
+                {
+                    if (DefaultValue is int)
+                    {
+                        <input type="number" @bind="_numbers[item]" class="SelectToken"/>
+                    }
+                    if (DefaultValue is string || DefaultValue is char)
+                    {
+                        <input @bind="_text[item]" class="SelectToken"/>
+                    }
+                }
+            }
+        }
+    </div>
+    
+    <div style="height: 5px;">
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        <button @onclick="CreateRule" class="ButtonSelectHeadB">Crear</button>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    [Parameter]
+    public List<Token<T>>? Tokens { get; set; }
+
+    [Parameter]
+    public BuildRules<T>? Build
+    {
+        get { return _build; }
+        set
+        {
+            _build = value;
+            _numbers = new int[_build!.Table!.DimensionToken];
+            _text = new string[_build!.Table!.DimensionToken];
+            _items = new int[_build!.Table!.DimensionToken];
+            for (int i = 0; i < _numbers.Length; i++) _items[i] = i;
+        }
+    }
+
+    private BuildRules<T>? _build;
+
+    private int[] _numbers = Array.Empty<int>();
+
+    private int[] _items = Array.Empty<int>();
+
+    private string[] _text = Array.Empty<string>();
+
+    private bool _visibility = true;
+
+    private void CreateRule()
+    {
+        if (DefaultValue is int)
+        {
+            Token<int> token = new Token<int>(_numbers);
+            Tokens!.Add((token as Token<T>)!);
+        }
+        if (DefaultValue is string)
+        {
+            Token<string> token = new Token<string>(_text);
+            Tokens!.Add((token as Token<T>)!);
+        }
+        if (DefaultValue is char)
+        {
+            char[] aux = new char[_text.Length];
+            
+            for (int i = 0; i < aux.Length; i++)
+            {
+                if(_text[i].Length==0) return;
+                aux[i] = _text[i][0];
+            }
+
+            Token<char> token = new Token<char>(aux);
+            Tokens!.Add((token as Token<T>)!);
+        }
+
+        _visibility = false;
+    }
+
+}

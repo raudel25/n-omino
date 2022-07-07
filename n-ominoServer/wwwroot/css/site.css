@@ -553,10 +553,50 @@ a, .btn-link {
     border-radius: 5px;
 }
 
-.InputSelectToken{
+.InputSelectValue{
     width: 100px;
     border-radius: 10px;
     height: 30px;
     border: groove 2px;
     outline: none;
+}
+
+.Create{
+    width: 200px;
+    border-radius: 10px;
+    border: groove 2px;
+}
+
+.SelectToken{
+    width: 50px;
+    height: 30px;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-left: groove 1px;
+    border-right: groove 1px;
+    outline: none;
+}
+
+.SelectTokenL{
+    width: 50px;
+    height: 30px;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-left: groove 2px;
+    border-right: groove 1px;
+    outline: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.SelectTokenR{
+    width: 50px;
+    height: 30px;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-left: groove 1px;
+    border-right: groove 2px;
+    outline: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }

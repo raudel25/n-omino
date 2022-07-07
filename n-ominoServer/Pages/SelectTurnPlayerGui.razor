@@ -6,7 +6,7 @@
 {
     <div class="SelectRule">
         <div class="HeadSelect">
-            <h5>Seleccioncionar la forma de robar</h5>
+            <h5>Seleccionar la forma de repartir los turnos</h5>
         </div>
 
         <div style="display: flex; justify-content: center;">
@@ -25,7 +25,7 @@
         @if (_selectValue)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="_cant + 1" ValueParam="_valuesRule" VariantGui="new SelectSteal<T>()" Build="Build"></SelectVariantGui>
+                <SelectVariantGui Cant="_cant+1" ValueParam="_valuesRule" VariantGui="new SelectTurnPlayer<T>()" Build="Build"></SelectVariantGui>
             </div>
 
             <div style="display: flex; justify-content: center;">
@@ -47,7 +47,7 @@
 
     [Parameter]
     public BuildRules<T>? Build { get; set; }
-
+    
     [Parameter]
     public T? DefaultValue { get; set; }
 
@@ -55,7 +55,7 @@
 
     private bool _selectValue = false;
 
-    private List<IStealToken<T>> _valuesRule = new List<IStealToken<T>>();
+    private List<ITurnPlayer> _valuesRule = new List<ITurnPlayer>();
 
     private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
 
@@ -68,9 +68,11 @@
 
     private void CreateRule()
     {
-        if (_valuesRule.Count == _cant + 1 && _valuesCondition.Count == _cant)
+        if(_cant < 0) return;
+        
+        if (_valuesRule.Count == _cant+1 && _valuesCondition.Count == _cant)
         {
-            Build!.StealTokens = new StealTokenRule<T>(_valuesRule.Take(_valuesRule.Count - 2), _valuesCondition, _valuesRule[_valuesRule.Count - 1]);
+            Build!.TurnPlayer = new TurnPlayerRule<T>(_valuesRule.Take(_valuesRule.Count-1), _valuesCondition, _valuesRule[_valuesRule.Count-1]);
             _vilibility = false;
         }
     }
