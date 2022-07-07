@@ -54,11 +54,13 @@ public class Judge<T>
         {
             if (i == this._infoGame.Turns.Length) i = 0;
 
-            bool play = PrePlay(i);
+            //Clonar el estado del juego
+            GameStatus<T> copy = this._infoGame.Clone();
+            InfoRules<T> rulesCopy = this._judgeRules.Clone();
 
-            // DeterminateNoValidPlay(play, ref noValid, ref lastPlayerPass, i);
+            bool play = PrePlay(copy, i);
 
-            PlayPlayer(play, this._infoGame.Turns[i]);
+            PlayPlayer(play, copy, rulesCopy, i);
 
             //Determinar si es posible pasarse con fichas
             //this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -98,7 +100,10 @@ public class Judge<T>
 
         if (this._infoGame.TokenStart != null)
         {
-            PrePlay(ind);
+            //Clonar el estado del juego
+            GameStatus<T> copy = this._infoGame.Clone();
+
+            PrePlay(copy, ind);
 
             PlayToken(this._judgeRules.IsValidPlay.CantValid - 1, this._infoGame.Table.TableNode[0],
                 this._infoGame.TokenStart, ind);
@@ -114,19 +119,29 @@ public class Judge<T>
     /// <summary>
     /// Determinar la jugada del jugador
     /// </summary>
+    /// <param name="copy">Copia del juego</param>
+    /// <param name="copyRules">Copia de las reglas</param>
     /// <param name="play">Si es posible jugar</param>
-    /// <param name="ind">Inidice del jugador relativo a la mesa</param>
-    private void PlayPlayer(bool play, int ind)
+    /// <param name="indTable">Inidice del jugador relativo a la mesa</param>
+    private void PlayPlayer(bool play, GameStatus<T> copy, InfoRules<T> copyRules, int indTable)
     {
+        int ind = this._infoGame.Turns[indTable];
+
         if (play)
         {
             this._infoGame.ImmediatePass = false;
-            Jugada<T> jugada = _players[ind].Play(_infoGame, _judgeRules);
+
+            Jugada<T> jugada = _players[ind].Play(copy, copyRules, indTable);
+
+            INode<T> aux = this._infoGame.Table.TableNode[jugada.Node!.Id];
+
+            //Determinar si el player juega correctamente
             if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
                 _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
-                    .ValidPlay(jugada.Node!, jugada.Token!, _infoGame.Table))
+                    .ValidPlay(aux, jugada.Token!, _infoGame.Table) &&
+                this._infoGame.Players[ind].Hand.Contains(jugada.Token!))
             {
-                PlayToken(jugada.ValidPlay, jugada.Node!, jugada.Token!, ind);
+                PlayToken(jugada.ValidPlay, aux, jugada.Token!, this._infoGame.Turns[indTable]);
                 HistoryPlayer(jugada, ind);
             }
         }
@@ -155,7 +170,7 @@ public class Judge<T>
             .AssignValues(node, token, _infoGame.Table);
 
         _infoGame.Table.PlayTable(node, token, aux);
-        _infoGame.Players[ind].Hand!.Remove(token);
+        _infoGame.Players[ind].Hand.Remove(token);
 
         GuiJudge(token, ind);
     }
@@ -163,18 +178,16 @@ public class Judge<T>
     /// <summary>
     /// Determinar las reglas antes de ejecutar la jugada
     /// </summary>
+    /// <param name="copy">Estado conado del juego</param>
     /// <param name="indTable">Indice del jugador relativo a la mesa</param>
     /// <returns>Si es posible jugar</returns>
-    private bool PrePlay(int indTable)
+    private bool PrePlay(GameStatus<T> copy, int indTable)
     {
-        //Clonar el estado del juego
-        GameStatus<T> copy = this._infoGame.Clone();
-
         InfoPlayer<T> player = this._infoGame.Players[this._infoGame.Turns[indTable]];
 
         //Determinar si es posible jugar
         this._judgeRules.IsValidPlay.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, indTable);
-        bool play = this._judgeRules.IsValidPlay.ValidPlayPlayer(player.Hand!, _infoGame.Table);
+        bool play = this._judgeRules.IsValidPlay.ValidPlayPlayer(player.Hand, _infoGame.Table);
 
         this._infoGame.ImmediatePass = !play;
 

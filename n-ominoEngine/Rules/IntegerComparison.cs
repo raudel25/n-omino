@@ -91,7 +91,7 @@ public class GcdComparison : IComparison<int>
         return GCD(a, b) == this._gcd;
     }
 
-    private int GCD(int m, int n)
+    public static int GCD(int m, int n)
     {
         int a = Math.Max(m, n);
         int b = Math.Min(m, n);

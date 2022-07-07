@@ -4,7 +4,7 @@
 @typeparam T1
 @typeparam T2
 
-@if (Cant != 0)
+@if (Cant != ValueParam!.Count)
 {
     <div class="Select">
         <div class="HeadSelect">
@@ -20,7 +20,7 @@
                     }
                 </InputSelect>
             </EditForm>
-            @if (Cant == 1)
+            @if (Cant - ValueParam!.Count == 1)
             {
                 <button @onclick="Next" class="ButtonSelect">Terminar</button>
             }
@@ -154,7 +154,6 @@
             
             _comparisons = new();
             _tokens = new List<Token<T2>>();
-            Cant--;
         }
     }
 

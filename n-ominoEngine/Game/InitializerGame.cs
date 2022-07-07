@@ -63,10 +63,12 @@ public class InitializerGame<T>
                 teamGame.Add(new InfoTeams<InfoPlayer<T>>(item.Item1));
                 teamId = item.Item1;
             }
-
+            
             var hand = this._dealer.Deal(tokens, this._cantTokenToDeal);
             var aux = new InfoPlayer<T>(hand, new History<T>(), 0, item.Item2);
+            
             playersInfo.Add(aux);
+            teamGame[teamGame.Count-1].Add(aux);
         }
 
         return new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), new[] {0, 1, 2, 3}, tokens);

@@ -32,7 +32,7 @@ Welcome to your new app.
 
     private Judge<int> _judge;
 
-    private Player.Player<int>[] _players = new[] {new PurePlayer<int>(0, new RandomPlayer<int>()), new PurePlayer<int>(1, new RandomPlayer<int>()),
-        new PurePlayer<int>(2, new RandomPlayer<int>()), new PurePlayer<int>(3, new RandomPlayer<int>())};
+    private Player.Player<int>[] _players = new[] {new PurePlayer<int>(0, new GreedyPlayer<int>()), new PurePlayer<int>(1, new GreedyPlayer<int>()),
+        new PurePlayer<int>(2, new GreedyPlayer<int>()), new PurePlayer<int>(3, new GreedyPlayer<int>())};
     
 }
