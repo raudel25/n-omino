@@ -17,9 +17,6 @@ public class GameStatus<T>
     //Lista de fichas fuera de la mesa
     public List<Token<T>>? TokensTable { get; set; }
 
-    //Determinar si no se puede realizar una jugada valida por cada uno de los jugadores init false
-    public bool NoValidPlay { get; set; }
-
     //Determinar cuando se hizo un pase inmediatamente init false
     public bool ImmediatePass { get; set; }
 

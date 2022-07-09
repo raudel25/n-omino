@@ -30,7 +30,7 @@ Welcome to your new app.
 
     private List<BuildGame<int>> game =new List<BuildGame<int>>();
 
-    private Judge<int> _judge;
+    private Judge<int> _judge = Test.Game();
 
     private Player.Player<int>[] _players = new[] {new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, new GreedyPlayer<int>(),0), 
         new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, new GreedyPlayer<int>(),1),

@@ -519,6 +519,7 @@ a, .btn-link {
     border-top: groove 2px;
     border-bottom: groove 2px;
     border-right: groove 0;
+    background-color: white;
     outline: none;
 }
 .ButtonSelect{
@@ -529,6 +530,7 @@ a, .btn-link {
     border-top: groove 2px;
     border-bottom: groove 2px;
     border-right: groove 2px;
+    background-color: white;
     outline: none;
 }
 
@@ -554,6 +556,7 @@ a, .btn-link {
     border-top: groove 2px;
     border-bottom: groove 2px;
     border-right: groove 2px;
+    background-color: white;
     outline: none;
 }
 
@@ -563,13 +566,15 @@ a, .btn-link {
     border-radius: 10px;
     height: 30px;
     border: groove 2px;
+    background-color: white;
     outline: none;
 }
 
 .SelectRule{
-    width: 410px;
+    width: 420px;
     border: groove 2px;
     border-radius: 5px;
+    background-color: white;
 }
 
 .InputSelectValue{
@@ -584,6 +589,7 @@ a, .btn-link {
     width: 200px;
     border-radius: 10px;
     border: groove 2px;
+    background-color: white;
 }
 
 .SelectToken{

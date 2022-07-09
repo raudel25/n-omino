@@ -20,7 +20,7 @@ public class ClassicWin<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game,InfoRules<T> rules,int ind)
     {
-        return game.Players[game.Turns[ind]].Hand!.Count == 0;
+        return game.Players[game.Turns[ind]].Hand.Count == 0;
     }
 }
 
@@ -33,7 +33,7 @@ public class ClassicTeamWin<T> : ICondition<T>
         {
             for (int j = 0; j < game.Teams[i].Count; j++)
             {
-                if (game.Teams[game.Turns[i]][j].Hand!.Count != 0) win = false;
+                if (game.Teams[game.Turns[i]][j].Hand.Count != 0) win = false;
             }
         }
 
@@ -125,7 +125,7 @@ public class NoValidPlay<T> : ICondition<T>
     {
         foreach (var player in game.Players)
         {
-            if (rules.IsValidPlay.ValidPlayPlayer(player.Hand!, game.Table)) return false;
+            if (rules.IsValidPlay.ValidPlayPlayer(player.Hand, game, ind)) return false;
         }
 
         return true;

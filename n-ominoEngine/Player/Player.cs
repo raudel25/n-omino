@@ -45,7 +45,7 @@ public abstract class Player<T>
         {
             foreach (var token in myHand)
             {
-                var ValidMoves = rules.IsValidPlay.ValidPlays(freNode, token, status.Table);
+                var ValidMoves = rules.IsValidPlay.ValidPlays(freNode, token, status, ind);
                 foreach (var move in ValidMoves)
                     res.Add(new Move<T>(token, freNode, move));
             }

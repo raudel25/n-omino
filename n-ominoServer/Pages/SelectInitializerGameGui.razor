@@ -110,9 +110,14 @@
             {
                 if (DefaultValue is int)
                 {
-                    if(ClassicDomino((_generator[0] as int[])!))
-                    return new PrinterDomino(1000, true);
+                    bool classic = ClassicDomino((_generator[0] as int[])!);
+
+                    if (_table[0] is TableLongana<int>) return new PrinterLongana(1000, classic);
+                        
+                    return new PrinterDomino(1000, classic);
                 }
+                if (_table[0] is TableLongana<T>) return new PrinterLongana(1000);
+                
                 return new PrinterDomino(1000);
             }
         }
