@@ -14,8 +14,8 @@ public static class Test
         // TableGeometry<int> table = new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) });
         // TableGeometry<int> table = new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2), (3, 1), (2, 0) });
         // TableGame<int> table = new TableTriangular<int>(new[] { (0, 0), (1, 1), (2, 0) });
-        // TableDimension<int> table = new TableDimension<int>(2);
-        TableLongana<int> table = new TableLongana<int>(2);
+        TableDimension<int> table = new TableDimension<int>(2);
+        // TableLongana<int> table = new TableLongana<int>(2);
         int[] array = new int[7];
         for (int i = 0; i < 7; i++)
         {
@@ -64,7 +64,7 @@ public static class Test
         //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
         GameStatus<int> game = init.StartGame(new List<(int, int)> { (0, 0), (1, 1), (2, 2) });
 
-        IValidPlay<int> valid5 = new ValidPlayLongana<int>(new ClassicComparison<int>());
+        IValidPlay<int> valid5 = new ValidPlayDimension<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();
         IAssignScorePlayer<int> scorePlayer = new AssignScoreClassic<int>();
         IAssignScorePlayer<int> scorePlayerNo = new AssignScoreHands<int>();
@@ -102,12 +102,13 @@ public static class Test
         //IBeginGame<int> beginGame = new BeginGameToken<int>(new Token<int>(new[] { 6, 6 }));
 
         IBeginGame<int> beginGame = new BeginGameRandom<int>();
-        
+
         BeginGameRule<int> beginGameRule = new BeginGameRule<int>(new[] { beginGame }, new[] { condition }, beginGame);
 
         // Printer print = new PrinterGeometry(1000);
-        // Printer print = new PrinterDomino(1000, true);
-        Printer print = new PrinterLongana(1000, true);
+        Printer print = new PrinterDomino(1000, true);
+        //Printer print = new PrinterLongana(1000, true);
+        // Printer print = new PrinterDimension(1000);
 
         ToPassTokenRule<int> qwe = new ToPassTokenRule<int>(new[] { new NoToPassToken() }, new[] { new ConditionDefault<int>() }, new NoToPassToken());
 

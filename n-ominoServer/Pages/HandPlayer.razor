@@ -8,7 +8,7 @@
 
 <div style="display: grid; height: 160px; width: 100%; 
             border: solid #1c1f23 2px; border-radius: 10px;">
-    
+
     <div style="display: grid; grid-column: 1; height: 158px; width: 150px; border-right: solid #1c1f23 2px; ">
 
         <div style="grid-row: 1; display: flex; justify-content: center; height: 25px;">
@@ -17,18 +17,18 @@
 
         @if (Play != null)
         {
-            <div @ondblclick="() => Rotate(Play)" style="grid-row: 2;">
+            <div @ondblclick="() => Rotate(Play)" style="grid-row: 2; overflow: auto;">
                 <div style="display: flex; justify-content: center;">
                     <TokenTypes Location="Play"></TokenTypes>
                 </div>
-                
+
             </div>
         }
-        
+
     </div>
 
     <div style=" grid-column:2; width: 1000px; ">
-        
+
         <div style="overflow: auto; height: 135px; margin: 2px;">
 
             <div style="display: grid; grid-column-gap:3px; grid-row-gap: 3px;">
@@ -51,7 +51,7 @@
 
     <div style="grid-column: 3;height: 158px; width: 150px; border-left: solid #1c1f23 2px; display: grid">
         <div style="grid-row: 1; grid-column-start: 1; grid-column-end: 4;">
-            
+
         </div>
         <div style="grid-row: 2; grid-column: 2; display: flex; justify-content: center">
             <div>

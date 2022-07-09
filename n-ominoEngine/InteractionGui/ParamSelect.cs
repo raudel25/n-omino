@@ -37,11 +37,11 @@ public class ParamSelect
     public bool Comparison { get; private set; }
 
     public bool Strategy { get; private set; }
-    
+
     public bool Token { get; private set; }
 
     public ParamSelect(string name, string description, int ind, bool valueForParam = false, bool cant = false,
-        bool comparison = false, bool strategy = false, bool token=false)
+        bool comparison = false, bool strategy = false, bool token = false)
     {
         this.Name = name;
         this.Index = ind;
@@ -67,5 +67,4 @@ public class ParamSelectFunction<T>
     public int n { get; set; }
 
     public IStrategy<T> Strategy { get; set; }
-    
 }

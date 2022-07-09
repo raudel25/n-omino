@@ -625,3 +625,10 @@ a, .btn-link {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+
+.NDimension{
+    width: 30px; height: 30px; background-color: #0dcaf0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
