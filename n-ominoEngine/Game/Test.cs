@@ -3,7 +3,6 @@ using InfoGame;
 using Table;
 using Player;
 using Rules;
-using InteractionGui;
 
 namespace Game;
 
@@ -43,11 +42,11 @@ public static class Test
         IStrategy<int> random = new RandomPlayer<int>();
         IStrategy<int> botagorda = new GreedyPlayer<int>();
 
-        Player.Player<int>[] players = new Player<int>[4];
+        List<Player.Player<int>> players = new List<Player<int>>();
 
         for (int i = 0; i < 4; i++)
         {
-            players[i] = new RandomStrategyPlayer<int>(new IStrategy<int>[] { }, new ICondition<int>[] { }, random, i);
+            players.Add(new RandomStrategyPlayer<int>(new IStrategy<int>[] { }, new ICondition<int>[] { }, random, i));
         }
 
         // List<InfoPlayer<int>>[] team = new List<InfoPlayer<int>>[4];
@@ -62,7 +61,7 @@ public static class Test
         InitializerGame<int> init = new InitializerGame<int>(maker, dealer, table, array, 7);
 
         //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
-        GameStatus<int> game = init.StartGame(new List<(int, int)> { (0, 0), (1, 1), (2, 2) });
+        GameStatus<int> game = init.StartGame(new List<(int, int)> { (0, 0), (1, 1), (0, 2),(1,3) });
 
         IValidPlay<int> valid5 = new ValidPlayDimension<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();

@@ -1,5 +1,4 @@
 using Rules;
-using InteractionGui;
 
 namespace Game;
 

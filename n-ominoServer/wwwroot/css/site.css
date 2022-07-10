@@ -632,3 +632,23 @@ a, .btn-link {
     justify-content: center;
     align-items: center;
 }
+
+.PreGame{
+    width: 200px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: groove 0;
+    border-top: groove 2px;
+    border-bottom: groove 2px;
+    border-right: groove 2px;
+    background-color: white;
+    outline: none;
+}
+
+.InputSelectPreGame{
+    width: 250px; height: 30px;
+    border-radius: 5px;
+    border: groove 2px;
+    background-color: white;
+    outline: none;
+}

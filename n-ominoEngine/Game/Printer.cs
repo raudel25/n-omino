@@ -1,7 +1,7 @@
 using Table;
 using InfoGame;
 
-namespace InteractionGui;
+namespace Game;
 
 public abstract class Printer
 {
@@ -36,7 +36,7 @@ public abstract class Printer
     public delegate void BindLocationHand(IEnumerable<LocationGui> location, LocationGui? play, string action,
         InfoPlayerGui player);
 
-    public delegate void BindWinner(string winner);
+    public delegate void BindMessage(string winner);
 
     /// <summary>
     /// Bindiar el tablero logico con el front-end
@@ -48,11 +48,11 @@ public abstract class Printer
     /// </summary>
     public static event BindLocationHand? BindHandEvent;
 
-    public static event BindWinner? BindWinnerEvent;
+    public static event BindMessage? BindMessageEvent;
 
-    public static void ExecuteWinnerEvent(string winner)
+    public static void ExecuteMessageEvent(string message)
     {
-        BindWinnerEvent!(winner);
+        BindMessageEvent!(message);
     }
 
     public static void ExecuteTableEvent(IEnumerable<LocationGui> location)

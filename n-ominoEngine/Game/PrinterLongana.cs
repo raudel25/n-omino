@@ -1,6 +1,6 @@
 using Table;
 
-namespace InteractionGui;
+namespace Game;
 
 public class PrinterLongana : PrinterDomino
 {

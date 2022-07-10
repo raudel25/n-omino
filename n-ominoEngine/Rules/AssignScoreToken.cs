@@ -67,7 +67,7 @@ public class AssignScoreTokenLetter : IAssignScoreToken<char>
         int sum = 0;
         foreach (var item in token)
         {
-            sum += (int) item;
+            sum += 1000 - item;
         }
 
         return sum;

@@ -2,7 +2,6 @@ using InfoGame;
 using Table;
 using Rules;
 using Player;
-using InteractionGui;
 
 namespace Game;
 
@@ -11,7 +10,7 @@ public class Judge<T>
     /// <summary>
     /// Jugadores
     /// </summary>
-    private Player<T>[] _players;
+    private List<Player<T>> _players;
 
     /// <summary>
     /// Reglas del juego
@@ -33,7 +32,7 @@ public class Judge<T>
     /// </summary>
     private TournamentStatus _tournament;
 
-    public Judge(TournamentStatus tournament, InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players,
+    public Judge(TournamentStatus tournament, InfoRules<T> infoRules, GameStatus<T> infoGame, List<Player<T>> players,
         Printer print)
     {
         this._judgeRules = infoRules;
@@ -47,7 +46,7 @@ public class Judge<T>
 
     public void Game()
     {
-        Printer.ExecuteWinnerEvent("");
+        //Printer.ExecuteWinnerEvent("");
 
         int i = StartGame();
 
@@ -73,7 +72,7 @@ public class Judge<T>
             i++;
         }
 
-        Printer.ExecuteWinnerEvent("El jugador " + this._infoGame.PlayerWinner + " ha ganado");
+        Printer.ExecuteMessageEvent("El jugador " + this._infoGame.PlayerWinner + " ha ganado");
     }
 
     /// <summary>
@@ -83,6 +82,7 @@ public class Judge<T>
     /// <param name="ind">Indice del jugador respecto al turno</param>
     private void GuiJudge(Token<T>? play, int ind)
     {
+        Printer.ExecuteMessageEvent("");
         this._print.LocationTable(_infoGame.Table);
         this._print.LocationHand(_infoGame.Players[ind], play, _infoGame.Table);
     }

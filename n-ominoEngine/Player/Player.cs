@@ -89,7 +89,7 @@ public class EvaluatePlayer<T> : Player<T>
     }
 }
 
-public class RandomStrategyPlayer<T> : Player<T> where T : struct 
+public class RandomStrategyPlayer<T> : Player<T>
 {
     public RandomStrategyPlayer(IEnumerable<IStrategy<T>> strategies, 
                             IEnumerable<ICondition<T>> conditions, 
