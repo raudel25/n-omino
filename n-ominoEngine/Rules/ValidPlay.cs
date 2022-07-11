@@ -213,3 +213,37 @@ public class ValidPlayLongana<T> : IValidPlay<T>
         return this._valid.AssignValues(node, token, table);
     }
 }
+
+public class ValidPlayLonganaComplement<T> : IValidPlay<T>
+{
+    /// <summary>
+    /// Criterior valido para comparar
+    /// </summary>
+    private IValidPlay<T> _valid;
+
+    public ValidPlayLonganaComplement(IComparison<T> comp)
+    {
+        this._valid = new ValidPlayDimension<T>(comp);
+    }
+
+    public bool ValidPlay(INode<T> node, Token<T> token, GameStatus<T> game, int ind)
+    {
+        TableLongana<T>? tableLongana = game.Table as TableLongana<T>;
+
+        if (tableLongana == null) return false;
+
+        ind = (ind == 0) ? game.Turns.Length - 1 : ind - 1;
+
+        if (tableLongana.BranchNode[node] == game.Turns[ind])
+        {
+            return this._valid.ValidPlay(node, token, game, ind);
+        }
+
+        return false;
+    }
+
+    public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table)
+    {
+        return this._valid.AssignValues(node, token, table);
+    }
+}

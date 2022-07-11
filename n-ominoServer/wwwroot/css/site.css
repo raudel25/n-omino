@@ -57,7 +57,7 @@ a, .btn-link {
 .blazor-error-boundary {
     background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
     padding: 1rem 1rem 1rem 3.7rem;
-    color: white;
+    color: wheat;
 }
 
 .blazor-error-boundary::after {
@@ -73,14 +73,14 @@ a, .btn-link {
     grid-column: 3;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-bottom: 24px solid #0dcaf0;
+    border-bottom: 24px solid wheat;
 }
 
 .t2Top {
     grid-row: 2;
     grid-column: 2;
     border-left: 24px solid transparent;
-    border-bottom: 42px solid #0dcaf0;;
+    border-bottom: 42px solid wheat;;
 }
 
 .t3Top {
@@ -89,7 +89,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 42px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
 }
 
@@ -97,14 +97,14 @@ a, .btn-link {
     grid-row: 2;
     grid-column: 4;
     border-right: 24px solid transparent;
-    border-bottom: 42px solid #0dcaf0;;
+    border-bottom: 42px solid wheat;;
 }
 
 .t5Top {
     grid-row: 3;
     grid-column: 1;
     border-left: 14px solid transparent;
-    border-bottom: 24px solid #0dcaf0;
+    border-bottom: 24px solid wheat;
 }
 
 .t6Top {
@@ -113,7 +113,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -123,7 +123,7 @@ a, .btn-link {
     grid-row: 3;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
 }
 
 .t8Top {
@@ -132,7 +132,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -141,26 +141,26 @@ a, .btn-link {
     grid-row: 3;
     grid-column: 5;
     border-right: 14px solid transparent;
-    border-bottom: 24px solid #0dcaf0;
+    border-bottom: 24px solid wheat;
 }
 
 .triangleBottom {
     display: inline-grid;
 }
 
-.t1Bottom{
+.t1Bottom {
     grid-row: 3;
     grid-column: 3;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-top: 24px solid #0dcaf0;
+    border-top: 24px solid wheat;
 }
 
 .t2Bottom {
     grid-row: 2;
     grid-column: 2;
     border-left: 24px solid transparent;
-    border-top: 42px solid #0dcaf0;;
+    border-top: 42px solid wheat;;
 }
 
 .t3Bottom {
@@ -169,7 +169,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 42px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
 }
 
@@ -177,14 +177,14 @@ a, .btn-link {
     grid-row: 2;
     grid-column: 4;
     border-right: 24px solid transparent;
-    border-top: 42px solid #0dcaf0;;
+    border-top: 42px solid wheat;;
 }
 
 .t5Bottom {
     grid-row: 1;
     grid-column: 1;
     border-left: 14px solid transparent;
-    border-top: 24px solid #0dcaf0;
+    border-top: 24px solid wheat;
 }
 
 .t6Bottom {
@@ -193,7 +193,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -203,7 +203,7 @@ a, .btn-link {
     grid-row: 1;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     align-items: center;
 }
 
@@ -213,7 +213,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -222,7 +222,7 @@ a, .btn-link {
     grid-row: 1;
     grid-column: 5;
     border-right: 14px solid transparent;
-    border-top: 24px solid #0dcaf0;
+    border-top: 24px solid wheat;
 }
 
 .hexagon {
@@ -234,7 +234,7 @@ a, .btn-link {
     grid-row-end: 3;
     grid-column: 2;
     border-left: 16px solid transparent;
-    border-bottom: 30px solid #0dcaf0;
+    border-bottom: 30px solid wheat;
 }
 
 .hexagon2 {
@@ -243,7 +243,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -254,7 +254,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -264,7 +264,7 @@ a, .btn-link {
     grid-row-end: 3;
     grid-column: 5;
     border-right: 16px solid transparent;
-    border-bottom: 30px solid #0dcaf0;
+    border-bottom: 30px solid wheat;
 }
 
 .hexagon5 {
@@ -273,7 +273,7 @@ a, .btn-link {
     grid-row: 2;
     width: 48px;
     height: 6px;
-    background-color: #0dcaf0;
+    background-color: wheat;
 }
 
 .hexagon6 {
@@ -281,7 +281,7 @@ a, .btn-link {
     grid-column: 1;
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
-    border-right: 7px solid #0dcaf0;;
+    border-right: 7px solid wheat;;
 }
 
 .hexagon7 {
@@ -290,7 +290,7 @@ a, .btn-link {
     display: flex;
     width: 16px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -302,7 +302,7 @@ a, .btn-link {
     display: flex;
     width: 48px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
 }
 
@@ -312,7 +312,7 @@ a, .btn-link {
     display: flex;
     width: 16px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -322,7 +322,7 @@ a, .btn-link {
     grid-column: 6;
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
-    border-left: 7px solid #0dcaf0;;
+    border-left: 7px solid wheat;;
 }
 
 .hexagon11 {
@@ -330,7 +330,7 @@ a, .btn-link {
     grid-row-end: 6;
     grid-column: 2;
     border-left: 16px solid transparent;
-    border-top: 30px solid #0dcaf0;
+    border-top: 30px solid wheat;
 }
 
 .hexagon12 {
@@ -339,7 +339,7 @@ a, .btn-link {
     grid-row: 4;
     width: 48px;
     height: 6px;
-    background-color: #0dcaf0;
+    background-color: wheat;
 }
 
 .hexagon13 {
@@ -347,7 +347,7 @@ a, .btn-link {
     grid-row-end: 6;
     grid-column: 5;
     border-right: 16px solid transparent;
-    border-top: 30px solid #0dcaf0;
+    border-top: 30px solid wheat;
 }
 
 .hexagon14 {
@@ -356,7 +356,7 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -367,54 +367,55 @@ a, .btn-link {
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
-.square{
+
+.square {
     display: inline-grid;
 }
 
-.square1{
+.square1 {
     grid-row: 1;
     grid-column: 1;
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
 
-.square2{
+.square2 {
     grid-row: 1;
     grid-column: 2;
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
 
-.square3{
+.square3 {
     grid-row: 2;
     grid-column: 1;
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
 
-.square4{
+.square4 {
     grid-row: 2;
     grid-column: 2;
     display: flex;
     width: 30px;
     height: 30px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -423,24 +424,24 @@ a, .btn-link {
     display: inline-grid;
 }
 
-.DominoH1{
+.DominoH1 {
     grid-row: 1;
     grid-column: 1;
     display: flex;
     width: 45px;
     height: 30px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
 
-.DominoH2{
+.DominoH2 {
     grid-row: 1;
     grid-column: 2;
     display: flex;
     width: 45px;
     height: 30px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
@@ -449,206 +450,229 @@ a, .btn-link {
     display: inline-grid;
 }
 
-.DominoV1{
+.DominoV1 {
     grid-row: 1;
     grid-column: 1;
     display: flex;
     width: 30px;
     height: 45px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
 
-.DominoV2{
+.DominoV2 {
     grid-row: 2;
     grid-column: 1;
     display: flex;
     width: 30px;
     height: 45px;
-    background-color: #0dcaf0;
+    background-color: wheat;
     justify-content: center;
     align-items: center;
 }
 
-.Point{
+.Point {
     width: 15px;
     height: 15px;
     border-radius: 50px;
     background-color: black;
 }
 
-.ContainsPoint
-{
-    display: flex; align-items: center; justify-content: center;width: 20px; height: 20px;
+.ContainsPoint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
 }
 
-.DominoNumber{
-    display: grid; width: 60px; height: 60px;
+.DominoNumber {
+    display: grid;
+    width: 60px;
+    height: 60px;
 }
 
-.DominoHC{
-    display: grid; width: 123px; border: solid #000 1px; border-radius:5px;
+.DominoHC {
+    background-color: wheat;
+    display: grid;
+    width: 123px;
+    border: solid #000 1px;
+    border-radius: 5px;
     height: 61px;
 }
 
-.DominoVC{
-    display: grid; height: 121px; border: solid #000 1px; border-radius:5px;
+.DominoVC {
+    background-color: wheat;
+    display: grid;
+    height: 122px;
+    border: solid #000 1px;
+    border-radius: 5px;
     width: 63px;
 }
 
-.contentBottom{
+.contentBottom {
     align-self: flex-end;
 }
 
-.Select{
+.Select {
     /*border: solid #1c1f23 1px;*/
     width: 400px;
     /*border-radius: 10px;*/
 }
-.HeadSelect{
+
+.HeadSelect {
     display: flex;
     justify-content: center;
     /*border-bottom: solid #1c1f23 2px;*/
 }
-.InputSelect{
-    width: 320px; height: 30px;
+
+.InputSelect {
+    width: 320px;
+    height: 30px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    border-left: groove 2px;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-right: groove 0;
-    background-color: white;
+    border-left: solid rgb(131, 62, 13) 1px;
+    border-top: solid rgb(131, 62, 13) 1px;
+    border-bottom: solid rgb(131, 62, 13) 1px;
+    border-right: 0;
+    background-color: wheat;
     outline: none;
 }
-.ButtonSelect{
+
+.ButtonSelect {
     width: 80px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    border-left: groove 0;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-right: groove 2px;
-    background-color: white;
+    border-left: 0;
+    border-top: solid rgb(131, 62, 13) 1px;
+    border-bottom: solid rgb(131, 62, 13) 1px;
+    border-right: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
 }
 
-.InputSelectHead{
+.InputSelectHead {
     width: 100px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     height: 30px;
-    border-left: groove 2px;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-right: groove 0;
+    border-left: solid rgb(131, 62, 13) 1px;
+    border-top: solid rgb(131, 62, 13) 1px;
+    border-bottom: solid rgb(131, 62, 13) 1px;
+    border-right: 0;
+    background-color: wheat;
     outline: none;
 }
 
-.ButtonSelectHeadT
-{
+.ButtonSelectHeadT {
     width: 100px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     height: 30px;
-    border-left: groove 0;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-right: groove 2px;
-    background-color: white;
+    border-left: 0;
+    border-top: solid rgb(131, 62, 13) 1px;
+    border-bottom: solid rgb(131, 62, 13) 1px;
+    border-right: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
 }
 
-.ButtonSelectHeadB
-{
+.ButtonSelectHeadB {
     width: 100px;
     border-radius: 10px;
     height: 30px;
-    border: groove 2px;
-    background-color: white;
+    border: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
 }
 
-.SelectRule{
+.SelectRule {
     width: 420px;
-    border: groove 2px;
+    border: solid rgb(131, 62, 13) 1px;
     border-radius: 5px;
-    background-color: white;
+    background-color: wheat;
+    opacity: 0.95;
 }
 
-.InputSelectValue{
+.InputSelectValue {
     width: 100px;
     border-radius: 10px;
     height: 30px;
-    border: groove 2px;
+    border: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
 }
 
-.Create{
+.Create {
     width: 200px;
     border-radius: 10px;
-    border: groove 2px;
-    background-color: white;
+    border: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
 }
 
-.SelectToken{
+.SelectToken {
     width: 50px;
     height: 30px;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-left: groove 1px;
-    border-right: groove 1px;
+    border-top: solid rgb(131, 62, 13) 1px;
+    border-bottom: solid rgb(131, 62, 13) 1px;
+    border-left: solid rgb(131, 62, 13) 1px;
+    border-right: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
 }
 
-.SelectTokenL{
+.SelectTokenL {
     width: 50px;
     height: 30px;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-left: groove 2px;
-    border-right: groove 1px;
+    border-top: solid rgb(131, 62, 13) 1px;
+    border-bottom: solid rgb(131, 62, 13) 1px;
+    border-left: solid rgb(131, 62, 13) 1px;
+    border-right: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
 
-.SelectTokenR{
+.SelectTokenR {
     width: 50px;
     height: 30px;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-left: groove 1px;
-    border-right: groove 2px;
+    border-top: solid rgb(131, 62, 13) 1px;
+    border-bottom: solid rgb(131, 62, 13) 1px;
+    border-left: solid rgb(131, 62, 13) 1px;
+    border-right: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
-.NDimension{
-    width: 30px; height: 30px; background-color: #0dcaf0;
+.NDimension {
+    width: 30px;
+    height: 30px;
+    background-color: wheat;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.PreGame{
-    width: 200px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-left: groove 0;
-    border-top: groove 2px;
-    border-bottom: groove 2px;
-    border-right: groove 2px;
-    background-color: white;
+
+
+.InputSelectPreGame {
+    width: 250px;
+    height: 30px;
+    border-radius: 5px;
+    border: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
     outline: none;
 }
 
-.InputSelectPreGame{
-    width: 250px; height: 30px;
-    border-radius: 5px;
-    border: groove 2px;
-    background-color: white;
-    outline: none;
+body {
+    background-image: url(/Domino.jpg);
+}
+
+.TextBorder {
+    -webkit-text-stroke: 1px black;
+    color: wheat;
 }

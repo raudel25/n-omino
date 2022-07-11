@@ -23,6 +23,7 @@ public class PrinterDomino : Printer
     {
         Thread.Sleep(this.Speed);
 
+        if (table.TableNode.Count == 0) return;
         Printer.ExecuteTableEvent(DeterminateLocation(table, DeterminateHead(table), (0, 0), new HashSet<INode<T>>()));
     }
 
@@ -81,7 +82,7 @@ public class PrinterDomino : Printer
         int cant = 0;
         INode<T> aux = node;
         int column = 1 + increment.Item2;
-        
+
         bool condition = table.FreeNode.Contains(node.Connections[0]!);
 
         if (longana) condition = !condition;
@@ -99,7 +100,7 @@ public class PrinterDomino : Printer
             (string values1, string values2) = (func(cant))
                 ? (aux.ValuesConnections[0]!.ToString()!, aux.ValuesConnections[1]!.ToString()!)
                 : (aux.ValuesConnections[1]!.ToString()!, aux.ValuesConnections[0]!.ToString()!);
-            string[] values = new[] {values1, values2};
+            string[] values = new[] { values1, values2 };
 
             if (aux.ValuesConnections[0]!.Equals(aux.ValuesConnections[1]) && !longana)
             {

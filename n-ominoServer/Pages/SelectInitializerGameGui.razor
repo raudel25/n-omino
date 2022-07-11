@@ -90,7 +90,7 @@
             _cantToDeal = 1;
             return;
         }
-        if (_table.Count != 0 && _dealer.Count != 0 && _maker.Count != 0)
+        if (_table.Count != 0 && _dealer.Count != 0 && _maker.Count != 0 && _generator.Count != 0)
         {
             _visibility = false;
             Initializer!.Add(new InitializerGame<T>(_maker[0], _dealer[0], _table[0], _generator[0], _cantToDeal));
