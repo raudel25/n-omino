@@ -1,4 +1,4 @@
-namespace InteractionGui;
+namespace Game;
 
 public class InfoPlayerGui
 {

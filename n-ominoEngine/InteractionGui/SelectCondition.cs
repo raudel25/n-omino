@@ -37,13 +37,13 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
             Values.Add(SelectInt);
             Param.Add(new ParamSelect("Suma de los nodos libre",
                 "Se activa cuando la suma de los nodos tiene un valor especifico",
-                8,false,false,true));
+                8, true, false, true));
         }
     }
 
     private ICondition<T> SelectInt(ParamSelectFunction<T> comp)
     {
-        IComparison<int> aux = (comp.Comp as IComparison<int>)!;
-        return (new SumFreeNode(comp.Cant, aux) as ICondition<T>)!;
+        var aux = (comp as ParamSelectFunction<int>)!;
+        return (new SumFreeNode(aux.ValueForParam, aux.Comp!) as ICondition<T>)!;
     }
 }

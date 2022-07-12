@@ -1,49 +1,39 @@
-
 @using InteractionGui
 @using Game
 
-<button @onclick="Start">Start</button>
-
-@if (_winner == "")
+@if (_message == "")
 {
-    <TableGui></TableGui>
-    <HandPlayer></HandPlayer>
+    <div style="background-image: url(/Table.jpeg); border-radius: 10px;">
+        <TableGui></TableGui>
+        <HandPlayer></HandPlayer>
+    </div>
 }
 else
 {
     <div style="display: flex; justify-content: center">
-        <h2>@_winner</h2>
+        <h2>@_message</h2>
     </div>
 }
 
 @code
 {
-    [Parameter]
-    public Judge<int> Judge1 { get; set; }
-
-    public Judge<int> Judge = Test.Game();
-    
     private LocationGui[] LocationTable { get; set; } = Array.Empty<LocationGui>();
-    
+
     private LocationGui[] LocationHand { get; set; } = Array.Empty<LocationGui>();
 
-    private string _winner="";
-    
-    private async Task Start()
-    {
-        await Task.Run(() =>Judge1.Game());
-    }
-    
+    private string _message = "";
+
+
     protected override void OnInitialized()
     {
-        Printer.BindWinnerEvent += BindLocationGui;
+        Printer.BindMessageEvent += BindLocationGui;
     }
 
     private void BindLocationGui(string winner)
     {
         _ = InvokeAsync(() =>
         {
-            _winner = winner;
+            _message = winner;
             StateHasChanged();
         });
     }

@@ -45,7 +45,7 @@ public abstract class Player<T>
         {
             foreach (var token in myHand)
             {
-                var ValidMoves = rules.IsValidPlay.ValidPlays(freNode, token, status.Table);
+                var ValidMoves = rules.IsValidPlay.ValidPlays(freNode, token, status, ind);
                 foreach (var move in ValidMoves)
                     res.Add(new Move<T>(token, freNode, move));
             }
@@ -89,7 +89,7 @@ public class EvaluatePlayer<T> : Player<T>
     }
 }
 
-public class RandomStrategyPlayer<T> : Player<T> where T : struct 
+public class RandomStrategyPlayer<T> : Player<T>
 {
     public RandomStrategyPlayer(IEnumerable<IStrategy<T>> strategies, 
                             IEnumerable<ICondition<T>> conditions, 

@@ -1,7 +1,17 @@
-<div style="width: 30px; height: 30px; background-color: blue;">
-    
+<div style="display: flex;">
+    @foreach (var item in Values)
+    {
+        <div class="NDimension">
+            <span>
+                @item
+            </span>
+        </div>
+    }
 </div>
 
 @code {
-    
+
+    [Parameter]
+    public string[] Values { get; set; } = Array.Empty<string>();
+
 }

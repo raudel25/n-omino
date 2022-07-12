@@ -46,33 +46,35 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
     /// <summary>Determinar si una jugada es correcta segun las reglas existentes</summary>
     /// <param name="node">Nodo por el que se quiere jugar</param>
     /// <param name="token">Ficha para jugar</param>
-    /// <param name="table">Mesa para jugar</param>
+    /// <param name="game">Estado del juego</param>
+    /// <param name="ind">Indice del jugador relativo a la mesa</param>
     /// <returns>Criterios de jugada valida correspomdientes a la ficha y el nodo</returns>
-    public List<int> ValidPlays(INode<T> node, Token<T> token, TableGame<T> table)
+    public List<int> ValidPlays(INode<T> node, Token<T> token, GameStatus<T> game, int ind)
     {
         List<int> valid = new List<int>();
         for (int j = 0; j < this.Actions.Length; j++)
         {
-            if (this._checkValid[j] && this.Actions[j].ValidPlay(node, token, table)) valid.Add(j);
+            if (this._checkValid[j] && this.Actions[j].ValidPlay(node, token, game, ind)) valid.Add(j);
         }
 
-        if (this._checkValid[this.Actions.Length] && this.Default!.ValidPlay(node, token, table))
+        if (this._checkValid[this.Actions.Length] && this.Default!.ValidPlay(node, token, game, ind))
             valid.Add(this.Actions.Length);
 
         return valid;
     }
-    
+
     /// <summary>Determina si el jugador tiene opciones para jugar</summary>
     /// <param name="tokens">Fichas de las que dispone el jugador</param>
-    /// <param name="table">Mesa para jugar</param>
+    /// <param name="game">Estado del juego</param>
+    /// <param name="ind">Indice del jugador relativo a la mesa</param>
     /// <returns>El jugador tiene opciones para jugar</returns>
-    public bool ValidPlayPlayer(Hand<T> tokens, TableGame<T> table)
+    public bool ValidPlayPlayer(Hand<T> tokens, GameStatus<T> game,int ind)
     {
-        foreach (var item in table.FreeNode)
+        foreach (var item in game.Table.FreeNode)
         {
             foreach (var token in tokens)
             {
-                if (this.ValidPlays(item, token, table).Count != 0) return true;
+                if (this.ValidPlays(item, token, game, ind).Count != 0) return true;
             }
         }
 

@@ -62,7 +62,7 @@ public class ClassicStealToken<T> : IStealToken<T>
 
             var hand = new Hand<T>();
             hand.Add(aux);
-            play = rules.IsValidPlay.ValidPlayPlayer(hand, game.Table);
+            play = rules.IsValidPlay.ValidPlayPlayer(hand, game, ind);
 
             if(play) break;
         }
@@ -86,7 +86,7 @@ public class ChooseStealToken<T> : IStealToken<T>
         {
             foreach (var item in game.Table.FreeNode)
             {
-                if (rules.IsValidPlay.ValidPlays(item, game.TokensTable[i], game.Table).Count != 0) break;
+                if (rules.IsValidPlay.ValidPlays(item, game.TokensTable[i], game, ind).Count != 0) break;
                 play = true;
             }
         }

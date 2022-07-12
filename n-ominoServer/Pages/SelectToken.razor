@@ -8,48 +8,45 @@
         <label>Seleccione un ficha</label>
     </div>
 
-    <div style="display: flex; justify-content: center;">
-        @if (DefaultValue is int)
+    <div style="display: flex; justify-content: center; overflow: auto;">
+        @foreach (var item in _items)
         {
-            foreach (var item in _items)
+            if (item == 0)
             {
-                if (item == 0)
+                if (DefaultValue is int)
                 {
-                    if (DefaultValue is int)
-                    {
-                        <input type="number" @bind="_numbers[item]" class="SelectTokenL"/>   
-                    }
-                    if (DefaultValue is string || DefaultValue is char)
-                    {
-                        <input @bind="_text[item]" class="SelectTokenL"/>
-                    }
+                    <input type="number" @bind="_numbers[item]" class="SelectTokenL"/>
                 }
-                if (item == _items.Length - 1)
+                if (DefaultValue is string || DefaultValue is char)
                 {
-                    if (DefaultValue is int)
-                    {
-                        <input type="number" @bind="_numbers[item]" class="SelectTokenR"/>
-                    }
-                    if (DefaultValue is string || DefaultValue is char)
-                    {
-                        <input @bind="_text[item]" class="SelectTokenR"/>
-                    }
+                    <input @bind="_text[item]" class="SelectTokenL"/>
                 }
-                if (item > 0 && item < _items.Length - 1)
+            }
+            if (item == _items.Length - 1)
+            {
+                if (DefaultValue is int)
                 {
-                    if (DefaultValue is int)
-                    {
-                        <input type="number" @bind="_numbers[item]" class="SelectToken"/>
-                    }
-                    if (DefaultValue is string || DefaultValue is char)
-                    {
-                        <input @bind="_text[item]" class="SelectToken"/>
-                    }
+                    <input type="number" @bind="_numbers[item]" class="SelectTokenR"/>
+                }
+                if (DefaultValue is string || DefaultValue is char)
+                {
+                    <input @bind="_text[item]" class="SelectTokenR"/>
+                }
+            }
+            if (item > 0 && item < _items.Length - 1)
+            {
+                if (DefaultValue is int)
+                {
+                    <input type="number" @bind="_numbers[item]" class="SelectToken"/>
+                }
+                if (DefaultValue is string || DefaultValue is char)
+                {
+                    <input @bind="_text[item]" class="SelectToken"/>
                 }
             }
         }
     </div>
-    
+
     <div style="height: 5px;">
     </div>
 
@@ -105,10 +102,10 @@
         if (DefaultValue is char)
         {
             char[] aux = new char[_text.Length];
-            
+
             for (int i = 0; i < aux.Length; i++)
             {
-                if(_text[i].Length==0) return;
+                if (_text[i].Length == 0) return;
                 aux[i] = _text[i][0];
             }
 

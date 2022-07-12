@@ -1,7 +1,7 @@
 using Table;
 using InfoGame;
 
-namespace InteractionGui;
+namespace Game;
 
 public abstract class Printer
 {
@@ -36,7 +36,7 @@ public abstract class Printer
     public delegate void BindLocationHand(IEnumerable<LocationGui> location, LocationGui? play, string action,
         InfoPlayerGui player);
 
-    public delegate void BindWinner(string winner);
+    public delegate void BindMessage(string winner);
 
     /// <summary>
     /// Bindiar el tablero logico con el front-end
@@ -48,11 +48,11 @@ public abstract class Printer
     /// </summary>
     public static event BindLocationHand? BindHandEvent;
 
-    public static event BindWinner? BindWinnerEvent;
+    public static event BindMessage? BindMessageEvent;
 
-    public static void ExecuteWinnerEvent(string winner)
+    public static void ExecuteMessageEvent(string message)
     {
-        BindWinnerEvent!(winner);
+        BindMessageEvent!(message);
     }
 
     public static void ExecuteTableEvent(IEnumerable<LocationGui> location)
@@ -72,7 +72,7 @@ public abstract class Printer
     /// <param name="table">Mesa</param>
     /// <typeparam name="T">Tipo para el juego</typeparam>
     /// <returns>Distribucion de la mesa para la GUI</returns>
-    public abstract void LocationTable<T>(TableGame<T> table) ;
+    public abstract void LocationTable<T>(TableGame<T> table);
 
     /// <summary>
     /// Determinar la posicion de la mano de los jugadores
@@ -92,8 +92,8 @@ public abstract class Printer
     /// <param name="row">Filas</param>
     /// <param name="column">Columnas</param>
     /// <typeparam name="T">Tipo de juego</typeparam>
-    protected IEnumerable<LocationGui> AssignValues<T>(Hand<T> tokens, int row, int column, TypeToken type)
-        
+    protected IEnumerable<LocationGui> AssignValues<T>(IEnumerable<Token<T>> tokens, int row, int column,
+        TypeToken type)
     {
         int indColumn = 0;
         int indRow = 0;
@@ -129,9 +129,9 @@ public abstract class Printer
     /// <param name="type">Tipo de ficha</param>
     /// <typeparam name="T">Tipo que se utiliza en el juego</typeparam>
     protected void DeterminateLocationHand<T>(Token<T>? play, TableGame<T> table, InfoPlayer<T> player,
-        int row, int column, TypeToken type) 
+        int row, int column, TypeToken type)
     {
-        IEnumerable<LocationGui> location = AssignValues(player.Hand!, row, column, type);
+        IEnumerable<LocationGui> location = AssignValues(player.Hand, row, column, type);
 
         string action = "Jugada";
         LocationGui? locationPlay = null;
@@ -149,7 +149,7 @@ public abstract class Printer
         else action = "Pase";
 
         InfoPlayerGui playerInfo = new InfoPlayerGui("Jugador " + player.Id, player.Passes, player.Score);
-        
+
         Printer.ExecuteHandEvent(location, locationPlay, action, playerInfo);
     }
 }
