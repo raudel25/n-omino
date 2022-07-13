@@ -2,8 +2,8 @@ namespace Table;
 
 public class ValuesNode<T>
 {
-    public List<T> Values { get; set; }
-    public bool IsAssignValue { get; set; }
+    public List<T> Values { get; internal set; }
+    public bool IsAssignValue { get; internal set; }
 
     public ValuesNode(bool assign = false)
     {

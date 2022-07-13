@@ -3,13 +3,13 @@ namespace Table;
 public class NodeDimension<T> : INode<T>
 {
     public Token<T> ValueToken { get; set; }
-    public INode<T>?[] Connections { get; set; }
-    public T[] ValuesConnections { get; set; }
+    public INode<T>?[] Connections { get; private set; }
+    public T[] ValuesConnections { get; private set; }
 
     /// <summary>
     /// Determinar si el valor de una conexion ya fue asignado
     /// </summary>
-    public ValuesNode<T>[] ValuesAssign { get; set; }
+    public ValuesNode<T>[] ValuesAssign { get; private set; }
 
     public int Id { get; private set; }
     public int IdPlayer { get; set; }

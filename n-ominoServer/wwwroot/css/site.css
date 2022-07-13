@@ -494,7 +494,7 @@ a, .btn-link {
 }
 
 .DominoHC {
-    background-color: wheat;
+    background-color: white;
     display: grid;
     width: 123px;
     border: solid #000 1px;
@@ -503,7 +503,7 @@ a, .btn-link {
 }
 
 .DominoVC {
-    background-color: wheat;
+    background-color: white;
     display: grid;
     height: 122px;
     border: solid #000 1px;
@@ -675,4 +675,5 @@ body {
 .TextBorder {
     -webkit-text-stroke: 1px black;
     color: wheat;
+    font-weight: bolder;
 }

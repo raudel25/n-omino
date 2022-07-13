@@ -3,12 +3,12 @@ namespace Table;
 public class NodeGeometry<T> : INode<T>
 {
     public Token<T> ValueToken { get; set; }
-    public INode<T>[] Connections { get; set; }
-    public T[] ValuesConnections { get; set; }
+    public INode<T>[] Connections { get; private set; }
+    public T[] ValuesConnections { get; private set; }
     public readonly Coordinates Location;
     public int Id { get; private set; }
     public int IdPlayer { get; set; }
-    public List<INode<T>> Fathers { get; set; }
+    public List<INode<T>> Fathers { get; private set; }
 
     public NodeGeometry((int, int)[] connections, int id)
     {
