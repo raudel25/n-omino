@@ -71,6 +71,6 @@ public class InitializerGame<T>
             teamGame[teamGame.Count-1].Add(aux);
         }
 
-        return new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), new[] {0, 1, 2, 3}, tokens);
+        return new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), new[] {0, 1, 2, 3}, tokens, this._generator);
     }
 }

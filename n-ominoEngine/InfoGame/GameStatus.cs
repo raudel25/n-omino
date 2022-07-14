@@ -9,7 +9,7 @@ public class GameStatus<T>
     public TableGame<T> Table { get; set; }
     public int[] Turns { get; set; }
     
-    //public T[] values { get; set; }
+    public T[] Values { get; set; }
 
     //cantidad de rondas que lleva el juego
     public int Round { get; set; }
@@ -37,7 +37,7 @@ public class GameStatus<T>
     public Token<T>? TokenStart { get; set; }
 
     public GameStatus(List<InfoPlayer<T>> players, List<InfoTeams<InfoPlayer<T>>> teams, TableGame<T> table, int[] turns,
-        List<Token<T>> tokens)
+        List<Token<T>> tokens, T[] values)
     {
         this.Players = players;
         this.Teams = teams;
@@ -47,6 +47,8 @@ public class GameStatus<T>
         this.PlayerWinner = -1;
         this.TeamWinner = -1;
         this.PlayerStart = -1;
+        //valores
+        this.Values = new T[2];
     }
 
     public int FindPLayerById(int id)
@@ -92,6 +94,6 @@ public class GameStatus<T>
             }
         }
 
-        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable!.ToList());
+        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable!.ToList(), this.Values.ToArray());
     }
 }

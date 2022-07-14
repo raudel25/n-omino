@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace InfoGame;
 
-public class InfoTeams<T>:IEnumerable<T>
+public class InfoTeams<T> : IEnumerable<T>
 {
     public IEnumerator<T> GetEnumerator()
     {

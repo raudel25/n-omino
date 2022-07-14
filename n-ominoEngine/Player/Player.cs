@@ -37,27 +37,24 @@ public abstract class Player<T>
         this.Id = Id;
     }
 
-    protected List<Move<T>> GetValidMoves(Hand<T> myHand, GameStatus<T> status, InfoRules<T> rules, int ind)
+    protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         rules.IsValidPlay.RunRule(null!, status, status, rules, Id);
-        var res = new List<Move<T>>();
         foreach (var freNode in status.Table.FreeNode)
         {
             foreach (var token in myHand)
             {
                 var ValidMoves = rules.IsValidPlay.ValidPlays(freNode, token, status.Table);
                 foreach (var move in ValidMoves)
-                    res.Add(new Move<T>(token, freNode, move));
+                    yield return new Move<T>(token, freNode, move);
             }
         }
-        return res;
     }
     public abstract Move<T> Play(GameStatus<T> status, InfoRules<T> rules, int ind);
 }
 
 public class EvaluatePlayer<T> : Player<T>
 {
-    
     Func<Move<T>, GameStatus<T>, InfoRules<T>, double> _moveScorer;
     public EvaluatePlayer(IEnumerable<IStrategy<T>> strategies, 
                             IEnumerable<ICondition<T>> condition, 
@@ -72,20 +69,20 @@ public class EvaluatePlayer<T> : Player<T>
         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
         var validMoves = GetValidMoves(myHand, status, rules, ind);
 
-        int index = this.Default.Play(validMoves, status, rules, Id);
+        var move = this.Default.Play(validMoves, status, rules, Id);
 
         for (int i = 0; i < Conditions.Length; i++)
         {
             //si la condición no está activa, continúo
             if (!Conditions[i].RunRule(null!, status, rules, Id)) continue;
             //si lo está compruebo si la estrategia me aporta más que la que tenía
-            int possibleMove = Strategies[i].Play(validMoves, status, rules, Id);
-            if( possibleMove == -1 ) continue;
-            if (_moveScorer(validMoves[possibleMove], status, rules) > _moveScorer(validMoves[index], status, rules))
-                index = possibleMove;
+            var possibleMove = Strategies[i].Play(validMoves, status, rules, Id);
+            if( possibleMove.IsAPass()) continue;
+            if (_moveScorer(possibleMove, status, rules) > _moveScorer(move, status, rules))
+                move = possibleMove;
         }
         
-        return validMoves[index];
+        return move;
     }
 }
 
@@ -99,7 +96,6 @@ public class RandomStrategyPlayer<T> : Player<T> where T : struct
     {
         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
         var validMoves = GetValidMoves(myHand, status, rules, ind);
-        Console.WriteLine(validMoves.Count);
 
         List<int> indexes = new();
         for (int i = 0; i < Conditions.Length; i++)
@@ -107,15 +103,17 @@ public class RandomStrategyPlayer<T> : Player<T> where T : struct
             if(Conditions[i].RunRule(null!, status, rules, Id)) indexes.Add(i);
         }
         
-        int moveindex = -1;
-        while(moveindex == -1 && indexes.Count != 0)
+        var move = new Move<T>(null!, null!, -1);
+        while(move.IsAPass() && indexes.Count != 0)
         {
             int i = random.Next(indexes.Count);
-            moveindex = Strategies[i].Play(validMoves, status, rules, Id);
+            move = Strategies[i].Play(validMoves, status, rules, Id);
             indexes.Remove(i);
         }
-        if(moveindex == -1) moveindex = this.Default.Play(validMoves, status, rules, Id);
-        if(moveindex < 0 || moveindex >= validMoves.Count) return validMoves[0];
-        return validMoves[moveindex];
+        if(move.IsAPass()) 
+        {
+            move = this.Default.Play(validMoves, status, rules, Id);
+        }
+        return move;
     }
 }

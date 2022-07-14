@@ -20,8 +20,8 @@ Welcome to your new app.
 
 <GameGui Judge1="_judge"></GameGui>
 
-<button @onclick="() => { _judge=new Judge<int>(null,game[0].Rules,
-    game[0].Initializer.StartGame(new List<(int, int)>() { (0, 0), (1, 1), (2, 2), (3, 3) }),
+<button @onclick="() => { _judge=new Judge<int>(null!,game[0].Rules,
+    game[0].Initializer.StartGame(new List<(int, int)>() { (0, 0), (1, 1) }),
     _players,game[0].Print);}">lnksv</button>
 
 @code
@@ -30,11 +30,8 @@ Welcome to your new app.
 
     private List<BuildGame<int>> game =new List<BuildGame<int>>();
 
-    private Judge<int> _judge;
+    private Judge<int>? _judge;
 
-    private Player.Player<int>[] _players = new[] {new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, new GreedyPlayer<int>(),0), 
-        new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, new GreedyPlayer<int>(),1),
-        new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, new GreedyPlayer<int>(),2), 
-        new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, new GreedyPlayer<int>(),3)};
-    
+    private Player.Player<int>[] _players = new[] {new RandomStrategyPlayer<int>(new IStrategy<int>[]{new EnemyPlayer<int>(), new TeamPlayer<int>(), new SinglePlayer<int>()}, new ICondition<int>[]{new ConditionDefault<int>(),new ConditionDefault<int>(),new ConditionDefault<int>()}, new RandomPlayer<int>(),0), 
+        new RandomStrategyPlayer<int>(new IStrategy<int>[]{}, new ICondition<int>[]{}, new RandomPlayer<int>(),1)};
 }

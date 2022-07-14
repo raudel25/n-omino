@@ -15,11 +15,12 @@ public interface IDealer<T>
 
 public class RandomDealer<T> : IDealer<T>
 {
+    Random r = new Random();
     public Hand<T> Deal(List<Token<T>> items, int cant)
     {
         Hand<T> res = new();
 
-        if(items.Count == 0) return res;
+        if(items is null || items.Count == 0) return res;
 
         if(items.Count <= cant)
         {
@@ -31,9 +32,7 @@ public class RandomDealer<T> : IDealer<T>
             return res;
         }
 
-        Random r = new Random();
         int count = 0;
-
         while (count++ < cant)
         {
             int index = r.Next(items.Count);
@@ -121,13 +120,11 @@ public class CircularTokensMaker<T> : ITokensMaker<T>
 
         for (int i = 1; i < values.Length; i++)
         {
-            if (!visited[i])
-            {
-                values[index] = token[i];
-                visited[i] = true;
-                CircularComb(values, token, visited, permutation, index + 1);
-                visited[i] = false;
-            }
+            if (visited[i]) continue;
+            values[index] = token[i];
+            visited[i] = true;
+            CircularComb(values, token, visited, permutation, index + 1);
+            visited[i] = false;
         }
     }
 }

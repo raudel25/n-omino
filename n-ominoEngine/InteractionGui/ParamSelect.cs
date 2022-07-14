@@ -65,7 +65,4 @@ public class ParamSelectFunction<T>
     public Token<T>? Token { get; set; }
 
     public int n { get; set; }
-
-    public IStrategy<T> Strategy { get; set; }
-    
 }

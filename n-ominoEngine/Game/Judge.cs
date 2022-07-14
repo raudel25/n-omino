@@ -133,6 +133,8 @@ public class Judge<T>
 
             Move<T> jugada = _players[ind].Play(copy, copyRules, indTable);
 
+            Console.WriteLine($"Jugador {ind} jugo {jugada.Token!.ToString()}");
+
             INode<T> aux = this._infoGame.Table.TableNode[jugada.Node!.Id];
 
             //Determinar si el player juega correctamente
@@ -147,6 +149,7 @@ public class Judge<T>
         }
         else
         {
+            Console.WriteLine($"Jugador {ind} se paso");
             HistoryPlayer(new Move<T>(null,null,-1),ind);
             GuiJudge(null, ind);
         }

@@ -28,11 +28,12 @@ public class Move<T> : ICloneable<Move<T>>
 
     public bool Mata (T value)
     {
+        //determina si la jugada se hico para matar este valor
         //busco por los nodos si el valor T está en algún "no padre" retorno true
         foreach(var connection in this.Node!.Connections)
         {
             if(connection is null || !this.Node.Fathers.Contains(connection)) continue;
-            //if(comp!.Compare(connection.ValueToken[i], value)) return true;
+            if(connection.ValueToken.Contains(value)) return true;
         }
         return false;
     }
