@@ -9,7 +9,7 @@ public class InfoPlayerTournament
     /// <summary>
     /// Score del jugador
     /// </summary>
-    public int ScoreTournament { get; set; }
+    public double ScoreTournament { get; set; }
     /// <summary>
     /// ID del jugador
     /// </summary>

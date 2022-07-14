@@ -15,7 +15,11 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
         (comp) => new ImmediatePass<T>(),
         (comp) => new NoValidPlayFirstPlayerPass<T>(),
         (comp) => new NoValidPlay<T>(),
-        (comp) => new ConditionDefault<T>()
+        (comp) => new ConditionDefault<T>(),
+        (comp) => new HigherThanScoreHandCondition<T>(comp.Cant),
+        (comp) => new PostRoundCondition<T>(comp.Cant),
+        (comp) => new MaxScoreTeamTournament<T>(comp.Cant),
+        (comp) => new CantGamesTournament<T>(comp.Cant)
     };
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
@@ -28,6 +32,11 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
         new ParamSelect("Tranque clasico (primero en pasarse)", "Ningun jugador tiene jugada valida", 5),
         new ParamSelect("Tranque clasico", "Ningun jugador tiene jugada valida", 6),
         new ParamSelect("Defecto", "Condicion activa por defecto", 7),
+        new ParamSelect("", "", 8, false, true),
+        new ParamSelect("", "", 9, false, true),
+        new ParamSelect("Maximo score para un torneo",
+            "Determina si un equipo alcanzo una cantidad determinada de puntos", 10, false, true),
+        new ParamSelect("Cantidad de juegos", "Determina la cantidad de juegos a efectuarse", 11, false, true)
     };
 
     public SelectCondition(T value)
@@ -37,7 +46,7 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
             Values.Add(SelectInt);
             Param.Add(new ParamSelect("Suma de los nodos libre",
                 "Se activa cuando la suma de los nodos tiene un valor especifico",
-                8, true, false, true));
+                12, true, false, true));
         }
     }
 

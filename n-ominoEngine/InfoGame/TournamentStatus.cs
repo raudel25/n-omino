@@ -13,7 +13,7 @@ public class TournamentStatus
     /// <summary>
     /// Score de los equipos
     /// </summary>
-    public int[] ScoreTeams { get; set; }
+    public double[] ScoreTeams { get; set; }
     /// <summary>
     /// Determinar los jugadores que pueden jugar
     /// </summary>
@@ -38,15 +38,15 @@ public class TournamentStatus
     /// Equipo ganador del torneo
     /// </summary>
     public int TeamWinner { get; set; }
-    
-    public List<(int,int)>? DistributionPlayers { get; set; }
+
+    public List<(int, int)>? DistributionPlayers { get; set; }
 
     public TournamentStatus(List<InfoPlayerTournament> players, List<InfoTeams<InfoPlayerTournament>> teams)
     {
         this.Players = players;
         this.Teams = teams;
         this.ValidPlayer = new bool[players.Count];
-        this.ScoreTeams = new int[teams.Count];
+        this.ScoreTeams = new double[teams.Count];
         this.TeamWinner = -1;
         this.ValidTeam = new bool[teams.Count];
     }

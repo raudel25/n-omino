@@ -126,10 +126,10 @@ else
         
     }
 
-    public static BuildGame<int> build()
+    public static List<BuildGame<int>> build()
     {
         var a = new SelectGamesCreated();
-        return a.Build[0];
+        return new List<BuildGame<int>>(){a.Build[0], a.Build[6]};
     }
 
     private Judge<T> A<T>(BuildGame<T> game, List<Player<T>> player)

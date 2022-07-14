@@ -91,7 +91,8 @@ public class JudgeTournament<T>
 
                 PostGame(ind, i, init);
 
-                Printer.ExecuteMessageEvent("El equipo " + this._tournament.ImmediateWinnerTeam + " ha ganado el actual juego");
+                Printer.ExecuteMessageEvent("El equipo " + this._tournament.ImmediateWinnerTeam +
+                                            " ha ganado el actual juego");
 
                 if (EndTournament()) break;
 
@@ -111,10 +112,12 @@ public class JudgeTournament<T>
     /// <param name="typeTournament">Indice de las reglas del torneo</param>
     private void PreGame(int ind, int typeTournament)
     {
-        this._tournamentRules.PlayerGame.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules, ind);
+        this._tournamentRules.PlayerGame.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules,
+            ind);
         this._tournamentRules.TeamGame.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules, ind);
         _tournament.DistributionPlayers = DeterminatePlayerTeams();
-        this._tournamentRules.DistributionPlayer.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules, ind);
+        this._tournamentRules.DistributionPlayer.RunRule(this._tournament, null!, null!,
+            this._games[typeTournament].Rules, ind);
         this._tournament.Index = ind;
     }
 
@@ -130,7 +133,8 @@ public class JudgeTournament<T>
         this._tournament.ImmediateWinnerTeam = game.TeamWinner;
         this._tournamentRules.ScorePlayer.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
         this._tournamentRules.ScoreTeam.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
-        this._tournamentRules.WinnerTournament.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
+        this._tournamentRules.WinnerTournament.RunRule(this._tournament, game, game, this._games[typeTournament].Rules,
+            ind);
     }
 
     /// <summary>

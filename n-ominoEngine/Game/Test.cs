@@ -121,7 +121,7 @@ public static class Test
         return judge;
     }
 
-    public static JudgeTournament<int> Tournament(BuildGame<int> game)
+    public static JudgeTournament<int> Tournament(List<BuildGame<int>> game)
     {
         var player = new ClassicPlayerGame();
 
@@ -147,10 +147,10 @@ public static class Test
         var teamsGameRule =
             new TeamsGameRule<int>(Array.Empty<ITeamsGame>(), Array.Empty<ICondition<int>>(), teamsGame);
 
-        var winner = new ClassicWinnerTournament(50);
+        var winner = new ClassicWinnerTournament();
 
         var winnerRule =
-            new WinnerTournamentRule<int>(Array.Empty<IWinnerTournament>(), Array.Empty<ICondition<int>>(), winner);
+            new WinnerTournamentRule<int>(new[] { winner }, new[] { new CantGamesTournament<int>(3) });
 
         var infoRules = new InfoRulesTournament<int>(playerRule, scoreRule, distributionRule, scoreTeamRule,
             teamsGameRule, winnerRule);
@@ -163,7 +163,7 @@ public static class Test
             players.Add(new RandomStrategyPlayer<int>(new IStrategy<int>[] { }, new ICondition<int>[] { }, random, i));
         }
 
-        return new JudgeTournament<int>(new List<BuildGame<int>>() { game }, players, new List<(int, int)>() { (0, 0), (0, 1), (1, 2), (1, 3) },
+        return new JudgeTournament<int>(game, players, new List<(int, int)>() { (0, 0), (0, 1), (1, 2), (1, 3) },
             infoRules);
     }
 }

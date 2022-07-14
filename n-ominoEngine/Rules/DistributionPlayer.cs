@@ -4,6 +4,11 @@ namespace Rules;
 
 public interface IDistributionPlayer
 {
+    /// <summary>
+    /// Determinar la distribucion de los players en el juego
+    /// </summary>
+    /// <param name="tournament">Estado del torneo</param>
+    /// <param name="ind">Indice del torneo</param>
     public void DeterminateDistribution(TournamentStatus tournament, int ind);
 }
 
@@ -16,14 +21,14 @@ public class ClassicDistribution : IDistributionPlayer
         bool[] visited = new bool[tournament.DistributionPlayers!.Count];
 
         int cant = 0;
-        
+
         while (cant != visited.Length)
         {
             int index = -1;
-            
+
             for (int j = 0; j < visited.Length; j++)
             {
-                if(visited[j]) continue;
+                if (visited[j]) continue;
                 if (tournament.DistributionPlayers![j].Item1 != index)
                 {
                     visited[j] = true;
@@ -35,5 +40,12 @@ public class ClassicDistribution : IDistributionPlayer
         }
 
         tournament.DistributionPlayers = aux;
+    }
+}
+
+public class TeamDistribution : IDistributionPlayer
+{
+    public void DeterminateDistribution(TournamentStatus tournament, int ind)
+    {
     }
 }
