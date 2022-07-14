@@ -66,18 +66,18 @@ public class JudgeTournament<T>
     public void TournamentGame()
     {
         int ind = 0;
-        while (EndTournament())
+        while (!EndTournament())
         {
             for (int i = 0; i < this._games.Count; i++)
             {
                 PreGame(ind, i);
 
-                List<(int, int)> playerTeams = DeterminatePlayerTeams();
+                List<(int, int)> playerTeams = this._tournament.DistributionPlayers!;
 
                 //Crear los players para usar en el juego
                 List<Player<T>> players = new List<Player<T>>();
 
-                for (int j = 0; j < players.Count; j++)
+                for (int j = 0; j < playerTeams.Count; j++)
                 {
                     players.Add(this._playersPlay[playerTeams[j].Item2]);
                 }
@@ -91,11 +91,17 @@ public class JudgeTournament<T>
 
                 PostGame(ind, i, init);
 
+                Printer.ExecuteMessageEvent("El equipo " + this._tournament.ImmediateWinnerTeam + " ha ganado el actual juego");
+
                 if (EndTournament()) break;
 
                 ind++;
+
+                _games[i] = _games[i].Reset();
             }
         }
+
+        Printer.ExecuteMessageEvent("El equipo " + this._tournament.TeamWinner + " ha ganado torneo");
     }
 
     /// <summary>
@@ -107,6 +113,9 @@ public class JudgeTournament<T>
     {
         this._tournamentRules.PlayerGame.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules, ind);
         this._tournamentRules.TeamGame.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules, ind);
+        _tournament.DistributionPlayers = DeterminatePlayerTeams();
+        this._tournamentRules.DistributionPlayer.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules, ind);
+        this._tournament.Index = ind;
     }
 
     /// <summary>
@@ -117,6 +126,8 @@ public class JudgeTournament<T>
     /// <param name="game">Estado del juego</param>
     private void PostGame(int ind, int typeTournament, GameStatus<T> game)
     {
+        this._tournament.ImmediateWinner = game.PlayerWinner;
+        this._tournament.ImmediateWinnerTeam = game.TeamWinner;
         this._tournamentRules.ScorePlayer.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
         this._tournamentRules.ScoreTeam.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
         this._tournamentRules.WinnerTournament.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);

@@ -1,8 +1,9 @@
 using Rules;
+using Table;
 
 namespace Game;
 
-public class BuildGame<T>
+public class BuildGame<T> : IReset<BuildGame<T>>
 {
     /// <summary>
     /// Inicializador de juego
@@ -24,5 +25,10 @@ public class BuildGame<T>
         this.Initializer = game;
         this.Print = print;
         this.Rules = infoRules;
+    }
+
+    public BuildGame<T> Reset()
+    {
+        return new BuildGame<T>(Initializer.Reset(), Rules, Print.Reset());
     }
 }

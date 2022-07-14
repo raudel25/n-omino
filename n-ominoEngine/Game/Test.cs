@@ -61,7 +61,7 @@ public static class Test
         InitializerGame<int> init = new InitializerGame<int>(maker, dealer, table, array, 7);
 
         //GameStatus<int> game = new GameStatus<int>(playersInfo, team, table, new[] { 0, 1, 2, 3 }, tokens);
-        GameStatus<int> game = init.StartGame(new List<(int, int)> { (0, 0), (1, 1), (0, 2),(1,3) });
+        GameStatus<int> game = init.StartGame(new List<(int, int)> { (0, 0), (1, 1), (0, 2), (1, 3) });
 
         IValidPlay<int> valid5 = new ValidPlayDimension<int>(new ClassicComparison<int>());
         ITurnPlayer turn = new TurnPlayerClassic();
@@ -119,5 +119,51 @@ public static class Test
 
 
         return judge;
+    }
+
+    public static JudgeTournament<int> Tournament(BuildGame<int> game)
+    {
+        var player = new ClassicPlayerGame();
+
+        var playerRule = new PlayerGameRule<int>(Array.Empty<IPlayerGame>(), Array.Empty<ICondition<int>>(), player);
+
+        var score = new ClassicScorePlayerTournament<int>();
+
+        var scoreRule = new ScorePlayerTournamentRule<int>(Array.Empty<IScorePlayerTournament<int>>(),
+            Array.Empty<ICondition<int>>(), score);
+
+        var distribution = new ClassicDistribution();
+
+        var distributionRule = new DistributionPlayerRule<int>(Array.Empty<IDistributionPlayer>(),
+            Array.Empty<ICondition<int>>(), distribution);
+
+        var scoreTeam = new ClassicScoreTeamTournament<int>();
+
+        var scoreTeamRule = new ScoreTeamTournamentRule<int>(Array.Empty<IScoreTeamTournament<int>>(),
+            Array.Empty<ICondition<int>>(), scoreTeam);
+
+        var teamsGame = new ClassicTeam();
+
+        var teamsGameRule =
+            new TeamsGameRule<int>(Array.Empty<ITeamsGame>(), Array.Empty<ICondition<int>>(), teamsGame);
+
+        var winner = new ClassicWinnerTournament(50);
+
+        var winnerRule =
+            new WinnerTournamentRule<int>(Array.Empty<IWinnerTournament>(), Array.Empty<ICondition<int>>(), winner);
+
+        var infoRules = new InfoRulesTournament<int>(playerRule, scoreRule, distributionRule, scoreTeamRule,
+            teamsGameRule, winnerRule);
+
+        IStrategy<int> random = new RandomPlayer<int>();
+        List<Player.Player<int>> players = new List<Player<int>>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            players.Add(new RandomStrategyPlayer<int>(new IStrategy<int>[] { }, new ICondition<int>[] { }, random, i));
+        }
+
+        return new JudgeTournament<int>(new List<BuildGame<int>>() { game }, players, new List<(int, int)>() { (0, 0), (0, 1), (1, 2), (1, 3) },
+            infoRules);
     }
 }

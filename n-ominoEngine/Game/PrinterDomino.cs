@@ -141,4 +141,9 @@ public class PrinterDomino : Printer
             }
         }
     }
+
+    public override Printer Reset()
+    {
+        return new PrinterDomino(this.Speed, this._classic);
+    }
 }

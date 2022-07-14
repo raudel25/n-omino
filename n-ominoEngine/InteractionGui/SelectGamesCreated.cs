@@ -49,7 +49,7 @@ public class SelectGamesCreated
     {
         new BeginGameRule<int>(Array.Empty<IBeginGame<int>>(), Array.Empty<ICondition<int>>(),
             new BeginGameRandom<int>()),
-        new BeginGameRule<int>(Array.Empty<IBeginGame<int>>(), Array.Empty<ICondition<int>>(),
+        new BeginGameRule<int>(new []{new BeginGameLastWinner<int>()}, new []{new SecondRoundTournament<int>()},
             new BeginGameToken<int>(new Token<int>(new[] {6, 6})))
     };
 

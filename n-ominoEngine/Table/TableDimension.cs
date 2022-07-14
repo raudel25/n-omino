@@ -4,7 +4,7 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
 {
     /// <summary>Cantidad de conexiones de un nodo de la mesa</summary>
 
-    public TableDimension(int n):base(n)
+    public TableDimension(int n) : base(n)
     {
         INode<T> node = CreateNode(n);
         FreeTable(node);
@@ -81,5 +81,10 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
     object ICloneable.Clone()
     {
         return this.Clone();
+    }
+
+    public override TableGame<T> Reset()
+    {
+        return new TableDimension<T>(this.DimensionToken);
     }
 }

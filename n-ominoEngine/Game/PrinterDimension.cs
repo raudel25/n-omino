@@ -31,4 +31,9 @@ public class PrinterDimension : Printer
             yield return item.ValueToken;
         }
     }
+
+    public override Printer Reset()
+    {
+        return new PrinterDimension(this.Speed);
+    }
 }

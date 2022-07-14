@@ -18,8 +18,8 @@ public class PrinterGeometry : Printer
         int top = int.MinValue;
         for (int i = 0; i < table.TableNode.Count; i++)
         {
-            left = Math.Min(((NodeGeometry<T>) table.TableNode[i]).Location.BorderLeft, left);
-            top = Math.Max(((NodeGeometry<T>) table.TableNode[i]).Location.BorderTop, top);
+            left = Math.Min(((NodeGeometry<T>)table.TableNode[i]).Location.BorderLeft, left);
+            top = Math.Max(((NodeGeometry<T>)table.TableNode[i]).Location.BorderTop, top);
         }
 
         TypeToken type = TypeToken.TriangleTop;
@@ -162,5 +162,10 @@ public class PrinterGeometry : Printer
         }
 
         return ind;
+    }
+
+    public override Printer Reset()
+    {
+        return new PrinterGeometry(this.Speed);
     }
 }

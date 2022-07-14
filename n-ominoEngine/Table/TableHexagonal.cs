@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableHexagonal<T> : TableGeometry<T>, ICloneable<TableGame<T>>
+public class TableHexagonal<T> : TableGeometry<T>
 {
     public TableHexagonal((int, int)[] coordinates) : base(coordinates)
     {
@@ -12,14 +12,14 @@ public class TableHexagonal<T> : TableGeometry<T>, ICloneable<TableGame<T>>
         if (geometry == null) return;
         (int, int) center = FindCenter(geometry);
         (int, int)[] expand = FindCenterExpand(center);
-        for (int i = 0; i < expand.Length; i++) AssignCoordinates(geometry, ExpandGeometry(new[] {expand[i]}));
+        for (int i = 0; i < expand.Length; i++) AssignCoordinates(geometry, ExpandGeometry(new[] { expand[i] }));
     }
 
     protected override (int, int)[] ExpandGeometry((int, int)[] coordinates)
     {
         (int, int)[] expand = new (int, int)[6];
-        int[] x = {-1, 1, 2, 1, -1, -2};
-        int[] y = {1, 1, 0, -1, -1, 0};
+        int[] x = { -1, 1, 2, 1, -1, -2 };
+        int[] y = { 1, 1, 0, -1, -1, 0 };
         for (int i = 0; i < expand.Length; i++) expand[i] = (coordinates[0].Item1 + x[i], coordinates[0].Item2 + y[i]);
 
         return expand;
@@ -31,8 +31,8 @@ public class TableHexagonal<T> : TableGeometry<T>, ICloneable<TableGame<T>>
     protected (int, int)[] FindCenterExpand((int, int) coordinates)
     {
         (int, int)[] expand = new (int, int)[6];
-        int[] x = {-3, 0, 3, 3, 0, -3};
-        int[] y = {-1, -2, -1, 1, 2, 1};
+        int[] x = { -3, 0, 3, 3, 0, -3 };
+        int[] y = { -1, -2, -1, 1, 2, 1 };
         for (int i = 0; i < expand.Length; i++) expand[i] = (coordinates.Item1 + x[i], coordinates.Item2 + y[i]);
 
         return expand;
@@ -61,13 +61,15 @@ public class TableHexagonal<T> : TableGeometry<T>, ICloneable<TableGame<T>>
     public override TableGame<T> Clone()
     {
         (int, int)[] aux = new (int, int)[6];
-        Array.Copy(((NodeGeometry<T>) TableNode[0]).Location.Coord, aux, 6);
+        Array.Copy(((NodeGeometry<T>)TableNode[0]).Location.Coord, aux, 6);
         TableGame<T> table = new TableHexagonal<T>(aux);
         return AuxClone(table);
     }
 
-    object ICloneable.Clone()
+    public override TableGame<T> Reset()
     {
-        return this.Clone();
+        (int, int)[] aux = new (int, int)[6];
+        Array.Copy(((NodeGeometry<T>)TableNode[0]).Location.Coord, aux, 6);
+        return new TableHexagonal<T>(aux);
     }
 }

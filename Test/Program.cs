@@ -1,8 +1,16 @@
-﻿using Rules;
+﻿using InfoGame;
+using Rules;
 using Table;
 
-var a=new AssignScoreTokenGcd();
+TournamentStatus t=new TournamentStatus(new List<InfoPlayerTournament>(),new List<InfoTeams<InfoPlayerTournament>>());
 
-Token<int> t=new Token<int>(new []{15,15});
+t.DistributionPlayers=new List<(int, int)>(){(1,1),(1,2),(2,3),(2,4),(2,5),(3,6)};
 
-Console.WriteLine(a.ScoreToken(t));
+var a=new ClassicDistribution();
+
+a.DeterminateDistribution(t,0);
+
+foreach (var i in t.DistributionPlayers)
+{
+    Console.WriteLine(i);
+}

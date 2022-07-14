@@ -38,6 +38,8 @@ public class TournamentStatus
     /// Equipo ganador del torneo
     /// </summary>
     public int TeamWinner { get; set; }
+    
+    public List<(int,int)>? DistributionPlayers { get; set; }
 
     public TournamentStatus(List<InfoPlayerTournament> players, List<InfoTeams<InfoPlayerTournament>> teams)
     {

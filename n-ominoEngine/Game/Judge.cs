@@ -98,7 +98,7 @@ public class Judge<T>
         int id = this._infoGame.PlayerStart;
 
         int ind = this._infoGame.FindPLayerById(id);
-        
+
         if (this._infoGame.TokenStart != null)
         {
             this._judgeRules.IsValidPlay.RunRule(null!, this._infoGame, this._infoGame, this._judgeRules, ind);

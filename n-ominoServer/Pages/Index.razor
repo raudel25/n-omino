@@ -84,7 +84,7 @@ else
     
     private List<List<Player<string>>>  _playersString = new List<List<Player<string>>>();
 
-    private Judge<int> _judgeInt = Test.Game();
+    private JudgeTournament<int> _judgeInt = Test.Tournament(build());
 
     private Judge<char> _judgeChar;
 
@@ -93,9 +93,9 @@ else
     private async Task Start()
     {
         _game = true;
-        if (_typeSelect == 0)
+        if (true)
         {
-            await Task.Run(() =>_judgeInt.Game());
+            await Task.Run(() =>_judgeInt.TournamentGame());
         }
         if (_typeSelect == 1)
         {
@@ -109,10 +109,10 @@ else
 
     private void Build()
     {
-        if (_typeSelect == 0)
-        {
-            _judgeInt = A(_gameInt[0], _playersInt[0]);
-        }
+        // if (_typeSelect == 0)
+        // {
+        //     _judgeInt = A(_gameInt[0], _playersInt[0]);
+        // }
         
         if (_typeSelect == 1)
         {
@@ -124,6 +124,12 @@ else
             _judgeString = A(_gameString[0], _playersString[0]);
         }
         
+    }
+
+    public static BuildGame<int> build()
+    {
+        var a = new SelectGamesCreated();
+        return a.Build[0];
     }
 
     private Judge<T> A<T>(BuildGame<T> game, List<Player<T>> player)

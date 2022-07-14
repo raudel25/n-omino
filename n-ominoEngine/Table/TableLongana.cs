@@ -1,6 +1,6 @@
 namespace Table;
 
-public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
+public class TableLongana<T> : TableDimension<T>
 {
     /// <summary>
     /// Cantidad de jugadores
@@ -59,7 +59,7 @@ public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
     public override TableGame<T> Clone()
     {
         TableGame<T> table = new TableLongana<T>(this.DimensionToken);
-        ((TableLongana<T>) table).AssignCantPlayers(this.CantPlayer);
+        ((TableLongana<T>)table).AssignCantPlayers(this.CantPlayer);
 
         return AuxClone(table);
     }
@@ -72,10 +72,5 @@ public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
             left.Connections[ind] = right;
         }
         else base.UnionNode(right, left, ind);
-    }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
     }
 }

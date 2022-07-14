@@ -3,7 +3,7 @@ using InfoGame;
 
 namespace Game;
 
-public abstract class Printer
+public abstract class Printer : IReset<Printer>
 {
     /// <summary>
     /// Tipos de ficha
@@ -52,6 +52,7 @@ public abstract class Printer
 
     public static void ExecuteMessageEvent(string message)
     {
+        Thread.Sleep(1000);
         BindMessageEvent!(message);
     }
 
@@ -151,5 +152,11 @@ public abstract class Printer
         InfoPlayerGui playerInfo = new InfoPlayerGui("Jugador " + player.Id, player.Passes, player.Score);
 
         Printer.ExecuteHandEvent(location, locationPlay, action, playerInfo);
+    }
+
+    public abstract Printer Reset();
+    Printer IReset<Printer>.Reset()
+    {
+        return this.Reset();
     }
 }

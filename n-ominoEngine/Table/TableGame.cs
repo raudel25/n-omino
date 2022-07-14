@@ -1,6 +1,6 @@
 namespace Table;
 
-public abstract class TableGame<T>
+public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<T>>
 {
     /// <summary>Nodos que contienen una ficha</summary>
     public HashSet<INode<T>> PlayNode { get; protected set; }
@@ -10,7 +10,7 @@ public abstract class TableGame<T>
 
     /// <summary>Nodos contenidos en el grafo</summary>
     public List<INode<T>> TableNode { get; protected set; }
-    
+
     public int DimensionToken { get; protected set; }
 
     protected TableGame(int dimension)
@@ -104,6 +104,18 @@ public abstract class TableGame<T>
     /// <summary>Clonar la mesa</summary>
     /// <returns>Mesa clonada</returns>
     public abstract TableGame<T> Clone();
+
+    object ICloneable.Clone()
+    {
+        return this.Clone();
+    }
+
+    public abstract TableGame<T> Reset();
+
+    TableGame<T> IReset<TableGame<T>>.Reset()
+    {
+        return Reset();
+    }
 
     /// <summary>
     /// Determinar el valor de las conexiones del nodo
