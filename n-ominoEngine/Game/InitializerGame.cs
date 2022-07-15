@@ -66,7 +66,7 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
 
         for (int i = 0; i < turns.Length; i++) turns[i] = i;
 
-        var game = new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), turns, tokens);
+        var game = new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), turns, tokens, Array.AsReadOnly(_generator));
 
         DeterminateLongana(game);
 
@@ -75,7 +75,7 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
 
     private List<InfoTeams<InfoPlayer<T>>> DeterminateTeams(List<(int, int)> playerTeams, List<InfoPlayer<T>> playersInfo)
     {
-        List<(int, int, int)> aux = new List<(int, int, int)>();
+        List<(int team, int Id, int ind)> aux = new List<(int, int, int)>();
 
         //Preprocesamiento
         for (int i = 0; i < playerTeams.Count; i++)
@@ -100,7 +100,6 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
 
             teamGame[teamGame.Count - 1].Add(playersInfo[item.Item3]);
         }
-
         return teamGame;
     }
 

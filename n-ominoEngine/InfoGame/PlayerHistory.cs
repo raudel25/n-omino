@@ -81,82 +81,51 @@ public class History<T> : ICloneable<History<T>>
         return this.Clone();
     }
 
-    public int HowManyPuso(T value)
-    {
-        int cont = 0;
-        foreach (var move in _history)
-        {
-            if(move.IsAPass()) continue;
-            for (int i = 0; i < move.Token!.CantValues; i++)
-            {
-                //Si el valor no es el que busco continúo
-                if(!move.Token[i]!.Equals(value)) continue;
-                //Si este valor lo había matado continúo
-                if (move.Node!.Fathers.Contains(move.Node.Connections[i]!)) continue;
-                //Si el valor lo puse, lo cuento
-                cont++;
-            }
-        }
-        return cont;
-    }
-
-    public int HowManyMato(T value)
-    {
-        int cont = 0;
-        foreach (var move in _history)
-        {
-            if(move.IsAPass()) continue;
-            for (int i = 0; i < move.Token!.CantValues; i++)
-            {
-                //Si el valor no es el que busco continúo
-                if(!move.Token[i]!.Equals(value)) continue;
-                //Si este valor lo había matado lo cuento
-                if (move.Node!.Fathers.Contains(move.Node.Connections[i]!)) cont++;
-            }
-        }
-        return cont;
-    }
-
-    //guarda la
-    // public Dictionary<T, int> Puestas
+    public int HowManyPuso(T value) => _history.Where(x => !x.IsAPass() && !x.Mata(value)).Count();
     // {
-    //     get
+    //     int cont = 0;
+    //     foreach (var move in _history)
     //     {
-    //         Dictionary<T?, int> puestas = new();
-    //         foreach (var item in _history)
+    //         if(move.IsAPass()) continue;
+    //         for (int i = 0; i < move.Token!.CantValues; i++)
     //         {
-    //             for (int i = 0; i < item.Token.CantValues; i++)
-    //             {
-    //                 //Si este valor lo había matado continúo
-    //                 if (item.Node.Fathers.Contains(item.Node.Connections[i]!)) continue;
-    //                 //Si el valor lo puse, lo cuento
-    //                 if(!puestas.ContainsKey(item.Token[i])) puestas.Add(item.Token[i], 1);
-    //                 else puestas[item.Token[i]]++;
-    //             }
+    //             //Si el valor no es el que busco continúo
+    //             if(!move.Token[i]!.Equals(value)) continue;
+    //             //Si este valor lo había matado continúo
+    //             if (move.Node!.Fathers.Contains(move.Node.Connections[i]!)) continue;
+    //             //Si el valor lo puse, lo cuento
+    //             cont++;
     //         }
-    //         //ordenar el diccionario
-    //         return puestas;
     //     }
+    //     return cont;
     // }
 
-    // public Dictionary<T, int> Matadas
+    public int HowManyMato(T value) => _history.Where(x => !x.IsAPass() && x.Mata(value)).Count();
     // {
-    //     get
+    //     int cont = 0;
+        
+    //     foreach (var move in _history)
     //     {
-    //         Dictionary<T, int> puestas = new();
-    //         foreach (var item in _history)
+    //         if(move.IsAPass()) continue;
+    //         for (int i = 0; i < move.Token!.CantValues; i++)
     //         {
-    //             for (int i = 0; i < item.Token.CantValues; i++)
-    //             {
-    //                 //Si este valor no lo había matado continúo
-    //                 if (!item.Node.Fathers.Contains(item.Node.Connections[i]!)) continue;
-    //                 //Si el valor lo maté, lo cuento
-    //                 if(!puestas.ContainsKey(item.Token[i])) puestas.Add(item.Token[i], 1);
-    //                 else puestas[item.Token[i]]++;
-    //             }
+    //             //Si el valor no es el que busco continúo
+    //             if(!move.Token[i]!.Equals(value)) continue;
+    //             //Si este valor lo había matado lo cuento
+    //             if (move.Node!.Fathers.Contains(move.Node.Connections[i]!)) cont++;
     //         }
-    //         //ordenar el diccionario
-    //         return puestas;
     //     }
+    //     return cont;
     // }
+    public IEnumerable<(T value,int cant)> Puestas(GameStatus<T> game)
+    {
+        foreach (var item in game.Values)
+            yield return (item, HowManyPuso(item))!;
+    }
+
+    public IEnumerable<(T value,int cant)> Matadas(GameStatus<T> game)
+    {
+        foreach (var item in game.Values)
+            yield return (item, HowManyMato(item))!;
+    }
 }

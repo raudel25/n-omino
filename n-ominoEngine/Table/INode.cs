@@ -19,7 +19,7 @@ public interface INode<T>
     /// <summary>
     /// ID del jugador que jugo por el nodo
     /// </summary>
-    public int IdPlayer { get; }
+    public int IdPlayer { get; internal set;}
 
     /// <summary>
     /// Lista de nodos que tenian una ficha al momento de jugar por el nodo actual

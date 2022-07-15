@@ -71,7 +71,6 @@ else
     private int _typeSelect = -1;
 
     private int _type = -1;
-
     private List<BuildGame<int>> _gameInt =new List<BuildGame<int>>();
 
     private List<BuildGame<char>> _gameChar = new List<BuildGame<char>>();
@@ -84,11 +83,11 @@ else
     
     private List<List<Player<string>>>  _playersString = new List<List<Player<string>>>();
 
-    private JudgeTournament<int> _judgeInt = Test.Tournament(build());
+    private Judge<int>? _judgeInt;
 
-    private Judge<char> _judgeChar;
+    private Judge<char>? _judgeChar;
 
-    private Judge<string> _judgeString;
+    private Judge<string>? _judgeString;
 
     private List<InfoRulesTournament<int>> _rules = new List<InfoRulesTournament<int>>();
 
@@ -101,11 +100,11 @@ else
         }
         if (_typeSelect == 1)
         {
-            await Task.Run(() =>_judgeChar.Game());
+            await Task.Run(() =>_judgeChar!.Game());
         }
         if (_typeSelect == 2)
         {
-            await Task.Run(() =>_judgeString.Game());
+            await Task.Run(() =>_judgeString!.Game());
         }
     }
 
@@ -136,8 +135,8 @@ else
 
     private Judge<T> A<T>(BuildGame<T> game, List<Player<T>> player)
     {
-        return new Judge<T>(null,game.Rules,
-            game.Initializer.StartGame(new List<(int, int)>() { (0, 0), (1, 1), (2, 2), (3, 3) }),
+        return new Judge<T>(null!,game.Rules,
+            game.Initializer.StartGame(new List<(int, int)>() { (0, 0), (1, 1), (0, 2), (1, 3) }),
             player,game.Print);
     }
 

@@ -1,4 +1,5 @@
 using Table;
+using System.Collections.ObjectModel;
 
 namespace InfoGame;
 
@@ -8,8 +9,7 @@ public class GameStatus<T>
     public List<InfoTeams<InfoPlayer<T>>> Teams { get; set; }
     public TableGame<T> Table { get; set; }
     public int[] Turns { get; set; }
-
-    //public T[] values { get; set; }
+    public ReadOnlyCollection<T> Values { get; set; }
 
     //cantidad de rondas que lleva el juego
     public int Round { get; set; }
@@ -35,7 +35,7 @@ public class GameStatus<T>
 
     public GameStatus(List<InfoPlayer<T>> players, List<InfoTeams<InfoPlayer<T>>> teams, TableGame<T> table,
         int[] turns,
-        List<Token<T>> tokens, int playerStart = -1, bool immediatePass = false)
+        List<Token<T>> tokens, ReadOnlyCollection<T> values, int playerStart = -1, bool immediatePass = false)
     {
         this.Players = players;
         this.Teams = teams;
@@ -44,6 +44,7 @@ public class GameStatus<T>
         this.TokensTable = tokens;
         this.PlayerWinner = -1;
         this.TeamWinner = -1;
+        this.Values = values;
         this.PlayerStart = playerStart;
         this.ImmediatePass = immediatePass;
     }
@@ -91,7 +92,7 @@ public class GameStatus<T>
             }
         }
 
-        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable!.ToList(),
+        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable!.ToList(), this.Values, 
             this.PlayerStart, this.ImmediatePass);
     }
 }

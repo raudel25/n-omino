@@ -4,16 +4,16 @@
 
 <h3>SelectPlayer</h3>
 
-<button @onclick="()=>PlayersList.Add(_players)">SelectPlayer</button>
+<button @onclick="()=>PlayersList!.Add(_players)">SelectPlayer</button>
 
 @code {
-    private List<Player.Player<T>> _players = new List<Player<T>>() {new RandomStrategyPlayer<T>(new IStrategy<T>[]{}, new ICondition<T>[]{}, new GreedyPlayer<T>(),0), 
-        new RandomStrategyPlayer<T>(new IStrategy<T>[]{}, new ICondition<T>[]{}, new GreedyPlayer<T>(),1),
-        new RandomStrategyPlayer<T>(new IStrategy<T>[]{}, new ICondition<T>[]{}, new GreedyPlayer<T>(),2), 
-        new RandomStrategyPlayer<T>(new IStrategy<T>[]{}, new ICondition<T>[]{}, new GreedyPlayer<T>(),3)};
+    private List<Player.Player<T>> _players = new List<Player<T>>() {new Player<T>(new IStrategy<T>[]{new TeamPlayer<T>()}, new ICondition<T>[]{new ConditionDefault<T>()}, new SinglePlayer<T>(),0, Scorer<T>.RandomScorer), 
+        new Player<T>(new IStrategy<T>[]{}, new ICondition<T>[]{}, new GreedyPlayer<T>(),1, Scorer<T>.RandomScorer),
+        new Player<T>(new IStrategy<T>[]{}, new ICondition<T>[]{}, new GreedyPlayer<T>(),2, Scorer<T>.RandomScorer), 
+        new Player<T>(new IStrategy<T>[]{}, new ICondition<T>[]{}, new GreedyPlayer<T>(),3, Scorer<T>.RandomScorer)};
     
     [Parameter]
     
-    public List<List<Player<T>>> PlayersList { get; set; }
+    public List<List<Player<T>>>? PlayersList { get; set; }
 
 }
