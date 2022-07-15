@@ -29,8 +29,9 @@ public abstract class TableGame<T>
     /// <param name="node">Nodo por el cual se juega la ficha</param>
     /// <param name="token">Ficha para jugar</param>
     /// <param name="values">Valores a asignar en el nodo</param>
-    public void PlayTable(INode<T> node, Token<T> token, T[] values)
+    public void PlayTable(INode<T> node, Token<T> token, T[] values, int IdPlayer)
     {
+        node.IdPlayer = IdPlayer;
         node.ValueToken = token;
         this.AssignFathers(node);
         this.AssignValues(node, values);
@@ -90,7 +91,7 @@ public abstract class TableGame<T>
         {
             T[] valuesAux = new T[item.ValuesConnections.Length];
             Array.Copy(item.ValuesConnections, valuesAux, item.ValuesConnections.Length);
-            table.PlayTable(table.TableNode[item.Id], item.ValueToken.Clone(), valuesAux);
+            table.PlayTable(table.TableNode[item.Id], item.ValueToken.Clone(), valuesAux, item.IdPlayer);
         }
 
         return table;

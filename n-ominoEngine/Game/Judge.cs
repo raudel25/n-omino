@@ -114,7 +114,7 @@ public class Judge<T>
                 PrePlay(copy, ind);
 
                 PlayToken(possible[0], this._infoGame.Table.TableNode[0],
-                    this._infoGame.TokenStart, ind);
+                    this._infoGame.TokenStart, ind, _players[ind].Id);
 
                 PostPlay(ind);
 
@@ -142,6 +142,8 @@ public class Judge<T>
 
             Move<T> jugada = _players[ind].Play(copy, copyRules, indTable);
 
+            Console.WriteLine($"jugador{ind} jugo {jugada.Token}");
+
             INode<T> aux = this._infoGame.Table.TableNode[jugada.Node!.Id];
 
             //Determinar si el player juega correctamente
@@ -150,13 +152,14 @@ public class Judge<T>
                     .ValidPlay(aux, jugada.Token!, _infoGame, indTable) &&
                 this._infoGame.Players[ind].Hand.Contains(jugada.Token!))
             {
-                PlayToken(jugada.ValidPlay, aux, jugada.Token!, this._infoGame.Turns[indTable]);
+                PlayToken(jugada.ValidPlay, aux, jugada.Token!, ind, _players[ind].Id);
                 HistoryPlayer(jugada, ind);
             }
         }
         else
         {
-            HistoryPlayer(new Move<T>(null, null, -1), ind);
+            HistoryPlayer(new Move<T>(null,null,-1),ind);
+
             GuiJudge(null, ind);
         }
     }
@@ -173,12 +176,12 @@ public class Judge<T>
     /// <param name="node">Nodo por el cual se juega</param>
     /// <param name="token">Ficha a jugar</param>
     /// <param name="ind">Indice del jugador relativo al turno</param>
-    private void PlayToken(int valid, INode<T> node, Token<T> token, int ind)
+    private void PlayToken(int valid, INode<T> node, Token<T> token, int ind, int Id)
     {
         T[] aux = _judgeRules.IsValidPlay[valid].Item1
             .AssignValues(node, token, _infoGame.Table);
 
-        _infoGame.Table.PlayTable(node, token, aux);
+        _infoGame.Table.PlayTable(node, token, aux, Id);
         _infoGame.Players[ind].Hand.Remove(token);
 
         GuiJudge(token, ind);
