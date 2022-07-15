@@ -15,7 +15,7 @@ public class SelectPlayerGameTournament<T> : IVariant<IPlayerGame, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>
     {
-        new ParamSelect("Asignacion clasica de los juegadores", "Todos los jugadores participan en el juego", 0),
+        new ParamSelect("Asignacion clasica de los jugadores", "Todos los jugadores participan en el juego", 0),
         new ParamSelect("Asignacion de los jugadores pares", "Solo participan los jugadores con Id par", 1),
         new ParamSelect("Asignacion de los jugadores impares", "Solo participan los jugadores con Id impar", 2)
     };

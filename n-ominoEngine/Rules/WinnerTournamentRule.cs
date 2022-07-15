@@ -5,7 +5,8 @@ namespace Rules;
 
 public class WinnerTournamentRule<T> : ActionConditionRule<IWinnerTournament, T>, ICloneable<WinnerTournamentRule<T>>
 {
-    public WinnerTournamentRule(IEnumerable<IWinnerTournament> rules, IEnumerable<ICondition<T>> condition) : base(rules, condition, null)
+    public WinnerTournamentRule(IEnumerable<IWinnerTournament> rules, IEnumerable<ICondition<T>> condition) : base(
+        rules, condition, null)
     {
     }
 
@@ -24,10 +25,5 @@ public class WinnerTournamentRule<T> : ActionConditionRule<IWinnerTournament, T>
     public WinnerTournamentRule<T> Clone()
     {
         return new WinnerTournamentRule<T>(this.Actions, this.Condition);
-    }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
     }
 }

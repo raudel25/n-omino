@@ -12,11 +12,11 @@ public class PrinterDomino : Printer
 
     private delegate bool Parity(int n);
 
-    protected bool _classic;
+    protected bool Classic;
 
     public PrinterDomino(int speed, bool classic = false) : base(speed)
     {
-        this._classic = classic;
+        this.Classic = classic;
     }
 
     public override void LocationTable<T>(TableGame<T> table)
@@ -29,7 +29,7 @@ public class PrinterDomino : Printer
 
     public override void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table)
     {
-        if (_classic)
+        if (Classic)
         {
             DeterminateLocationHand(play, table, player, 3, 1, TypeToken.DominoVC);
         }
@@ -100,11 +100,11 @@ public class PrinterDomino : Printer
             (string values1, string values2) = (func(cant))
                 ? (aux.ValuesConnections[0]!.ToString()!, aux.ValuesConnections[1]!.ToString()!)
                 : (aux.ValuesConnections[1]!.ToString()!, aux.ValuesConnections[0]!.ToString()!);
-            string[] values = new[] { values1, values2 };
+            string[] values = new[] {values1, values2};
 
             if (aux.ValuesConnections[0]!.Equals(aux.ValuesConnections[1]) && !longana)
             {
-                if (_classic)
+                if (Classic)
                 {
                     yield return new LocationGui((1 + increment.Item1, 4 + increment.Item1, column, column + 1), values,
                         TypeToken.DominoVC);
@@ -119,7 +119,7 @@ public class PrinterDomino : Printer
             }
             else
             {
-                if (_classic)
+                if (Classic)
                 {
                     yield return new LocationGui((2 + increment.Item1, 3 + increment.Item1, column, column + 3), values,
                         TypeToken.DominoHC);
@@ -144,6 +144,6 @@ public class PrinterDomino : Printer
 
     public override Printer Reset()
     {
-        return new PrinterDomino(this.Speed, this._classic);
+        return new PrinterDomino(this.Speed, this.Classic);
     }
 }

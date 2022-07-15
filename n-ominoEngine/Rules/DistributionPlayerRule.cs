@@ -3,7 +3,8 @@ using Table;
 
 namespace Rules;
 
-public class DistributionPlayerRule<T> : ActionConditionRule<IDistributionPlayer, T>, ICloneable<DistributionPlayerRule<T>>
+public class DistributionPlayerRule<T> : ActionConditionRule<IDistributionPlayer, T>,
+    ICloneable<DistributionPlayerRule<T>>
 {
     public DistributionPlayerRule(IEnumerable<IDistributionPlayer> rules, IEnumerable<ICondition<T>> condition,
         IDistributionPlayer rule) : base(rules, condition, rule)
@@ -29,10 +30,5 @@ public class DistributionPlayerRule<T> : ActionConditionRule<IDistributionPlayer
     public DistributionPlayerRule<T> Clone()
     {
         return new DistributionPlayerRule<T>(this.Actions, this.Condition, this.Default!);
-    }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
     }
 }

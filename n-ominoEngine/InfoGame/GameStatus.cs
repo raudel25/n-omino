@@ -88,11 +88,12 @@ public class GameStatus<T>
             teams.Add(new InfoTeams<InfoPlayer<T>>(this.Teams[i].Id));
             for (int j = 0; j < this.Teams[i].Count; j++)
             {
-                teams[teams.Count - 1].Add(players[this.Teams[i][j].Id]);
+                teams[teams.Count - 1].Add(players[this.FindPLayerById(this.Teams[i][j].Id)]);
             }
         }
 
-        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable!.ToList(), this.Values, 
+        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable!.ToList(),
+            this.Values,
             this.PlayerStart, this.ImmediatePass);
     }
 }

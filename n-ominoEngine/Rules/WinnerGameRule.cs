@@ -27,9 +27,4 @@ public class WinnerGameRule<T> : ActionConditionRule<IWinnerGame<T>, T>, IClonea
     {
         return new WinnerGameRule<T>(this.Actions, this.Condition);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

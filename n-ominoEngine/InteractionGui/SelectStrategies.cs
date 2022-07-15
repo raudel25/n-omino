@@ -4,7 +4,8 @@ namespace InteractionGui;
 
 public class SelectStrategies<T> : IVariant<IStrategy<T>, T>
 {
-    public List<IVariant<IStrategy<T>, T>.Select> Values {get;} = new(){
+    public List<IVariant<IStrategy<T>, T>.Select> Values { get; } = new()
+    {
         (a) => new RandomPlayer<T>(),
         (a) => new GreedyPlayer<T>(),
         (a) => new EnemyPlayer<T>(),
@@ -15,7 +16,8 @@ public class SelectStrategies<T> : IVariant<IStrategy<T>, T>
 
     public string Description => "Estrategia del jugador";
 
-    public List<ParamSelect> Param {get;} = new(){
+    public List<ParamSelect> Param { get; } = new()
+    {
         new ParamSelect("Random", "Realiza una jugada aleatoria", 0),
         new ParamSelect("Bota Gorda", "Juega la ficha que más valor tiene", 1),
         new ParamSelect("Contra los oponentes", "Juega la el valor que más han matado los contrarios", 2),

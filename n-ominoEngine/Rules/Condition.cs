@@ -178,7 +178,8 @@ public class HigherThanScoreHandCondition<T> : ICondition<T>
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind)
     {
         int sum = 0;
-        foreach (var item in game.Players[ind].Hand)
+        int Id = game.Turns[ind];
+        foreach (var item in game.Players[Id].Hand)
             sum += rules.ScoreToken.ScoreToken(item);
 
         return sum > MinScore;
@@ -196,7 +197,8 @@ public class PostRoundCondition<T> : ICondition<T>
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind)
     {
-        return game.Round > MinRound;
+        int Id = game.Turns[ind];
+        return game.Players[Id].History.Turns > MinRound;
     }
 }
 

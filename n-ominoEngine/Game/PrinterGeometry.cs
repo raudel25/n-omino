@@ -18,8 +18,8 @@ public class PrinterGeometry : Printer
         int top = int.MinValue;
         for (int i = 0; i < table.TableNode.Count; i++)
         {
-            left = Math.Min(((NodeGeometry<T>)table.TableNode[i]).Location.BorderLeft, left);
-            top = Math.Max(((NodeGeometry<T>)table.TableNode[i]).Location.BorderTop, top);
+            left = Math.Min(((NodeGeometry<T>) table.TableNode[i]).Location.BorderLeft, left);
+            top = Math.Max(((NodeGeometry<T>) table.TableNode[i]).Location.BorderTop, top);
         }
 
         TypeToken type = TypeToken.TriangleTop;
@@ -27,14 +27,6 @@ public class PrinterGeometry : Printer
         (int row, int column) = DeterminateTypeToken(table, ref type);
 
         IEnumerable<LocationGui> locationGui = AssignFindLocationGui(table, row, column, top, left, type);
-
-        // foreach (var item in table.FreeNode)
-        // {
-        //     NodeGeometry<T>? node = item as NodeGeometry<T>;
-        //     if (node == null) return;
-        //
-        //     locationGui[cont++] = CreateLocationTable(table, node, row, column, top, left, false);
-        // }
 
         Printer.ExecuteTableEvent(locationGui);
     }

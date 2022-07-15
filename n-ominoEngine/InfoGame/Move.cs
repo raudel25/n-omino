@@ -43,9 +43,4 @@ public class Move<T> : ICloneable<Move<T>>
         if (this.ValidPlay == -1) return new Move<T>(Token, Node, ValidPlay);
         return new Move<T>(Token!.Clone(), Node, ValidPlay); //hacer nodo ICloneable
     }
-
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
 }

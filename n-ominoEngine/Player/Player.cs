@@ -60,7 +60,7 @@ public class Player<T>
             }
         }
     }
-    public Move<T> Play(GameStatus<T> status, InfoRules<T> rules, int ind)
+    public virtual Move<T> Play(GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
         var validMoves = GetValidMoves(myHand, status, rules, ind);
@@ -70,7 +70,7 @@ public class Player<T>
         return move;
     }
 
-    public IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves,GameStatus<T> status, InfoRules<T> rules, int ind)
+    protected IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves,GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < Conditions.Length; i++)
         {

@@ -106,11 +106,6 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
     /// <returns>Mesa clonada</returns>
     public abstract TableGame<T> Clone();
 
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
-
     public abstract TableGame<T> Reset();
 
     TableGame<T> IReset<TableGame<T>>.Reset()

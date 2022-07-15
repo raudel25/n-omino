@@ -2,17 +2,18 @@ using Rules;
 
 namespace InteractionGui;
 
-public class SelectAssignScorePlayer<T> : IVariant<IAssignScorePlayer<T>,T>
+public class SelectAssignScorePlayer<T> : IVariant<IAssignScorePlayer<T>, T>
 {
     public string Description { get; } = "Asignar score a los jugadores";
 
-    public List<IVariant<IAssignScorePlayer<T>,T>.Select> Values { get; }= new List<IVariant<IAssignScorePlayer<T>, T>.Select>()
-    {
-        (comp)=>new AssignScoreClassic<T>(),
-        (comp)=>new AssignScoreHands<T>(),
-        (comp)=>new AssignScoreHandsSmallCant<T>(),
-        (comp)=>new AssignScoreHandsHighCant<T>(),
-    };
+    public List<IVariant<IAssignScorePlayer<T>, T>.Select> Values { get; } =
+        new List<IVariant<IAssignScorePlayer<T>, T>.Select>()
+        {
+            (comp) => new AssignScoreClassic<T>(),
+            (comp) => new AssignScoreHands<T>(),
+            (comp) => new AssignScoreHandsSmallCant<T>(),
+            (comp) => new AssignScoreHandsHighCant<T>(),
+        };
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
@@ -28,7 +29,7 @@ public class SelectAssignScorePlayer<T> : IVariant<IAssignScorePlayer<T>,T>
             "Asignar el Score por el valor de las fichas en la mano del jugador, dandole prioridad al que mas fichas tenga",
             3)
     };
-    
+
     public SelectAssignScorePlayer()
     {
         T? a = default;

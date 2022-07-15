@@ -2,7 +2,7 @@ using Table;
 
 namespace Rules;
 
-public class InfoRules<T>: ICloneable<InfoRules<T>>
+public class InfoRules<T> : ICloneable<InfoRules<T>>
 {
     /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
     public IsValidRule<T> IsValidPlay { get; private set; }
@@ -64,10 +64,5 @@ public class InfoRules<T>: ICloneable<InfoRules<T>>
         return new InfoRules<T>(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
             this.StealTokens.Clone(), this.ToPassToken.Clone(),
             this.AssignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken, this.Begin.Clone());
-    }
-    
-    object ICloneable.Clone()
-    {
-        return this.Clone();
     }
 }

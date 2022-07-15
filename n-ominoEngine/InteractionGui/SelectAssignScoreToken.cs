@@ -11,7 +11,7 @@ public class SelectAssignScoreToken<T> : IVariant<IAssignScoreToken<T>, T>
         if (value is int)
         {
             Values.Add(AssignScoreTokenClassic);
-            Param.Add(new ParamSelect("Asignador clásico", "Suma los valores de cada cara de la ficha", 0, false));
+            Param.Add(new ParamSelect("Asignador clásico", "Suma los valores de cada cara de la ficha", 0));
             Values.Add(AssignScoreTokenMax);
             Param.Add(new ParamSelect("Maximo valor",
                 "Asigna el score a la ficha por el maximo valor que esta contiene", 1));
@@ -40,31 +40,26 @@ public class SelectAssignScoreToken<T> : IVariant<IAssignScoreToken<T>, T>
 
     public IAssignScoreToken<T> AssignScoreTokenClassic(ParamSelectFunction<T> fun)
     {
-        var a = fun as ParamSelectFunction<int>;
         return (new AssignScoreTokenClassic() as IAssignScoreToken<T>)!;
     }
 
     public IAssignScoreToken<T> AssignScoreTokenMax(ParamSelectFunction<T> fun)
     {
-        var a = fun as ParamSelectFunction<int>;
         return (new AssignScoreTokenMax() as IAssignScoreToken<T>)!;
     }
 
     public IAssignScoreToken<T> AssignScoreTokenMin(ParamSelectFunction<T> fun)
     {
-        var a = fun as ParamSelectFunction<int>;
         return (new AssignScoreTokenMin() as IAssignScoreToken<T>)!;
     }
 
     public IAssignScoreToken<T> AssignScoreTokenGcd(ParamSelectFunction<T> fun)
     {
-        var a = fun as ParamSelectFunction<int>;
         return (new AssignScoreTokenGcd() as IAssignScoreToken<T>)!;
     }
 
     public IAssignScoreToken<T> AssignScoreTokenLetter(ParamSelectFunction<T> fun)
     {
-        var a = fun as ParamSelectFunction<char>;
         return (new AssignScoreTokenLetter() as IAssignScoreToken<T>)!;
     }
 }

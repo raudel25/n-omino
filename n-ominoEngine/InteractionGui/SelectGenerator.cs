@@ -40,8 +40,8 @@ public class SelectGenerator<T> : IVariant<T[], T>
 
     private T[] SelectIntEven(ParamSelectFunction<T> comp)
     {
-        int[] aux = new int[comp.Cant/2];
-        for (int i = 0; i < comp.Cant/2; i++)
+        int[] aux = new int[comp.Cant / 2];
+        for (int i = 0; i < comp.Cant / 2; i++)
         {
             aux[i] = 2 * i;
         }
@@ -51,8 +51,8 @@ public class SelectGenerator<T> : IVariant<T[], T>
 
     private T[] SelectIntOdd(ParamSelectFunction<T> comp)
     {
-        int[] aux = new int[comp.Cant/2];
-        for (int i = 1; i < comp.Cant/2; i++)
+        int[] aux = new int[comp.Cant / 2];
+        for (int i = 1; i < comp.Cant / 2; i++)
         {
             aux[i] = 2 * i + 1;
         }

@@ -68,7 +68,7 @@ public class Judge<T>
             i++;
         }
 
-        Printer.ExecuteMessageEvent(_infoGame.Players[_infoGame.FindPLayerById(this._infoGame.PlayerWinner)] +
+        Printer.ExecuteMessageEvent(_infoGame.Players[_infoGame.FindPLayerById(this._infoGame.PlayerWinner)].Name +
                                     " ha ganado");
     }
 

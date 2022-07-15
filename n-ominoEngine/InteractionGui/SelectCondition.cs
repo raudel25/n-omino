@@ -32,8 +32,8 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
         new ParamSelect("Tranque clasico (primero en pasarse)", "Ningun jugador tiene jugada valida", 5),
         new ParamSelect("Tranque clasico", "Ningun jugador tiene jugada valida", 6),
         new ParamSelect("Defecto", "Condicion activa por defecto", 7),
-        new ParamSelect("", "", 8, false, true),
-        new ParamSelect("", "", 9, false, true),
+        new ParamSelect("Puntos en mano", "El jugador tiene más de n puntos en la mano", 8, false, true),
+        new ParamSelect("Después de n rondas", "El jugador ha jugado más de n veces", 9, false, true),
         new ParamSelect("Maximo score para un torneo",
             "Determina si un equipo alcanzo una cantidad determinada de puntos", 10, false, true),
         new ParamSelect("Cantidad de juegos", "Determina la cantidad de juegos a efectuarse", 11, false, true)

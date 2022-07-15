@@ -1,6 +1,5 @@
 using Table;
 using Rules;
-using Player;
 
 namespace InteractionGui;
 
@@ -36,8 +35,6 @@ public class ParamSelect
     /// </summary>
     public bool Comparison { get; private set; }
 
-    public bool Strategy { get; private set; }
-
     public bool Token { get; private set; }
 
     public ParamSelect(string name, string description, int ind, bool valueForParam = false, bool cant = false,
@@ -49,7 +46,6 @@ public class ParamSelect
         this.ValueForParam = valueForParam;
         this.Description = description;
         this.Cant = cant;
-        this.Strategy = strategy;
         this.Token = token;
     }
 }
@@ -63,6 +59,4 @@ public class ParamSelectFunction<T>
     public T? ValueForParam { get; set; }
 
     public Token<T>? Token { get; set; }
-
-    public int n { get; set; }
 }
