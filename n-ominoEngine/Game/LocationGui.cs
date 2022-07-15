@@ -1,4 +1,4 @@
-namespace InteractionGui;
+namespace Game;
 
 public class LocationGui
 {
@@ -17,11 +17,6 @@ public class LocationGui
     /// </summary>
     public bool Condition { get; set; }
 
-    /// <summary>
-    /// Determinar si la ficha fue jugada o es un espacio libre
-    /// </summary>
-    public bool Play { get; set; }
-    
     public Printer.TypeToken TypeToken { get; set; }
 
     public LocationGui((int, int, int, int) location, string[] values, Printer.TypeToken type)

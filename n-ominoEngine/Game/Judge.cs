@@ -2,7 +2,6 @@ using InfoGame;
 using Table;
 using Rules;
 using Player;
-using InteractionGui;
 
 namespace Game;
 
@@ -11,7 +10,7 @@ public class Judge<T>
     /// <summary>
     /// Jugadores
     /// </summary>
-    private Player<T>[] _players;
+    private List<Player<T>> _players;
 
     /// <summary>
     /// Reglas del juego
@@ -33,7 +32,7 @@ public class Judge<T>
     /// </summary>
     private TournamentStatus _tournament;
 
-    public Judge(TournamentStatus tournament, InfoRules<T> infoRules, GameStatus<T> infoGame, Player<T>[] players,
+    public Judge(TournamentStatus tournament, InfoRules<T> infoRules, GameStatus<T> infoGame, List<Player<T>> players,
         Printer print)
     {
         this._judgeRules = infoRules;
@@ -41,12 +40,13 @@ public class Judge<T>
         this._players = players;
         this._print = print;
         this._tournament = tournament;
+
         //this.Game();
     }
 
     public void Game()
     {
-        Printer.ExecuteWinnerEvent("");
+        //Printer.ExecuteWinnerEvent("");
 
         int i = StartGame();
 
@@ -72,7 +72,7 @@ public class Judge<T>
             i++;
         }
 
-        Printer.ExecuteWinnerEvent("El jugador " + this._infoGame.PlayerWinner + " ha ganado");
+        Printer.ExecuteMessageEvent("El jugador " + this._infoGame.PlayerWinner + " ha ganado");
     }
 
     /// <summary>
@@ -82,6 +82,7 @@ public class Judge<T>
     /// <param name="ind">Indice del jugador respecto al turno</param>
     private void GuiJudge(Token<T>? play, int ind)
     {
+        Printer.ExecuteMessageEvent("");
         this._print.LocationTable(_infoGame.Table);
         this._print.LocationHand(_infoGame.Players[ind], play, _infoGame.Table);
     }
@@ -97,20 +98,28 @@ public class Judge<T>
         int id = this._infoGame.PlayerStart;
 
         int ind = this._infoGame.FindPLayerById(id);
-
+        
         if (this._infoGame.TokenStart != null)
         {
-            //Clonar el estado del juego
-            GameStatus<T> copy = this._infoGame.Clone();
+            this._judgeRules.IsValidPlay.RunRule(null!, this._infoGame, this._infoGame, this._judgeRules, ind);
 
-            PrePlay(copy, ind);
+            List<int> possible = this._judgeRules.IsValidPlay.ValidPlays(this._infoGame.Table.TableNode[0],
+                this._infoGame.TokenStart, this._infoGame, ind);
 
-            PlayToken(this._judgeRules.IsValidPlay.CantValid - 1, this._infoGame.Table.TableNode[0],
-                this._infoGame.TokenStart, ind);
+            if (possible.Count != 0)
+            {
+                //Clonar el estado del juego
+                GameStatus<T> copy = this._infoGame.Clone();
 
-            PostPlay(ind);
+                PrePlay(copy, ind);
 
-            ind++;
+                PlayToken(possible[0], this._infoGame.Table.TableNode[0],
+                    this._infoGame.TokenStart, ind, _players[ind].Id);
+
+                PostPlay(ind);
+
+                ind++;
+            }
         }
 
         return ind;
@@ -133,28 +142,29 @@ public class Judge<T>
 
             Move<T> jugada = _players[ind].Play(copy, copyRules, indTable);
 
-            Console.WriteLine($"Jugador {ind} jugo {jugada.Token!.ToString()}");
+            Console.WriteLine($"jugador{ind} jugo {jugada.Token}");
 
             INode<T> aux = this._infoGame.Table.TableNode[jugada.Node!.Id];
 
             //Determinar si el player juega correctamente
             if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
                 _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
-                    .ValidPlay(aux, jugada.Token!, _infoGame.Table) &&
+                    .ValidPlay(aux, jugada.Token!, _infoGame, indTable) &&
                 this._infoGame.Players[ind].Hand.Contains(jugada.Token!))
             {
-                PlayToken(jugada.ValidPlay, aux, jugada.Token!, this._infoGame.Turns[indTable]);
+                PlayToken(jugada.ValidPlay, aux, jugada.Token!, ind, _players[ind].Id);
                 HistoryPlayer(jugada, ind);
             }
         }
         else
         {
-            Console.WriteLine($"Jugador {ind} se paso");
             HistoryPlayer(new Move<T>(null,null,-1),ind);
+
             GuiJudge(null, ind);
         }
     }
-    private void HistoryPlayer(Move<T> play,int ind)
+
+    private void HistoryPlayer(Move<T> play, int ind)
     {
         this._infoGame.Players[ind].History.Add(play);
     }
@@ -166,12 +176,12 @@ public class Judge<T>
     /// <param name="node">Nodo por el cual se juega</param>
     /// <param name="token">Ficha a jugar</param>
     /// <param name="ind">Indice del jugador relativo al turno</param>
-    private void PlayToken(int valid, INode<T> node, Token<T> token, int ind)
+    private void PlayToken(int valid, INode<T> node, Token<T> token, int ind, int Id)
     {
         T[] aux = _judgeRules.IsValidPlay[valid].Item1
             .AssignValues(node, token, _infoGame.Table);
 
-        _infoGame.Table.PlayTable(node, token, aux);
+        _infoGame.Table.PlayTable(node, token, aux, Id);
         _infoGame.Players[ind].Hand.Remove(token);
 
         GuiJudge(token, ind);
@@ -189,7 +199,7 @@ public class Judge<T>
 
         //Determinar si es posible jugar
         this._judgeRules.IsValidPlay.RunRule(this._tournament, copy, this._infoGame, this._judgeRules, indTable);
-        bool play = this._judgeRules.IsValidPlay.ValidPlayPlayer(player.Hand, _infoGame.Table);
+        bool play = this._judgeRules.IsValidPlay.ValidPlayPlayer(player.Hand, _infoGame, indTable);
 
         this._infoGame.ImmediatePass = !play;
 

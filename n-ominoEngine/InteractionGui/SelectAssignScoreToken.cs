@@ -25,7 +25,7 @@ public class SelectAssignScoreToken<T> : IVariant<IAssignScoreToken<T>, T>
         if (value is char)
         {
             Values.Add(AssignScoreTokenLetter);
-            Param.Add(new ParamSelect("Orden alfabetico", "Asigan el score por el orden alfabetico", 1));
+            Param.Add(new ParamSelect("Orden alfabetico", "Asigan el score por el orden alfabetico", 0));
         }
     }
 

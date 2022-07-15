@@ -19,6 +19,26 @@
 
     <div style="height: 10px;">
     </div>
+
+    if (DefaultValue is int)
+    {
+        <div style="display: flex; justify-content: center;">
+            <h7>Seleccione un juego precreado</h7>
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <EditForm Model="_gamesCreated">
+                        <InputSelect @bind-Value="_selectGame" class="InputSelectPreGame">
+                            @foreach (var item in _gamesCreated.NameGames)
+                            {
+                                <option value="@item.Item2">@item.Item1</option>
+                            }
+                        </InputSelect>
+                    </EditForm>
+        </div>
+    
+        <div style="height: 10px;">
+        </div>
+    }
     
     <div style="display: flex; justify-content: center;">
         <button class="Create" @onclick="CreateGame">Crear Juego</button>
@@ -41,12 +61,25 @@
 
     private bool _select;
 
+    private int _selectGame = -1;
+
+    private SelectGamesCreated _gamesCreated = new SelectGamesCreated();
+
     private void CreateGame()
     {
         if (_initializer.Count == 1 && _rules.IsReady)
         {
             Game!.Add(new BuildGame<T>(_initializer[0], _rules.Build(), _printers[0]));
             _select = true;
+        }
+        else
+        {
+            if(!(DefaultValue is int)) return;
+            if (_selectGame != -1)
+            {
+                Game!.Add((_gamesCreated.Build[_selectGame] as BuildGame<T>)!);
+                _select = true;
+            }
         }
     }
 

@@ -64,10 +64,10 @@
 
     [Parameter]
     public T? DefaultValue { get; set; }
-    
+
     [Parameter]
     public List<Printer>? Printers { get; set; }
-    
+
     [Parameter]
     public BuildRules<T>? Rules { get; set; }
 
@@ -85,7 +85,12 @@
 
     private void CreateRule()
     {
-        if (_table.Count != 0 && _dealer.Count != 0 && _maker.Count != 0)
+        if (_cantToDeal < 1)
+        {
+            _cantToDeal = 1;
+            return;
+        }
+        if (_table.Count != 0 && _dealer.Count != 0 && _maker.Count != 0 && _generator.Count != 0)
         {
             _visibility = false;
             Initializer!.Add(new InitializerGame<T>(_maker[0], _dealer[0], _table[0], _generator[0], _cantToDeal));
@@ -100,18 +105,27 @@
         {
             return new PrinterGeometry(1000);
         }
+
         if (_table[0] is TableDimension<T>)
         {
             if (_table[0].DimensionToken == 2)
             {
                 if (DefaultValue is int)
                 {
-                    if(ClassicDomino((_generator[0] as int[])!))
-                    return new PrinterDomino(1000, true);
+                    bool classic = ClassicDomino((_generator[0] as int[])!);
+
+                    if (_table[0] is TableLongana<int>) return new PrinterLongana(1000, classic);
+
+                    return new PrinterDomino(1000, classic);
                 }
+                if (_table[0] is TableLongana<T>) return new PrinterLongana(1000);
+
                 return new PrinterDomino(1000);
             }
+
+            return new PrinterDimension(1000);
         }
+
         return null;
     }
 
@@ -121,7 +135,8 @@
         {
             if (item > 9) return false;
         }
-        
+
         return true;
     }
+
 }

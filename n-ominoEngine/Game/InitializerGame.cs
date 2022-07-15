@@ -51,26 +51,64 @@ public class InitializerGame<T>
         //Generar las fichas
         List<Token<T>> tokens = this._maker.MakeTokens(this._generator, this._table.DimensionToken);
         List<InfoPlayer<T>> playersInfo = new List<InfoPlayer<T>>();
-        List<InfoTeams<InfoPlayer<T>>> teamGame = new List<InfoTeams<InfoPlayer<T>>>();
-
-        //Distribur los jugadores
-        int teamId = -1;
-
+        
         foreach (var item in playerTeams)
         {
-            if (teamId != item.Item1)
-            {
-                teamGame.Add(new InfoTeams<InfoPlayer<T>>(item.Item1));
-                teamId = item.Item1;
-            }
-            
             var hand = this._dealer.Deal(tokens, this._cantTokenToDeal);
             var aux = new InfoPlayer<T>(hand, new History<T>(), 0, item.Item2);
-            
-            playersInfo.Add(aux);
-            teamGame[teamGame.Count-1].Add(aux);
-        }
 
-        return new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), new[] {0, 1, 2, 3}, tokens, this._generator);
+            playersInfo.Add(aux);
+        }
+        
+        List<InfoTeams<InfoPlayer<T>>> teamGame = DeterminateTeams(playerTeams,playersInfo);
+
+        var turns = new int[playersInfo.Count];
+
+        for (int i = 0; i < turns.Length; i++) turns[i] = i;
+
+        var game = new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), turns, tokens, Array.AsReadOnly(_generator));
+
+        DeterminateLongana(game);
+        
+        return game;
+    }
+
+    private List<InfoTeams<InfoPlayer<T>>> DeterminateTeams(List<(int, int)> playerTeams, List<InfoPlayer<T>> playersInfo)
+    {
+        List<(int team, int Id, int ind)> aux = new List<(int, int, int)>();
+
+        //Preprocesamiento
+        for (int i = 0; i < playerTeams.Count; i++)
+        {
+            aux.Add((playerTeams[i].Item1,playerTeams[i].Item2,i));
+        }
+        
+        aux.Sort();
+
+        //Asignar equipos
+        List<InfoTeams<InfoPlayer<T>>> teamGame = new List<InfoTeams<InfoPlayer<T>>>();
+        
+        int value = -1;
+
+        foreach (var item in aux)
+        {
+            if (value != item.Item1)
+            {
+                teamGame.Add(new InfoTeams<InfoPlayer<T>>(item.Item1));
+                value = item.Item1;
+            }
+
+            teamGame[teamGame.Count - 1].Add(playersInfo[item.Item3]);
+        }
+        return teamGame;
+    }
+
+    private void DeterminateLongana(GameStatus<T> game)
+    {
+        var aux = game.Table as TableLongana<T>;
+        if (aux != null)
+        {
+            aux.AssignCantPlayers(game.Players.Count);
+        }
     }
 }

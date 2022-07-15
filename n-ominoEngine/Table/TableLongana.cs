@@ -12,15 +12,22 @@ public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
     /// </summary>
     public Dictionary<INode<T>, int> BranchNode { get; private set; }
 
-    public TableLongana(int n, int players) : base(n)
+    public TableLongana(int n) : base(n)
     {
-        this.FreeNode = new HashSet<INode<T>>();
-        this.TableNode = new List<INode<T>>();
-        INode<T> node = this.CreateNode(players);
-        this.FreeTable(node);
-        this.CantPlayer = players;
         this.BranchNode = new Dictionary<INode<T>, int>();
-        this.BranchNode.Add(node, -1);
+    }
+
+    public void AssignCantPlayers(int players)
+    {
+        if (this.CantPlayer == 0)
+        {
+            this.FreeNode = new HashSet<INode<T>>();
+            this.TableNode = new List<INode<T>>();
+            this.CantPlayer = players;
+            INode<T> node = this.CreateNode(players);
+            this.FreeTable(node);
+            this.BranchNode.Add(node, -1);
+        }
     }
 
     protected override void Expand(INode<T> node)
@@ -51,7 +58,9 @@ public class TableLongana<T> : TableDimension<T>, ICloneable<TableGame<T>>
 
     public override TableGame<T> Clone()
     {
-        TableGame<T> table = new TableLongana<T>(this.DimensionToken, this.CantPlayer);
+        TableGame<T> table = new TableLongana<T>(this.DimensionToken);
+        ((TableLongana<T>) table).AssignCantPlayers(this.CantPlayer);
+
         return AuxClone(table);
     }
 

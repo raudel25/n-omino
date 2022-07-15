@@ -70,7 +70,7 @@
     {
         if (_valuesRule.Count == _cant + 1 && _valuesCondition.Count == _cant)
         {
-            Build!.StealTokens = new StealTokenRule<T>(_valuesRule.Take(_valuesRule.Count - 2), _valuesCondition, _valuesRule[_valuesRule.Count - 1]);
+            Build!.StealTokens = new StealTokenRule<T>(_valuesRule.Take(_valuesRule.Count - 1), _valuesCondition, _valuesRule[_valuesRule.Count - 1]);
             _vilibility = false;
         }
     }

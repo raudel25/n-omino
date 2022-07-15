@@ -113,6 +113,10 @@
 
     private void Next()
     {
+        if (_cantParam < 1)
+        {
+            _cantParam = 1; return;
+        }
         if (_selcted != -1)
         {
             ParamSelectFunction<T2> param = new ParamSelectFunction<T2>();
@@ -126,8 +130,11 @@
             if (DefaultValue is char)
             {
                 ParamSelectFunction<char> paramChar = (param as ParamSelectFunction<char>)!;
-                if (_valueString.Length == 0) return;
-                paramChar.ValueForParam = _valueString[0];
+                if (VariantGui!.Param[_selcted].ValueForParam)
+                {
+                    if(_valueString.Length==0) return;
+                    paramChar.ValueForParam = _valueString[0];
+                }
             }
 
             if (DefaultValue is string)

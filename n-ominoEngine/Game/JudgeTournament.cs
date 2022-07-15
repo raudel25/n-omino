@@ -4,17 +4,17 @@ using Rules;
 
 namespace Game;
 
-public class JudgeTournament
+public class JudgeTournament<T>
 {
     /// <summary>
     /// Contructores de juego
     /// </summary>
-    private List<BuildGame<dynamic>> _games;
+    private List<BuildGame<T>> _games;
 
     /// <summary>
     /// Jugadores
     /// </summary>
-    private List<Player<dynamic>> _playersPlay;
+    private List<Player<T>> _playersPlay;
 
     /// <summary>
     /// Estado del torneo
@@ -24,10 +24,10 @@ public class JudgeTournament
     /// <summary>
     /// Reglas del torneo
     /// </summary>
-    private InfoRulesTournament<dynamic> _tournamentRules;
+    private InfoRulesTournament<T> _tournamentRules;
 
-    public JudgeTournament(List<BuildGame<dynamic>> games, List<Player<dynamic>> playersPlay,
-        List<(int, int)> playerTeams, InfoRulesTournament<dynamic> rulesTournament)
+    public JudgeTournament(List<BuildGame<T>> games, List<Player<T>> playersPlay,
+        List<(int, int)> playerTeams, InfoRulesTournament<T> rulesTournament)
     {
         this._games = games;
         this._playersPlay = playersPlay;
@@ -75,17 +75,17 @@ public class JudgeTournament
                 List<(int, int)> playerTeams = DeterminatePlayerTeams();
 
                 //Crear los players para usar en el juego
-                Player<dynamic>[] players = new Player<dynamic>[playerTeams.Count];
+                List<Player<T>> players = new List<Player<T>>();
 
-                for (int j = 0; j < players.Length; j++)
+                for (int j = 0; j < players.Count; j++)
                 {
-                    players[j] = this._playersPlay[playerTeams[j].Item2];
+                    players.Add(this._playersPlay[playerTeams[j].Item2]);
                 }
 
-                GameStatus<dynamic> init = this._games[i].Initializer.StartGame(playerTeams);
+                GameStatus<T> init = this._games[i].Initializer.StartGame(playerTeams);
 
                 //Desarrollar un juego
-                Judge<dynamic> judge = new Judge<dynamic>(this._tournament, this._games[i].Rules, init, players,
+                Judge<T> judge = new Judge<T>(this._tournament, this._games[i].Rules, init, players,
                     this._games[i].Print);
                 judge.Game();
 
@@ -115,7 +115,7 @@ public class JudgeTournament
     /// <param name="ind">Indice del torneo</param>
     /// <param name="typeTournament">Indice de las reglas del torneo</param>
     /// <param name="game">Estado del juego</param>
-    private void PostGame(int ind, int typeTournament, GameStatus<dynamic> game)
+    private void PostGame(int ind, int typeTournament, GameStatus<T> game)
     {
         this._tournamentRules.ScorePlayer.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
         this._tournamentRules.ScoreTeam.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);

@@ -39,18 +39,46 @@ public class TeamPlayer<T> : IStrategy<T>
     public Move<T> Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         var FavMoves = GetFavTeamMoves(PossibleMoves, status, rules,id);
+        //si no tiene para jugar lo de su compañero, se pasa
         if(FavMoves.Count() == 0) return new Move<T>(null!, null!, -1);
+        foreach (var item in FavMoves.First().Node!.Connections)
+        {
+            if(item is not null) Console.WriteLine(item.IdPlayer);
+        }
+        Console.WriteLine(FavMoves.First().Token);
         return FavMoves.First();
     }
     public IEnumerable<Move<T>> GetFavTeamMoves (IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         foreach (var (value, cant) in GetTeamPuestas(status, status.FindTeamPlayer(id)).OrderByDescending(x => x.cant))
         {
-            foreach (var item in PossibleMoves.Where( x => (x.Token!.Contains(value) && !x.Mata(value)) && x.Node!.Fathers.Any(y => (status.FindTeamPlayer(y.IdPlayer) == status.FindPLayerById(id)))))
+            foreach (var item in PossibleMoves.Where( x => (x.Token!.Contains(value) && !Mata(x.Node!, value)) && !MataTeam(x.Node!,id,status)))
             {
                 yield return item;
             }
         }
+    }
+
+    public bool MataTeam(INode<T> node, int Id, GameStatus<T> status)
+    {
+        foreach (var conection in node.Connections)
+        {
+            if(conection! is null) continue;
+            if(status.FindTeamPlayer(conection!.IdPlayer) == Id) return false;
+            if(status.FindTeamPlayer(conection!.IdPlayer) == status.FindTeamPlayer(Id)) return true;
+        }
+        return false;
+    }
+    
+    public bool Mata(INode<T> node, T value)
+    {
+        if(node.ValueToken is not null) return false;
+        for (int i = 0; i < node.Connections.Length; i++)
+        {
+            if(node.Connections[i] is null) continue;
+            if(object.Equals(node.Connections[i]!.ValueToken[i], value)) return true;
+        }
+        return false;
     }
 
     public IEnumerable<(T value, int cant)> GetTeamPuestas(GameStatus<T> status, int team)
@@ -73,7 +101,7 @@ public class EnemyPlayer<T> : IStrategy<T>
     public Move<T> Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         var FavMoves = GetKillEnemyMoves(PossibleMoves, status, rules,id);
-        if(FavMoves.Count() == 0) return new Move<T>(null!, null!, -1);
+        Console.WriteLine(FavMoves.First().Token);
         return FavMoves.First();
     }
     public IEnumerable<Move<T>> GetKillEnemyMoves (IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
@@ -120,8 +148,13 @@ public class SinglePlayer<T> : IStrategy<T>
     {
         var myHand = status.Players[status.FindPLayerById(id)].Hand;
         var a = InHand(myHand, status).OrderByDescending(x => x.cant);
-        PossibleMoves = PossibleMoves.Where(x => x.Token!.Contains(a.First().value));
-        Move<T> move = PossibleMoves.MaxBy( x => rules.ScoreToken.ScoreToken(x.Token!))!;
+        IEnumerable<Move<T>> moves = GetMovesWithValue(a.First().value, PossibleMoves);
+        foreach (var item in a.Skip(1))
+        {
+            if(moves.Count() != 0) break;
+            moves = GetMovesWithValue(item.value, PossibleMoves);
+        }
+        Move<T> move = moves.MaxBy( x => rules.ScoreToken.ScoreToken(x.Token!))!;
         foreach(var val in a.Where(x => x.cant == 1))
         {
             PossibleMoves = PossibleMoves.Where(x => !x.Token!.Contains(val.value));
@@ -129,6 +162,8 @@ public class SinglePlayer<T> : IStrategy<T>
         if(PossibleMoves.Count() != 0) move = PossibleMoves.MaxBy( x => rules.ScoreToken.ScoreToken(x.Token!))!;
         return move;
     }
+
+    public IEnumerable<Move<T>> GetMovesWithValue(T value, IEnumerable<Move<T>> a) => a.Where(x=>x.Token!.Contains(value));
 
     public IEnumerable<(T value, int cant)> InHand(Hand<T> hand, GameStatus<T> status)
     {
