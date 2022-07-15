@@ -1,0 +1,127 @@
+@using Rules
+@using Player
+@using InteractionGui
+@typeparam T 
+
+@if (_vilibility)
+{
+    if(_cantplayers == -1)
+    {
+        <div class="SelectRule">
+            <div class="HeadSelect">
+                <h5>Selecciona la cantidad de jugadores</h5>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+                @if (!_selectValue)
+                {
+                    <div style="width: 150px;">
+                        <label>Cantidad de jugadores</label>
+                    </div>
+
+                    <input type="number" @bind="_cantplayersvalue" class="InputSelectHead"/>
+
+                    <button @onclick="()=>{_cantplayers = _cantplayersvalue;}" class="ButtonSelectHeadT">Seleccionar</button>
+                }
+            </div>
+        </div>
+    }
+
+    if(_cantplayers > 0)
+    {
+        <div class="SelectRule">
+            <div class="HeadSelect">
+                <h5>Seleccionar el jugador</h5>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+                @if (!_selectValue)
+                {
+                    <div style="width: 150px;">
+                        <label>Cantidad de estrategias</label>
+                    </div>
+
+                    <input type="number" @bind="_cant" class="InputSelectHead"/>
+
+                    <button @onclick="Select" class="ButtonSelectHeadT">Seleccionar</button>
+                }
+            </div>
+
+            @if (_selectValue)
+            {
+                <div style="display: flex; justify-content: center;">
+                    <SelectVariantGui Cant="_cant + 1" ValueParam="_strategies" VariantGui="new SelectStrategies<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
+                </div>
+
+                <div style="display: flex; justify-content: center;">
+                    <SelectVariantGui Cant="_cant" ValueParam="_valuesCondition" VariantGui="new SelectCondition<T>(DefaultValue!)" Build="new BuildRules<T>()"></SelectVariantGui>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <SelectVariantGui Cant="1" ValueParam="_scoremove" VariantGui="new SelectMoveScorer<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <input type="number" @bind="_team"/>
+                </div>
+            }
+
+            <div style="height: 10px"></div>
+
+            <div style="display: flex; justify-content: center;">
+                <button @onclick="CreateRule" class="ButtonSelectHeadB">Crear</button>
+            </div>
+
+            <div style="height: 5px"></div>
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public List<Player<T>>? Players { get; set; }
+
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    [Parameter]
+    public List<(int, int)>? Teams { get; set; }
+
+    private int _cantplayers = -1;
+
+    private int _cant = 0;
+
+    private int _team = 0;
+
+    private bool _selectValue = false;
+
+    private List<IStrategy<T>> _strategies = new List<IStrategy<T>>();
+
+    private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
+    private List<Scorer<T>.MoveScorer> _scoremove = new();
+
+    private bool _vilibility = true;
+
+    private int _cantplayersvalue = 0;
+
+    private void Select()
+    {
+        _selectValue = true;
+    }
+
+    private void CreateRule()
+    {
+        if (_cant < 0) return;
+
+        if (_strategies.Count == _cant + 1 && _valuesCondition.Count == _cant)
+        {
+            Players!.Add(new Player<T>(_strategies.Take(_strategies.Count - 1), _valuesCondition, _strategies[_strategies.Count - 1], Players.Count, _scoremove[0]));
+            Teams!.Add((_team, Players.Count-1));
+            _cant = 0;
+            _strategies = new();
+            _valuesCondition = new();
+            _scoremove = new();
+            _cantplayers--;
+            _selectValue = false;
+        }
+    }
+
+}
