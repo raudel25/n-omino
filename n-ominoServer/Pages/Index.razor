@@ -1,7 +1,5 @@
 ﻿@page "/"
 @using Rules
-@using InteractionGui
-@using Table
 @using Game
 @using Player
 
@@ -13,138 +11,138 @@
 }
 else
 {
-    <SelectPlayers Teams = "new List<(int,int)>()" Players = "new List<Player<int>>()" DefaultValue = "0"></SelectPlayers>
-
-    <div style="display: flex; justify-content: center;">
-        <h1>N-OMINO</h1>
-    </div>
-
     if (_typeSelect == -1)
     {
+        <div style="height: 50px;"></div>
+
+        <div style="display: flex; justify-content: center;">
+            <h1 style="font-family: Candara; font-size: 50px;">N-OMINO</h1>
+        </div>
+
+        <div style="height: 325px;"></div>
+
         <div style="display: flex; justify-content: center;">
             <h5>Seleccione el tipo para su juego</h5>
         </div>
-        
+
         <div>
             <div style="display: flex; justify-content: center;">
                 <div>
-                    <input name="TypeGame" type="radio" @oninput="() => { _type = 0;}"/>
+                    <input name="TypeGame" type="radio" @oninput="() => { _type = 0; }"/>
                     <label>Numeros enteros</label>
                     <br/>
-                    <input name="TypeGame" type="radio" @oninput="() => { _type = 1;}"/>
+                    <input name="TypeGame" type="radio" @oninput="() => { _type = 1; }"/>
                     <label>Letras</label>
-                    <br/>
-                    <input name="TypeGame" type="radio" @oninput="() => { _type = 2;}"/>
-                    <label>Palabras</label>
                 </div>
             </div>
+
+            <br/>
+
             <div style="display: flex; justify-content: center;">
-                <button class="Create" @onclick="() => {_typeSelect = _type;}">Aceptar</button>
+                <button class="Create" @onclick="() => { _typeSelect = _type; }">Aceptar</button>
             </div>
         </div>
     }
 
     if (_typeSelect == 0)
     {
-        <BuildTournamentGui Games="_gameInt" DefaultValue="1" Tournament="_rules"></BuildTournamentGui>
-        <SelectPlayer PlayersList="_playersInt"></SelectPlayer>
+        <BuildTournamentGui Games="_gameInt" DefaultValue="1" Tournament="_rulesInt"></BuildTournamentGui>
+
+        if (_rulesInt.Count == 1)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectPlayers Teams="_teams" Players="_playersInt" DefaultValue="1"></SelectPlayers>
+            </div>
+        }
     }
     if (_typeSelect == 1)
     {
-        <BuildGameGui Game="_gameChar" DefaultValue="'1'"></BuildGameGui>
-        <SelectPlayer PlayersList="_playersChar"></SelectPlayer>
+        <BuildTournamentGui Games="_gameChar" DefaultValue="'1'" Tournament="_rulesChar"></BuildTournamentGui>
+
+        if (_rulesChar.Count == 1)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectPlayers Teams="_teams" Players="_playersChar" DefaultValue="'1'"></SelectPlayers>
+            </div>
+        }
     }
-    if (_typeSelect == 2)
+
+    <br/>
+    <br/>
+
+    if (_typeSelect != -1)
     {
-        <BuildGameGui Game="_gameString" DefaultValue="_value"></BuildGameGui>
-        <SelectPlayer PlayersList="_playersString"></SelectPlayer>
+        <div style="display: flex; justify-content: center;">
+            <button class="Create" @onclick="Start">Comenzar</button>
+        </div>
     }
-    
-    <button @onclick="Start">Start</button>
-    <button @onclick="Build">Build</button>
 }
 
 @code
 {
-    private string _value = "1";
-    
     private bool _game;
-    
+
     private int _typeSelect = -1;
 
     private int _type = -1;
-    private List<BuildGame<int>> _gameInt =new List<BuildGame<int>>();
+
+    private List<BuildGame<int>> _gameInt = new List<BuildGame<int>>();
 
     private List<BuildGame<char>> _gameChar = new List<BuildGame<char>>();
 
-    private List<BuildGame<string>> _gameString = new List<BuildGame<string>>();
+    private List<Player<int>> _playersInt = new List<Player<int>>();
 
-    private List<List<Player<int>>> _playersInt = new List<List<Player<int>>>();
-
-    private List<List<Player<char>>>  _playersChar = new List<List<Player<char>>>();
-    
-    private List<List<Player<string>>>  _playersString = new List<List<Player<string>>>();
+    private List<Player<char>> _playersChar = new List<Player<char>>();
 
     private JudgeTournament<int>? _judgeInt;
 
-    private Judge<char>? _judgeChar;
+    private JudgeTournament<char>? _judgeChar;
 
-    private Judge<string>? _judgeString;
+    private List<InfoRulesTournament<int>> _rulesInt = new List<InfoRulesTournament<int>>();
 
-    private List<InfoRulesTournament<int>> _rules = new List<InfoRulesTournament<int>>();
+    private List<InfoRulesTournament<char>> _rulesChar = new List<InfoRulesTournament<char>>();
+
+    private List<(int,int,string)> _teams = new List<(int, int,string)>();
 
     private async Task Start()
     {
+        if (!CorrectGame()) return;
+        CreateJudge();
         _game = true;
-        if (_typeSelect==0)
+
+        if (_typeSelect == 0)
         {
-            await Task.Run(() =>_judgeInt.TournamentGame());
+            await Task.Run(() => _judgeInt!.TournamentGame());
         }
         if (_typeSelect == 1)
         {
-            await Task.Run(() =>_judgeChar!.Game());
-        }
-        if (_typeSelect == 2)
-        {
-            await Task.Run(() =>_judgeString!.Game());
+            await Task.Run(() => _judgeChar!.TournamentGame());
         }
     }
 
-    private void Build()
+    private void CreateJudge()
     {
         if (_typeSelect == 0)
         {
-            _judgeInt = B(_gameInt, _playersInt[0],_rules[0]);
+            _judgeInt = new JudgeTournament<int>(_gameInt, _playersInt, _teams, _rulesInt[0]);
         }
-        
         if (_typeSelect == 1)
         {
-            _judgeChar = A(_gameChar[0], _playersChar[0]);
+            _judgeChar = new JudgeTournament<char>(_gameChar, _playersChar, _teams, _rulesChar[0]);
         }
-        
-        if (_typeSelect == 2)
+    }
+
+    private bool CorrectGame()
+    {
+        if (_typeSelect == 0)
         {
-            _judgeString = A(_gameString[0], _playersString[0]);
+            if (_gameInt.Count > 0 && _playersInt.Count > 0 && _rulesInt.Count > 0 && _teams.Count > 0) return true;
         }
-        
-    }
+        if (_typeSelect == 1)
+        {
+            if (_gameChar.Count > 0 && _playersChar.Count > 0 && _rulesChar.Count > 0 && _teams.Count > 0) return true;
+        }
 
-    public static List<BuildGame<int>> build()
-    {
-        var a = new SelectGamesCreated();
-        return new List<BuildGame<int>>(){a.Build[0], a.Build[6]};
-    }
-
-    private Judge<T> A<T>(BuildGame<T> game, List<Player<T>> player)
-    {
-        return new Judge<T>(null!,game.Rules,
-            game.Initializer.StartGame(new List<(int, int)>() { (0, 0), (1, 1), (0, 2), (1, 3) }),
-            player,game.Print);
-    }
-
-    private JudgeTournament<T> B<T>(List<BuildGame<T>> games, List<Player<T>> player,InfoRulesTournament<T> rules)
-    {
-        return new JudgeTournament<T>(games, player, new List<(int, int)>() {(0, 0), (0, 1), (1, 2), (1, 3)}, rules);
-        ;
+        return false;
     }
 }

@@ -46,7 +46,7 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
     /// </summary>
     /// <param name="playerTeams">Distribucion de los jugadores</param>
     /// <returns>Estado del juego</returns>
-    public GameStatus<T> StartGame(List<(int, int)> playerTeams)
+    public GameStatus<T> StartGame(List<(int, int, string)> playerTeams)
     {
         //Generar las fichas
         List<Token<T>> tokens = this._maker.MakeTokens(this._generator, this._table.DimensionToken);
@@ -55,7 +55,7 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
         foreach (var item in playerTeams)
         {
             var hand = this._dealer.Deal(tokens, this._cantTokenToDeal);
-            var aux = new InfoPlayer<T>(hand, new History<T>(), 0, item.Item2);
+            var aux = new InfoPlayer<T>(hand, new History<T>(), 0, item.Item2, item.Item3);
 
             playersInfo.Add(aux);
         }
@@ -66,14 +66,16 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
 
         for (int i = 0; i < turns.Length; i++) turns[i] = i;
 
-        var game = new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), turns, tokens, Array.AsReadOnly(_generator));
+        var game = new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), turns, tokens,
+            Array.AsReadOnly(_generator));
 
         DeterminateLongana(game);
 
         return game;
     }
 
-    private List<InfoTeams<InfoPlayer<T>>> DeterminateTeams(List<(int, int)> playerTeams, List<InfoPlayer<T>> playersInfo)
+    private List<InfoTeams<InfoPlayer<T>>> DeterminateTeams(List<(int, int, string)> playerTeams,
+        List<InfoPlayer<T>> playersInfo)
     {
         List<(int team, int Id, int ind)> aux = new List<(int, int, int)>();
 
@@ -100,6 +102,7 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
 
             teamGame[teamGame.Count - 1].Add(playersInfo[item.Item3]);
         }
+
         return teamGame;
     }
 
@@ -114,6 +117,7 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
 
     public InitializerGame<T> Reset()
     {
-        return new InitializerGame<T>(this._maker, this._dealer, this._table.Reset(), this._generator, this._cantTokenToDeal);
+        return new InitializerGame<T>(this._maker, this._dealer, this._table.Reset(), this._generator,
+            this._cantTokenToDeal);
     }
 }

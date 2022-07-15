@@ -12,7 +12,7 @@ public class NodeDimension<T> : INode<T>
     public ValuesNode<T>[] ValuesAssign { get; private set; }
 
     public int Id { get; private set; }
-    public int IdPlayer { get; set; }
+    int INode<T>.IdPlayer { get; set; }
     public List<INode<T>> Fathers { get; private set; }
 
     /// <summary>

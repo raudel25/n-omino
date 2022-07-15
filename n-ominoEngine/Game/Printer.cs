@@ -149,12 +149,13 @@ public abstract class Printer : IReset<Printer>
         }
         else action = "Pase";
 
-        InfoPlayerGui playerInfo = new InfoPlayerGui("Jugador " + player.Id, player.Passes, player.Score);
+        InfoPlayerGui playerInfo = new InfoPlayerGui(player.Name, player.Passes, player.Score);
 
         Printer.ExecuteHandEvent(location, locationPlay, action, playerInfo);
     }
 
     public abstract Printer Reset();
+
     Printer IReset<Printer>.Reset()
     {
         return this.Reset();

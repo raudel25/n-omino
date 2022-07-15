@@ -7,7 +7,7 @@ public class NodeGeometry<T> : INode<T>
     public T[] ValuesConnections { get; private set; }
     public readonly Coordinates Location;
     public int Id { get; private set; }
-    public int IdPlayer { get; set; }
+    int INode<T>.IdPlayer { get; set; }
     public List<INode<T>> Fathers { get; private set; }
 
     public NodeGeometry((int, int)[] connections, int id)

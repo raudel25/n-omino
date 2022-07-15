@@ -21,9 +21,12 @@ public class InfoPlayer<T> : ICloneable<InfoPlayer<T>>
 
     //puntuación del jugador
     public double Score { get; set; }
+    
+    public string Name { get; private set; }
 
-    public InfoPlayer(Hand<T> hand, History<T> history, double score, int id)
+    public InfoPlayer(Hand<T> hand, History<T> history, double score, int id,string name)
     {
+        this.Name = name;
         this.Hand = hand;
         this.History = history;
         this.Score = score;
@@ -32,7 +35,7 @@ public class InfoPlayer<T> : ICloneable<InfoPlayer<T>>
 
     public InfoPlayer<T> Clone()
     {
-        return new InfoPlayer<T>(Hand!.Clone(), History.Clone(), Score, Id);
+        return new InfoPlayer<T>(Hand!.Clone(), History.Clone(), Score, Id,this.Name);
     }
 
     object ICloneable.Clone()

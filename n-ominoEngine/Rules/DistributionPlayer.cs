@@ -16,7 +16,7 @@ public class ClassicDistribution : IDistributionPlayer
 {
     public void DeterminateDistribution(TournamentStatus tournament, int ind)
     {
-        List<(int, int)> aux = new List<(int, int)>();
+        List<(int, int, string)> aux = new List<(int, int, string)>();
 
         bool[] visited = new bool[tournament.DistributionPlayers!.Count];
 

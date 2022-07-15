@@ -40,14 +40,10 @@ public class Judge<T>
         this._players = players;
         this._print = print;
         this._tournament = tournament;
-
-        //this.Game();
     }
 
     public void Game()
     {
-        //Printer.ExecuteWinnerEvent("");
-
         int i = StartGame();
 
         while (!EndGame())
@@ -72,7 +68,8 @@ public class Judge<T>
             i++;
         }
 
-        Printer.ExecuteMessageEvent("El jugador " + this._infoGame.PlayerWinner + " ha ganado");
+        Printer.ExecuteMessageEvent(_infoGame.Players[_infoGame.FindPLayerById(this._infoGame.PlayerWinner)] +
+                                    " ha ganado");
     }
 
     /// <summary>
@@ -158,7 +155,7 @@ public class Judge<T>
         }
         else
         {
-            HistoryPlayer(new Move<T>(null,null,-1),ind);
+            HistoryPlayer(new Move<T>(null, null, -1), ind);
 
             GuiJudge(null, ind);
         }

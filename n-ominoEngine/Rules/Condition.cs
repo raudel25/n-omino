@@ -234,6 +234,6 @@ public class CantGamesTournament<T> : ICondition<T>
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind)
     {
-        return tournament.Index == _cant;
+        return tournament.Index == _cant - 1;
     }
 }

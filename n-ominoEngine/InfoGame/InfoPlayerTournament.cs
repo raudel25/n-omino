@@ -14,9 +14,15 @@ public class InfoPlayerTournament
     /// ID del jugador
     /// </summary>
     public int Id { get; private set; }
+    
+    /// <summary>
+    /// Nombre del jugador
+    /// </summary>
+    public string Name { get; private set; }
 
-    public InfoPlayerTournament(int id)
+    public InfoPlayerTournament(string name,int id)
     {
         this.Id = id;
+        this.Name = name;
     }
 }
