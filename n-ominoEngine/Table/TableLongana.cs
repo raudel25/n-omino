@@ -64,6 +64,11 @@ public class TableLongana<T> : TableDimension<T>
         return AuxClone(table);
     }
 
+    public override TableGame<T> Reset()
+    {
+        return new TableLongana<T>(this.DimensionToken);
+    }
+
     protected override void UnionNode(INode<T> left, INode<T> right, int ind)
     {
         if (this.PlayNode.Count == 0)

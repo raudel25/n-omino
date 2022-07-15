@@ -4,7 +4,7 @@ namespace InteractionGui;
 
 public class SelectPlayerGameTournament<T> : IVariant<IPlayerGame, T>
 {
-    public string Description { get; } = "Forma de determinar los jugadores que participan en el torneo";
+    public string Description { get; } = "Determinar los jugadores que participan en el torneo";
 
     public List<IVariant<IPlayerGame, T>.Select> Values { get; } = new List<IVariant<IPlayerGame, T>.Select>()
     {

@@ -70,7 +70,9 @@ public class JudgeTournament<T>
         {
             for (int i = 0; i < this._games.Count; i++)
             {
-                PreGame(ind, i);
+                GameStatus<T> aux = _games[i].Initializer.StartGame(new List<(int, int)>());
+
+                PreGame(ind, aux, i);
 
                 List<(int, int)> playerTeams = this._tournament.DistributionPlayers!;
 
@@ -81,6 +83,8 @@ public class JudgeTournament<T>
                 {
                     players.Add(this._playersPlay[playerTeams[j].Item2]);
                 }
+
+                _games[i] = _games[i].Reset();
 
                 GameStatus<T> init = this._games[i].Initializer.StartGame(playerTeams);
 
@@ -109,14 +113,15 @@ public class JudgeTournament<T>
     /// Analizar las reglas a ejecutar antes del juego
     /// </summary>
     /// <param name="ind">Indice del torneo</param>
+    /// <param name="game">Estado del juego</param>
     /// <param name="typeTournament">Indice de las reglas del torneo</param>
-    private void PreGame(int ind, int typeTournament)
+    private void PreGame(int ind, GameStatus<T> game, int typeTournament)
     {
-        this._tournamentRules.PlayerGame.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules,
+        this._tournamentRules.PlayerGame.RunRule(this._tournament, game, game, this._games[typeTournament].Rules,
             ind);
-        this._tournamentRules.TeamGame.RunRule(this._tournament, null!, null!, this._games[typeTournament].Rules, ind);
+        this._tournamentRules.TeamGame.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
         _tournament.DistributionPlayers = DeterminatePlayerTeams();
-        this._tournamentRules.DistributionPlayer.RunRule(this._tournament, null!, null!,
+        this._tournamentRules.DistributionPlayer.RunRule(this._tournament, game, game,
             this._games[typeTournament].Rules, ind);
         this._tournament.Index = ind;
     }

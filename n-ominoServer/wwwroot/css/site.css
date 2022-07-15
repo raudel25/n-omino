@@ -668,6 +668,15 @@ a, .btn-link {
     outline: none;
 }
 
+.PreCreated{
+    width: 300px;
+    height: 65px;
+    border-radius: 5px;
+    border: solid rgb(131, 62, 13) 1px;
+    background-color: wheat;
+    opacity: 0.95;
+}
+
 body {
     background-image: url(/Domino.jpg);
 }

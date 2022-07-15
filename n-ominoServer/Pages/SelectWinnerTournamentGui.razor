@@ -1,0 +1,80 @@
+@using Rules
+@using InteractionGui
+@typeparam T 
+
+@if (_vilibility)
+{
+    <div class="SelectRule">
+        <div class="HeadSelect">
+            <h5>Seleccionar el ganador del torneo</h5>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            @if (!_selectValue)
+            {
+                <div style="width: 150px;">
+                    <label>Cantidad de reglas</label>
+                </div>
+
+                <input type="number" @bind="_cant" class="InputSelectHead"/>
+
+                <button @onclick="Select" class="ButtonSelectHeadT">Seleccionar</button>
+            }
+        </div>
+
+        @if (_selectValue)
+        {
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui Cant="_cant" ValueParam="_valuesRule" VariantGui="new SelectWinnerTournament<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui Cant="_cant" ValueParam="_valuesCondition" VariantGui="new SelectCondition<T>(DefaultValue!)" Build="new BuildRules<T>()"></SelectVariantGui>
+            </div>
+        }
+
+        <div style="height: 10px"></div>
+
+        <div style="display: flex; justify-content: center;">
+            <button @onclick="CreateRule" class="ButtonSelectHeadB">Crear</button>
+        </div>
+
+        <div style="height: 5px"></div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public BuildRulesTournament<T>? Build { get; set; }
+
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    private int _cant = 1;
+
+    private bool _selectValue = false;
+
+    private List<IWinnerTournament> _valuesRule = new List<IWinnerTournament>();
+
+    private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
+
+    private bool _vilibility = true;
+
+    private void Select()
+    {
+        _selectValue = true;
+    }
+
+    private void CreateRule()
+    {
+        if (_cant < 1) return;
+
+        if (_valuesRule.Count == _cant && _valuesCondition.Count == _cant)
+        {
+            Build!.WinnerTournament = new WinnerTournamentRule<T>(_valuesRule, _valuesCondition);
+            _vilibility = false;
+        }
+    }
+
+}

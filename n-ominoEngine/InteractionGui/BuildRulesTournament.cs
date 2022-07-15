@@ -34,9 +34,25 @@ public class BuildRulesTournament<T>
     /// </summary>
     public WinnerTournamentRule<T>? WinnerTournament { get; set; }
 
+    public bool IsReady { get; set; }
+
     public InfoRulesTournament<T> Build()
     {
         return new InfoRulesTournament<T>(this.PlayerGame!, this.ScorePlayer!, this.DistributionPlayer!,
             this.ScoreTeam!, this.TeamGame!, this.WinnerTournament!);
+    }
+
+    public void Injection(PlayerGameRule<T> playerGame, ScorePlayerTournamentRule<T> scorePlayer,
+        DistributionPlayerRule<T> distribution,
+        ScoreTeamTournamentRule<T> scoreTeam, TeamsGameRule<T> teamGame,
+        WinnerTournamentRule<T> winner)
+    {
+        this.DistributionPlayer = distribution;
+        this.PlayerGame = playerGame;
+        this.ScorePlayer = scorePlayer;
+        this.ScoreTeam = scoreTeam;
+        this.TeamGame = teamGame;
+        this.WinnerTournament = winner;
+        this.IsReady = true;
     }
 }

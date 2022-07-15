@@ -56,7 +56,6 @@
         if (SteelRules())
         {
             Rules!.ToPassToken = new ToPassTokenRule<T>(new[] {new NoToPassToken()}, new[] {new ConditionDefault<T>()}, new NoToPassToken());
-    //Rules.Begin = new BeginGameRule<T>(new List<IBeginGame<T>>(), new List<ICondition<T>>(), new BeginGameRandom<T>());
             Rules.IsReady = true;
         }
     }

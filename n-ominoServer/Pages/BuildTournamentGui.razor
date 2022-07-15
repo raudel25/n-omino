@@ -1,0 +1,97 @@
+@using Game
+@using Rules
+@using InteractionGui
+@typeparam T
+
+@if (!_select)
+{
+    <div style="display: flex; justify-content: center;">
+        <h3>Cree un torneo</h3>
+    </div>
+
+    if (_selectRules)
+    {
+        <SelectRulesTournament Rules="_rules" DefaultValue="DefaultValue!"></SelectRulesTournament>
+    }
+    else
+    {
+        <div style="display: flex; justify-content: center;">
+            <button class="Create" @onclick="() => { _selectRules = true; }">Seleccionar reglas</button>
+        </div>
+    }
+
+    <div style="height: 10px;">
+    </div>
+
+    if (_selectGame)
+    {
+        <BuildGameGui Game="_gameToBuild" DefaultValue="DefaultValue!"></BuildGameGui>
+    }
+
+    <div style="height: 10px;">
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        <button class="Create" @onclick="NewGame">@_game</button>
+    </div>
+
+    <div style="height: 20px;">
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        <button class="Create" @onclick="CreateTournament">Crear Torneo</button>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public List<BuildGame<T>>? Games { get; set; }
+
+    [Parameter]
+    public List<InfoRulesTournament<T>>? Tournament { get; set; }
+
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    private BuildRulesTournament<T> _rules = new BuildRulesTournament<T>();
+
+    private bool _select = false;
+
+    private bool _selectRules = false;
+
+    private bool _selectGame = false;
+
+    private string _game = "Añadir un juego";
+
+    private List<BuildGame<T>> _gameToBuild = new List<BuildGame<T>>();
+
+    private void CreateTournament()
+    {
+        if (Games!.Count > 0 && _rules.IsReady)
+        {
+            Tournament!.Add(_rules.Build());
+            _select = true;
+        }
+    }
+
+    private void NewGame()
+    {
+        if (_selectGame)
+        {
+            if (_gameToBuild.Count == 1)
+            {
+                Games!.Add(_gameToBuild[0]);
+                _selectGame = false;
+                _game = "Añadir un juego";
+            }
+        }
+        else
+        {
+            _game = "Aceptar";
+            _selectGame = true;
+            _gameToBuild = new List<BuildGame<T>>();
+        }
+    }
+
+}

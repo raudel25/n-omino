@@ -1,0 +1,104 @@
+@using InteractionGui
+@using Rules
+@using Table
+@typeparam T
+
+@if (!Rules!.IsReady)
+{
+    <div style="display: flex; justify-content: center">
+        <h5>Construya las reglas para su torneo</h5>
+    </div>
+    <div style="display: flex; justify-content: center">
+        <div>
+            <SelectPlayerGameTournamentGui DefaultValue="DefaultValue!" Build="Rules"></SelectPlayerGameTournamentGui>
+
+            <SelectTeamGameTournamentGui DefaultValue="DefaultValue!" Build="Rules"></SelectTeamGameTournamentGui>
+        </div>
+
+        <div>
+            <SelectDistributionPlayerGui DefaultValue="DefaultValue!" Build="Rules"></SelectDistributionPlayerGui>
+
+            <SelectScorePlayerTournamentGui DefaultValue="DefaultValue!" Build="Rules"></SelectScorePlayerTournamentGui>
+        </div>
+
+        <div>
+            <SelectScoreTeamTournamentGui DefaultValue="DefaultValue!" Build="Rules"></SelectScoreTeamTournamentGui>
+
+            <SelectWinnerTournamentGui DefaultValue="DefaultValue!" Build="Rules"></SelectWinnerTournamentGui>
+        </div>
+    </div>
+
+    <div style="height: 10px;">
+    </div>
+
+    if (DefaultValue is int)
+    {
+        <div style="display: flex; justify-content: center">
+            <div class="PreCreated">
+                <div style="display: flex; justify-content: center;">
+                    <h7>Seleccione un las reglas precreadas</h7>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <EditForm Model="_tournamentCreated">
+                        <InputSelect @bind-Value="_selectTournament" class="InputSelectPreGame">
+                            @foreach (var item in _tournamentCreated.NameTournaments)
+                            {
+                                <option value="@item.Item2">@item.Item1</option>
+                            }
+                        </InputSelect>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 10px;">
+        </div>
+    }
+
+    <div style="display: flex; justify-content: center;">
+        <button class="Create" @onclick="CreateGame">Crear Reglas</button>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    [Parameter]
+    public BuildRulesTournament<T>? Rules { get; set; }
+
+    private int _selectTournament = -1;
+
+    private SelectTournamentCreated<T> _tournamentCreated = new SelectTournamentCreated<T>();
+
+    private void CreateGame()
+    {
+        if (SteelRules())
+        {
+            Rules!.IsReady = true;
+        }
+        else
+        {
+            if (!(DefaultValue is int)) return;
+            if (_selectTournament != -1)
+            {
+                InfoRulesTournament<T> aux = _tournamentCreated.Rules[_selectTournament];
+                Rules!.Injection(aux.PlayerGame, aux.ScorePlayer, aux.DistributionPlayer, aux.ScoreTeam, aux.TeamGame, aux.WinnerTournament);
+            }
+        }
+    }
+
+    private bool SteelRules()
+    {
+        if (Rules!.TeamGame == null) return false;
+        if (Rules.ScorePlayer == null) return false;
+        if (Rules.ScoreTeam == null) return false;
+        if (Rules.DistributionPlayer == null) return false;
+        if (Rules.PlayerGame == null) return false;
+        if (Rules.WinnerTournament == null) return false;
+
+        return true;
+    }
+
+}

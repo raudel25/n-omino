@@ -44,7 +44,7 @@ else
 
     if (_typeSelect == 0)
     {
-        <BuildGameGui Game="_gameInt" DefaultValue="1"></BuildGameGui>
+        <BuildTournamentGui Games="_gameInt" DefaultValue="1" Tournament="_rules"></BuildTournamentGui>
         <SelectPlayer PlayersList="_playersInt"></SelectPlayer>
     }
     if (_typeSelect == 1)
@@ -90,10 +90,12 @@ else
 
     private Judge<string> _judgeString;
 
+    private List<InfoRulesTournament<int>> _rules = new List<InfoRulesTournament<int>>();
+
     private async Task Start()
     {
         _game = true;
-        if (true)
+        if (_typeSelect==0)
         {
             await Task.Run(() =>_judgeInt.TournamentGame());
         }
@@ -109,10 +111,10 @@ else
 
     private void Build()
     {
-        // if (_typeSelect == 0)
-        // {
-        //     _judgeInt = A(_gameInt[0], _playersInt[0]);
-        // }
+        if (_typeSelect == 0)
+        {
+            _judgeInt = B(_gameInt, _playersInt[0],_rules[0]);
+        }
         
         if (_typeSelect == 1)
         {
@@ -137,5 +139,11 @@ else
         return new Judge<T>(null,game.Rules,
             game.Initializer.StartGame(new List<(int, int)>() { (0, 0), (1, 1), (2, 2), (3, 3) }),
             player,game.Print);
+    }
+
+    private JudgeTournament<T> B<T>(List<BuildGame<T>> games, List<Player<T>> player,InfoRulesTournament<T> rules)
+    {
+        return new JudgeTournament<T>(games, player, new List<(int, int)>() {(0, 0), (0, 1), (1, 2), (1, 3)}, rules);
+        ;
     }
 }
