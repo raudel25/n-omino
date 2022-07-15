@@ -123,7 +123,7 @@
     {
         if (_cant < 0) return;
 
-        if (_strategies.Count == _cant + 1 && _valuesCondition.Count == _cant)
+        if (_strategies.Count == _cant + 1 && _valuesCondition.Count == _cant && _scoreMove.Count == 1)
         {
             Players!.Add(new Player<T>(_strategies.Take(_strategies.Count - 1), _valuesCondition, _strategies[_strategies.Count - 1], Players.Count, _scoreMove[0]));
             Teams!.Add((_team, Players.Count - 1,_name));

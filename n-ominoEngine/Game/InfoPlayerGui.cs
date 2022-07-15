@@ -6,7 +6,7 @@ public class InfoPlayerGui
     /// Score del jugador
     /// </summary>
     public double Score { get; private set; }
-    
+
     /// <summary>
     /// Nombre del jugador
     /// </summary>

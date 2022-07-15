@@ -32,9 +32,4 @@ public class BeginGameRule<T> : ActionConditionRule<IBeginGame<T>, T>, ICloneabl
     {
         return new BeginGameRule<T>(this.Actions, this.Condition, this.Default!);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

@@ -2,16 +2,16 @@ using Rules;
 
 namespace InteractionGui;
 
-public class SelectWinnerGame<T> : IVariant<IWinnerGame<T>,T>
+public class SelectWinnerGame<T> : IVariant<IWinnerGame<T>, T>
 {
     public string Description { get; } = "Forma de seleccionar el jugador del juego";
 
-    public List<IVariant<IWinnerGame<T>,T>.Select> Values { get; }= new List<IVariant<IWinnerGame<T>,T>.Select>()
+    public List<IVariant<IWinnerGame<T>, T>.Select> Values { get; } = new List<IVariant<IWinnerGame<T>, T>.Select>()
     {
-        (comp)=>new WinnerGameHigh<T>(),
-        (comp)=>new WinnerGameSmall<T>(),
-        (comp)=>new WinnerGameTeamHigh<T>(),
-        (comp)=>new WinnerGameSmall<T>()
+        (comp) => new WinnerGameHigh<T>(),
+        (comp) => new WinnerGameSmall<T>(),
+        (comp) => new WinnerGameTeamHigh<T>(),
+        (comp) => new WinnerGameSmall<T>()
     };
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>

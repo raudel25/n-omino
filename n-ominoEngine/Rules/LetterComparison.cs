@@ -1,6 +1,6 @@
 namespace Rules;
 
-public class LetterComparisonVocalsComodin:IComparison<char>
+public class LetterComparisonVocalsComodin : IComparison<char>
 {
     public bool Compare(char a, char b)
     {
@@ -14,7 +14,7 @@ public class LetterComparisonVocalsComodin:IComparison<char>
     }
 }
 
-public class LetterComparisonAlphabet:IComparison<char>
+public class LetterComparisonAlphabet : IComparison<char>
 {
     public bool Compare(char a, char b)
     {

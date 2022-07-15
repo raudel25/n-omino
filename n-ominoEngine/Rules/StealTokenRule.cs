@@ -46,9 +46,4 @@ public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, IClonea
     {
         return new StealTokenRule<T>(this.Actions, this.Condition, this.Default!);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

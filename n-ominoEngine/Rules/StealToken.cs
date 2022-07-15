@@ -51,12 +51,12 @@ public class ClassicStealToken<T> : IStealToken<T>
         while (true)
         {
             if (game.TokensTable!.Count == 0) break;
-            
+
             Token<T> aux = game.TokensTable![rnd.Next(game.TokensTable.Count)];
-            
+
             //Actualizar la mano
-            game.Players[original.Turns[ind]].Hand!.Add(aux);
-            original.Players[original.Turns[ind]].Hand!.Add(aux);
+            game.Players[original.Turns[ind]].Hand.Add(aux);
+            original.Players[original.Turns[ind]].Hand.Add(aux);
             game.TokensTable!.Remove(aux);
             original.TokensTable!.Remove(aux);
 
@@ -64,7 +64,7 @@ public class ClassicStealToken<T> : IStealToken<T>
             hand.Add(aux);
             play = rules.IsValidPlay.ValidPlayPlayer(hand, game, ind);
 
-            if(play) break;
+            if (play) break;
         }
 
         game.TokensTable = null;

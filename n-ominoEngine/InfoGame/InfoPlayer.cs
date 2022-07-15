@@ -15,16 +15,16 @@ public class InfoPlayer<T> : ICloneable<InfoPlayer<T>>
 
     //cantidad de pases que se ha dado el jugador
     public int Passes => History.Passes;
-    
+
     //guarda el historial de jugadas de ese jugador
     public History<T> History { get; set; }
 
     //puntuación del jugador
     public double Score { get; set; }
-    
+
     public string Name { get; private set; }
 
-    public InfoPlayer(Hand<T> hand, History<T> history, double score, int id,string name)
+    public InfoPlayer(Hand<T> hand, History<T> history, double score, int id, string name)
     {
         this.Name = name;
         this.Hand = hand;
@@ -35,11 +35,6 @@ public class InfoPlayer<T> : ICloneable<InfoPlayer<T>>
 
     public InfoPlayer<T> Clone()
     {
-        return new InfoPlayer<T>(Hand!.Clone(), History.Clone(), Score, Id,this.Name);
-    }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
+        return new InfoPlayer<T>(Hand.Clone(), History.Clone(), Score, Id, this.Name);
     }
 }

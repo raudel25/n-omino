@@ -34,7 +34,7 @@ public static class AuxTable
                 for (int i = 0; i < node.Location.Coord.Length; i++)
                 {
                     ValuesNode<int> aux = table.ValuesNodeTable(item, i)!;
-                    if(!aux.IsAssignValue) continue;
+                    if (!aux.IsAssignValue) continue;
                     sum += aux.Values[0];
                 }
             }
@@ -43,7 +43,7 @@ public static class AuxTable
                 for (int i = 0; i < item.ValuesConnections.Length; i++)
                 {
                     ValuesNode<int> aux = table.ValuesNodeTable(item, i)!;
-                    if(!aux.IsAssignValue) continue;
+                    if (!aux.IsAssignValue) continue;
                     sum += aux.Values[0];
                 }
             }

@@ -6,6 +6,7 @@ namespace InfoGame;
 public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>>
 {
     private HashSet<Token<T>> _hand;
+
     public Hand()
     {
         this._hand = new();
@@ -62,18 +63,14 @@ public class Hand<T> : ICollection<Token<T>>, ICloneable<Hand<T>>
         return copy;
     }
 
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
-
     public int HowManyTokensContains(T value)
     {
         int cont = 0;
         foreach (var token in this)
         {
-            if(token.Contains(value)) cont++;
+            if (token.Contains(value)) cont++;
         }
+
         return cont;
     }
 }

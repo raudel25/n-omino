@@ -26,7 +26,7 @@ public class ClassicScoreTeamTournament<T> : IScoreTeamTournament<T>
             {
                 for (int j = 0; j < game.Teams[i].Count; j++)
                 {
-                    foreach (var token in game.Teams[i][j].Hand!)
+                    foreach (var token in game.Teams[i][j].Hand)
                     {
                         score += rules.ScoreToken.ScoreToken(token);
                     }
@@ -49,6 +49,7 @@ public class PlayersScoreTeamTournament<T> : IScoreTeamTournament<T>
             {
                 sum += game.Teams[i][j].Score;
             }
+
             tournament.ScoreTeams[game.Teams[i].Id] += sum;
         }
     }

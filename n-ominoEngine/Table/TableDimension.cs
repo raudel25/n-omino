@@ -3,7 +3,6 @@ namespace Table;
 public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
 {
     /// <summary>Cantidad de conexiones de un nodo de la mesa</summary>
-
     public TableDimension(int n) : base(n)
     {
         INode<T> node = CreateNode(n);
@@ -76,11 +75,6 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
         if (nodeDimension == null) return null;
 
         return nodeDimension.ValuesAssign[ind];
-    }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
     }
 
     public override TableGame<T> Reset()

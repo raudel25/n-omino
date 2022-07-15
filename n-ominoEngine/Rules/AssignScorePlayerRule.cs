@@ -28,9 +28,4 @@ public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T
     {
         return new AssignScorePlayerRule<T>(this.Actions, this.Condition);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

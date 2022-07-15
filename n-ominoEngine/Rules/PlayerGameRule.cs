@@ -30,9 +30,4 @@ public class PlayerGameRule<T> : ActionConditionRule<IPlayerGame, T>, ICloneable
     {
         return new PlayerGameRule<T>(this.Actions, this.Condition, this.Default!);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

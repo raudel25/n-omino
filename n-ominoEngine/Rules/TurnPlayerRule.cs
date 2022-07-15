@@ -31,9 +31,4 @@ public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable
     {
         return new TurnPlayerRule<T>(this.Actions, this.Condition, this.Default!);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

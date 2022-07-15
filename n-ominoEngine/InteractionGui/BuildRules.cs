@@ -1,6 +1,5 @@
 using Rules;
 using Table;
-using Player;
 
 namespace InteractionGui;
 
@@ -44,7 +43,7 @@ public class BuildRules<T>
     public IAssignScoreToken<T>? ScoreToken { get; set; }
 
     public TableGame<T>? Table { get; set; }
-    
+
     public bool IsReady { get; set; }
 
     public InfoRules<T> Build()

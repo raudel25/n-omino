@@ -68,7 +68,7 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador relativo a la mesa</param>
     /// <returns>El jugador tiene opciones para jugar</returns>
-    public bool ValidPlayPlayer(Hand<T> tokens, GameStatus<T> game,int ind)
+    public bool ValidPlayPlayer(Hand<T> tokens, GameStatus<T> game, int ind)
     {
         foreach (var item in game.Table.FreeNode)
         {
@@ -98,10 +98,5 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
     public IsValidRule<T> Clone()
     {
         return new IsValidRule<T>(this.Actions, this.Condition, this.Default!);
-    }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
     }
 }

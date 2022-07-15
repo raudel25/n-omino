@@ -47,7 +47,7 @@
 
     [Parameter]
     public BuildRules<T>? Build { get; set; }
-    
+
     [Parameter]
     public T? DefaultValue { get; set; }
 
@@ -68,8 +68,8 @@
 
     private void CreateRule()
     {
-        if(_cant<1) return;
-        
+        if (_cant < 1) return;
+
         if (_valuesRule.Count == _cant && _valuesCondition.Count == _cant)
         {
             Build!.AssignScorePlayer = new AssignScorePlayerRule<T>(_valuesRule, _valuesCondition);

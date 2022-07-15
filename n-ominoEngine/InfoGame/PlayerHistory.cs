@@ -34,6 +34,7 @@ public class History<T> : ICloneable<History<T>>
                 if (!this[i].IsAPass()) break;
                 count++;
             }
+
             return count;
         }
     }
@@ -76,11 +77,6 @@ public class History<T> : ICloneable<History<T>>
         return copy;
     }
 
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
-
     public int HowManyPuso(T value) => _history.Where(x => !x.IsAPass() && !x.Mata(value)).Count();
     // {
     //     int cont = 0;
@@ -103,7 +99,7 @@ public class History<T> : ICloneable<History<T>>
     public int HowManyMato(T value) => _history.Where(x => !x.IsAPass() && x.Mata(value)).Count();
     // {
     //     int cont = 0;
-        
+
     //     foreach (var move in _history)
     //     {
     //         if(move.IsAPass()) continue;
@@ -117,13 +113,13 @@ public class History<T> : ICloneable<History<T>>
     //     }
     //     return cont;
     // }
-    public IEnumerable<(T value,int cant)> Puestas(GameStatus<T> game)
+    public IEnumerable<(T value, int cant)> Puestas(GameStatus<T> game)
     {
         foreach (var item in game.Values)
             yield return (item, HowManyPuso(item))!;
     }
 
-    public IEnumerable<(T value,int cant)> Matadas(GameStatus<T> game)
+    public IEnumerable<(T value, int cant)> Matadas(GameStatus<T> game)
     {
         foreach (var item in game.Values)
             yield return (item, HowManyMato(item))!;

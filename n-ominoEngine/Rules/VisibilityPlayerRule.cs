@@ -30,9 +30,4 @@ public class VisibilityPlayerRule<T> : ActionConditionRule<IVisibilityPlayer<T>,
     {
         return new VisibilityPlayerRule<T>(this.Actions, this.Condition, this.Default!);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

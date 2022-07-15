@@ -32,9 +32,4 @@ public class ToPassTokenRule<T> : ActionConditionRule<IToPassToken, T>, ICloneab
     {
         return new ToPassTokenRule<T>(this.Actions, this.Condition, this.Default!);
     }
-
-    object ICloneable.Clone()
-    {
-        return this.Clone();
-    }
 }

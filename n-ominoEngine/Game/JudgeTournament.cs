@@ -27,7 +27,7 @@ public class JudgeTournament<T>
     private InfoRulesTournament<T> _tournamentRules;
 
     public JudgeTournament(List<BuildGame<T>> games, List<Player<T>> playersPlay,
-        List<(int, int,string)> playerTeams, InfoRulesTournament<T> rulesTournament)
+        List<(int, int, string)> playerTeams, InfoRulesTournament<T> rulesTournament)
     {
         this.SortTeam(playerTeams);
         this._games = games;
@@ -56,7 +56,7 @@ public class JudgeTournament<T>
                 teamId = item.Item1;
             }
 
-            var aux = new InfoPlayerTournament(item.Item3,item.Item2);
+            var aux = new InfoPlayerTournament(item.Item3, item.Item2);
             teams[teams.Count - 1].Add(aux);
             players.Add(aux);
         }
@@ -71,11 +71,11 @@ public class JudgeTournament<T>
         {
             for (int i = 0; i < this._games.Count; i++)
             {
-                GameStatus<T> aux = _games[i].Initializer.StartGame(new List<(int, int,string)>());
+                GameStatus<T> aux = _games[i].Initializer.StartGame(new List<(int, int, string)>());
 
                 PreGame(ind, aux, i);
 
-                List<(int, int,string)> playerTeams = this._tournament.DistributionPlayers!;
+                List<(int, int, string)> playerTeams = this._tournament.DistributionPlayers!;
 
                 //Crear los players para usar en el juego
                 List<Player<T>> players = new List<Player<T>>();
@@ -156,9 +156,9 @@ public class JudgeTournament<T>
     /// Determinar la distribucion de los jugadores
     /// </summary>
     /// <returns>Distribucion de los jugadores</returns>
-    private List<(int, int,string)> DeterminatePlayerTeams()
+    private List<(int, int, string)> DeterminatePlayerTeams()
     {
-        List<(int, int,string)> aux = new List<(int, int,string)>();
+        List<(int, int, string)> aux = new List<(int, int, string)>();
 
         for (int i = 0; i < this._tournament.Teams.Count; i++)
         {
@@ -166,7 +166,8 @@ public class JudgeTournament<T>
             {
                 foreach (var item in _tournament.Teams[i])
                 {
-                    if (this._tournament.ValidPlayer[item.Id]) aux.Add((this._tournament.Teams[i].Id, item.Id,item.Name));
+                    if (this._tournament.ValidPlayer[item.Id])
+                        aux.Add((this._tournament.Teams[i].Id, item.Id, item.Name));
                 }
             }
         }
@@ -174,7 +175,7 @@ public class JudgeTournament<T>
         return aux;
     }
 
-    private void SortTeam(List<(int, int,string)> players)
+    private void SortTeam(List<(int, int, string)> players)
     {
         players.Sort();
 
@@ -188,7 +189,7 @@ public class JudgeTournament<T>
                 value = players[i].Item1;
             }
 
-            players[i] = (index, i,players[i].Item3);
+            players[i] = (index, i, players[i].Item3);
         }
     }
 }
