@@ -30,7 +30,11 @@ public class Player<T>
 
     private Scorer<T>.MoveScorer _moveScorer;
 
-    public Player(IEnumerable<IStrategy<T>> strategies, IEnumerable<ICondition<T>> condition, IStrategy<T> def, int Id, Scorer<T>.MoveScorer moveScorer)
+    public Player(IEnumerable<IStrategy<T>> strategies, 
+                IEnumerable<ICondition<T>> condition, 
+                IStrategy<T> def, 
+                int Id, 
+                Scorer<T>.MoveScorer moveScorer)
     {
         this._moveScorer = moveScorer;
         this.Strategies = strategies.ToArray();
@@ -49,7 +53,10 @@ public class Player<T>
             {
                 var ValidMoves = rules.IsValidPlay.ValidPlays(freNode, token, status, ind);
                 foreach (var move in ValidMoves)
+                {
                     yield return new Move<T>(token, freNode, move);
+
+                }
             }
         }
     }
@@ -57,52 +64,19 @@ public class Player<T>
     {
         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
         var validMoves = GetValidMoves(myHand, status, rules, ind);
+        var strategiesMoves = GetStrategiesMoves(validMoves, status,rules, Id);
+        var move = validMoves.MaxBy(x => this._moveScorer(x, strategiesMoves, status, rules, this.random, this.Id));
+        if(move!.IsAPass()) return Default.Play(validMoves,status,rules,Id).First();
+        return move;
+    }
 
-        var move = this.Default.Play(validMoves, status, rules, Id);
-
+    public IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves,GameStatus<T> status, InfoRules<T> rules, int ind)
+    {
         for (int i = 0; i < Conditions.Length; i++)
         {
             //si la condición no está activa, continúo
             if (!Conditions[i].RunRule(null!, status, rules, Id)) continue;
-            //si lo está compruebo si la estrategia me aporta más que la que tenía
-            var possibleMove = Strategies[i].Play(validMoves, status, rules, Id);
-            if( possibleMove.IsAPass()) continue;
-            if (_moveScorer(possibleMove, status, rules, random) > _moveScorer(move, status, rules, random))
-                move = possibleMove;
+            yield return this.Strategies[i].Play(validMoves, status, rules, Id);
         }
-        
-        return move;
     }
 }
-
-// public class RandomStrategyPlayer<T> : Player<T>
-// {
-//     public RandomStrategyPlayer(IEnumerable<IStrategy<T>> strategies, 
-//                             IEnumerable<ICondition<T>> conditions, 
-//                             IStrategy<T> def, 
-//                             int Id) : base(strategies, conditions, def, Id){}
-//     public override Move<T> Play(GameStatus<T> status, InfoRules<T> rules,int ind)
-//     {
-//         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
-//         var validMoves = GetValidMoves(myHand, status, rules, ind);
-
-//         List<int> indexes = new();
-//         for (int i = 0; i < Conditions.Length; i++)
-//         {
-//             if(Conditions[i].RunRule(null!, status, rules, Id)) indexes.Add(i);
-//         }
-        
-//         var move = new Move<T>(null!, null!, -1);
-//         while(move.IsAPass() && indexes.Count != 0)
-//         {
-//             int i = random.Next(indexes.Count);
-//             move = Strategies[i].Play(validMoves, status, rules, Id);
-//             indexes.Remove(i);
-//         }
-//         if(move.IsAPass()) 
-//         {
-//             move = this.Default.Play(validMoves, status, rules, Id);
-//         }
-//         return move;
-//     }
-// }

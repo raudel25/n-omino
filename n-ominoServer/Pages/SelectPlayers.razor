@@ -64,14 +64,17 @@
         @if (_selectValue)
         {
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="_cant + 1" ValueParam="_strategies" VariantGui="new SelectStrategies<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
+                <SelectVariantGui Cant="_cant" ValueParam="_strategies" VariantGui="new SelectStrategies<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
             </div>
 
             <div style="display: flex; justify-content: center;">
                 <SelectVariantGui Cant="_cant" ValueParam="_valuesCondition" VariantGui="new SelectCondition<T>(DefaultValue!)" Build="new BuildRules<T>()"></SelectVariantGui>
             </div>
             <div style="display: flex; justify-content: center;">
-                <SelectVariantGui Cant="1" ValueParam="_scoreMove" VariantGui="new SelectMoveScorer<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
+                <SelectVariantGui Cant="_cant > 0 ? 1 : 0" ValueParam="_scoreMove" VariantGui="new SelectMoveScorer<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <SelectVariantGui Cant="1" ValueParam="_defaultstrategy" VariantGui="new SelectDefaultStrategy<T>()" Build="new BuildRules<T>()"></SelectVariantGui>
             </div>
         }
 
@@ -107,6 +110,8 @@
     private bool _selectValue = false;
 
     private List<IStrategy<T>> _strategies = new List<IStrategy<T>>();
+        
+    private List<IStrategy<T>> _defaultstrategy = new List<IStrategy<T>>();
 
     private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
 
@@ -123,13 +128,14 @@
     {
         if (_cant < 0) return;
 
-        if (_strategies.Count == _cant + 1 && _valuesCondition.Count == _cant)
+        if (_strategies.Count == _cant && _valuesCondition.Count == _cant)
         {
-            Players!.Add(new Player<T>(_strategies.Take(_strategies.Count - 1), _valuesCondition, _strategies[_strategies.Count - 1], Players.Count, _scoreMove[0]));
+            Players!.Add(new Player<T>(_strategies, _valuesCondition, _defaultstrategy[0], Players.Count, _scoreMove.Count is 0? Scorer<T>.RandomScorer : _scoreMove[0]));
             Teams!.Add((_team, Players.Count - 1,_name));
 
             _cant = 0;
             _strategies = new();
+            _defaultstrategy = new();
             _valuesCondition = new();
             _scoreMove = new();
             _cantPlayers--;
