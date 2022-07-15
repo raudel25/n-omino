@@ -20,7 +20,7 @@ public class WinnerGameHigh<T> : IWinnerGame<T>
         InfoPlayer<T>[] aux = game.Players.ToArray();
         Array.Sort(aux, (o1, o2) => (o2.Score.CompareTo(o1.Score)));
         game.PlayerWinner = aux[0].Id;
-        game.TeamWinner = game.FindTeamPlayer(aux[0].Id);
+        game.TeamWinner = game.Teams[game.FindTeamPlayer(aux[0].Id)].Id;
     }
 }
 
@@ -31,7 +31,7 @@ public class WinnerGameSmall<T> : IWinnerGame<T>
         InfoPlayer<T>[] aux = game.Players.ToArray();
         Array.Sort(aux, (o1, o2) => (o1.Score.CompareTo(o2.Score)));
         game.PlayerWinner = aux[0].Id;
-        game.TeamWinner = game.FindTeamPlayer(aux[0].Id);
+        game.TeamWinner = game.Teams[game.FindTeamPlayer(aux[0].Id)].Id;
     }
 }
 
@@ -56,7 +56,7 @@ public class WinnerGameTeamHigh<T> : IWinnerGame<T>
             }
         }
 
-        game.TeamWinner = win;
+        game.TeamWinner = game.Teams[win].Id;
     }
 }
 
@@ -81,6 +81,6 @@ public class WinnerGameTeamSmall<T> : IWinnerGame<T>
             }
         }
 
-        game.TeamWinner = win;
+        game.TeamWinner = game.Teams[win].Id;
     }
 }

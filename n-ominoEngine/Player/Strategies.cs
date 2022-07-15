@@ -6,49 +6,49 @@ namespace Player;
 
 public interface IStrategy<T>
 {
-    public IEnumerable<Move<T>> Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id);
+    public IEnumerable<Move<T>> Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id);
 }
 
 public class RandomPlayer<T> : IStrategy<T>
 {
     Random r = new Random();
 
-    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
-        var moves = PossibleMoves.OrderBy(x => r.NextDouble());
+        var moves = possibleMoves.OrderBy(x => r.NextDouble());
         return moves;
     }
 }
 
 public class GreedyPlayer<T> : IStrategy<T>
 {
-    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
-        var moves = PossibleMoves.OrderByDescending(x => rules.ScoreToken.ScoreToken(x.Token!));
+        var moves = possibleMoves.OrderByDescending(x => rules.ScoreToken.ScoreToken(x.Token!));
         return moves;
     }
 }
 
 public class TeamPlayer<T> : IStrategy<T>
 {
-    public IEnumerable<Move<T>> GetFavTeamMoves (IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    public IEnumerable<Move<T>> GetFavTeamMoves (IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         foreach (var (value, cant) in GetTeamPuestas(status, status.FindTeamPlayer(id)).OrderByDescending(x => x.cant))
         {
-            foreach (var item in PossibleMoves.Where( x => (x.Token!.Contains(value) && !Mata(x.Node!, value)) && !MataTeam(x.Node!,id,status)))
+            foreach (var item in possibleMoves.Where( x => (x.Token!.Contains(value) && !Mata(x.Node!, value)) && !MataTeam(x.Node!,id,status)))
             {
                 yield return item;
             }
         }
     }
 
-    public bool MataTeam(INode<T> node, int Id, GameStatus<T> status)
+    public bool MataTeam(INode<T> node, int id, GameStatus<T> status)
     {
         foreach (var conection in node.Connections)
         {
             if(conection! is null) continue;
-            if(status.FindTeamPlayer(conection!.IdPlayer) == Id) return false;
-            if(status.FindTeamPlayer(conection!.IdPlayer) == status.FindTeamPlayer(Id)) return true;
+            if(status.FindTeamPlayer(conection!.IdPlayer) == id) return false;
+            if(status.FindTeamPlayer(conection!.IdPlayer) == status.FindTeamPlayer(id)) return true;
         }
         return false;
     }
@@ -77,20 +77,20 @@ public class TeamPlayer<T> : IStrategy<T>
         }
     }
 
-    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
-        var moves = GetFavTeamMoves(PossibleMoves, status, rules,id);
+        var moves = GetFavTeamMoves(possibleMoves, status, rules,id);
         return moves;
     }
 }
 
 public class EnemyPlayer<T> : IStrategy<T>
 {
-    public IEnumerable<Move<T>> GetKillEnemyMoves (IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    public IEnumerable<Move<T>> GetKillEnemyMoves (IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         foreach (var (value, cant) in GetEnemyTeamsMatadas(status, status.FindTeamPlayer(id)).OrderByDescending(x => x.cant))
         {
-            foreach (var item in PossibleMoves.Where( x => (x.Token!.Contains(value) && !x.Mata(value))))
+            foreach (var item in possibleMoves.Where( x => (x.Token!.Contains(value) && !x.Mata(value))))
             {
                 yield return item;
             }
@@ -121,9 +121,9 @@ public class EnemyPlayer<T> : IStrategy<T>
         }
     }
 
-    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
-        var moves = GetKillEnemyMoves(PossibleMoves, status, rules,id);
+        var moves = GetKillEnemyMoves(possibleMoves, status, rules,id);
         return moves;
     }
 }
@@ -145,15 +145,15 @@ public class SinglePlayer<T> : IStrategy<T>
         }
     }
 
-    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         var myHand = status.Players[status.FindPLayerById(id)].Hand;
         var values = InHand(myHand, status).OrderByDescending(x => x.cant);
-        IEnumerable<Move<T>> moves = GetMovesWithValue(values.First().value, PossibleMoves);
+        IEnumerable<Move<T>> moves = GetMovesWithValue(values.First().value, possibleMoves);
         foreach (var value in values.Skip(1))
         {
             if(moves.Count() != 0) break;
-            moves = GetMovesWithValue(value.value, PossibleMoves);
+            moves = GetMovesWithValue(value.value, possibleMoves);
         }
         return moves;
     }   
@@ -161,11 +161,11 @@ public class SinglePlayer<T> : IStrategy<T>
 
 public class NoQuedarseAlFallo<T> : IStrategy<T>
 {
-    public IEnumerable<Move<T>> Play(IEnumerable<Move<T>> PossibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
+    public IEnumerable<Move<T>> Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         var myHand = status.Players[status.FindPLayerById(id)].Hand;
         var values = InHand(myHand, status).Where(x => x.cant == 1);
-        var moves = PossibleMoves.Where(x => !values.Any(value => x.Token!.Contains(value.value)));
+        var moves = possibleMoves.Where(x => !values.Any(value => x.Token!.Contains(value.value)));
         return moves;
     }
 

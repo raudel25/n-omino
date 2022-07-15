@@ -41,10 +41,15 @@ public class InfoRules<T> : ICloneable<InfoRules<T>>
     /// </summary>
     public IAssignScoreToken<T> ScoreToken { get; private set; }
 
+    /// <summary>
+    /// Reorganizar las manos de los jugadores
+    /// </summary>
+    public ReorganizeHandsRule<T> ReorganizeHands { get; private set; }
+
     public InfoRules(IsValidRule<T> validPlay, VisibilityPlayerRule<T> visibility, TurnPlayerRule<T> turn,
         StealTokenRule<T> steal, ToPassTokenRule<T> toPass,
         AssignScorePlayerRule<T> assign, WinnerGameRule<T> winnerGame, IAssignScoreToken<T> scoreToken,
-        BeginGameRule<T> begin)
+        BeginGameRule<T> begin, ReorganizeHandsRule<T> reorganize)
     {
         this.IsValidPlay = validPlay;
         this.AssignScorePlayer = assign;
@@ -55,6 +60,7 @@ public class InfoRules<T> : ICloneable<InfoRules<T>>
         this.StealTokens = steal;
         this.ScoreToken = scoreToken;
         this.Begin = begin;
+        this.ReorganizeHands = reorganize;
     }
 
     /// <summary>Clonar el objeto InfoRules</summary>
@@ -63,6 +69,7 @@ public class InfoRules<T> : ICloneable<InfoRules<T>>
     {
         return new InfoRules<T>(this.IsValidPlay.Clone(), this.VisibilityPlayer.Clone(), this.TurnPlayer.Clone(),
             this.StealTokens.Clone(), this.ToPassToken.Clone(),
-            this.AssignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken, this.Begin.Clone());
+            this.AssignScorePlayer.Clone(), this.WinnerGame.Clone(), this.ScoreToken, this.Begin.Clone(),
+            this.ReorganizeHands.Clone());
     }
 }

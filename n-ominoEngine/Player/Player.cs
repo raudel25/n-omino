@@ -1,4 +1,3 @@
-using Table;
 using Rules;
 using InfoGame;
 
@@ -33,7 +32,7 @@ public class Player<T>
     public Player(IEnumerable<IStrategy<T>> strategies, 
                 IEnumerable<ICondition<T>> condition, 
                 IStrategy<T> def, 
-                int Id, 
+                int id, 
                 Scorer<T>.MoveScorer moveScorer)
     {
         this._moveScorer = moveScorer;
@@ -41,7 +40,7 @@ public class Player<T>
         this.Conditions = condition.ToArray();
         this.Default = def;
         this.random = new();
-        this.Id = Id;
+        this.Id = id;
     }
 
     protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, GameStatus<T> status, InfoRules<T> rules, int ind)
@@ -51,8 +50,8 @@ public class Player<T>
         {
             foreach (var token in myHand)
             {
-                var ValidMoves = rules.IsValidPlay.ValidPlays(freNode, token, status, ind);
-                foreach (var move in ValidMoves)
+                var validMoves = rules.IsValidPlay.ValidPlays(freNode, token, status, ind);
+                foreach (var move in validMoves)
                 {
                     yield return new Move<T>(token, freNode, move);
 

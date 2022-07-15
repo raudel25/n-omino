@@ -7,9 +7,9 @@ public interface IDealer<T>
 {
     /// <summary>Reparte una cantidad de T</summary>
     /// <param name="items">Elementos a repartir</param>
-    /// <param name="cant">Cantidad de elementos que se quieren</param>
+    /// <param name="tokensPerPlayer">Cantidad de elementos que se quieren</param>
     /// <returns>Una lista con lo que repartió</returns>
-    public IEnumerable<Hand<T>> Deal(List<Token<T>> items, int[] tokensperplayer);
+    public IEnumerable<Hand<T>> Deal(List<Token<T>> items, int[] tokensPerPlayer);
     public Hand<T> Deal(List<Token<T>> items, int cant);
 }
 

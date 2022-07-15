@@ -13,13 +13,14 @@
         <div>
             <SelectBeginGameGui DefaultValue="DefaultValue!" Build="Rules"></SelectBeginGameGui>
 
+            <SelectReorganizeHandsGui DefaultValue="DefaultValue!" Build="Rules"></SelectReorganizeHandsGui>
+            
             <SelectValidPlayGui DefaultValue="DefaultValue!" Build="Rules"></SelectValidPlayGui>
-
-            <SelectTurnPlayerGui DefaultValue="DefaultValue!" Build="Rules"></SelectTurnPlayerGui>
+            
         </div>
 
         <div>
-
+            <SelectTurnPlayerGui DefaultValue="DefaultValue!" Build="Rules"></SelectTurnPlayerGui>
 
             <SelectVisibilityPlayerGui DefaultValue="DefaultValue!" Build="Rules"></SelectVisibilityPlayerGui>
 
@@ -70,6 +71,7 @@
         if (Rules.WinnerGame == null) return false;
         if (Rules.AssignScorePlayer == null) return false;
         if (Rules.IsValidPlay == null) return false;
+        if (Rules.ReorganizeHands == null) return false;
     //if (Rules.ToPassToken == null) return false;
         return true;
     }

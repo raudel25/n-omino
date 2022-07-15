@@ -49,11 +49,31 @@ public class GameStatus<T>
         this.ImmediatePass = immediatePass;
     }
 
+    /// <summary>
+    /// Determinar el indice de un jugador dado su Id
+    /// </summary>
+    /// <param name="id">Id del jugador</param>
+    /// <returns>Indice del juegador</returns>
     public int FindPLayerById(int id)
     {
         for (int i = 0; i < this.Players.Count; i++)
         {
             if (this.Players[i].Id == id) return i;
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// Determinar el indice de un equipo dado su Id
+    /// </summary>
+    /// <param name="id">Id del Equipo</param>
+    /// <returns>Indice del equipo</returns>
+    public int FindTeamById(int id)
+    {
+        for (int i = 0; i < this.Teams.Count; i++)
+        {
+            if (this.Teams[i].Id == id) return i;
         }
 
         return -1;

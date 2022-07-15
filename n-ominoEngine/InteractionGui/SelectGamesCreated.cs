@@ -91,18 +91,21 @@ public class SelectGamesCreated
 
     private WinnerGameRule<int> WinnerGameRule => new WinnerGameRule<int>(Winner, Conditions);
 
+    private ReorganizeHandsRule<int> ReorganizeHands => new ReorganizeHandsRule<int>(
+        new[] {new HandsTeamWin<int>()}, new[] {new SecondRoundTournament<int>()}, new ClassicReorganize<int>());
+
     private InfoRules<int>[] Rules => new[]
     {
         new InfoRules<int>(IsValid[0], Visibility, Turn, Steal, ToPass, ScorePlayerRule, WinnerGameRule,
-            ScoreToken, Begin[1]),
+            ScoreToken, Begin[1], ReorganizeHands),
         new InfoRules<int>(IsValid[0], Visibility, Turn, Steal, ToPass, ScorePlayerRule, WinnerGameRule,
-            ScoreToken, Begin[0]),
+            ScoreToken, Begin[0], ReorganizeHands),
         new InfoRules<int>(IsValid[1], Visibility, Turn, Steal, ToPass, ScorePlayerRule, WinnerGameRule,
-            ScoreToken, Begin[1]),
+            ScoreToken, Begin[1], ReorganizeHands),
         new InfoRules<int>(IsValid[1], Visibility, Turn, Steal, ToPass, ScorePlayerRule, WinnerGameRule,
-            ScoreToken, Begin[0]),
+            ScoreToken, Begin[0], ReorganizeHands),
         new InfoRules<int>(IsValid[2], Visibility, Turn, Steal, ToPass, ScorePlayerRule, WinnerGameRule,
-            ScoreToken, Begin[0]),
+            ScoreToken, Begin[0], ReorganizeHands)
     };
 
     private InitializerGame<int>[] Initializer => new[]

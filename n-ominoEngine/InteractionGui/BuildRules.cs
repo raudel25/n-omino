@@ -42,6 +42,11 @@ public class BuildRules<T>
     /// </summary>
     public IAssignScoreToken<T>? ScoreToken { get; set; }
 
+    /// <summary>
+    /// Reorganizar las manos de los jugadores
+    /// </summary>
+    public ReorganizeHandsRule<T>? ReorganizeHands { get; set; }
+
     public TableGame<T>? Table { get; set; }
 
     public bool IsReady { get; set; }
@@ -50,6 +55,6 @@ public class BuildRules<T>
     {
         return new InfoRules<T>(this.IsValidPlay!, this.VisibilityPlayer!, this.TurnPlayer!,
             this.StealTokens!, this.ToPassToken!,
-            this.AssignScorePlayer!, this.WinnerGame!, this.ScoreToken!, this.Begin!);
+            this.AssignScorePlayer!, this.WinnerGame!, this.ScoreToken!, this.Begin!, this.ReorganizeHands!);
     }
 }

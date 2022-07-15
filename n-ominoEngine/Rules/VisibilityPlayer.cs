@@ -20,7 +20,7 @@ public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T>
         {
             if (i != game.Turns[ind])
             {
-                game.Players[i].Hand = null!;
+                game.Players[i].Hand = new Hand<T>();
             }
         }
     }
@@ -36,14 +36,14 @@ public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T>
         //Guardamos las manos de los miembros del equipo
         for (int i = 0; i < game.Teams[team].Count; i++)
         {
-            aux.Add(game.Teams[team][i].Hand!);
+            aux.Add(game.Teams[team][i].Hand);
         }
 
         for (int i = 0; i < game.Players.Count; i++)
         {
             if (i != game.Turns[ind])
             {
-                game.Players[i].Hand = null!;
+                game.Players[i].Hand = new Hand<T>();
             }
         }
 

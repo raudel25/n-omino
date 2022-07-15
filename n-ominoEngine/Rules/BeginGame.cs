@@ -28,7 +28,7 @@ public class BeginGameToken<T> : IBeginGame<T>
         int id = -1;
         foreach (var item in game.Players)
         {
-            if (item.Hand!.Contains(_token))
+            if (item.Hand.Contains(_token))
             {
                 id = item.Id;
                 break;
@@ -64,7 +64,7 @@ public class BeginGameLastWinner<T> : IBeginGame<T>
     {
         if (tournament.Index > 0)
         {
-            int ind = tournament.ImmediateWinnerTeam;
+            int ind = game.FindTeamById(tournament.ImmediateWinnerTeam);
 
             Random rnd = new Random();
             int aux = rnd.Next(tournament.Teams[ind].Count);

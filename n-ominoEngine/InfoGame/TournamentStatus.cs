@@ -57,5 +57,7 @@ public class TournamentStatus
         this.ScoreTeams = new double[teams.Count];
         this.TeamWinner = -1;
         this.ValidTeam = new bool[teams.Count];
+        this.ImmediateWinner = -1;
+        this.ImmediateWinnerTeam = -1;
     }
 }

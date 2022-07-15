@@ -90,6 +90,7 @@ public class Judge<T>
     /// <returns>Indice relativo a la mesa</returns>
     private int StartGame()
     {
+        this._judgeRules.ReorganizeHands.RunRule(this._tournament, this._infoGame, this._infoGame, this._judgeRules, -1);
         this._judgeRules.Begin.RunRule(this._tournament, this._infoGame, this._infoGame, this._judgeRules, -1);
 
         int id = this._infoGame.PlayerStart;
@@ -139,8 +140,6 @@ public class Judge<T>
 
             Move<T> jugada = _players[ind].Play(copy, copyRules, indTable);
 
-            Console.WriteLine($"jugador{ind} jugo {jugada.Token}");
-
             INode<T> aux = this._infoGame.Table.TableNode[jugada.Node!.Id];
 
             //Determinar si el player juega correctamente
@@ -173,12 +172,13 @@ public class Judge<T>
     /// <param name="node">Nodo por el cual se juega</param>
     /// <param name="token">Ficha a jugar</param>
     /// <param name="ind">Indice del jugador relativo al turno</param>
-    private void PlayToken(int valid, INode<T> node, Token<T> token, int ind, int Id)
+    /// <param name="id">Id del jugador</param>
+    private void PlayToken(int valid, INode<T> node, Token<T> token, int ind, int id)
     {
         T[] aux = _judgeRules.IsValidPlay[valid].Item1
             .AssignValues(node, token, _infoGame.Table);
 
-        _infoGame.Table.PlayTable(node, token, aux, Id);
+        _infoGame.Table.PlayTable(node, token, aux, id);
         _infoGame.Players[ind].Hand.Remove(token);
 
         GuiJudge(token, ind);
