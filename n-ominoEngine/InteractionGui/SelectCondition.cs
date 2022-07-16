@@ -19,8 +19,9 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
         (comp) => new HigherThanScoreHandCondition<T>(comp.Cant),
         (comp) => new PostRoundCondition<T>(comp.Cant),
         (comp) => new MaxScoreTeamTournament<T>(comp.Cant),
-        (comp) => new CantGamesTournament<T>(comp.Cant)
-    };
+        (comp) => new CantGamesTournament<T>(comp.Cant),
+        (comp) => new SecondRoundTournament<T>()
+     };
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
@@ -36,7 +37,8 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
         new ParamSelect("Después de n rondas", "El jugador ha jugado más de n veces", 9, false, true),
         new ParamSelect("Máximo score para un torneo",
             "Determina si un equipo alcanzó una cantidad determinada de puntos", 10, false, true),
-        new ParamSelect("Cantidad de juegos", "Determina la cantidad de juegos a efectuarse", 11, false, true)
+        new ParamSelect("Cantidad de juegos", "Determina la cantidad de juegos a efectuarse", 11, false, true),
+        new ParamSelect("Segunda ronda del torneo","Se activa luego de la primera ronda del torneo",12)
     };
 
     public SelectCondition(T value)
@@ -46,7 +48,7 @@ public class SelectCondition<T> : IVariant<ICondition<T>, T>
             Values.Add(SelectInt);
             Param.Add(new ParamSelect("Suma de los nodos libre",
                 "Se activa cuando la suma de los nodos tiene un valor especifico",
-                12, true, false, true));
+                13, true, false, true));
         }
     }
 
