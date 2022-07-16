@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Player", "n-ominoEngine\Pla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n-ominoServer", "n-ominoServer\n-ominoServer.csproj", "{EEF50E4B-BE1B-4E67-9983-C948E5ACD491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{E0E4D247-72DD-4897-8C1D-57DAB4765AB5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractionGui", "n-ominoEngine\InteractionGui\InteractionGui.csproj", "{B264D8B1-74FA-41B6-B5BB-FAEDE7ED638A}"
 EndProject
 Global
