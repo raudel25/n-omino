@@ -4,7 +4,7 @@ namespace InteractionGui;
 
 public class SelectReorganizeHands<T> : IVariant<IReorganizeHands<T>, T>
 {
-    public string Description { get; } = "Forma de repartir fichas";
+    public string Description { get; } = "Reorganizar las manos de los jugadores";
 
     public List<IVariant<IReorganizeHands<T>, T>.Select> Values { get; } = new List<IVariant<IReorganizeHands<T>, T>.Select>()
     {

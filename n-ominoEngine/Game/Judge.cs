@@ -53,10 +53,11 @@ public class Judge<T>
             //Clonar el estado del juego
             GameStatus<T> copy = this._infoGame.Clone();
             InfoRules<T> rulesCopy = this._judgeRules.Clone();
+            TournamentStatus tournamentCopy = this._tournament.Clone();
 
             bool play = PrePlay(copy, i);
 
-            PlayPlayer(play, copy, rulesCopy, i);
+            PlayPlayer(play, tournamentCopy, copy, rulesCopy, i);
 
             //Determinar si es posible pasarse con fichas
             //this._judgeRules.ToPassToken.RunRule(copy, this._infoGame, this._judgeRules, i);
@@ -130,7 +131,7 @@ public class Judge<T>
     /// <param name="copyRules">Copia de las reglas</param>
     /// <param name="play">Si es posible jugar</param>
     /// <param name="indTable">Inidice del jugador relativo a la mesa</param>
-    private void PlayPlayer(bool play, GameStatus<T> copy, InfoRules<T> copyRules, int indTable)
+    private void PlayPlayer(bool play, TournamentStatus tournamentCopy, GameStatus<T> copy, InfoRules<T> copyRules, int indTable)
     {
         int ind = this._infoGame.Turns[indTable];
 
@@ -138,18 +139,18 @@ public class Judge<T>
         {
             this._infoGame.ImmediatePass = false;
 
-            Move<T> jugada = _players[ind].Play(copy, copyRules, indTable);
+            Move<T> move = _players[ind].Play(tournamentCopy, copy, copyRules, indTable);
 
-            INode<T> aux = this._infoGame.Table.TableNode[jugada.Node!.Id];
+            INode<T> aux = this._infoGame.Table.TableNode[move.Node!.Id];
 
             //Determinar si el player juega correctamente
-            if (_judgeRules.IsValidPlay[jugada.ValidPlay].Item2 &&
-                _judgeRules.IsValidPlay[jugada.ValidPlay].Item1
-                    .ValidPlay(aux, jugada.Token!, _infoGame, indTable) &&
-                this._infoGame.Players[ind].Hand.Contains(jugada.Token!))
+            if (_judgeRules.IsValidPlay[move.ValidPlay].Item2 &&
+                _judgeRules.IsValidPlay[move.ValidPlay].Item1
+                    .ValidPlay(aux, move.Token!, _infoGame, indTable) &&
+                this._infoGame.Players[ind].Hand.Contains(move.Token!))
             {
-                PlayToken(jugada.ValidPlay, aux, jugada.Token!, ind, _players[ind].Id);
-                HistoryPlayer(jugada, ind);
+                PlayToken(move.ValidPlay, aux, move.Token!, ind, _players[ind].Id);
+                HistoryPlayer(move, ind);
             }
         }
         else

@@ -29,10 +29,10 @@ public class Player<T>
 
     private Scorer<T>.MoveScorer _moveScorer;
 
-    public Player(IEnumerable<IStrategy<T>> strategies, 
-                IEnumerable<ICondition<T>> condition, 
-                IStrategy<T> def, 
-                int id, 
+    public Player(IEnumerable<IStrategy<T>> strategies,
+                IEnumerable<ICondition<T>> condition,
+                IStrategy<T> def,
+                int id,
                 Scorer<T>.MoveScorer moveScorer)
     {
         this._moveScorer = moveScorer;
@@ -43,9 +43,9 @@ public class Player<T>
         this.Id = id;
     }
 
-    protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, GameStatus<T> status, InfoRules<T> rules, int ind)
+    protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, TournamentStatus tournament, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
-        rules.IsValidPlay.RunRule(null!, status, status, rules, Id);
+        rules.IsValidPlay.RunRule(tournament, status, status, rules, Id);
         foreach (var freNode in status.Table.FreeNode)
         {
             foreach (var token in myHand)
@@ -59,22 +59,22 @@ public class Player<T>
             }
         }
     }
-    public virtual Move<T> Play(GameStatus<T> status, InfoRules<T> rules, int ind)
+    public virtual Move<T> Play(TournamentStatus tournamnet, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
-        var validMoves = GetValidMoves(myHand, status, rules, ind);
-        var strategiesMoves = GetStrategiesMoves(validMoves, status,rules, Id);
+        var validMoves = GetValidMoves(myHand, tournamnet, status, rules, ind);
+        var strategiesMoves = GetStrategiesMoves(validMoves, tournamnet, status, rules, Id);
         var move = validMoves.MaxBy(x => this._moveScorer(x, strategiesMoves, status, rules, this.random, this.Id));
-        if(move!.IsAPass()) return Default.Play(validMoves,status,rules,Id).First();
+        if (move!.IsAPass()) return Default.Play(validMoves, status, rules, Id).First();
         return move;
     }
 
-    protected IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves,GameStatus<T> status, InfoRules<T> rules, int ind)
+    protected IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves, TournamentStatus tournament, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < Conditions.Length; i++)
         {
             //si la condición no está activa, continúo
-            if (!Conditions[i].RunRule(null!, status, rules, Id)) continue;
+            if (!Conditions[i].RunRule(tournament, status, rules, Id)) continue;
             yield return this.Strategies[i].Play(validMoves, status, rules, Id);
         }
     }

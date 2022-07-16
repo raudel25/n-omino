@@ -1,6 +1,8 @@
+using Table;
+
 namespace InfoGame;
 
-public class TournamentStatus
+public class TournamentStatus : ICloneable<TournamentStatus>
 {
     /// <summary>
     /// Lista de jugadores
@@ -59,5 +61,30 @@ public class TournamentStatus
         this.ValidTeam = new bool[teams.Count];
         this.ImmediateWinner = -1;
         this.ImmediateWinnerTeam = -1;
+    }
+
+    public TournamentStatus Clone()
+    {
+        List<InfoPlayerTournament> players = new List<InfoPlayerTournament>();
+
+        foreach (var item in this.Players)
+        {
+            players.Add(item.Clone());
+        }
+
+        List<InfoTeams<InfoPlayerTournament>> teams = new List<InfoTeams<InfoPlayerTournament>>();
+
+        int index = 0;
+        for (int i = 0; i < this.Teams.Count; i++)
+        {
+            teams.Add(new InfoTeams<InfoPlayerTournament>(this.Teams[i].Id));
+            for (int j = 0; j < this.Teams[i].Count; j++)
+            {
+                teams[teams.Count - 1].Add(players[index]);
+                index++;
+            }
+        }
+
+        return new TournamentStatus(players, teams);
     }
 }

@@ -1,6 +1,8 @@
+using Table;
+
 namespace InfoGame;
 
-public class InfoPlayerTournament
+public class InfoPlayerTournament : ICloneable<InfoPlayerTournament>
 {
     /// <summary>
     /// Cantidad de juegos que ha ganado el jugador
@@ -14,15 +16,20 @@ public class InfoPlayerTournament
     /// ID del jugador
     /// </summary>
     public int Id { get; private set; }
-    
+
     /// <summary>
     /// Nombre del jugador
     /// </summary>
     public string Name { get; private set; }
 
-    public InfoPlayerTournament(string name,int id)
+    public InfoPlayerTournament(string name, int id)
     {
         this.Id = id;
         this.Name = name;
+    }
+
+    public InfoPlayerTournament Clone()
+    {
+        return new InfoPlayerTournament(this.Name, this.Id);
     }
 }
