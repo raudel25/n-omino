@@ -92,7 +92,7 @@ public class SelectGamesCreated
     private WinnerGameRule<int> WinnerGameRule => new WinnerGameRule<int>(Winner, Conditions);
 
     private ReorganizeHandsRule<int> ReorganizeHands => new ReorganizeHandsRule<int>(
-        new[] {new HandsTeamWin<int>()}, new[] {new SecondRoundTournament<int>()}, new ClassicReorganize<int>());
+        new[] { new HandsTeamWin<int>() }, new[] { new SecondRoundTournament<int>() }, new ClassicReorganize<int>());
 
     private InfoRules<int>[] Rules => new[]
     {
@@ -139,7 +139,7 @@ public class SelectGamesCreated
 
     public (string, int)[] NameGames => new[]
     {
-        ("Juego clasico de domino (6x6)", 0), ("Juego clasico de domino (9x9)", 1),
+        ("Juego clásico de dominó (6x6)", 0), ("Juego clásico de dominó (9x9)", 1),
         ("Longana (6x6)", 2), ("Longana (9x9)", 3), ("Tablero triangular", 4),
         ("Tablero cuadrado", 5), ("Tablero hexagonal", 6)
     };

@@ -39,7 +39,7 @@ public class SelectTournamentCreated<T>
     public (string, int)[] NameTournaments => new[]
     {
         ("Un solo juego", 0),
-        ("Torneo Clasico (de 3 a ganar 2)", 1),
-        ("Torneo Clasico (100 puntos)", 2)
+        ("Torneo clásico (de 3 a ganar 2)", 1),
+        ("Torneo clásico (100 puntos)", 2)
     };
 }

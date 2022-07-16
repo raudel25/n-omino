@@ -15,7 +15,7 @@ public class GameStatus<T>
     public int Round { get; set; }
 
     //Lista de fichas fuera de la mesa
-    public List<Token<T>>? TokensTable { get; set; }
+    public List<Token<T>> TokensTable { get; set; }
 
     //Determinar cuando se hizo un pase inmediatamente init false
     public bool ImmediatePass { get; set; }

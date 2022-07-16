@@ -15,8 +15,8 @@ public class SelectBeginGame<T> : IVariant<IBeginGame<T>, T>
 
     public List<ParamSelect> Param { get; } = new()
     {
-        new ParamSelect("Iniciar el juego con la ficha ?", "", 0, false, false, false, false, true),
-        new ParamSelect("Iniciar el juego con cualquier ficha", "", 1),
-        new ParamSelect("Inicia el juego el ganador del juego anterior", "", 2),
+        new ParamSelect("Iniciar el juego con la ficha específica", "El juego comienza con una ficha específica", 0, false, false, false, false, true),
+        new ParamSelect("Iniciar el juego con cualquier ficha", "El juego comienza con cualquier ficha", 1),
+        new ParamSelect("Inicia el juego el ganador del juego anterior", "El juego comienza por uno de los jugadores que ganó el juego anterior", 2),
     };
 }

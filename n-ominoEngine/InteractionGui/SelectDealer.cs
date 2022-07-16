@@ -13,6 +13,6 @@ public class SelectDealer<T> : IVariant<IDealer<T>, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
-        new ParamSelect("Repartidor Clasico", "Modo clasico para repartir las fichas", 0),
+        new ParamSelect("Repartidor clásico", "Modo clásico para repartir las fichas", 0),
     };
 }

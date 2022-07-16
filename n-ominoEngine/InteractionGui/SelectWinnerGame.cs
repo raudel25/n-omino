@@ -16,9 +16,9 @@ public class SelectWinnerGame<T> : IVariant<IWinnerGame<T>, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>
     {
-        new ParamSelect("Mayor puntuacion", "El ganador es el que mayor puntuacion acumule", 0),
-        new ParamSelect("Menor puntuacion", "El ganador es el que menor puntuacion acumule", 1),
-        new ParamSelect("Mayor puntuacion (team)", "El ganador es el equipo que mayor puntuacion acumule", 2),
-        new ParamSelect("Menor puntuacion (team)", "El ganador es el equipo que menor puntuacion acumule", 3)
+        new ParamSelect("Mayor puntuación", "El ganador es el que mayor puntuación acumule", 0),
+        new ParamSelect("Menor puntuación", "El ganador es el que menor puntuación acumule", 1),
+        new ParamSelect("Mayor puntuación (team)", "El ganador es el equipo que mayor puntuación acumule", 2),
+        new ParamSelect("Menor puntuación (team)", "El ganador es el equipo que menor puntuación acumule", 3)
     };
 }
