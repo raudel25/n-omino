@@ -42,7 +42,7 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
 
     /// <summary>Indica que un nodo esta libre para jugar</summary>
     /// <param name="node">Nodo para realizar la operacion</param>
-    public void FreeTable(INode<T> node)
+    protected void FreeTable(INode<T> node)
     {
         if (this.PlayNode.Contains(node)) return;
         this.FreeNode.Add(node);
