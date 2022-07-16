@@ -40,34 +40,18 @@ public class History<T> : ICloneable<History<T>>
     }
 
     //añadir una Move al historial
-    public void Add(Move<T> item)
-    {
-        _history.Add(item);
-    }
+    public void Add(Move<T> item) => _history.Add(item);
 
     //ver si el jugador ha puesto una ficha
-    public bool Contains(Move<T> item)
-    {
-        return _history.Contains(item);
-    }
+    public bool Contains(Move<T> item) => _history.Contains(item);
 
-    public IEnumerator<Move<T>> GetEnumerator()
-    {
-        return _history.GetEnumerator();
-    }
+    public IEnumerator<Move<T>> GetEnumerator() => _history.GetEnumerator();
 
     //ver en qué turno hizo una jugada
-    public int TurnOf(Move<T> item)
-    {
-        return _history.IndexOf(item);
-    }
+    public int IndexOf(Move<T> item) => _history.IndexOf(item);
 
     //elimina la última jugada del historial
-    public void RemoveLast()
-    {
-        int index = _history.Count - 1;
-        _history.RemoveAt(index);
-    }
+    public void RemoveLast() => _history.RemoveAt(_history.Count - 1);
 
     public History<T> Clone()
     {
@@ -77,42 +61,12 @@ public class History<T> : ICloneable<History<T>>
         return copy;
     }
 
+    //Cuántas jugadas poniendo matando el valor
     public int HowManyPuso(T value) => _history.Where(x => !x.IsAPass() && !x.Mata(value)).Count();
-    // {
-    //     int cont = 0;
-    //     foreach (var move in _history)
-    //     {
-    //         if(move.IsAPass()) continue;
-    //         for (int i = 0; i < move.Token!.CantValues; i++)
-    //         {
-    //             //Si el valor no es el que busco continúo
-    //             if(!move.Token[i]!.Equals(value)) continue;
-    //             //Si este valor lo había matado continúo
-    //             if (move.Node!.Fathers.Contains(move.Node.Connections[i]!)) continue;
-    //             //Si el valor lo puse, lo cuento
-    //             cont++;
-    //         }
-    //     }
-    //     return cont;
-    // }
 
+    //Cuántas jugadas fueron matando el valor
     public int HowManyMato(T value) => _history.Where(x => !x.IsAPass() && x.Mata(value)).Count();
-    // {
-    //     int cont = 0;
 
-    //     foreach (var move in _history)
-    //     {
-    //         if(move.IsAPass()) continue;
-    //         for (int i = 0; i < move.Token!.CantValues; i++)
-    //         {
-    //             //Si el valor no es el que busco continúo
-    //             if(!move.Token[i]!.Equals(value)) continue;
-    //             //Si este valor lo había matado lo cuento
-    //             if (move.Node!.Fathers.Contains(move.Node.Connections[i]!)) cont++;
-    //         }
-    //     }
-    //     return cont;
-    // }
     public IEnumerable<(T value, int cant)> Puestas(GameStatus<T> game)
     {
         foreach (var item in game.Values)

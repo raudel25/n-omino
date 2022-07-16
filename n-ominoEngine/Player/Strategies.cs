@@ -9,6 +9,7 @@ public interface IStrategy<T>
     public IEnumerable<Move<T>> Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id);
 }
 
+//Ordena las jugadas aleatoriamente
 public class RandomPlayer<T> : IStrategy<T>
 {
     Random r = new Random();
@@ -20,6 +21,7 @@ public class RandomPlayer<T> : IStrategy<T>
     }
 }
 
+//Ordena las jugadas de mayor a menor score de la ficha según la regla
 public class GreedyPlayer<T> : IStrategy<T>
 {
     IEnumerable<Move<T>> IStrategy<T>.Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
@@ -29,12 +31,15 @@ public class GreedyPlayer<T> : IStrategy<T>
     }
 }
 
+//Ordeno las jugadas que favorecen a mi equipo
 public class TeamPlayer<T> : IStrategy<T>
 {
     public IEnumerable<Move<T>> GetFavTeamMoves (IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
+        //busco los valores que más ha puesto mi equipo
         foreach (var (value, cant) in GetTeamPuestas(status, status.FindTeamPlayer(id)).OrderByDescending(x => x.cant))
         {
+            //reviso que con la jugada no mate ese valor o mate alguna ficha de alguien de mi equipo
             foreach (var item in possibleMoves.Where( x => (x.Token!.Contains(value) && !Mata(x.Node!, value)) && !MataTeam(x.Node!,id,status)))
             {
                 yield return item;
@@ -42,6 +47,7 @@ public class TeamPlayer<T> : IStrategy<T>
         }
     }
 
+    //determina si jugando por ese nodo matas una de tu equipo
     public bool MataTeam(INode<T> node, int id, GameStatus<T> status)
     {
         foreach (var conection in node.Connections)
@@ -53,6 +59,7 @@ public class TeamPlayer<T> : IStrategy<T>
         return false;
     }
     
+    //determina si jugando por ese nodo matas el valor
     public bool Mata(INode<T> node, T value)
     {
         if(node.ValueToken is not null) return false;
@@ -64,6 +71,7 @@ public class TeamPlayer<T> : IStrategy<T>
         return false;
     }
 
+    //devuelve para cada valor la cantidad de veces que lo ha puesto alguien del equipo
     public IEnumerable<(T value, int cant)> GetTeamPuestas(GameStatus<T> status, int team)
     {
         foreach(var value in status.Values)
@@ -86,6 +94,7 @@ public class TeamPlayer<T> : IStrategy<T>
 
 public class EnemyPlayer<T> : IStrategy<T>
 {
+    //Devuelve las jugadas en la que pongo la ficha que mató un oponente
     public IEnumerable<Move<T>> GetKillEnemyMoves (IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         foreach (var (value, cant) in GetEnemyTeamsMatadas(status, status.FindTeamPlayer(id)).OrderByDescending(x => x.cant))
@@ -97,6 +106,7 @@ public class EnemyPlayer<T> : IStrategy<T>
         }
     }
 
+    //Determina cuántas fichas jugaron los equipos contrarios para matar cada valor
     public IEnumerable<(T value, int cant)> GetEnemyTeamsMatadas(GameStatus<T> status, int team)
     {
         foreach(var value in status.Values)
@@ -109,6 +119,8 @@ public class EnemyPlayer<T> : IStrategy<T>
             yield return (value,sum)!;
         }
     }
+
+    //Encuentra quienes son los oponentes
     public IEnumerable<InfoPlayer<T>> Enemies(GameStatus<T> status, int team)
     {
         for (int i = 0; i < status.Teams.Count; i++)
@@ -128,10 +140,12 @@ public class EnemyPlayer<T> : IStrategy<T>
     }
 }
 
+//Devuelve un IEnumerable con las jugadas que contienen la ficha de la que más cantidad tengo
 public class SinglePlayer<T> : IStrategy<T>
 { 
-    public IEnumerable<Move<T>> GetMovesWithValue(T value, IEnumerable<Move<T>> a) => a.Where(x => x.Token!.Contains(value));
+    public IEnumerable<Move<T>> GetMovesWithValue(T value, IEnumerable<Move<T>> possiblemoves) => possiblemoves.Where(move => move.Token!.Contains(value));
 
+    //Cuántas fichas de la mano contienen cada valor
     public IEnumerable<(T value, int cant)> InHand(Hand<T> hand, GameStatus<T> status)
     {
         foreach (var value in status.Values)
@@ -149,6 +163,8 @@ public class SinglePlayer<T> : IStrategy<T>
     {
         var myHand = status.Players[status.FindPLayerById(id)].Hand;
         var values = InHand(myHand, status).OrderByDescending(x => x.cant);
+        //busco por los valores que más tengo en la mano si se pueden jugar
+        //cuando encuentre uno lo devuelvo
         IEnumerable<Move<T>> moves = GetMovesWithValue(values.First().value, possibleMoves);
         foreach (var value in values.Skip(1))
         {
@@ -159,11 +175,13 @@ public class SinglePlayer<T> : IStrategy<T>
     }   
 }
 
+//Devuelve un IEnumerable de jugadas con aquellas con las que no se queda al fallo
 public class NoQuedarseAlFallo<T> : IStrategy<T>
 {
     public IEnumerable<Move<T>> Play(IEnumerable<Move<T>> possibleMoves, GameStatus<T> status, InfoRules<T> rules, int id)
     {
         var myHand = status.Players[status.FindPLayerById(id)].Hand;
+        //reviso que las jugadas que voy a devolver no contengan un valor del cual me quede una sola ficha
         var values = InHand(myHand, status).Where(x => x.cant == 1);
         var moves = possibleMoves.Where(x => !values.Any(value => x.Token!.Contains(value.value)));
         return moves;

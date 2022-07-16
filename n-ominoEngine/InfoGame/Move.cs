@@ -28,7 +28,7 @@ public class Move<T> : ICloneable<Move<T>>
 
     public bool Mata (T value)
     {
-        //determina si la jugada se hico para matar este valor
+        //determina si la jugada se hizo para matar este valor
         //busco por los nodos si el valor T está en algún "no padre" retorno true
         foreach(var connection in this.Node!.Connections)
         {
@@ -41,6 +41,6 @@ public class Move<T> : ICloneable<Move<T>>
     public Move<T> Clone()
     {
         if (this.ValidPlay == -1) return new Move<T>(Token, Node, ValidPlay);
-        return new Move<T>(Token!.Clone(), Node, ValidPlay); //hacer nodo ICloneable
+        return new Move<T>(Token!.Clone(), Node, ValidPlay);
     }
 }

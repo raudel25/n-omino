@@ -43,6 +43,7 @@ public class Player<T>
         this.Id = id;
     }
 
+    //Devuelve las jugadas válidas que puedo hacer
     protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, TournamentStatus tournament, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         rules.IsValidPlay.RunRule(tournament, status, status, rules, Id);
@@ -59,16 +60,21 @@ public class Player<T>
             }
         }
     }
+
+    //Devuelve la jugada que va a hacer el player
     public virtual Move<T> Play(TournamentStatus tournamnet, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         var myHand = status.Players[status.FindPLayerById(Id)].Hand;
         var validMoves = GetValidMoves(myHand, tournamnet, status, rules, ind);
+        //obtengo todas las estrategias
         var strategiesMoves = GetStrategiesMoves(validMoves, tournamnet, status, rules, Id);
+        //me quedo con la de máxima puntuación según el scorer
         var move = validMoves.MaxBy(x => this._moveScorer(x, strategiesMoves, status, rules, this.random, this.Id));
+        //si lo que tenía era un pase, me quedo con la estrategia del default
         if (move!.IsAPass()) return Default.Play(validMoves, status, rules, Id).First();
         return move;
     }
-
+    
     protected IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves, TournamentStatus tournament, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < Conditions.Length; i++)

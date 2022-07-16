@@ -6,13 +6,15 @@ namespace InfoGame;
 public class GameStatus<T>
 {
     public List<InfoPlayer<T>> Players { get; set; }
-    public List<InfoTeams<InfoPlayer<T>>> Teams { get; set; }
-    public TableGame<T> Table { get; set; }
-    public int[] Turns { get; set; }
-    public ReadOnlyCollection<T> Values { get; set; }
 
-    //cantidad de rondas que lleva el juego
-    public int Round { get; set; }
+    public List<InfoTeams<InfoPlayer<T>>> Teams { get; set; }
+
+    public TableGame<T> Table { get; set; }
+
+    public int[] Turns { get; set; }
+
+    //Valores que tienen las fichas
+    public ReadOnlyCollection<T> Values { get; set; }
 
     //Lista de fichas fuera de la mesa
     public List<Token<T>>? TokensTable { get; set; }

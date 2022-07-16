@@ -12,10 +12,7 @@ public class InfoTeams<T> : IEnumerable<T>
         }
     }
     
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     private List<T> _values;
 
@@ -41,13 +38,7 @@ public class InfoTeams<T> : IEnumerable<T>
         }
     }
 
-    public void Add(T value)
-    {
-        this._values.Add(value);
-    }
+    public void Add(T value) => this._values.Add(value);
     
-    public int Count
-    {
-        get { return this._values.Count; }
-    }
+    public int Count => this._values.Count;
 }
