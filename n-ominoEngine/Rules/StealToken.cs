@@ -32,7 +32,7 @@ public class NoStealToken<T> : IStealToken<T>
 
     public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
     {
-        game.TokensTable = null;
+        game.TokensTable = new List<Token<T>>();
     }
 }
 
@@ -50,15 +50,15 @@ public class ClassicStealToken<T> : IStealToken<T>
         Random rnd = new Random();
         while (true)
         {
-            if (game.TokensTable!.Count == 0) break;
+            if (game.TokensTable.Count == 0) break;
 
-            Token<T> aux = game.TokensTable![rnd.Next(game.TokensTable.Count)];
+            Token<T> aux = game.TokensTable[rnd.Next(game.TokensTable.Count)];
 
             //Actualizar la mano
             game.Players[original.Turns[ind]].Hand.Add(aux);
             original.Players[original.Turns[ind]].Hand.Add(aux);
-            game.TokensTable!.Remove(aux);
-            original.TokensTable!.Remove(aux);
+            game.TokensTable.Remove(aux);
+            original.TokensTable.Remove(aux);
 
             var hand = new Hand<T>();
             hand.Add(aux);
@@ -67,7 +67,7 @@ public class ClassicStealToken<T> : IStealToken<T>
             if (play) break;
         }
 
-        game.TokensTable = null;
+        game.TokensTable = new List<Token<T>>();
     }
 }
 
@@ -82,7 +82,7 @@ public class ChooseStealToken<T> : IStealToken<T>
 
     public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
     {
-        for (int i = 0; i < game.TokensTable!.Count; i++)
+        for (int i = 0; i < game.TokensTable.Count; i++)
         {
             foreach (var item in game.Table.FreeNode)
             {

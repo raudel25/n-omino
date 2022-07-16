@@ -31,7 +31,7 @@ public class SelectValidPlay<T> : IVariant<IValidPlay<T>, T>
         {
             Values.Add((comp) => new ValidPlayGeometry<T>(comp.Comp!));
             Param.Add(new ParamSelect("Tablero geométrico",
-                "Valida las jugadas según el comparador que reciba para un tablero de n-omino geometrico", 1, false,
+                "Valida las jugadas según el comparador que reciba para un tablero de n-omino geométrico", 1, false,
                 false, true));
         }
 

@@ -15,7 +15,7 @@ public class SelectTurnPlayer<T> : IVariant<ITurnPlayer, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
-        new ParamSelect("Turneador clasico", "Se reparten los turnos de forma clasica", 0),
+        new ParamSelect("Turneador clásico", "Se reparten los turnos de forma clásica", 0),
         new ParamSelect("Turneador inverso", "Se invierte el orden de los turnos", 1),
         new ParamSelect("Repetir jugada", "Se repite el turno del jugador que acaba de jugar", 2)
     };

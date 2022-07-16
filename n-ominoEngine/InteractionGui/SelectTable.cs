@@ -22,7 +22,7 @@ public class SelectTable<T> : IVariant<TableGame<T>, T>
         new ParamSelect("Triangular", "Tablero triangular", 0),
         new ParamSelect("Cuadrado", "Tablero cuadrado", 1),
         new ParamSelect("Hexagonal", "Tablero hexagonal", 2),
-        new ParamSelect("Domino", "Tablero de domino", 3),
+        new ParamSelect("Dominó", "Tablero de dominó", 3),
         new ParamSelect("Longana", "Tablero de longana", 4),
         new ParamSelect("Nomino", "Tablero con fichas de varias caras", 5, false, true),
         new ParamSelect("NLongana", "Longana con fichas de varias caras", 6, false, true),

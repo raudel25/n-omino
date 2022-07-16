@@ -15,9 +15,9 @@ public class SelectScoreTeamTournament<T> : IVariant<IScoreTeamTournament<T>, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>
     {
-        new ParamSelect("Score de los equipos clasico",
+        new ParamSelect("Score de los equipos clásico",
             "Se le asigna al equipo ganador la suma de los puntos de las manos de los restantes equipos", 0),
-        new ParamSelect("Score por la puntuacion en el juego",
-            "Se le asigna a los equipos la puntuacion de sus respectivos miembros durante el juego", 1),
+        new ParamSelect("Score por la puntuación en el juego",
+            "Se le asigna a los equipos la puntuación de sus respectivos miembros durante el juego", 1),
     };
 }

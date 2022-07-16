@@ -13,7 +13,7 @@ public class SelectTeamGameTournament<T> : IVariant<ITeamsGame, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>
     {
-        new ParamSelect("Asignacion clasica para los equipos en el juego", "Todos los equipos participan en el juego",
+        new ParamSelect("Asignación clásica para los equipos en el juego", "Todos los equipos participan en el juego",
             0),
     };
 }

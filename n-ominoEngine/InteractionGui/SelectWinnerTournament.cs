@@ -15,8 +15,8 @@ public class SelectWinnerTournament<T> : IVariant<IWinnerTournament, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>
     {
-        new ParamSelect("Ganador del torneo clasico", "El ganador es el que mayor puntuacion acumule", 0),
-        new ParamSelect("Puntuacion por los juegadores",
+        new ParamSelect("Ganador del torneo clásico", "El ganador es el que mayor puntuación acumule", 0),
+        new ParamSelect("Puntuación por los juegadores",
             "El ganador es el equipo que tenga mas score entre sus miembros", 1),
     };
 }

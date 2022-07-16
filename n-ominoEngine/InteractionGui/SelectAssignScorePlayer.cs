@@ -17,7 +17,7 @@ public class SelectAssignScorePlayer<T> : IVariant<IAssignScorePlayer<T>, T>
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
     {
-        new ParamSelect("Score clasico", "Asignar el Score cuando un jugador se pega", 0),
+        new ParamSelect("Score clásico", "Asignar el Score cuando un jugador se pega", 0),
         new ParamSelect("Score relativo al tranque",
             "Asignar el Score por el valor de las fichas en la mano del jugador", 1),
         new ParamSelect(
@@ -26,7 +26,7 @@ public class SelectAssignScorePlayer<T> : IVariant<IAssignScorePlayer<T>, T>
             2),
         new ParamSelect(
             "Mano del jugador por la mayor cantidad",
-            "Asignar el Score por el valor de las fichas en la mano del jugador, dandole prioridad al que mas fichas tenga",
+            "Asignar el Score por el valor de las fichas en la mano del jugador, dandole prioridad al que más fichas tenga",
             3)
     };
 
