@@ -38,6 +38,8 @@ public abstract class Printer : IReset<Printer>
 
     public delegate void BindMessage(string winner);
 
+    public delegate void GameOver();
+
     /// <summary>
     /// Bindiar el tablero logico con el front-end
     /// </summary>
@@ -48,7 +50,15 @@ public abstract class Printer : IReset<Printer>
     /// </summary>
     public static event BindLocationHand? BindHandEvent;
 
+    /// <summary>
+    /// Mostrar un mensaje en el front-end
+    /// </summary>
     public static event BindMessage? BindMessageEvent;
+
+    /// <summary>
+    /// Indicar el fin del juego
+    /// </summary>
+    public static event GameOver? GameOverEvent;
 
     public static void ExecuteMessageEvent(string message)
     {
@@ -65,6 +75,12 @@ public abstract class Printer : IReset<Printer>
         InfoPlayerGui player)
     {
         BindHandEvent!(location, play, action, player);
+    }
+
+    public static void ExecuteResetEvent()
+    {
+        Thread.Sleep(1000);
+        GameOverEvent!();
     }
 
     /// <summary>

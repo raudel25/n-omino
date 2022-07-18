@@ -108,6 +108,7 @@ public class JudgeTournament<T>
         }
 
         Printer.ExecuteMessageEvent("El equipo " + this._tournament.TeamWinner + " ha ganado torneo");
+        Printer.ExecuteResetEvent();
     }
 
     /// <summary>

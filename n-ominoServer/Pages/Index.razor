@@ -145,4 +145,30 @@ else
 
         return false;
     }
+
+    protected override void OnInitialized()
+    {
+        Printer.GameOverEvent += GameOver;
+    }
+
+    private void GameOver()
+    {
+        _ = InvokeAsync(() =>
+        {
+            _game = false;
+            _typeSelect = -1;
+            _type = -1;
+
+            _gameInt = new List<BuildGame<int>>();
+            _gameChar = new List<BuildGame<char>>();
+            _playersInt = new List<Player<int>>();
+            _playersChar = new List<Player<char>>();
+
+            _rulesInt = new List<InfoRulesTournament<int>>();
+            _rulesChar = new List<InfoRulesTournament<char>>();
+            _teams = new List<(int, int,string)>();
+
+            StateHasChanged();
+        });
+    }
 }

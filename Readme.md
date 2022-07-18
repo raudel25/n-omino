@@ -10,7 +10,7 @@
 
 Este proyecto se basa en simular variantes del popular juego _Dominó_ (que en esta versión desarrollada en _MATCOM_ denominaremos _N-OMINO_) y su desarrollo, mediante la interacción de jugadores virtuales. Las variaciones más notables que se aprecian en el proyecto son la forma de las fichas del juego y la forma en la que estas se ubican en el tablero, además de las estrategias de los jugadores virtuales y las reglas que estos deben seguir.
 
-Al usuario se le brinda la posibilidad de configurar un juego totalmente nuevo, pero siempre manteniendo algunas ideas básicas del juego original, además de ofrecer juegos precreados con algunas variantes clásicas de _Dominó_ y otras que suponen su invención en este proyecto. También se le permite al usuario configurar las estategias de los distintos jugadores que participan durante la ejecución del juego, las cuales se rigen por las pautas del juego tradicional.
+Al usuario se le brinda la posibilidad de configurar un juego totalmente nuevo, pero siempre manteniendo algunas ideas básicas del juego original, además de ofrecer juegos pre creados con algunas variantes clásicas de _Dominó_ y otras que suponen su invención en este proyecto. También se le permite al usuario configurar las estategias de los distintos jugadores que participan durante la ejecución del juego, las cuales se rigen por las pautas del juego tradicional.
 
 Dada la variedad de opciones con que cuenta el usuario para configurar y simular el juego, lo invitamos a probar las diferentes implementaciones de este y a descubrir las diversas maneras de jugar al _N-OMINO_, unas pueden tener sentido otras no, pero todas cuentan con la imaginación y creatividad que surgen de extender el popular juego del _Dominó_.
 
