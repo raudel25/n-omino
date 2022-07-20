@@ -30,6 +30,13 @@
             }
         </div>
 
+        @if (Cant != 1)
+        {
+            <div style="display: flex; justify-content: center;">
+                <label>@ValueParam!.Count/@Cant</label>
+            </div>
+        }
+
         <div>
             @if (_selcted != -1)
             {
