@@ -23,7 +23,7 @@ public class PrinterLongana : PrinterDomino
             if (!table.FreeNode.Contains(table.TableNode[0].Connections[i]!))
             {
                 aux = DeterminateLocation(table, table.TableNode[0].Connections[i]!, (3 * i, 1),
-                    new HashSet<INode<T>>() {table.TableNode[0]}, true);
+                    new HashSet<INode<T>>() { table.TableNode[0] }, true);
             }
 
             TypeToken type = (Classic) ? TypeToken.DominoVC : TypeToken.DominoV;
@@ -32,11 +32,11 @@ public class PrinterLongana : PrinterDomino
                 new[]
                 {
                     table.TableNode[0].ValuesConnections[0]!.ToString()!,
-                    table.TableNode[0].ValuesConnections[1]!.ToString()!
+                    table.TableNode[0].ValuesConnections[0]!.ToString()!
                 },
                 type);
 
-            locations = locations.Concat(new[] {first}.Concat(aux));
+            locations = locations.Concat(new[] { first }.Concat(aux));
         }
 
         Printer.ExecuteTableEvent(locations);

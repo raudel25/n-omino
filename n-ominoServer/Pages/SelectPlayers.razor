@@ -19,7 +19,7 @@
 
                 <input type="number" @bind="_cantPlayersValue" class="InputSelectHead"/>
 
-                <button @onclick="() => { _cantPlayers = _cantPlayersValue; }" class="ButtonSelectHeadT">Seleccionar</button>
+                <button @onclick="CantPlayer" class="ButtonSelectHeadT">Seleccionar</button>
             }
         </div>
     </div>
@@ -144,6 +144,16 @@
             _team = 0;
             _name = "";
         }
+    }
+
+    private void CantPlayer()
+    {
+        if(_cantPlayersValue < 1)
+        {
+            _cantPlayersValue = 4;
+            return;
+        }
+        _cantPlayers = _cantPlayersValue;
     }
 
 }

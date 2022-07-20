@@ -9,7 +9,7 @@ public class SelectReorganizeHands<T> : IVariant<IReorganizeHands<T>, T>
     public List<IVariant<IReorganizeHands<T>, T>.Select> Values { get; } = new List<IVariant<IReorganizeHands<T>, T>.Select>()
     {
         (comp) => new ClassicReorganize<T>(),
-        (comp)=> new HandsTeamWin<T>()
+        (comp) => new HandsTeamWin<T>()
     };
 
     public List<ParamSelect> Param { get; } = new List<ParamSelect>()
