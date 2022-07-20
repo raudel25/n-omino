@@ -29,17 +29,17 @@ public class SelectComparison<T> : IVariant<IComparison<T>, T>
         if (this.Value is int)
         {
             Values.Add(SelectCongruenceComparison);
-            Param.Add(new ParamSelect("Comparador por congruencia módulo n", "Dos números de consideran iguales si dejan el mismo resto módulo n", 1, true));
+            Param.Add(new ParamSelect("Comparador por congruencia módulo n", "Dos números de consideran iguales si dejan el mismo resto módulo n", 1, false, true));
             Values.Add(SelectHighNumberComparison);
-            Param.Add(new ParamSelect("Comparador por mayor que número n", "Dos números de consideran iguales si son mayores que n", 2, true));
+            Param.Add(new ParamSelect("Comparador por mayor que el número n", "Dos números de consideran iguales si son mayores que n", 2, true));
             Values.Add(SelectSmallNumberComparison);
-            Param.Add(new ParamSelect("Comparador por menor que número ?", "Dos números de consideran iguales si son menores que n", 3, true));
+            Param.Add(new ParamSelect("Comparador por menor que el número n", "Dos números de consideran iguales si son menores que n", 3, true));
             Values.Add(SelectComodinComparison);
             Param.Add(new ParamSelect("Comparador por comodín", "Un comodín que machea con todos los números", 4, true));
             Values.Add(SelectDivisibleComparison);
-            Param.Add(new ParamSelect("Comparador por divisivilidad con n", "Dos números de consideran iguales si son divisibles por n", 5, true));
+            Param.Add(new ParamSelect("Comparador por divisivilidad con n", "Dos números de consideran iguales si son divisibles por n", 5, false, true));
             Values.Add(SelectGcdComparison);
-            Param.Add(new ParamSelect("Comparador por máximo común divisor con n", "Dos números de consideran iguales si su mcd con n es igual", 6, true));
+            Param.Add(new ParamSelect("Máximo común divisor igual a n", "Dos números de consideran iguales si su mcd es igual a n", 6, true));
         }
 
         //chars
