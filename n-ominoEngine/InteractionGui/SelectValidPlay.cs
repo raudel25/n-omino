@@ -19,7 +19,7 @@ public class SelectValidPlay<T> : IVariant<IValidPlay<T>, T>
 
     public SelectValidPlay(TableGame<T> table)
     {
-        if (table is TableDimension<T>)
+        if (table is TableDimension<T> && !(table is TableLongana<T>))
         {
             Values.Add((comp) => new ValidPlayDimension<T>(comp.Comp!));
             Param.Add(new ParamSelect("Validador clásico",
@@ -37,13 +37,15 @@ public class SelectValidPlay<T> : IVariant<IValidPlay<T>, T>
 
         if (table is TableLongana<T>)
         {
+            Values = new List<IVariant<IValidPlay<T>, T>.Select>();
+            Param = new List<ParamSelect>();
             Values.Add((comp) => new ValidPlayLongana<T>(comp.Comp!));
             Param.Add(new ParamSelect("Longana",
-                "Valida las jugadas según el comparador que reciba para un tablero de n-omino de longana", 2, false,
+                "Valida las jugadas según el comparador que reciba para un tablero de n-omino de longana", 0, false,
                 false, true));
             Values.Add((comp) => new ValidPlayLonganaComplement<T>(comp.Comp!));
             Param.Add(new ParamSelect("Complemento para la longana", "Permite jugar por la rama del jugador anterior",
-                3, false, false, true));
+                1, false, false, true));
         }
     }
 }
