@@ -4,7 +4,7 @@ namespace InteractionGui;
 
 public class SelectDistributionPlayer<T> : IVariant<IDistributionPlayer, T>
 {
-    public string Description { get; } = "Determinar la distribución de los juegadores en el juego";
+    public string Description { get; } = "Determinar la distribución de los jugadores en el juego";
 
     public List<IVariant<IDistributionPlayer, T>.Select> Values { get; } =
         new List<IVariant<IDistributionPlayer, T>.Select>()

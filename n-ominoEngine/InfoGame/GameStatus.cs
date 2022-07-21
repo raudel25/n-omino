@@ -55,7 +55,7 @@ public class GameStatus<T>
     /// Determinar el indice de un jugador dado su Id
     /// </summary>
     /// <param name="id">Id del jugador</param>
-    /// <returns>Indice del juegador</returns>
+    /// <returns>Indice del jugador</returns>
     public int FindPLayerById(int id)
     {
         for (int i = 0; i < this.Players.Count; i++)
