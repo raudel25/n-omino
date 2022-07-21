@@ -2,17 +2,6 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IScoreTeamTournament<T>
-{
-    /// <summary>
-    /// Asignar score a los equipos durante el torneo
-    /// </summary>
-    /// <param name="tournament">Estado del torneo</param>
-    /// <param name="game">Estado del juego actual</param>
-    /// <param name="rules">Reglas del actual juego</param>
-    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules);
-}
-
 public class ClassicScoreTeamTournament<T> : IScoreTeamTournament<T>
 {
     public void AssignScore(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules)

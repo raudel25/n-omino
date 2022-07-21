@@ -2,15 +2,6 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IDistributionPlayer
-{
-    /// <summary>
-    /// Determinar la distribucion de los players en el juego
-    /// </summary>
-    /// <param name="tournament">Estado del torneo</param>
-    public void DeterminateDistribution(TournamentStatus tournament);
-}
-
 public class ClassicDistribution : IDistributionPlayer
 {
     public void DeterminateDistribution(TournamentStatus tournament)

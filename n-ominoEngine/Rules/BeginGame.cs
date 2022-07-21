@@ -3,16 +3,6 @@ using Table;
 
 namespace Rules;
 
-public interface IBeginGame<T>
-{
-    /// <summary>
-    /// Determinar como se inicia el juego
-    /// </summary>
-    /// <param name="tournament">Datos del torneo</param>
-    /// <param name="game">Datos del juego</param>
-    public void Start(TournamentStatus tournament, GameStatus<T> game);
-}
-
 public class BeginGameToken<T> : IBeginGame<T>
 {
     private Token<T> _token;

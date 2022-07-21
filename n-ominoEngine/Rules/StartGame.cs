@@ -3,16 +3,6 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IDealer<T>
-{
-    /// <summary>Reparte una cantidad de T</summary>
-    /// <param name="items">Elementos a repartir</param>
-    /// <param name="tokensPerPlayer">Cantidad de elementos que se quieren</param>
-    /// <returns>Una lista con lo que repartió</returns>
-    public IEnumerable<Hand<T>> Deal(List<Token<T>> items, int[] tokensPerPlayer);
-    public Hand<T> Deal(List<Token<T>> items, int cant);
-}
-
 public class RandomDealer<T> : IDealer<T>
 {
     Random r = new Random();
@@ -50,15 +40,6 @@ public class RandomDealer<T> : IDealer<T>
             yield return Deal(items, canttokens);
         }
     }
-}
-
-public interface ITokensMaker<T>
-{
-    /// <summary>Genera las fichas</summary>
-    /// <param name="values">Valores que tendrán las fichas</param>
-    /// <param name="n">Cantidad de caras que tendrá una ficha</param>
-    /// <returns>Una lista con las fichas creadas</returns>
-    public List<Token<T>> MakeTokens(T[] values, int n);
 }
 
 public class ClassicTokensMaker<T> : ITokensMaker<T>

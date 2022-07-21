@@ -3,11 +3,6 @@ using Table;
 
 namespace Rules;
 
-public interface IReorganizeHands<T>
-{
-    public void Reorganize(TournamentStatus tournament, GameStatus<T> game);
-}
-
 public class ClassicReorganize<T> : IReorganizeHands<T>
 {
     public void Reorganize(TournamentStatus tournament, GameStatus<T> game)

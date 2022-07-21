@@ -245,6 +245,10 @@ public class Judge<T>
         return (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1);
     }
 
+    /// <summary>
+    /// Determinar si algun jugador tiene una jugada valida
+    /// </summary>
+    /// <returns>Alguna jugada valida</returns>
     private bool NoValid()
     {
         for (int i = 0; i < this._infoGame.Turns.Length; i++)

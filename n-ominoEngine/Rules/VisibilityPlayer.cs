@@ -2,16 +2,6 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IVisibilityPlayer<T>
-{
-    /// <summary>
-    /// Determinar la visibilidad de los jugadores sobre las fichas del juego
-    /// </summary>
-    /// <param name="game">Estado del juego</param>
-    /// <param name="ind">Indice del jugador que le corresponde jugar</param>
-    public void Visibility(GameStatus<T> game, int ind);
-}
-
 public class ClassicVisibilityPlayer<T> : IVisibilityPlayer<T>
 {
     public void Visibility(GameStatus<T> game, int ind)

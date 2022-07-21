@@ -2,15 +2,6 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IWinnerTournament
-{
-    /// <summary>
-    /// Determinar el ganador de un torneo
-    /// </summary>
-    /// <param name="tournament">Estado del torneo</param>
-    public void DeterminateWinner(TournamentStatus tournament);
-}
-
 public class ClassicWinnerTournament : IWinnerTournament
 {
     public void DeterminateWinner(TournamentStatus tournament)

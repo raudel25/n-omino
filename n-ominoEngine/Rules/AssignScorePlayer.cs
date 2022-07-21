@@ -3,17 +3,6 @@ using Table;
 
 namespace Rules;
 
-public interface IAssignScorePlayer<T>
-{
-    /// <summary>
-    /// Determinar la forma de asignar puntos a un jugador
-    /// </summary>
-    /// <param name="game">Estado del juego</param>
-    /// <param name="ind">Indice del jugador</param>
-    /// <param name="rules">Reglas del juego</param>
-    public void AssignScore(GameStatus<T> game, IAssignScoreToken<T> rules, int ind);
-}
-
 public class AssignScoreClassic<T> : IAssignScorePlayer<T>
 {
     public void AssignScore(GameStatus<T> game, IAssignScoreToken<T> rules, int ind)

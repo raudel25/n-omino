@@ -2,11 +2,6 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IPlayerGame
-{
-    public void DeterminatePlayers(TournamentStatus tournament);
-}
-
 public class ClassicPlayerGame : IPlayerGame
 {
     public void DeterminatePlayers(TournamentStatus tournament)
