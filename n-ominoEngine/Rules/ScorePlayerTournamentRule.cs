@@ -11,20 +11,20 @@ public class ScorePlayerTournamentRule<T> : ActionConditionRule<IScorePlayerTour
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
-        InfoRules<T> rules, int ind)
+    public void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
+        IAssignScoreToken<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
             if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].AssignScore(tournament, game, ind);
+                this.Actions[i].AssignScore(tournament, game);
                 activate = true;
             }
         }
 
-        if (!activate) this.Default!.AssignScore(tournament, game, ind);
+        if (!activate) this.Default!.AssignScore(tournament, game);
     }
 
     public ScorePlayerTournamentRule<T> Clone()

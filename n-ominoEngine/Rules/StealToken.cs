@@ -3,24 +3,6 @@ using Table;
 
 namespace Rules;
 
-public interface IStealToken<T>
-{
-    /// <summary>
-    /// Cantidad de fichas maximas que puede robar el jugador
-    /// </summary>
-    int CantMax { get; }
-
-    /// <summary>
-    /// Determinar las condiciones bajo las cuales se puede robar en el juego
-    /// </summary>
-    /// <param name="game">Estado del juego</param>
-    /// <param name="ind">Indice del jugador que le corresponde jugar</param>
-    /// <param name="rules">Reglas del juego</param>
-    /// <param name="original">Estado Original del juego</param>
-    /// <param name="play">Determinar si es posible jugar</param>
-    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play);
-}
-
 public class NoStealToken<T> : IStealToken<T>
 {
     public int CantMax { get; private set; }
@@ -30,7 +12,7 @@ public class NoStealToken<T> : IStealToken<T>
         this.CantMax = 0;
     }
 
-    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
+    public void Steal(GameStatus<T> game, GameStatus<T> original, IsValidRule<T> rules, int ind, ref bool play)
     {
         game.TokensTable = new List<Token<T>>();
     }
@@ -45,7 +27,7 @@ public class ClassicStealToken<T> : IStealToken<T>
         this.CantMax = 0;
     }
 
-    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
+    public void Steal(GameStatus<T> game, GameStatus<T> original, IsValidRule<T> rules, int ind, ref bool play)
     {
         Random rnd = new Random();
         while (true)
@@ -62,7 +44,7 @@ public class ClassicStealToken<T> : IStealToken<T>
 
             var hand = new Hand<T>();
             hand.Add(aux);
-            play = rules.IsValidPlay.ValidPlayPlayer(hand, game, ind);
+            play = rules.ValidPlayPlayer(hand, game, ind);
 
             if (play) break;
         }
@@ -80,13 +62,13 @@ public class ChooseStealToken<T> : IStealToken<T>
         this.CantMax = a;
     }
 
-    public void Steal(GameStatus<T> game, GameStatus<T> original, InfoRules<T> rules, int ind, ref bool play)
+    public void Steal(GameStatus<T> game, GameStatus<T> original, IsValidRule<T> rules, int ind, ref bool play)
     {
         for (int i = 0; i < game.TokensTable.Count; i++)
         {
             foreach (var item in game.Table.FreeNode)
             {
-                if (rules.IsValidPlay.ValidPlays(item, game.TokensTable[i], game, ind).Count != 0) break;
+                if (rules.ValidPlays(item, game.TokensTable[i], game, ind).Count != 0) break;
                 play = true;
             }
         }

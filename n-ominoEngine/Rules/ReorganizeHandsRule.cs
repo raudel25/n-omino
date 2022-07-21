@@ -10,20 +10,20 @@ public class ReorganizeHandsRule<T> : ActionConditionRule<IReorganizeHands<T>, T
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
-        InfoRules<T> rules, int ind)
+    public void RunRule(TournamentStatus tournament, GameStatus<T> original,
+        IAssignScoreToken<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
             if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].Reorganize(tournament, game, ind);
+                this.Actions[i].Reorganize(tournament, original);
                 activate = true;
             }
         }
 
-        if (!activate) this.Default!.Reorganize(tournament, game, ind);
+        if (!activate) this.Default!.Reorganize(tournament, original);
     }
 
     public ReorganizeHandsRule<T> Clone()

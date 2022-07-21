@@ -3,21 +3,16 @@ using Table;
 
 namespace Rules;
 
-public interface IReorganizeHands<T>
-{
-    public void Reorganize(TournamentStatus tournament, GameStatus<T> game, int ind);
-}
-
 public class ClassicReorganize<T> : IReorganizeHands<T>
 {
-    public void Reorganize(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public void Reorganize(TournamentStatus tournament, GameStatus<T> game)
     {
     }
 }
 
 public class HandsTeamWin<T> : IReorganizeHands<T>
 {
-    public void Reorganize(TournamentStatus tournament, GameStatus<T> game, int ind)
+    public void Reorganize(TournamentStatus tournament, GameStatus<T> game)
     {
         if (tournament.ImmediateWinnerTeam == -1) return;
 

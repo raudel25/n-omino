@@ -2,19 +2,9 @@ using InfoGame;
 
 namespace Rules;
 
-public interface IWinnerTournament
-{
-    /// <summary>
-    /// Determinar el ganador de un torneo
-    /// </summary>
-    /// <param name="tournament">Estado del torneo</param>
-    /// <param name="ind">Indice del torneo</param>
-    public void DeterminateWinner(TournamentStatus tournament, int ind);
-}
-
 public class ClassicWinnerTournament : IWinnerTournament
 {
-    public void DeterminateWinner(TournamentStatus tournament, int ind)
+    public void DeterminateWinner(TournamentStatus tournament)
     {
         double max = int.MinValue;
         int index = -1;
@@ -34,7 +24,7 @@ public class ClassicWinnerTournament : IWinnerTournament
 
 public class MaxPlayerScore : IWinnerTournament
 {
-    public void DeterminateWinner(TournamentStatus tournament, int ind)
+    public void DeterminateWinner(TournamentStatus tournament)
     {
         double max = double.MinValue;
         int index = -1;

@@ -10,14 +10,14 @@ public class WinnerTournamentRule<T> : ActionConditionRule<IWinnerTournament, T>
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
-        InfoRules<T> rules, int ind)
+    public void RunRule(TournamentStatus tournament, GameStatus<T> original,
+        IAssignScoreToken<T> rules, int ind)
     {
         for (int i = 0; i < this.Condition.Length; i++)
         {
             if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].DeterminateWinner(tournament, ind);
+                this.Actions[i].DeterminateWinner(tournament);
             }
         }
     }

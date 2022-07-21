@@ -3,25 +3,6 @@ using Table;
 
 namespace Rules;
 
-public interface IValidPlay<T>
-{
-    /// <summary>Determinar si es valido jugar una ficha por un nodo</summary>
-    /// <param name="node">Nodo por el que se va a jugar</param>
-    /// <param name="token">Ficha que se va a jugar</param>
-    /// <param name="game">Estado del juego</param>
-    /// <param name="ind">Indice del jugador relativo a la mesa</param>
-    /// <returns>Si el criterio es valido</returns>
-    public bool ValidPlay(INode<T> node, Token<T> token, GameStatus<T> game, int ind);
-
-    /// <summary>Determinar los valores para asignar al nodo</summary>
-    /// <param name="node">Nodo por el que se va a jugar</param>
-    /// <param name="token">Ficha que se va a jugar</param>
-    /// <param name="table">Mesa para jugar</param>
-    /// <returns>Valores a asignar al nodo, retorna una array cuyo primer
-    /// elemento es -1 si el criterio no es valido</returns>
-    public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table);
-}
-
 public class ValidPlayDimension<T> : IValidPlay<T>
 {
     /// <summary>

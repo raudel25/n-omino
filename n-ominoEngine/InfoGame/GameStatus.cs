@@ -33,11 +33,14 @@ public class GameStatus<T>
     /// </summary>
     public int PlayerStart { get; set; }
 
+    public bool NoValidPlay { get; set; }
+
     public Token<T>? TokenStart { get; set; }
 
     public GameStatus(List<InfoPlayer<T>> players, List<InfoTeams<InfoPlayer<T>>> teams, TableGame<T> table,
         int[] turns,
-        List<Token<T>> tokens, ReadOnlyCollection<T> values, int playerStart = -1, bool immediatePass = false)
+        List<Token<T>> tokens, ReadOnlyCollection<T> values, int playerStart = -1, bool immediatePass = false,
+        bool noValid = false)
     {
         this.Players = players;
         this.Teams = teams;
@@ -49,6 +52,7 @@ public class GameStatus<T>
         this.Values = values;
         this.PlayerStart = playerStart;
         this.ImmediatePass = immediatePass;
+        this.NoValidPlay = noValid;
     }
 
     /// <summary>
@@ -114,8 +118,8 @@ public class GameStatus<T>
             }
         }
 
-        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable!.ToList(),
+        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable.ToList(),
             this.Values,
-            this.PlayerStart, this.ImmediatePass);
+            this.PlayerStart, this.ImmediatePass, this.NoValidPlay);
     }
 }

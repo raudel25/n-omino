@@ -12,8 +12,8 @@ public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
-        InfoRules<T> rules, int ind)
+    public void RunRule(TournamentStatus tournament, GameStatus<T> original,
+        IAssignScoreToken<T> rules, int ind)
     {
         for (int i = 0; i < this.Condition.Length; i++)
         {

@@ -10,20 +10,20 @@ public class TeamsGameRule<T> : ActionConditionRule<ITeamsGame, T>, ICloneable<T
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
-        InfoRules<T> rules, int ind)
+    public void RunRule(TournamentStatus tournament, GameStatus<T> original,
+        IAssignScoreToken<T> rules, int ind)
     {
         bool activate = false;
         for (int i = 0; i < this.Condition.Length; i++)
         {
             if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].DeterminateTeams(tournament, ind);
+                this.Actions[i].DeterminateTeams(tournament);
                 activate = true;
             }
         }
 
-        if (!activate) this.Default!.DeterminateTeams(tournament, ind);
+        if (!activate) this.Default!.DeterminateTeams(tournament);
     }
 
     public TeamsGameRule<T> Clone()

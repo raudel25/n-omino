@@ -2,17 +2,6 @@ using InfoGame;
 
 namespace Rules;
 
-//Falta determinar cuando los puntos de dos jugadores sean iguales
-public interface IWinnerGame<T>
-{
-    /// <summary>
-    /// Determinar el ganador del juego
-    /// </summary>
-    /// <param name="game">Estado del juego</param>
-    /// <param name="ind">Indice del jugador que le corresponde jugar</param>
-    public void Winner(GameStatus<T> game, int ind);
-}
-
 public class WinnerGameHigh<T> : IWinnerGame<T>
 {
     public void Winner(GameStatus<T> game, int ind)

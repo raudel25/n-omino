@@ -30,10 +30,10 @@ public class Player<T>
     private Scorer<T>.MoveScorer _moveScorer;
 
     public Player(IEnumerable<IStrategy<T>> strategies,
-                IEnumerable<ICondition<T>> condition,
-                IStrategy<T> def,
-                int id,
-                Scorer<T>.MoveScorer moveScorer)
+        IEnumerable<ICondition<T>> condition,
+        IStrategy<T> def,
+        int id,
+        Scorer<T>.MoveScorer moveScorer)
     {
         this._moveScorer = moveScorer;
         this.Strategies = strategies.ToArray();
@@ -44,9 +44,10 @@ public class Player<T>
     }
 
     //Devuelve las jugadas válidas que puedo hacer
-    protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, TournamentStatus tournament, GameStatus<T> status, InfoRules<T> rules, int ind)
+    protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, TournamentStatus tournament, GameStatus<T> status,
+        InfoRules<T> rules, int ind)
     {
-        rules.IsValidPlay.RunRule(tournament, status, status, rules, Id);
+        rules.IsValidPlay.RunRule(tournament, status, rules.ScoreToken, Id);
         foreach (var freNode in status.Table.FreeNode)
         {
             foreach (var token in myHand)
@@ -55,7 +56,6 @@ public class Player<T>
                 foreach (var move in validMoves)
                 {
                     yield return new Move<T>(token, freNode, move);
-
                 }
             }
         }
@@ -74,13 +74,14 @@ public class Player<T>
         if (move!.IsAPass()) return Default.Play(validMoves, status, rules, Id).First();
         return move;
     }
-    
-    protected IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves, TournamentStatus tournament, GameStatus<T> status, InfoRules<T> rules, int ind)
+
+    protected IEnumerable<IEnumerable<Move<T>>> GetStrategiesMoves(IEnumerable<Move<T>> validMoves,
+        TournamentStatus tournament, GameStatus<T> status, InfoRules<T> rules, int ind)
     {
         for (int i = 0; i < Conditions.Length; i++)
         {
             //si la condición no está activa, continúo
-            if (!Conditions[i].RunRule(tournament, status, rules, Id)) continue;
+            if (!Conditions[i].RunRule(tournament, status, rules.ScoreToken, Id)) continue;
             yield return this.Strategies[i].Play(validMoves, status, rules, Id);
         }
     }
