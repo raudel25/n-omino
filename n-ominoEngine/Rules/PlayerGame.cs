@@ -4,12 +4,12 @@ namespace Rules;
 
 public interface IPlayerGame
 {
-    public void DeterminatePlayers(TournamentStatus tournament, int ind);
+    public void DeterminatePlayers(TournamentStatus tournament);
 }
 
 public class ClassicPlayerGame : IPlayerGame
 {
-    public void DeterminatePlayers(TournamentStatus tournament, int ind)
+    public void DeterminatePlayers(TournamentStatus tournament)
     {
         for (int i = 0; i < tournament.ValidPlayer.Length; i++)
         {
@@ -20,7 +20,7 @@ public class ClassicPlayerGame : IPlayerGame
 
 public class EvenPlayerGame : IPlayerGame
 {
-    public void DeterminatePlayers(TournamentStatus tournament, int ind)
+    public void DeterminatePlayers(TournamentStatus tournament)
     {
         for (int i = 0; i < tournament.ValidPlayer.Length; i++)
         {
@@ -31,7 +31,7 @@ public class EvenPlayerGame : IPlayerGame
 
 public class OddPlayerGame : IPlayerGame
 {
-    public void DeterminatePlayers(TournamentStatus tournament, int ind)
+    public void DeterminatePlayers(TournamentStatus tournament)
     {
         for (int i = 0; i < tournament.ValidPlayer.Length; i++)
         {

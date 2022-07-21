@@ -10,8 +10,7 @@ public interface IBeginGame<T>
     /// </summary>
     /// <param name="tournament">Datos del torneo</param>
     /// <param name="game">Datos del juego</param>
-    /// <param name="rules">Reglas del juego</param>
-    public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules);
+    public void Start(TournamentStatus tournament, GameStatus<T> game);
 }
 
 public class BeginGameToken<T> : IBeginGame<T>
@@ -23,7 +22,7 @@ public class BeginGameToken<T> : IBeginGame<T>
         this._token = token;
     }
 
-    public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
+    public void Start(TournamentStatus tournament, GameStatus<T> game)
     {
         int id = -1;
         foreach (var item in game.Players)
@@ -38,7 +37,7 @@ public class BeginGameToken<T> : IBeginGame<T>
         if (id == -1)
         {
             IBeginGame<T> begin = new BeginGameRandom<T>();
-            begin.Start(tournament, game, rules);
+            begin.Start(tournament, game);
         }
         else
         {
@@ -50,7 +49,7 @@ public class BeginGameToken<T> : IBeginGame<T>
 
 public class BeginGameRandom<T> : IBeginGame<T>
 {
-    public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
+    public void Start(TournamentStatus tournament, GameStatus<T> game)
     {
         Random rnd = new Random();
         int ind = rnd.Next(game.Turns.Length);
@@ -60,7 +59,7 @@ public class BeginGameRandom<T> : IBeginGame<T>
 
 public class BeginGameLastWinner<T> : IBeginGame<T>
 {
-    public void Start(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules)
+    public void Start(TournamentStatus tournament, GameStatus<T> game)
     {
         if (tournament.Index > 0)
         {

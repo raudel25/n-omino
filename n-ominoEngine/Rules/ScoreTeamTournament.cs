@@ -10,13 +10,12 @@ public interface IScoreTeamTournament<T>
     /// <param name="tournament">Estado del torneo</param>
     /// <param name="game">Estado del juego actual</param>
     /// <param name="rules">Reglas del actual juego</param>
-    /// <param name="ind">Indice del torneo</param>
-    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind);
+    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules);
 }
 
 public class ClassicScoreTeamTournament<T> : IScoreTeamTournament<T>
 {
-    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind)
+    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules)
     {
         int score = 0;
 
@@ -28,7 +27,7 @@ public class ClassicScoreTeamTournament<T> : IScoreTeamTournament<T>
                 {
                     foreach (var token in game.Teams[i][j].Hand)
                     {
-                        score += rules.ScoreToken.ScoreToken(token);
+                        score += rules.ScoreToken(token);
                     }
                 }
             }
@@ -40,7 +39,7 @@ public class ClassicScoreTeamTournament<T> : IScoreTeamTournament<T>
 
 public class PlayersScoreTeamTournament<T> : IScoreTeamTournament<T>
 {
-    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, InfoRules<T> rules, int ind)
+    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules)
     {
         for (int i = 0; i < game.Teams.Count; i++)
         {

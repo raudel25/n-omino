@@ -119,12 +119,13 @@ public class JudgeTournament<T>
     /// <param name="typeTournament">Indice de las reglas del torneo</param>
     private void PreGame(int ind, GameStatus<T> game, int typeTournament)
     {
-        this._tournamentRules.PlayerGame.RunRule(this._tournament, game, game, this._games[typeTournament].Rules,
+        this._tournamentRules.PlayerGame.RunRule(this._tournament, game, this._games[typeTournament].Rules.ScoreToken,
             ind);
-        this._tournamentRules.TeamGame.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
+        this._tournamentRules.TeamGame.RunRule(this._tournament, game, this._games[typeTournament].Rules.ScoreToken,
+            ind);
         _tournament.DistributionPlayers = DeterminatePlayerTeams();
-        this._tournamentRules.DistributionPlayer.RunRule(this._tournament, game, game,
-            this._games[typeTournament].Rules, ind);
+        this._tournamentRules.DistributionPlayer.RunRule(this._tournament, game,
+            this._games[typeTournament].Rules.ScoreToken, ind);
         this._tournament.Index = ind;
     }
 
@@ -138,9 +139,12 @@ public class JudgeTournament<T>
     {
         this._tournament.ImmediateWinner = game.PlayerWinner;
         this._tournament.ImmediateWinnerTeam = game.TeamWinner;
-        this._tournamentRules.ScorePlayer.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
-        this._tournamentRules.ScoreTeam.RunRule(this._tournament, game, game, this._games[typeTournament].Rules, ind);
-        this._tournamentRules.WinnerTournament.RunRule(this._tournament, game, game, this._games[typeTournament].Rules,
+        this._tournamentRules.ScorePlayer.RunRule(this._tournament, game, game,
+            this._games[typeTournament].Rules.ScoreToken, ind);
+        this._tournamentRules.ScoreTeam.RunRule(this._tournament, game, this._games[typeTournament].Rules.ScoreToken,
+            ind);
+        this._tournamentRules.WinnerTournament.RunRule(this._tournament, game,
+            this._games[typeTournament].Rules.ScoreToken,
             ind);
     }
 

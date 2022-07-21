@@ -18,8 +18,8 @@ public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, IClonea
     {
     }
 
-    public override void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
-        InfoRules<T> rules, int ind)
+    public void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
+        IsValidRule<T> valid, IAssignScoreToken<T> rules, int ind)
     {
         bool activate = false;
         bool play = false;
@@ -27,7 +27,7 @@ public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, IClonea
         {
             if (this.Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].Steal(game, original, rules, ind, ref play);
+                this.Actions[i].Steal(game, original, valid, ind, ref play);
                 this.CantMax = this.Actions[i].CantMax;
                 activate = true;
             }
@@ -35,8 +35,8 @@ public class StealTokenRule<T> : ActionConditionRule<IStealToken<T>, T>, IClonea
 
         if (!activate)
         {
-            this.Default!.Steal(game, original, rules, ind, ref play);
-            this.CantMax = this.Default.CantMax;
+            this.Default!.Steal(game, original, valid, ind, ref play);
+            this.CantMax = this.Default!.CantMax;
         }
 
         this.Play = play;

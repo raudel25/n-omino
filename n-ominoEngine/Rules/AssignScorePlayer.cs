@@ -11,12 +11,12 @@ public interface IAssignScorePlayer<T>
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador</param>
     /// <param name="rules">Reglas del juego</param>
-    public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind);
+    public void AssignScore(GameStatus<T> game, IAssignScoreToken<T> rules, int ind);
 }
 
 public class AssignScoreClassic<T> : IAssignScorePlayer<T>
 {
-    public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
+    public void AssignScore(GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
         game.Players[game.Turns[ind]].Score = 100;
     }
@@ -24,14 +24,14 @@ public class AssignScoreClassic<T> : IAssignScorePlayer<T>
 
 public class AssignScoreHands<T> : IAssignScorePlayer<T>
 {
-    public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
+    public void AssignScore(GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
         for (int i = 0; i < game.Players.Count; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand!)
+            foreach (var item in game.Players[i].Hand)
             {
-                sum += rules.ScoreToken.ScoreToken(item);
+                sum += rules.ScoreToken(item);
             }
 
             game.Players[i].Score = sum;
@@ -41,41 +41,41 @@ public class AssignScoreHands<T> : IAssignScorePlayer<T>
 
 public class AssignScoreHandsSmallCant<T> : IAssignScorePlayer<T>
 {
-    public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
+    public void AssignScore(GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
         for (int i = 0; i < game.Players.Count; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand!)
+            foreach (var item in game.Players[i].Hand)
             {
-                sum += rules.ScoreToken.ScoreToken(item);
+                sum += rules.ScoreToken(item);
             }
 
-            game.Players[i].Score = sum * game.Players[i].Hand!.Count;
+            game.Players[i].Score = sum * game.Players[i].Hand.Count;
         }
     }
 }
 
 public class AssignScoreHandsHighCant<T> : IAssignScorePlayer<T>
 {
-    public void AssignScore(GameStatus<T> game, InfoRules<T> rules, int ind)
+    public void AssignScore(GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
         for (int i = 0; i < game.Players.Count; i++)
         {
             int sum = 0;
-            foreach (var item in game.Players[i].Hand!)
+            foreach (var item in game.Players[i].Hand)
             {
-                sum += rules.ScoreToken.ScoreToken(item);
+                sum += rules.ScoreToken(item);
             }
 
-            game.Players[i].Score = (double) (sum) / game.Players[i].Hand!.Count;
+            game.Players[i].Score = (double) (sum) / game.Players[i].Hand.Count;
         }
     }
 }
 
 public class AssignScoreSumFreeNode : IAssignScorePlayer<int>
 {
-    public void AssignScore(GameStatus<int> game, InfoRules<int> rules, int ind)
+    public void AssignScore(GameStatus<int> game, IAssignScoreToken<int> rules, int ind)
     {
         game.Players[game.Turns[ind]].Score = AuxTable.SumConnectionFree(game.Table);
     }

@@ -8,13 +8,12 @@ public interface IDistributionPlayer
     /// Determinar la distribucion de los players en el juego
     /// </summary>
     /// <param name="tournament">Estado del torneo</param>
-    /// <param name="ind">Indice del torneo</param>
-    public void DeterminateDistribution(TournamentStatus tournament, int ind);
+    public void DeterminateDistribution(TournamentStatus tournament);
 }
 
 public class ClassicDistribution : IDistributionPlayer
 {
-    public void DeterminateDistribution(TournamentStatus tournament, int ind)
+    public void DeterminateDistribution(TournamentStatus tournament)
     {
         List<(int, int, string)> aux = new List<(int, int, string)>();
 
@@ -45,7 +44,7 @@ public class ClassicDistribution : IDistributionPlayer
 
 public class TeamDistribution : IDistributionPlayer
 {
-    public void DeterminateDistribution(TournamentStatus tournament, int ind)
+    public void DeterminateDistribution(TournamentStatus tournament)
     {
     }
 }
