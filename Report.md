@@ -94,9 +94,7 @@ Desde lo Visual:
 
 - La distribución de las fichas en la pantalla se realiza mediante **CSS-Grid**, dándole la ubicación a cada ficha dependiendo de las filas y columnas que se especifiquen en el objeto `LocationGui`, proporcionado por `Printer`.
 
-## Token
-La ficha es la unidad básica del dominó, consta de cierta cantidad de caras a las cuales se le asigna un determinado valor. 
-``Token<T>`` implementa IEnumerable<T>
+
 ### Aspectos del diseño a tener en cuenta
 
 Para diseñar la estructura de mesa se optó por variar las caras de las fichas de dominó, de ahí el nombre del proyecto `N-OMINO`.
@@ -106,8 +104,6 @@ Para diseñar la estructura de mesa se optó por variar las caras de las fichas 
 - `TableGeometry`, en esta mesa solo se optó por las estructuras de 3, 4 y 6 caras, ya que el ángulo interior de las respectivas figuras debe ser divisor de $360^0$. Entonces sea $n$ la cantidad de lados de la ficha, luego: $${(n-2)\cdot 180 \over n}= {360\over k}$$ $$ k={2n\over n-2}$$ $$\Rightarrow n-2 | 2n\Rightarrow n-2|4$$ $$\Rightarrow n=3 \vee n=4 \vee n=6$$
 
   por tanto la estructura antes mencionada solo se puede lograr con fichas de 3, 4 y 6 caras respectivamente.
-
-## INode
 
 ## Estructura de la mesa
 
@@ -341,6 +337,8 @@ La propiedad `_judgeRules` de tipo `InfoRules<T>` guarda las reglas del juego, e
 - IWinnerGame : determina el ganador del juego. Puede ser el que tenga las mayor puntuación, el que tenga la menor puntuación, el que pertenezca al equipo que más puntos tiene.
 
 - IBeginGame : su funcionalidad es determinar quién inicia el juego, puede ser el que tenga una ficha específica o el que haya ganado el juego anterior.
+
+- ITokensMaker : genera las fichas que se van a utilizar en el juego. Contamos con una implementación para generar combinaciones de los números del 0 a n, los número primos hasta n, los pares o impares.
 
 La combinación de estas reglas con las condiciones permite crear una gran variedad de juegos, algunos sin mucho sentido pero otros muy interesantes.
 
