@@ -35,6 +35,8 @@ public class GameStatus<T>
 
     public bool NoValidPlay { get; set; }
 
+    public int LastIndex { get; set; }
+
     public Token<T>? TokenStart { get; set; }
 
     public GameStatus(List<InfoPlayer<T>> players, List<InfoTeams<InfoPlayer<T>>> teams, TableGame<T> table,
@@ -53,6 +55,7 @@ public class GameStatus<T>
         this.PlayerStart = playerStart;
         this.ImmediatePass = immediatePass;
         this.NoValidPlay = noValid;
+        this.LastIndex = 0;
     }
 
     /// <summary>

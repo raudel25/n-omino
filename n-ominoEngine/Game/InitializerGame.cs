@@ -62,7 +62,7 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
 
         List<InfoTeams<InfoPlayer<T>>> teamGame = DeterminateTeams(playerTeams, playersInfo);
 
-        var turns = new int[playersInfo.Count];
+        var turns = new int[playersInfo.Count]; 
 
         for (int i = 0; i < turns.Length; i++) turns[i] = i;
 

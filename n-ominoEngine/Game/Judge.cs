@@ -49,6 +49,7 @@ public class Judge<T>
         while (!EndGame())
         {
             if (i == this._infoGame.Turns.Length) i = 0;
+            this._infoGame.LastIndex = i;
 
             //Clonar el estado del juego
             GameStatus<T> copy = this._infoGame.Clone();
@@ -93,8 +94,8 @@ public class Judge<T>
     /// <returns>Indice relativo a la mesa</returns>
     private int StartGame()
     {
-        this._judgeRules.ReorganizeHands.RunRule(this._tournament, this._infoGame, this._judgeRules.ScoreToken, -1);
-        this._judgeRules.Begin.RunRule(this._tournament, this._infoGame, this._judgeRules.ScoreToken, -1);
+        this._judgeRules.ReorganizeHands.RunRule(this._tournament, this._infoGame, this._judgeRules.ScoreToken, 0);
+        this._judgeRules.Begin.RunRule(this._tournament, this._infoGame, this._judgeRules.ScoreToken, 0);
 
         int id = this._infoGame.PlayerStart;
 
@@ -120,6 +121,8 @@ public class Judge<T>
                 PostPlay(ind);
 
                 ind++;
+
+                if (ind == _infoGame.Turns.Length) ind = 0;
             }
         }
 

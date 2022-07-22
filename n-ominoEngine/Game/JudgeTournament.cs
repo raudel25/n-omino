@@ -67,13 +67,14 @@ public class JudgeTournament<T>
     public void TournamentGame()
     {
         int ind = 0;
+        GameStatus<T> init = _games[0].Initializer.StartGame(new List<(int, int, string)>() { (0, 0, "") });
+
         while (!EndTournament())
         {
             for (int i = 0; i < this._games.Count; i++)
             {
-                GameStatus<T> aux = _games[i].Initializer.StartGame(new List<(int, int, string)>());
-
-                PreGame(ind, aux, i);
+                PreGame(init, i);
+                this._tournament.Index = ind;
 
                 List<(int, int, string)> playerTeams = this._tournament.DistributionPlayers!;
 
@@ -85,16 +86,18 @@ public class JudgeTournament<T>
                     players.Add(this._playersPlay[playerTeams[j].Item2]);
                 }
 
+                if (players.Count == 0) continue;
+
                 _games[i] = _games[i].Reset();
 
-                GameStatus<T> init = this._games[i].Initializer.StartGame(playerTeams);
+                init = this._games[i].Initializer.StartGame(playerTeams);
 
                 //Desarrollar un juego
                 Judge<T> judge = new Judge<T>(this._tournament, this._games[i].Rules, init, players,
                     this._games[i].Print);
                 judge.Game();
 
-                PostGame(ind, i, init);
+                PostGame(i, init);
 
                 Printer.ExecuteMessageEvent("El equipo " + this._tournament.ImmediateWinnerTeam +
                                             " ha ganado el actual juego");
@@ -114,38 +117,36 @@ public class JudgeTournament<T>
     /// <summary>
     /// Analizar las reglas a ejecutar antes del juego
     /// </summary>
-    /// <param name="ind">Indice del torneo</param>
     /// <param name="game">Estado del juego</param>
     /// <param name="typeTournament">Indice de las reglas del torneo</param>
-    private void PreGame(int ind, GameStatus<T> game, int typeTournament)
+    private void PreGame(GameStatus<T> game, int typeTournament)
     {
         this._tournamentRules.PlayerGame.RunRule(this._tournament, game, this._games[typeTournament].Rules.ScoreToken,
-            ind);
+            0);
         this._tournamentRules.TeamGame.RunRule(this._tournament, game, this._games[typeTournament].Rules.ScoreToken,
-            ind);
+            0);
         _tournament.DistributionPlayers = DeterminatePlayerTeams();
         this._tournamentRules.DistributionPlayer.RunRule(this._tournament, game,
-            this._games[typeTournament].Rules.ScoreToken, ind);
-        this._tournament.Index = ind;
+            this._games[typeTournament].Rules.ScoreToken, 0);
+
     }
 
     /// <summary>
     /// Analizar las reglas a ejecutar despues del juego
     /// </summary>
-    /// <param name="ind">Indice del torneo</param>
     /// <param name="typeTournament">Indice de las reglas del torneo</param>
     /// <param name="game">Estado del juego</param>
-    private void PostGame(int ind, int typeTournament, GameStatus<T> game)
+    private void PostGame(int typeTournament, GameStatus<T> game)
     {
         this._tournament.ImmediateWinner = game.PlayerWinner;
         this._tournament.ImmediateWinnerTeam = game.TeamWinner;
         this._tournamentRules.ScorePlayer.RunRule(this._tournament, game, game,
-            this._games[typeTournament].Rules.ScoreToken, ind);
+            this._games[typeTournament].Rules.ScoreToken, game.LastIndex);
         this._tournamentRules.ScoreTeam.RunRule(this._tournament, game, this._games[typeTournament].Rules.ScoreToken,
-            ind);
+            game.LastIndex);
         this._tournamentRules.WinnerTournament.RunRule(this._tournament, game,
             this._games[typeTournament].Rules.ScoreToken,
-            ind);
+            game.LastIndex);
     }
 
     /// <summary>

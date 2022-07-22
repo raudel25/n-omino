@@ -20,6 +20,7 @@ public class ClassicWin<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
+        if (game.Players.Count == 0) return false;
         return game.Players[game.Turns[ind]].Hand.Count == 0;
     }
 }
@@ -33,7 +34,7 @@ public class ClassicTeamWin<T> : ICondition<T>
         {
             for (int j = 0; j < game.Teams[i].Count; j++)
             {
-                if (game.Teams[game.Turns[i]][j].Hand.Count != 0) win = false;
+                if (game.Teams[i][j].Hand.Count != 0) win = false;
             }
         }
 
@@ -52,6 +53,7 @@ public class CantToPass<T> : ICondition<T>
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
+        if (game.Players.Count == 0) return false;
         return game.Players[game.Turns[ind]].Passes == this.Cant;
     }
 }
@@ -193,6 +195,7 @@ public class PostRoundCondition<T> : ICondition<T>
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
+        if (game.Turns.Length == 0) return false;
         int id = game.Turns[ind];
         return game.Players[id].History.Turns > MinRound;
     }

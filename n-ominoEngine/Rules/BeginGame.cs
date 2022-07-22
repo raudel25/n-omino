@@ -51,7 +51,7 @@ public class BeginGameLastWinner<T> : IBeginGame<T>
 {
     public void Start(TournamentStatus tournament, GameStatus<T> game)
     {
-        if (tournament.Index > 0)
+        if (tournament.ImmediateWinnerTeam != -1)
         {
             int ind = game.FindTeamById(tournament.ImmediateWinnerTeam);
 
@@ -59,6 +59,12 @@ public class BeginGameLastWinner<T> : IBeginGame<T>
             int aux = rnd.Next(tournament.Teams[ind].Count);
 
             game.PlayerStart = tournament.Teams[ind][aux].Id;
+        }
+
+        if (game.PlayerStart == -1)
+        {
+            IBeginGame<T> begin = new BeginGameRandom<T>();
+            begin.Start(tournament, game);
         }
     }
 }

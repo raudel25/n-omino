@@ -21,7 +21,7 @@ public class TeamVisibilityPlayer<T> : IVisibilityPlayer<T>
     public void Visibility(GameStatus<T> game, int ind)
     {
         List<Hand<T>> aux = new();
-        int team = game.FindTeamPlayer(game.Turns[ind]);
+        int team = game.FindTeamPlayer(game.Players[game.Turns[ind]].Id);
 
         //Guardamos las manos de los miembros del equipo
         for (int i = 0; i < game.Teams[team].Count; i++)
