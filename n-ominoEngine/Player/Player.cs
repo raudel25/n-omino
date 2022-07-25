@@ -47,7 +47,7 @@ public class Player<T>
     protected IEnumerable<Move<T>> GetValidMoves(Hand<T> myHand, TournamentStatus tournament, GameStatus<T> status,
         InfoRules<T> rules, int ind)
     {
-        rules.IsValidPlay.RunRule(tournament, status, rules.ScoreToken, Id);
+        rules.IsValidPlay.RunRule(tournament, status, rules.ScoreToken, ind);
         foreach (var freNode in status.Table.FreeNode)
         {
             foreach (var token in myHand)

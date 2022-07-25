@@ -42,3 +42,11 @@ public class PlayersScoreTeamTournament<T> : IScoreTeamTournament<T>
         }
     }
 }
+
+public class PointForTeam<T> : IScoreTeamTournament<T>
+{
+    public void AssignScore(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules)
+    {
+        tournament.ScoreTeams[game.TeamWinner] += 100;
+    }
+}

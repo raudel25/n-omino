@@ -67,14 +67,15 @@ public class JudgeTournament<T>
     public void TournamentGame()
     {
         int ind = 0;
-        GameStatus<T> init = _games[0].Initializer.StartGame(new List<(int, int, string)>() { (0, 0, "") });
+        GameStatus<T> init = _games[0].Initializer.StartGame(new List<(int, int, string)>() {(0, 0, "")});
 
         while (!EndTournament())
         {
             for (int i = 0; i < this._games.Count; i++)
             {
+                this._tournament.Index = ind++;
+
                 PreGame(init, i);
-                this._tournament.Index = ind;
 
                 List<(int, int, string)> playerTeams = this._tournament.DistributionPlayers!;
 
@@ -104,8 +105,6 @@ public class JudgeTournament<T>
 
                 if (EndTournament()) break;
 
-                ind++;
-
                 _games[i] = _games[i].Reset();
             }
         }
@@ -128,7 +127,6 @@ public class JudgeTournament<T>
         _tournament.DistributionPlayers = DeterminatePlayerTeams();
         this._tournamentRules.DistributionPlayer.RunRule(this._tournament, game,
             this._games[typeTournament].Rules.ScoreToken, 0);
-
     }
 
     /// <summary>

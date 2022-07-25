@@ -45,6 +45,8 @@ public class WinnerGameTeamHigh<T> : IWinnerGame<T>
             }
         }
 
+        Random rnd = new Random();
+        game.PlayerWinner = game.Teams[win][rnd.Next(game.Teams[win].Count)].Id;
         game.TeamWinner = game.Teams[win].Id;
     }
 }
@@ -70,6 +72,8 @@ public class WinnerGameTeamSmall<T> : IWinnerGame<T>
             }
         }
 
+        Random rnd = new Random();
+        game.PlayerWinner = game.Teams[win][rnd.Next(game.Teams[win].Count)].Id;
         game.TeamWinner = game.Teams[win].Id;
     }
 }

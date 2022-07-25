@@ -245,7 +245,7 @@ public class Judge<T>
     /// <returns>Fin del juego</returns>
     private bool EndGame()
     {
-        return (this._infoGame.PlayerWinner != -1 || this._infoGame.TeamWinner != -1);
+        return (this._infoGame.PlayerWinner != -1 && this._infoGame.TeamWinner != -1);
     }
 
     /// <summary>

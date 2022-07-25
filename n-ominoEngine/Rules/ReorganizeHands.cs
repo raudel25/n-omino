@@ -18,6 +18,9 @@ public class HandsTeamWin<T> : IReorganizeHands<T>
 
         int team = game.FindTeamById(tournament.ImmediateWinnerTeam);
 
+        //Comprobamos si el equipo ganador esta en el juego
+        if (team == -1) return;
+
         foreach (var player in game.Teams[team])
         {
             Random rnd = new Random();

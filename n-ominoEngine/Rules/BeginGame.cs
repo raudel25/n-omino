@@ -55,6 +55,14 @@ public class BeginGameLastWinner<T> : IBeginGame<T>
         {
             int ind = game.FindTeamById(tournament.ImmediateWinnerTeam);
 
+            //Si no se encuentra el equipo ganador determinamos uno random
+            if (ind == -1)
+            {
+                IBeginGame<T> begin = new BeginGameRandom<T>();
+                begin.Start(tournament, game);
+                return;
+            }
+
             Random rnd = new Random();
             int aux = rnd.Next(tournament.Teams[ind].Count);
 
