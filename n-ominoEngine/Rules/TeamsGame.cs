@@ -17,6 +17,7 @@ public class LeagueTeam : ITeamsGame
 {
     private int _cantTeams;
     private List<List<int>> _plays;
+    private bool _init;
 
     public LeagueTeam(int cant)
     {
@@ -26,9 +27,11 @@ public class LeagueTeam : ITeamsGame
 
     public void DeterminateTeams(TournamentStatus tournament)
     {
-        if (_plays.Count == 0)
+        if (!_init)
         {
             Combinations(tournament.ValidTeam.Length, _plays, new bool[tournament.ValidTeam.Length], 0);
+            if (_plays.Count == 0) _plays.Add(new List<int>());
+            _init = true;
         }
 
         int ind = tournament.Index % _plays.Count;
