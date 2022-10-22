@@ -26,8 +26,12 @@ El proyecto está estructurado por una única solución que contiene 6 bibliotec
 Para ejecutar el proyecto debe contar en su sistema operativo con un compilador que soporte la versión de C# hacia la cual está orientada este proyecto. Una vez hecho esto solo debe situarse en la raíz del proyecto y ejecutar en consola:
 
 ```bash
-make dev #Si su sistema operativo es linux
-dotnet watch run --project n-ominoServer #Si su sistema operativo es windows
+make dev
 ```
+si su sistema operativo es linux o
+```bash
+dotnet watch run --project n-ominoServer
+```
+si su sistema operativo es windows.
 
 Automáticamente se montara un servidor en su computadora, al cual se puede acceder desde su navegador web mediante la url que se especifique en la consola.
