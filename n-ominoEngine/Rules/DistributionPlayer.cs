@@ -6,17 +6,17 @@ public class ClassicDistribution : IDistributionPlayer
 {
     public void DeterminateDistribution(TournamentStatus tournament)
     {
-        List<(int, int, string)> aux = new List<(int, int, string)>();
+        var aux = new List<(int, int, string)>();
 
-        bool[] visited = new bool[tournament.DistributionPlayers!.Count];
+        var visited = new bool[tournament.DistributionPlayers!.Count];
 
-        int cant = 0;
+        var cant = 0;
 
         while (cant != visited.Length)
         {
-            int index = -1;
+            var index = -1;
 
-            for (int j = 0; j < visited.Length; j++)
+            for (var j = 0; j < visited.Length; j++)
             {
                 if (visited[j]) continue;
                 if (tournament.DistributionPlayers![j].Item1 != index)

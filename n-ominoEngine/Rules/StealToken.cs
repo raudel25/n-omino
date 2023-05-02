@@ -5,12 +5,12 @@ namespace Rules;
 
 public class NoStealToken<T> : IStealToken<T>
 {
-    public int CantMax { get; private set; }
-
     public NoStealToken()
     {
-        this.CantMax = 0;
+        CantMax = 0;
     }
+
+    public int CantMax { get; }
 
     public void Steal(GameStatus<T> game, GameStatus<T> original, IsValidRule<T> rules, int ind, ref bool play)
     {
@@ -20,21 +20,21 @@ public class NoStealToken<T> : IStealToken<T>
 
 public class ClassicStealToken<T> : IStealToken<T>
 {
-    public int CantMax { get; private set; }
-
     public ClassicStealToken()
     {
-        this.CantMax = 0;
+        CantMax = 0;
     }
+
+    public int CantMax { get; }
 
     public void Steal(GameStatus<T> game, GameStatus<T> original, IsValidRule<T> rules, int ind, ref bool play)
     {
-        Random rnd = new Random();
+        var rnd = new Random();
         while (true)
         {
             if (game.TokensTable.Count == 0) break;
 
-            Token<T> aux = game.TokensTable[rnd.Next(game.TokensTable.Count)];
+            var aux = game.TokensTable[rnd.Next(game.TokensTable.Count)];
 
             //Actualizar la mano
             game.Players[original.Turns[ind]].Hand.Add(aux);
@@ -55,22 +55,20 @@ public class ClassicStealToken<T> : IStealToken<T>
 
 public class ChooseStealToken<T> : IStealToken<T>
 {
-    public int CantMax { get; private set; }
-
     public ChooseStealToken(int a)
     {
-        this.CantMax = a;
+        CantMax = a;
     }
+
+    public int CantMax { get; }
 
     public void Steal(GameStatus<T> game, GameStatus<T> original, IsValidRule<T> rules, int ind, ref bool play)
     {
-        for (int i = 0; i < game.TokensTable.Count; i++)
-        {
+        for (var i = 0; i < game.TokensTable.Count; i++)
             foreach (var item in game.Table.FreeNode)
             {
                 if (rules.ValidPlays(item, game.TokensTable[i], game, ind).Count != 0) break;
                 play = true;
             }
-        }
     }
 }

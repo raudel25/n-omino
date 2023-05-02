@@ -1,5 +1,5 @@
-@using Rules
 @using InteractionGui
+@using Rules
 @typeparam T 
 
 @if (_vilibility)
@@ -49,7 +49,7 @@
 
     private bool _selectValue = false;
 
-    private List<IAssignScoreToken<T>> _valuesRule = new List<IAssignScoreToken<T>>();
+    private List<IAssignScoreToken<T>> _valuesRule = new();
 
     private bool _vilibility = true;
 

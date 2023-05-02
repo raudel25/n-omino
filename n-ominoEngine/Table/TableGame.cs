@@ -2,6 +2,14 @@ namespace Table;
 
 public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<T>>
 {
+    protected TableGame(int dimension)
+    {
+        PlayNode = new HashSet<INode<T>>();
+        FreeNode = new HashSet<INode<T>>();
+        TableNode = new List<INode<T>>();
+        DimensionToken = dimension;
+    }
+
     /// <summary>Nodos que contienen una ficha</summary>
     public HashSet<INode<T>> PlayNode { get; protected set; }
 
@@ -13,12 +21,13 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
 
     public int DimensionToken { get; protected set; }
 
-    protected TableGame(int dimension)
+    /// <summary>Clonar la mesa</summary>
+    /// <returns>Mesa clonada</returns>
+    public abstract TableGame<T> Clone();
+
+    TableGame<T> IReset<TableGame<T>>.Reset()
     {
-        this.PlayNode = new HashSet<INode<T>>();
-        this.FreeNode = new HashSet<INode<T>>();
-        this.TableNode = new List<INode<T>>();
-        this.DimensionToken = dimension;
+        return Reset();
     }
 
     /// <summary>Expandir un nodo</summary>
@@ -33,10 +42,10 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
     {
         node.IdPlayer = IdPlayer;
         node.ValueToken = token;
-        this.AssignFathers(node);
-        this.AssignValues(node, values);
-        this.Expand(node);
-        this.PlayNode.Add(node);
+        AssignFathers(node);
+        AssignValues(node, values);
+        Expand(node);
+        PlayNode.Add(node);
         FreeNode.Remove(node);
     }
 
@@ -44,8 +53,8 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
     /// <param name="node">Nodo para realizar la operacion</param>
     protected void FreeTable(INode<T> node)
     {
-        if (this.PlayNode.Contains(node)) return;
-        this.FreeNode.Add(node);
+        if (PlayNode.Contains(node)) return;
+        FreeNode.Add(node);
     }
 
     /// <summary>Recorrer el grafo</summary>
@@ -68,18 +77,15 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
     }
 
     /// <summary>
-    /// Asignar lor padres a los nodos 
+    ///     Asignar lor padres a los nodos
     /// </summary>
     /// <param name="node">Nodo para asignar los padres</param>
     protected void AssignFathers(INode<T> node)
     {
-        for (int i = 0; i < node.Connections.Length; i++)
-        {
+        for (var i = 0; i < node.Connections.Length; i++)
             if (node.Connections[i] != null)
-            {
-                if (this.PlayNode.Contains(node.Connections[i]!)) node.Fathers.Add(node.Connections[i]!);
-            }
-        }
+                if (PlayNode.Contains(node.Connections[i]!))
+                    node.Fathers.Add(node.Connections[i]!);
     }
 
     /// <summary>Clonar la mesa</summary>
@@ -87,9 +93,9 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
     /// <returns>Mesa clonada</returns>
     protected TableGame<T> AuxClone(TableGame<T> table)
     {
-        foreach (var item in this.PlayNode)
+        foreach (var item in PlayNode)
         {
-            T[] valuesAux = new T[item.ValuesConnections.Length];
+            var valuesAux = new T[item.ValuesConnections.Length];
             Array.Copy(item.ValuesConnections, valuesAux, item.ValuesConnections.Length);
             table.PlayTable(table.TableNode[item.Id], item.ValueToken.Clone(), valuesAux, item.IdPlayer);
         }
@@ -102,19 +108,10 @@ public abstract class TableGame<T> : IReset<TableGame<T>>, ICloneable<TableGame<
     /// <param name="values">Valores a asignar</param>
     protected abstract void AssignValues(INode<T> node, T[] values);
 
-    /// <summary>Clonar la mesa</summary>
-    /// <returns>Mesa clonada</returns>
-    public abstract TableGame<T> Clone();
-
     public abstract TableGame<T> Reset();
 
-    TableGame<T> IReset<TableGame<T>>.Reset()
-    {
-        return Reset();
-    }
-
     /// <summary>
-    /// Determinar el valor de las conexiones del nodo
+    ///     Determinar el valor de las conexiones del nodo
     /// </summary>
     /// <param name="node">Nodo a determinar</param>
     /// <param name="ind">Indice de la conexion</param>

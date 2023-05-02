@@ -12,17 +12,17 @@ public interface INode<T>
     public T[] ValuesConnections { get; }
 
     /// <summary>
-    /// ID del Nodo
+    ///     ID del Nodo
     /// </summary>
     public int Id { get; }
 
     /// <summary>
-    /// ID del jugador que jugo por el nodo
+    ///     ID del jugador que jugo por el nodo
     /// </summary>
-    public int IdPlayer { get; internal set;}
+    public int IdPlayer { get; internal set; }
 
     /// <summary>
-    /// Lista de nodos que tenian una ficha al momento de jugar por el nodo actual
+    ///     Lista de nodos que tenian una ficha al momento de jugar por el nodo actual
     /// </summary>
     public List<INode<T>> Fathers { get; }
 }

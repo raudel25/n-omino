@@ -2,102 +2,102 @@ namespace Rules;
 
 public class CongruenceComparison : IComparison<int>
 {
-    private int _congruence;
+    private readonly int _congruence;
 
     public CongruenceComparison(int n)
     {
-        this._congruence = n;
+        _congruence = n;
     }
 
     public bool Compare(int a, int b)
     {
-        return a % this._congruence == b % this._congruence;
+        return a % _congruence == b % _congruence;
     }
 }
 
 public class HighNumberComparison : IComparison<int>
 {
-    private int _highNumber;
+    private readonly int _highNumber;
 
     public HighNumberComparison(int n)
     {
-        this._highNumber = n;
+        _highNumber = n;
     }
 
     public bool Compare(int a, int b)
     {
-        return a > this._highNumber && b > this._highNumber;
+        return a > _highNumber && b > _highNumber;
     }
 }
 
 public class SmallNumberComparison : IComparison<int>
 {
-    private int _smallNumber;
+    private readonly int _smallNumber;
 
     public SmallNumberComparison(int n)
     {
-        this._smallNumber = n;
+        _smallNumber = n;
     }
 
     public bool Compare(int a, int b)
     {
-        return a < this._smallNumber && b < this._smallNumber;
+        return a < _smallNumber && b < _smallNumber;
     }
 }
 
 public class ComodinComparison : IComparison<int>
 {
-    private int _comodin;
+    private readonly int _comodin;
 
     public ComodinComparison(int n)
     {
-        this._comodin = n;
+        _comodin = n;
     }
 
     public bool Compare(int a, int b)
     {
-        if (a == this._comodin || b == this._comodin) return true;
+        if (a == _comodin || b == _comodin) return true;
         return a == b;
     }
 }
 
 public class DivisibleComparison : IComparison<int>
 {
-    private int _divisible;
+    private readonly int _divisible;
 
     public DivisibleComparison(int n)
     {
-        this._divisible = n;
+        _divisible = n;
     }
 
     public bool Compare(int a, int b)
     {
-        return a % this._divisible == 0 && b % this._divisible == 0;
+        return a % _divisible == 0 && b % _divisible == 0;
     }
 }
 
 public class GcdComparison : IComparison<int>
 {
-    private int _gcd;
+    private readonly int _gcd;
 
     public GcdComparison(int n)
     {
-        this._gcd = n;
+        _gcd = n;
     }
 
     public bool Compare(int a, int b)
     {
         if (a == 0 || b == 0) return false;
-        return GCD(a, b) == this._gcd;
+        return GCD(a, b) == _gcd;
     }
 
     public static int GCD(int m, int n)
     {
-        int a = Math.Max(m, n);
-        int b = Math.Min(m, n);
+        var a = Math.Max(m, n);
+        var b = Math.Min(m, n);
         while (a % b != 0)
         {
-            int c = a % b;
+            var c = a % b;
             a = b;
             b = c;
         }

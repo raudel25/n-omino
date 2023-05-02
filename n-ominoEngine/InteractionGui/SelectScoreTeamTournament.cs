@@ -7,20 +7,20 @@ public class SelectScoreTeamTournament<T> : IVariant<IScoreTeamTournament<T>, T>
     public string Description { get; } = "Forma de asignar puntos a los equipos en el torneo";
 
     public List<IVariant<IScoreTeamTournament<T>, T>.Select> Values { get; } =
-        new List<IVariant<IScoreTeamTournament<T>, T>.Select>()
+        new()
         {
-            (comp) => new ClassicScoreTeamTournament<T>(),
-            (comp) => new PlayersScoreTeamTournament<T>(),
-            (comp) => new PointForTeam<T>()
+            comp => new ClassicScoreTeamTournament<T>(),
+            comp => new PlayersScoreTeamTournament<T>(),
+            comp => new PointForTeam<T>()
         };
 
-    public List<ParamSelect> Param { get; } = new List<ParamSelect>
+    public List<ParamSelect> Param { get; } = new()
     {
-        new ParamSelect("Score de los equipos clásico",
+        new("Score de los equipos clásico",
             "Se le asigna al equipo ganador la suma de los puntos de las manos de los restantes equipos", 0),
-        new ParamSelect("Score por la puntuación en el juego",
+        new("Score por la puntuación en el juego",
             "Se le asigna a los equipos la puntuación de sus respectivos miembros durante el juego", 1),
-        new ParamSelect("Por puntos",
+        new("Por puntos",
             "Se le asigna 100 puntos al equipo ganador", 2)
     };
 }

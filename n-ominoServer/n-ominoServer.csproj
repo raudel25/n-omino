@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>n_ominoServer</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>n_ominoServer</RootNamespace>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\n-ominoEngine\Game\Game.csproj" />
-    <ProjectReference Include="..\n-ominoEngine\InteractionGui\InteractionGui.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\n-ominoEngine\Game\Game.csproj"/>
+        <ProjectReference Include="..\n-ominoEngine\InteractionGui\InteractionGui.csproj"/>
+    </ItemGroup>
 
 </Project>

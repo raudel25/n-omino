@@ -1,10 +1,29 @@
-using Table;
 using System.Collections.ObjectModel;
+using Table;
 
 namespace InfoGame;
 
 public class GameStatus<T>
 {
+    public GameStatus(List<InfoPlayer<T>> players, List<InfoTeams<InfoPlayer<T>>> teams, TableGame<T> table,
+        int[] turns,
+        List<Token<T>> tokens, ReadOnlyCollection<T> values, int playerStart = -1, bool immediatePass = false,
+        bool noValid = false)
+    {
+        Players = players;
+        Teams = teams;
+        Table = table;
+        Turns = turns;
+        TokensTable = tokens;
+        PlayerWinner = -1;
+        TeamWinner = -1;
+        Values = values;
+        PlayerStart = playerStart;
+        ImmediatePass = immediatePass;
+        NoValidPlay = noValid;
+        LastIndex = 0;
+    }
+
     public List<InfoPlayer<T>> Players { get; set; }
 
     public List<InfoTeams<InfoPlayer<T>>> Teams { get; set; }
@@ -29,7 +48,7 @@ public class GameStatus<T>
     public int TeamWinner { get; set; }
 
     /// <summary>
-    /// Indice del jugador que comienza el juego
+    ///     Indice del jugador que comienza el juego
     /// </summary>
     public int PlayerStart { get; set; }
 
@@ -39,51 +58,30 @@ public class GameStatus<T>
 
     public Token<T>? TokenStart { get; set; }
 
-    public GameStatus(List<InfoPlayer<T>> players, List<InfoTeams<InfoPlayer<T>>> teams, TableGame<T> table,
-        int[] turns,
-        List<Token<T>> tokens, ReadOnlyCollection<T> values, int playerStart = -1, bool immediatePass = false,
-        bool noValid = false)
-    {
-        this.Players = players;
-        this.Teams = teams;
-        this.Table = table;
-        this.Turns = turns;
-        this.TokensTable = tokens;
-        this.PlayerWinner = -1;
-        this.TeamWinner = -1;
-        this.Values = values;
-        this.PlayerStart = playerStart;
-        this.ImmediatePass = immediatePass;
-        this.NoValidPlay = noValid;
-        this.LastIndex = 0;
-    }
-
     /// <summary>
-    /// Determinar el indice de un jugador dado su Id
+    ///     Determinar el indice de un jugador dado su Id
     /// </summary>
     /// <param name="id">Id del jugador</param>
     /// <returns>Indice del jugador</returns>
     public int FindPLayerById(int id)
     {
-        for (int i = 0; i < this.Players.Count; i++)
-        {
-            if (this.Players[i].Id == id) return i;
-        }
+        for (var i = 0; i < Players.Count; i++)
+            if (Players[i].Id == id)
+                return i;
 
         return -1;
     }
 
     /// <summary>
-    /// Determinar el indice de un equipo dado su Id
+    ///     Determinar el indice de un equipo dado su Id
     /// </summary>
     /// <param name="id">Id del Equipo</param>
     /// <returns>Indice del equipo</returns>
     public int FindTeamById(int id)
     {
-        for (int i = 0; i < this.Teams.Count; i++)
-        {
-            if (this.Teams[i].Id == id) return i;
-        }
+        for (var i = 0; i < Teams.Count; i++)
+            if (Teams[i].Id == id)
+                return i;
 
         return -1;
     }
@@ -91,38 +89,30 @@ public class GameStatus<T>
     //Determinar el equipo al que pertenece un jugador
     public int FindTeamPlayer(int id)
     {
-        for (int i = 0; i < this.Teams.Count; i++)
-        {
-            for (int j = 0; j < this.Teams[i].Count; j++)
-            {
-                if (this.Teams[i][j].Id == id) return i;
-            }
-        }
+        for (var i = 0; i < Teams.Count; i++)
+        for (var j = 0; j < Teams[i].Count; j++)
+            if (Teams[i][j].Id == id)
+                return i;
 
         return -1;
     }
 
     public GameStatus<T> Clone()
     {
-        List<InfoPlayer<T>> players = new List<InfoPlayer<T>>();
-        List<InfoTeams<InfoPlayer<T>>> teams = new List<InfoTeams<InfoPlayer<T>>>();
+        var players = new List<InfoPlayer<T>>();
+        var teams = new List<InfoTeams<InfoPlayer<T>>>();
 
-        for (int i = 0; i < this.Players.Count; i++)
+        for (var i = 0; i < Players.Count; i++) players.Add(Players[i].Clone());
+
+        for (var i = 0; i < Teams.Count; i++)
         {
-            players.Add(this.Players[i].Clone());
+            teams.Add(new InfoTeams<InfoPlayer<T>>(Teams[i].Id));
+            for (var j = 0; j < Teams[i].Count; j++)
+                teams[teams.Count - 1].Add(players[FindPLayerById(Teams[i][j].Id)]);
         }
 
-        for (int i = 0; i < this.Teams.Count; i++)
-        {
-            teams.Add(new InfoTeams<InfoPlayer<T>>(this.Teams[i].Id));
-            for (int j = 0; j < this.Teams[i].Count; j++)
-            {
-                teams[teams.Count - 1].Add(players[this.FindPLayerById(this.Teams[i][j].Id)]);
-            }
-        }
-
-        return new GameStatus<T>(players, teams, this.Table.Clone(), this.Turns.ToArray(), this.TokensTable.ToList(),
-            this.Values,
-            this.PlayerStart, this.ImmediatePass, this.NoValidPlay);
+        return new GameStatus<T>(players, teams, Table.Clone(), Turns.ToArray(), TokensTable.ToList(),
+            Values,
+            PlayerStart, ImmediatePass, NoValidPlay);
     }
 }

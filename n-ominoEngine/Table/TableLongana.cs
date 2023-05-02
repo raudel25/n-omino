@@ -2,80 +2,79 @@ namespace Table;
 
 public class TableLongana<T> : TableDimension<T>
 {
+    public TableLongana(int n) : base(n)
+    {
+        BranchNode = new Dictionary<INode<T>, int>();
+    }
+
     /// <summary>
-    /// Cantidad de jugadores
+    ///     Cantidad de jugadores
     /// </summary>
     public int CantPlayer { get; private set; }
 
     /// <summary>
-    /// Ramas por las que se ubican los nodos
+    ///     Ramas por las que se ubican los nodos
     /// </summary>
-    public Dictionary<INode<T>, int> BranchNode { get; private set; }
-
-    public TableLongana(int n) : base(n)
-    {
-        this.BranchNode = new Dictionary<INode<T>, int>();
-    }
+    public Dictionary<INode<T>, int> BranchNode { get; }
 
     public void AssignCantPlayers(int players)
     {
-        if (this.CantPlayer == 0)
+        if (CantPlayer == 0)
         {
-            this.FreeNode = new HashSet<INode<T>>();
-            this.TableNode = new List<INode<T>>();
-            this.CantPlayer = players;
-            INode<T> node = this.CreateNode(players);
-            this.FreeTable(node);
-            this.BranchNode.Add(node, -1);
+            FreeNode = new HashSet<INode<T>>();
+            TableNode = new List<INode<T>>();
+            CantPlayer = players;
+            var node = CreateNode(players);
+            FreeTable(node);
+            BranchNode.Add(node, -1);
         }
     }
 
     protected override void Expand(INode<T> node)
     {
         //Asignar el Id de cada rama a los nodos y expandir diferene la primera vez
-        if (this.PlayNode.Count == 0)
+        if (PlayNode.Count == 0)
         {
-            for (int i = 0; i < node.Connections.Length; i++)
+            for (var i = 0; i < node.Connections.Length; i++)
             {
-                UnionNode(node, CreateNode(this.DimensionToken), i);
+                UnionNode(node, CreateNode(DimensionToken), i);
                 AssignValueConnection(node, node.Connections[i]!, 0);
                 FreeTable(node.Connections[i]!);
-                this.BranchNode.Add(node.Connections[i]!, i);
+                BranchNode.Add(node.Connections[i]!, i);
             }
         }
         else
         {
             base.Expand(node);
-            for (int i = 0; i < node.Connections.Length; i++)
-            {
-                if (!this.BranchNode.ContainsKey(node.Connections[i]!))
-                {
-                    this.BranchNode.Add(node.Connections[i]!, this.BranchNode[node]);
-                }
-            }
+            for (var i = 0; i < node.Connections.Length; i++)
+                if (!BranchNode.ContainsKey(node.Connections[i]!))
+                    BranchNode.Add(node.Connections[i]!, BranchNode[node]);
         }
     }
 
     public override TableGame<T> Clone()
     {
-        TableGame<T> table = new TableLongana<T>(this.DimensionToken);
-        ((TableLongana<T>)table).AssignCantPlayers(this.CantPlayer);
+        TableGame<T> table = new TableLongana<T>(DimensionToken);
+        ((TableLongana<T>)table).AssignCantPlayers(CantPlayer);
 
         return AuxClone(table);
     }
 
     public override TableGame<T> Reset()
     {
-        return new TableLongana<T>(this.DimensionToken);
+        return new TableLongana<T>(DimensionToken);
     }
 
     protected override void UnionNode(INode<T> left, INode<T> right, int ind)
     {
-        if (this.PlayNode.Count == 0)
+        if (PlayNode.Count == 0)
         {
             right.Connections[0] = left;
             left.Connections[ind] = right;
         }
-        else base.UnionNode(right, left, ind);
+        else
+        {
+            base.UnionNode(right, left, ind);
+        }
     }
 }

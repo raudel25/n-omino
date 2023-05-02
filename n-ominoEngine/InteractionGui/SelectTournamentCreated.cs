@@ -4,27 +4,28 @@ namespace InteractionGui;
 
 public class SelectTournamentCreated<T>
 {
-    private PlayerGameRule<T> _playerGameRule => new PlayerGameRule<T>(Array.Empty<IPlayerGame>(),
+    private readonly WinnerTournamentRule<T>[] _winner =
+    {
+        new WinnerTournamentRule<T>(new[] { new ClassicWinnerTournament() }, new[] { new CantGamesTournament<T>(1) }),
+        new WinnerTournamentRule<T>(new[] { new ClassicWinnerTournament() }, new[] { new CantGamesTournament<T>(3) }),
+        new WinnerTournamentRule<T>(new[] { new ClassicWinnerTournament() },
+            new[] { new MaxScoreTeamTournament<T>(100) })
+    };
+
+    private PlayerGameRule<T> _playerGameRule => new(Array.Empty<IPlayerGame>(),
         Array.Empty<ICondition<T>>(), new ClassicPlayerGame());
 
     private TeamsGameRule<T> _teamsGameRule =>
-        new TeamsGameRule<T>(Array.Empty<ITeamsGame>(), Array.Empty<ICondition<T>>(), new ClassicTeam());
+        new(Array.Empty<ITeamsGame>(), Array.Empty<ICondition<T>>(), new ClassicTeam());
 
-    private ScorePlayerTournamentRule<T> _scorePlayer => new ScorePlayerTournamentRule<T>(
+    private ScorePlayerTournamentRule<T> _scorePlayer => new(
         Array.Empty<IScorePlayerTournament<T>>(), Array.Empty<ICondition<T>>(), new ClassicScorePlayerTournament<T>());
 
-    private ScoreTeamTournamentRule<T> _scoreTeam => new ScoreTeamTournamentRule<T>(
+    private ScoreTeamTournamentRule<T> _scoreTeam => new(
         Array.Empty<IScoreTeamTournament<T>>(), Array.Empty<ICondition<T>>(), new ClassicScoreTeamTournament<T>());
 
-    private DistributionPlayerRule<T> _distribution => new DistributionPlayerRule<T>(Array.Empty<IDistributionPlayer>(),
+    private DistributionPlayerRule<T> _distribution => new(Array.Empty<IDistributionPlayer>(),
         Array.Empty<ICondition<T>>(), new ClassicDistribution());
-
-    private WinnerTournamentRule<T>[] _winner = new[]
-    {
-        new WinnerTournamentRule<T>(new[] {new ClassicWinnerTournament()}, new[] {new CantGamesTournament<T>(1)}),
-        new WinnerTournamentRule<T>(new[] {new ClassicWinnerTournament()}, new[] {new CantGamesTournament<T>(3)}),
-        new WinnerTournamentRule<T>(new[] {new ClassicWinnerTournament()}, new[] {new MaxScoreTeamTournament<T>(100)})
-    };
 
     public InfoRulesTournament<T>[] Rules => new[]
     {

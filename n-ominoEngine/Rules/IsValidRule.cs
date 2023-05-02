@@ -5,42 +5,41 @@ namespace Rules;
 
 public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<IsValidRule<T>>
 {
-    private bool[] _checkValid;
+    private readonly bool[] _checkValid;
 
-    public int CantValid
+    public IsValidRule(IEnumerable<IValidPlay<T>> rules, IEnumerable<ICondition<T>> condition,
+        IValidPlay<T> rule) : base(rules, condition, rule)
     {
-        get { return this._checkValid.Length; }
+        _checkValid = new bool[Actions.Length + 1];
     }
+
+    public int CantValid => _checkValid.Length;
 
     public (IValidPlay<T>, bool) this[int index]
     {
         get
         {
-            if (index < this.Actions.Length && index >= 0) return (this.Actions[index], this._checkValid[index]);
-            if (index == this.Actions.Length) return (this.Default!, this._checkValid[index]);
-            else throw new Exception("Index Out of Range");
+            if (index < Actions.Length && index >= 0) return (Actions[index], _checkValid[index]);
+            if (index == Actions.Length) return (Default!, _checkValid[index]);
+            throw new Exception("Index Out of Range");
         }
     }
 
-    public IsValidRule(IEnumerable<IValidPlay<T>> rules, IEnumerable<ICondition<T>> condition,
-        IValidPlay<T> rule) : base(rules, condition, rule)
+    public IsValidRule<T> Clone()
     {
-        this._checkValid = new bool[this.Actions.Length + 1];
+        return new IsValidRule<T>(Actions, Condition, Default!);
     }
 
     public void RunRule(TournamentStatus tournament, GameStatus<T> original,
         IAssignScoreToken<T> rules, int ind)
     {
-        for (int i = 0; i < this.Condition.Length; i++)
+        for (var i = 0; i < Condition.Length; i++)
         {
-            this._checkValid[i] = false;
-            if (this.Condition[i].RunRule(tournament, original, rules, ind))
-            {
-                this._checkValid[i] = true;
-            }
+            _checkValid[i] = false;
+            if (Condition[i].RunRule(tournament, original, rules, ind)) _checkValid[i] = true;
         }
 
-        this._checkValid[this.Actions.Length] = true;
+        _checkValid[Actions.Length] = true;
     }
 
     /// <summary>Determinar si una jugada es correcta segun las reglas existentes</summary>
@@ -51,14 +50,13 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
     /// <returns>Criterios de jugada valida correspomdientes a la ficha y el nodo</returns>
     public List<int> ValidPlays(INode<T> node, Token<T> token, GameStatus<T> game, int ind)
     {
-        List<int> valid = new List<int>();
-        for (int j = 0; j < this.Actions.Length; j++)
-        {
-            if (this._checkValid[j] && this.Actions[j].ValidPlay(node, token, game, ind)) valid.Add(j);
-        }
+        var valid = new List<int>();
+        for (var j = 0; j < Actions.Length; j++)
+            if (_checkValid[j] && Actions[j].ValidPlay(node, token, game, ind))
+                valid.Add(j);
 
-        if (this._checkValid[this.Actions.Length] && this.Default!.ValidPlay(node, token, game, ind))
-            valid.Add(this.Actions.Length);
+        if (_checkValid[Actions.Length] && Default!.ValidPlay(node, token, game, ind))
+            valid.Add(Actions.Length);
 
         return valid;
     }
@@ -71,18 +69,15 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
     public bool ValidPlayPlayer(Hand<T> tokens, GameStatus<T> game, int ind)
     {
         foreach (var item in game.Table.FreeNode)
-        {
-            foreach (var token in tokens)
-            {
-                if (this.ValidPlays(item, token, game, ind).Count != 0) return true;
-            }
-        }
+        foreach (var token in tokens)
+            if (ValidPlays(item, token, game, ind).Count != 0)
+                return true;
 
         return false;
     }
 
     /// <summary>
-    /// Determinar los valores a asignar por un criterio de juego determinado
+    ///     Determinar los valores a asignar por un criterio de juego determinado
     /// </summary>
     /// <param name="node">Nodo por el que se quiere jugar</param>
     /// <param name="token">Ficha para jugar</param>
@@ -91,12 +86,7 @@ public class IsValidRule<T> : ActionConditionRule<IValidPlay<T>, T>, ICloneable<
     /// <returns>Valores a asignar en el nodo, si devuelve un array vacio si no es posible jugar</returns>
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table, int ind)
     {
-        if (ind == this.Actions.Length) return this.Default!.AssignValues(node, token, table);
-        return this.Actions[ind].AssignValues(node, token, table);
-    }
-
-    public IsValidRule<T> Clone()
-    {
-        return new IsValidRule<T>(this.Actions, this.Condition, this.Default!);
+        if (ind == Actions.Length) return Default!.AssignValues(node, token, table);
+        return Actions[ind].AssignValues(node, token, table);
     }
 }

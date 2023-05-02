@@ -1,5 +1,5 @@
-using Table;
 using InfoGame;
+using Table;
 
 namespace Game;
 
@@ -11,37 +11,37 @@ public class PrinterGeometry : Printer
 
     public override void LocationTable<T>(TableGame<T> table)
     {
-        Thread.Sleep(this.Speed);
+        Thread.Sleep(Speed);
 
         //Buscamos las cooredenadas extremas
-        int left = int.MaxValue;
-        int top = int.MinValue;
-        for (int i = 0; i < table.TableNode.Count; i++)
+        var left = int.MaxValue;
+        var top = int.MinValue;
+        for (var i = 0; i < table.TableNode.Count; i++)
         {
-            left = Math.Min(((NodeGeometry<T>) table.TableNode[i]).Location.BorderLeft, left);
-            top = Math.Max(((NodeGeometry<T>) table.TableNode[i]).Location.BorderTop, top);
+            left = Math.Min(((NodeGeometry<T>)table.TableNode[i]).Location.BorderLeft, left);
+            top = Math.Max(((NodeGeometry<T>)table.TableNode[i]).Location.BorderTop, top);
         }
 
-        TypeToken type = TypeToken.TriangleTop;
+        var type = TypeToken.TriangleTop;
 
-        (int row, int column) = DeterminateTypeToken(table, ref type);
+        (var row, var column) = DeterminateTypeToken(table, ref type);
 
-        IEnumerable<LocationGui> locationGui = AssignFindLocationGui(table, row, column, top, left, type);
+        var locationGui = AssignFindLocationGui(table, row, column, top, left, type);
 
-        Printer.ExecuteTableEvent(locationGui);
+        ExecuteTableEvent(locationGui);
     }
 
     public override void LocationHand<T>(InfoPlayer<T> player, Token<T>? play, TableGame<T> table)
     {
-        TypeToken type = TypeToken.TriangleTop;
-        (int row, int column) = DeterminateTypeToken(table, ref type);
+        var type = TypeToken.TriangleTop;
+        (var row, var column) = DeterminateTypeToken(table, ref type);
         DeterminateLocationHand(play, table, player, row, column, type);
 
-        Thread.Sleep(this.Speed);
+        Thread.Sleep(Speed);
     }
 
     /// <summary>
-    /// Asignar los valores para las coordenadas en la GUI
+    ///     Asignar los valores para las coordenadas en la GUI
     /// </summary>
     /// <param name="table">Mesa</param>
     /// <param name="row">Incremento en las filas</param>
@@ -56,7 +56,7 @@ public class PrinterGeometry : Printer
     {
         foreach (var item in table.PlayNode)
         {
-            NodeGeometry<T>? node = item as NodeGeometry<T>;
+            var node = item as NodeGeometry<T>;
             if (node == null) yield break;
 
             yield return CreateLocationTable(node, row, column, top, left, type);
@@ -64,7 +64,7 @@ public class PrinterGeometry : Printer
     }
 
     /// <summary>
-    /// Determinar el incremento en filas y columnas
+    ///     Determinar el incremento en filas y columnas
     /// </summary>
     /// <param name="table">Mesa</param>
     /// <param name="type">Tipo de ficha</param>
@@ -93,7 +93,7 @@ public class PrinterGeometry : Printer
     }
 
     /// <summary>
-    /// Crear la distribucion en la GUI de un ficha
+    ///     Crear la distribucion en la GUI de un ficha
     /// </summary>
     /// <param name="node">Nodo</param>
     /// <param name="row">Incremento en las filas</param>
@@ -107,57 +107,49 @@ public class PrinterGeometry : Printer
         int top,
         int left, TypeToken type)
     {
-        int n = node.Location.BorderLeft;
-        int m = node.Location.BorderTop;
-        (int, int, int, int) aux = (top - m + 1, top - m + row + 1, n - left + 1, n - left + column + 1);
+        var n = node.Location.BorderLeft;
+        var m = node.Location.BorderTop;
+        var aux = (top - m + 1, top - m + row + 1, n - left + 1, n - left + column + 1);
 
-        string[] values = new string[node.Connections.Length];
+        var values = new string[node.Connections.Length];
 
-        int ind = ReorganizeCoordinates(node.Location.Coord);
-        T[] auxValues = AuxTable.CircularArray(node.ValuesConnections, ind).ToArray();
+        var ind = ReorganizeCoordinates(node.Location.Coord);
+        var auxValues = AuxTable.CircularArray(node.ValuesConnections, ind).ToArray();
 
-        for (int i = 0; i < values.Length; i++)
-        {
-            values[i] = auxValues[i]!.ToString()!;
-        }
+        for (var i = 0; i < values.Length; i++) values[i] = auxValues[i]!.ToString()!;
 
         if (type == TypeToken.TriangleTop)
-        {
-            if (node.Location.Coord.Contains((n, m))) type = TypeToken.TriangleBottom;
-        }
+            if (node.Location.Coord.Contains((n, m)))
+                type = TypeToken.TriangleBottom;
 
         return new LocationGui(aux, values, type);
     }
 
     /// <summary>
-    /// Reorganizar los valores de la ficha empezando por la coordenada inferior izquierda
+    ///     Reorganizar los valores de la ficha empezando por la coordenada inferior izquierda
     /// </summary>
     /// <param name="coordinates">Coordenadas de la ficha</param>
     /// <returns>Reorganizacion de las coordenadas</returns>
     private int ReorganizeCoordinates((int, int)[] coordinates)
     {
-        int minX = int.MaxValue;
-        int minY = int.MaxValue;
-        int ind = 0;
+        var minX = int.MaxValue;
+        var minY = int.MaxValue;
+        var ind = 0;
 
         //Buscar el indice donde se encuentra la coordenada inferior izquierda
-        for (int i = 0; i < coordinates.Length; i++)
-        {
+        for (var i = 0; i < coordinates.Length; i++)
             if (minY >= coordinates[i].Item2)
             {
                 if (minY == coordinates[i].Item2)
-                {
-                    (minX, ind) = (minX > coordinates[i].Item1) ? (coordinates[i].Item1, i) : (minX, ind);
-                }
+                    (minX, ind) = minX > coordinates[i].Item1 ? (coordinates[i].Item1, i) : (minX, ind);
                 else (minX, minY, ind) = (coordinates[i].Item1, coordinates[i].Item2, i);
             }
-        }
 
         return ind;
     }
 
     public override Printer Reset()
     {
-        return new PrinterGeometry(this.Speed);
+        return new PrinterGeometry(Speed);
     }
 }

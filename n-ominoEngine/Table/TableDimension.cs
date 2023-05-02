@@ -5,21 +5,25 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
     /// <summary>Cantidad de conexiones de un nodo de la mesa</summary>
     public TableDimension(int n) : base(n)
     {
-        INode<T> node = CreateNode(n);
+        var node = CreateNode(n);
         FreeTable(node);
+    }
+
+    public override TableGame<T> Clone()
+    {
+        TableGame<T> table = new TableDimension<T>(DimensionToken);
+        return AuxClone(table);
     }
 
     protected override void Expand(INode<T> node)
     {
-        for (int i = 0; i < node.Connections.Length; i++)
-        {
+        for (var i = 0; i < node.Connections.Length; i++)
             if (node.Connections[i] == null)
             {
-                this.UnionNode(node, CreateNode(node.Connections.Length), i);
-                this.AssignValueConnection(node, node.Connections[i]!, i);
-                this.FreeTable(node.Connections[i]!);
+                UnionNode(node, CreateNode(node.Connections.Length), i);
+                AssignValueConnection(node, node.Connections[i]!, i);
+                FreeTable(node.Connections[i]!);
             }
-        }
     }
 
     /// <summary>Crear un nodo</summary>
@@ -34,13 +38,13 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
 
     protected override void AssignValues(INode<T> node, T[] values)
     {
-        NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
+        var nodeDimension = node as NodeDimension<T>;
 
         if (nodeDimension == null) return;
 
         Array.Copy(values, nodeDimension.ValuesConnections, values.Length);
 
-        for (int i = 0; i < nodeDimension.ValuesAssign.Length; i++)
+        for (var i = 0; i < nodeDimension.ValuesAssign.Length; i++)
         {
             if (nodeDimension.ValuesAssign[i].IsAssignValue) continue;
             nodeDimension.ValuesAssign[i].IsAssignValue = true;
@@ -54,23 +58,17 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
     /// <param name="ind">Indice de los nodos conectados</param>
     protected void AssignValueConnection(INode<T> node, INode<T> nodeConnection, int ind)
     {
-        NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
-        NodeDimension<T>? nodeDimensionConnect = nodeConnection as NodeDimension<T>;
+        var nodeDimension = node as NodeDimension<T>;
+        var nodeDimensionConnect = nodeConnection as NodeDimension<T>;
         if (nodeDimension == null || nodeDimensionConnect == null) return;
         // nodeDimensionConnect.ValuesConnections[ind] = nodeDimension.ValuesConnections[ind];
         nodeDimensionConnect.ValuesAssign[ind].IsAssignValue = true;
         nodeDimensionConnect.ValuesAssign[ind].Values.Add(nodeDimension.ValuesConnections[ind]);
     }
 
-    public override TableGame<T> Clone()
-    {
-        TableGame<T> table = new TableDimension<T>(this.DimensionToken);
-        return AuxClone(table);
-    }
-
     public override ValuesNode<T>? ValuesNodeTable(INode<T> node, int ind)
     {
-        NodeDimension<T>? nodeDimension = node as NodeDimension<T>;
+        var nodeDimension = node as NodeDimension<T>;
 
         if (nodeDimension == null) return null;
 
@@ -79,6 +77,6 @@ public class TableDimension<T> : TableGame<T>, ICloneable<TableGame<T>>
 
     public override TableGame<T> Reset()
     {
-        return new TableDimension<T>(this.DimensionToken);
+        return new TableDimension<T>(DimensionToken);
     }
 }

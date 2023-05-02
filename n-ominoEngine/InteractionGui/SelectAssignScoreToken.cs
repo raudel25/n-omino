@@ -4,7 +4,16 @@ namespace InteractionGui;
 
 public class SelectAssignScoreToken<T> : IVariant<IAssignScoreToken<T>, T>
 {
+    public SelectAssignScoreToken(T value)
+    {
+        AssignScore(value);
+    }
+
     public List<IVariant<IAssignScoreToken<T>, T>.Select> Values { get; } = new();
+
+    public string Description => "Asignador de score de la ficha";
+
+    public List<ParamSelect> Param { get; } = new();
 
     private void AssignScore(T value)
     {
@@ -27,15 +36,6 @@ public class SelectAssignScoreToken<T> : IVariant<IAssignScoreToken<T>, T>
             Values.Add(AssignScoreTokenLetter);
             Param.Add(new ParamSelect("Orden alfabético", "Asigna el score por el orden alfabético", 0));
         }
-    }
-
-    public string Description => "Asignador de score de la ficha";
-
-    public List<ParamSelect> Param { get; } = new();
-
-    public SelectAssignScoreToken(T value)
-    {
-        this.AssignScore(value);
     }
 
     public IAssignScoreToken<T> AssignScoreTokenClassic(ParamSelectFunction<T> fun)

@@ -11,8 +11,8 @@ public class TurnPlayerInvert : ITurnPlayer
 {
     public void Turn(int[] turns, int ind)
     {
-        int i = ind;
-        int j = ind;
+        var i = ind;
+        var j = ind;
         while (true)
         {
             i++;
@@ -30,10 +30,10 @@ public class TurnPlayerRepeatPlay : ITurnPlayer
 {
     public void Turn(int[] turns, int ind)
     {
-        int i = ind;
-        int j = ind - 1;
-        int stop = (ind == turns.Length - 1) ? 0 : ind + 1;
-        int change = turns[ind];
+        var i = ind;
+        var j = ind - 1;
+        var stop = ind == turns.Length - 1 ? 0 : ind + 1;
+        var change = turns[ind];
         while (true)
         {
             if (i == -1) i = turns.Length - 1;

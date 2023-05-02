@@ -1,5 +1,5 @@
-using Table;
 using InfoGame;
+using Table;
 
 namespace Game;
 
@@ -11,9 +11,9 @@ public class PrinterDimension : Printer
 
     public override void LocationTable<T>(TableGame<T> table)
     {
-        Thread.Sleep(this.Speed);
+        Thread.Sleep(Speed);
 
-        Printer.ExecuteTableEvent(
+        ExecuteTableEvent(
             AssignValues(TokensPlayNode(table), 1, table.DimensionToken + 1, TypeToken.NDimension));
     }
 
@@ -21,19 +21,16 @@ public class PrinterDimension : Printer
     {
         DeterminateLocationHand(play, table, player, 1, table.DimensionToken + 1, TypeToken.NDimension);
 
-        Thread.Sleep(this.Speed);
+        Thread.Sleep(Speed);
     }
 
     private IEnumerable<Token<T>> TokensPlayNode<T>(TableGame<T> table)
     {
-        foreach (var item in table.PlayNode)
-        {
-            yield return item.ValueToken;
-        }
+        foreach (var item in table.PlayNode) yield return item.ValueToken;
     }
 
     public override Printer Reset()
     {
-        return new PrinterDimension(this.Speed);
+        return new PrinterDimension(Speed);
     }
 }

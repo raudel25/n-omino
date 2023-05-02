@@ -12,20 +12,16 @@ public class AssignScorePlayerRule<T> : ActionConditionRule<IAssignScorePlayer<T
     {
     }
 
+    public AssignScorePlayerRule<T> Clone()
+    {
+        return new AssignScorePlayerRule<T>(Actions, Condition);
+    }
+
     public void RunRule(TournamentStatus tournament, GameStatus<T> original,
         IAssignScoreToken<T> rules, int ind)
     {
-        for (int i = 0; i < this.Condition.Length; i++)
-        {
-            if (this.Condition[i].RunRule(tournament, original, rules, ind))
-            {
-                this.Actions[i].AssignScore(original, rules, ind);
-            }
-        }
-    }
-
-    public AssignScorePlayerRule<T> Clone()
-    {
-        return new AssignScorePlayerRule<T>(this.Actions, this.Condition);
+        for (var i = 0; i < Condition.Length; i++)
+            if (Condition[i].RunRule(tournament, original, rules, ind))
+                Actions[i].AssignScore(original, rules, ind);
     }
 }

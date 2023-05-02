@@ -6,23 +6,20 @@ public class ClassicTeam : ITeamsGame
 {
     public void DeterminateTeams(TournamentStatus tournament)
     {
-        for (int i = 0; i < tournament.ValidTeam.Length; i++)
-        {
-            tournament.ValidTeam[i] = true;
-        }
+        for (var i = 0; i < tournament.ValidTeam.Length; i++) tournament.ValidTeam[i] = true;
     }
 }
 
 public class LeagueTeam : ITeamsGame
 {
-    private int _cantTeams;
-    private List<List<int>> _plays;
+    private readonly int _cantTeams;
     private bool _init;
+    private readonly List<List<int>> _plays;
 
     public LeagueTeam(int cant)
     {
-        this._cantTeams = cant;
-        this._plays = new List<List<int>>();
+        _cantTeams = cant;
+        _plays = new List<List<int>>();
     }
 
     public void DeterminateTeams(TournamentStatus tournament)
@@ -34,11 +31,11 @@ public class LeagueTeam : ITeamsGame
             _init = true;
         }
 
-        int ind = tournament.Index % _plays.Count;
+        var ind = tournament.Index % _plays.Count;
 
-        for (int i = 0; i < tournament.ValidTeam.Length; i++) tournament.ValidTeam[i] = false;
+        for (var i = 0; i < tournament.ValidTeam.Length; i++) tournament.ValidTeam[i] = false;
 
-        for (int i = 0; i < _plays[ind].Count; i++) tournament.ValidTeam[_plays[ind][i]] = true;
+        for (var i = 0; i < _plays[ind].Count; i++) tournament.ValidTeam[_plays[ind][i]] = true;
     }
 
     private void Combinations(int n, List<List<int>> plays, bool[] visited, int index)
@@ -46,13 +43,12 @@ public class LeagueTeam : ITeamsGame
         if (_cantTeams == index)
         {
             plays.Add(new List<int>());
-            for (int i = 0; i < n; i++)
-            {
-                if (visited[i]) plays[plays.Count - 1].Add(i);
-            }
+            for (var i = 0; i < n; i++)
+                if (visited[i])
+                    plays[plays.Count - 1].Add(i);
         }
 
-        for (int i = index; i < n; i++)
+        for (var i = index; i < n; i++)
         {
             if (visited[i]) continue;
 

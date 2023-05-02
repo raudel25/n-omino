@@ -658,7 +658,6 @@ a, .btn-link {
 }
 
 
-
 .InputSelectPreGame {
     width: 250px;
     height: 30px;
@@ -668,7 +667,7 @@ a, .btn-link {
     outline: none;
 }
 
-.PreCreated{
+.PreCreated {
     width: 300px;
     height: 65px;
     border-radius: 5px;

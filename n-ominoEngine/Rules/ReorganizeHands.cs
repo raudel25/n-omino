@@ -1,5 +1,4 @@
 using InfoGame;
-using Table;
 
 namespace Rules;
 
@@ -16,21 +15,21 @@ public class HandsTeamWin<T> : IReorganizeHands<T>
     {
         if (tournament.ImmediateWinnerTeam == -1) return;
 
-        int team = game.FindTeamById(tournament.ImmediateWinnerTeam);
+        var team = game.FindTeamById(tournament.ImmediateWinnerTeam);
 
         //Comprobamos si el equipo ganador esta en el juego
         if (team == -1) return;
 
         foreach (var player in game.Teams[team])
         {
-            Random rnd = new Random();
-            int remove = rnd.Next(player.HandCount);
+            var rnd = new Random();
+            var remove = rnd.Next(player.HandCount);
 
-            int i = 0;
+            var i = 0;
 
             foreach (var token in player.Hand)
             {
-                Token<T> aux = token;
+                var aux = token;
                 if (i == remove)
                 {
                     player.Hand.Remove(aux);

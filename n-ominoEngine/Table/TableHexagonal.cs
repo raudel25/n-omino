@@ -8,19 +8,19 @@ public class TableHexagonal<T> : TableGeometry<T>
 
     protected override void Expand(INode<T> node)
     {
-        NodeGeometry<T>? geometry = node as NodeGeometry<T>;
+        var geometry = node as NodeGeometry<T>;
         if (geometry == null) return;
-        (int, int) center = FindCenter(geometry);
-        (int, int)[] expand = FindCenterExpand(center);
-        for (int i = 0; i < expand.Length; i++) AssignCoordinates(geometry, ExpandGeometry(new[] { expand[i] }));
+        var center = FindCenter(geometry);
+        var expand = FindCenterExpand(center);
+        for (var i = 0; i < expand.Length; i++) AssignCoordinates(geometry, ExpandGeometry(new[] { expand[i] }));
     }
 
     protected override (int, int)[] ExpandGeometry((int, int)[] coordinates)
     {
-        (int, int)[] expand = new (int, int)[6];
+        var expand = new (int, int)[6];
         int[] x = { -1, 1, 2, 1, -1, -2 };
         int[] y = { 1, 1, 0, -1, -1, 0 };
-        for (int i = 0; i < expand.Length; i++) expand[i] = (coordinates[0].Item1 + x[i], coordinates[0].Item2 + y[i]);
+        for (var i = 0; i < expand.Length; i++) expand[i] = (coordinates[0].Item1 + x[i], coordinates[0].Item2 + y[i]);
 
         return expand;
     }
@@ -30,10 +30,10 @@ public class TableHexagonal<T> : TableGeometry<T>
     /// <returns>Coordenadas de los centros nodos expandidos</returns>
     protected (int, int)[] FindCenterExpand((int, int) coordinates)
     {
-        (int, int)[] expand = new (int, int)[6];
+        var expand = new (int, int)[6];
         int[] x = { -3, 0, 3, 3, 0, -3 };
         int[] y = { -1, -2, -1, 1, 2, 1 };
-        for (int i = 0; i < expand.Length; i++) expand[i] = (coordinates.Item1 + x[i], coordinates.Item2 + y[i]);
+        for (var i = 0; i < expand.Length; i++) expand[i] = (coordinates.Item1 + x[i], coordinates.Item2 + y[i]);
 
         return expand;
     }
@@ -43,9 +43,9 @@ public class TableHexagonal<T> : TableGeometry<T>
     /// <returns>Coordenadas del centro</returns>
     protected (int, int) FindCenter(NodeGeometry<T> node)
     {
-        int x = 0;
-        int y = 0;
-        for (int i = 1; i < node.Location.Coord.Length; i++)
+        var x = 0;
+        var y = 0;
+        for (var i = 1; i < node.Location.Coord.Length; i++)
         {
             if (node.Location.Coord[i].Item2 == node.Location.Coord[i - 1].Item2)
                 x = (node.Location.Coord[i].Item1 + node.Location.Coord[i - 1].Item1) / 2;
@@ -60,7 +60,7 @@ public class TableHexagonal<T> : TableGeometry<T>
 
     public override TableGame<T> Clone()
     {
-        (int, int)[] aux = new (int, int)[6];
+        var aux = new (int, int)[6];
         Array.Copy(((NodeGeometry<T>)TableNode[0]).Location.Coord, aux, 6);
         TableGame<T> table = new TableHexagonal<T>(aux);
         return AuxClone(table);
@@ -68,7 +68,7 @@ public class TableHexagonal<T> : TableGeometry<T>
 
     public override TableGame<T> Reset()
     {
-        (int, int)[] aux = new (int, int)[6];
+        var aux = new (int, int)[6];
         Array.Copy(((NodeGeometry<T>)TableNode[0]).Location.Coord, aux, 6);
         return new TableHexagonal<T>(aux);
     }

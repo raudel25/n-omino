@@ -1,5 +1,5 @@
-@using Rules
 @using Player
+@using Rules
 @using InteractionGui
 @typeparam T 
 
@@ -109,11 +109,11 @@
 
     private bool _selectValue = false;
 
-    private List<IStrategy<T>> _strategies = new List<IStrategy<T>>();
+    private List<IStrategy<T>> _strategies = new();
 
-    private List<IStrategy<T>> _defaultStrategy = new List<IStrategy<T>>();
+    private List<IStrategy<T>> _defaultStrategy = new();
 
-    private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
+    private List<ICondition<T>> _valuesCondition = new();
 
     private List<Scorer<T>.MoveScorer> _scoreMove = new();
 
@@ -136,10 +136,10 @@
             Teams!.Add((_team, Players.Count - 1,_name));
 
             _cant = 0;
-            _strategies = new();
-            _defaultStrategy = new();
-            _valuesCondition = new();
-            _scoreMove = new();
+            _strategies = new List<IStrategy<T>>();
+            _defaultStrategy = new List<IStrategy<T>>();
+            _valuesCondition = new List<ICondition<T>>();
+            _scoreMove = new List<Scorer<T>.MoveScorer>();
             _cantPlayers--;
             _selectValue = false;
             _team = 0;
@@ -149,7 +149,7 @@
 
     private void CantPlayer()
     {
-        if(_cantPlayersValue < 1)
+        if (_cantPlayersValue < 1)
         {
             _cantPlayersValue = 4;
             return;

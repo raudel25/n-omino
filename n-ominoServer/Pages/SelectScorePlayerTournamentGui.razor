@@ -1,5 +1,5 @@
-@using Rules
 @using InteractionGui
+@using Rules
 @typeparam T 
 
 @if (_vilibility)
@@ -55,9 +55,9 @@
 
     private bool _selectValue = false;
 
-    private List<IScorePlayerTournament<T>> _valuesRule = new List<IScorePlayerTournament<T>>();
+    private List<IScorePlayerTournament<T>> _valuesRule = new();
 
-    private List<ICondition<T>> _valuesCondition = new List<ICondition<T>>();
+    private List<ICondition<T>> _valuesCondition = new();
 
     private bool _vilibility = true;
 

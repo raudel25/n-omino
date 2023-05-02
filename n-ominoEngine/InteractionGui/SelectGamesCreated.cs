@@ -1,6 +1,6 @@
-using Table;
-using Rules;
 using Game;
+using Rules;
+using Table;
 
 namespace InteractionGui;
 
@@ -10,9 +10,9 @@ public class SelectGamesCreated
     {
         new TableDimension<int>(2),
         new TableLongana<int>(2),
-        new TableTriangular<int>(new[] {(0, 0), (1, 1), (2, 0)}),
-        new TableSquare<int>(new[] {(0, 0), (0, 2), (2, 2), (2, 0)}),
-        new TableHexagonal<int>(new[] {(0, 0), (-1, 1), (0, 2), (2, 2), (3, 1), (2, 0)})
+        new TableTriangular<int>(new[] { (0, 0), (1, 1), (2, 0) }),
+        new TableSquare<int>(new[] { (0, 0), (0, 2), (2, 2), (2, 0) }),
+        new TableHexagonal<int>(new[] { (0, 0), (-1, 1), (0, 2), (2, 2), (3, 1), (2, 0) })
     };
 
     private ITokensMaker<int>[] Maker => new ITokensMaker<int>[]
@@ -20,14 +20,6 @@ public class SelectGamesCreated
         new ClassicTokensMaker<int>(),
         new CircularTokensMaker<int>()
     };
-
-    private ParamSelectFunction<int> Number(int n)
-    {
-        var aux = new ParamSelectFunction<int>();
-        aux.Cant = n;
-
-        return aux;
-    }
 
     private int[][] Generator => new[]
     {
@@ -39,31 +31,31 @@ public class SelectGamesCreated
     {
         new IsValidRule<int>(Array.Empty<IValidPlay<int>>(), Array.Empty<ICondition<int>>(),
             new ValidPlayDimension<int>(new ClassicComparison<int>())),
-        new IsValidRule<int>(new[] {new ValidPlayLonganaComplement<int>(new ClassicComparison<int>())},
-            new[] {new ImmediatePass<int>()}, new ValidPlayLongana<int>(new ClassicComparison<int>())),
+        new IsValidRule<int>(new[] { new ValidPlayLonganaComplement<int>(new ClassicComparison<int>()) },
+            new[] { new ImmediatePass<int>() }, new ValidPlayLongana<int>(new ClassicComparison<int>())),
         new IsValidRule<int>(Array.Empty<IValidPlay<int>>(), Array.Empty<ICondition<int>>(),
-            new ValidPlayGeometry<int>(new ClassicComparison<int>())),
+            new ValidPlayGeometry<int>(new ClassicComparison<int>()))
     };
 
     private BeginGameRule<int>[] Begin => new[]
     {
-        new BeginGameRule<int>(new[] {new BeginGameLastWinner<int>()}, new[] {new SecondRoundTournament<int>()},
+        new BeginGameRule<int>(new[] { new BeginGameLastWinner<int>() }, new[] { new SecondRoundTournament<int>() },
             new BeginGameRandom<int>()),
-        new BeginGameRule<int>(new[] {new BeginGameLastWinner<int>()}, new[] {new SecondRoundTournament<int>()},
-            new BeginGameToken<int>(new Token<int>(new[] {6, 6})))
+        new BeginGameRule<int>(new[] { new BeginGameLastWinner<int>() }, new[] { new SecondRoundTournament<int>() },
+            new BeginGameToken<int>(new Token<int>(new[] { 6, 6 })))
     };
 
-    private StealTokenRule<int> Steal => new StealTokenRule<int>(Array.Empty<IStealToken<int>>(),
+    private StealTokenRule<int> Steal => new(Array.Empty<IStealToken<int>>(),
         Array.Empty<ICondition<int>>(), new NoStealToken<int>());
 
-    private VisibilityPlayerRule<int> Visibility => new VisibilityPlayerRule<int>(
+    private VisibilityPlayerRule<int> Visibility => new(
         Array.Empty<IVisibilityPlayer<int>>(),
         Array.Empty<ICondition<int>>(), new ClassicVisibilityPlayer<int>());
 
-    private ToPassTokenRule<int> ToPass => new ToPassTokenRule<int>(Array.Empty<IToPassToken>(),
+    private ToPassTokenRule<int> ToPass => new(Array.Empty<IToPassToken>(),
         Array.Empty<ICondition<int>>(), new NoToPassToken());
 
-    private TurnPlayerRule<int> Turn => new TurnPlayerRule<int>(Array.Empty<ITurnPlayer>(),
+    private TurnPlayerRule<int> Turn => new(Array.Empty<ITurnPlayer>(),
         Array.Empty<ICondition<int>>(), new TurnPlayerClassic());
 
     private IAssignScoreToken<int> ScoreToken => new AssignScoreTokenClassic();
@@ -86,12 +78,11 @@ public class SelectGamesCreated
         new NoValidPlay<int>()
     };
 
-    private AssignScorePlayerRule<int> ScorePlayerRule =>
-        new AssignScorePlayerRule<int>(ScorePlayer, Conditions);
+    private AssignScorePlayerRule<int> ScorePlayerRule => new(ScorePlayer, Conditions);
 
-    private WinnerGameRule<int> WinnerGameRule => new WinnerGameRule<int>(Winner, Conditions);
+    private WinnerGameRule<int> WinnerGameRule => new(Winner, Conditions);
 
-    private ReorganizeHandsRule<int> ReorganizeHands => new ReorganizeHandsRule<int>(
+    private ReorganizeHandsRule<int> ReorganizeHands => new(
         new[] { new HandsTeamWin<int>() }, new[] { new SecondRoundTournament<int>() }, new ClassicReorganize<int>());
 
     private InfoRules<int>[] Rules => new[]
@@ -143,4 +134,12 @@ public class SelectGamesCreated
         ("Longana (6x6)", 2), ("Longana (9x9)", 3), ("Tablero triangular", 4),
         ("Tablero cuadrado", 5), ("Tablero hexagonal", 6)
     };
+
+    private ParamSelectFunction<int> Number(int n)
+    {
+        var aux = new ParamSelectFunction<int>();
+        aux.Cant = n;
+
+        return aux;
+    }
 }

@@ -8,25 +8,19 @@ public class TableSquare<T> : TableGeometry<T>
 
     protected override void Expand(INode<T> node)
     {
-        NodeGeometry<T>? geometry = (node as NodeGeometry<T>);
+        var geometry = node as NodeGeometry<T>;
         if (geometry == null) return;
-        (int, int) center = FindCenter(geometry);
-        (int, int)[] expand = FindCenterExpand(center);
-        for (int i = 0; i < expand.Length; i++)
-        {
-            AssignCoordinates(geometry, ExpandGeometry(new[] { expand[i] }));
-        }
+        var center = FindCenter(geometry);
+        var expand = FindCenterExpand(center);
+        for (var i = 0; i < expand.Length; i++) AssignCoordinates(geometry, ExpandGeometry(new[] { expand[i] }));
     }
 
     protected override (int, int)[] ExpandGeometry((int, int)[] coordinates)
     {
-        (int, int)[] expand = new (int, int)[4];
-        int[] x = new int[] { -1, 1, 1, -1 };
-        int[] y = new int[] { 1, 1, -1, -1 };
-        for (int i = 0; i < expand.Length; i++)
-        {
-            expand[i] = ((coordinates[0].Item1 + x[i]), (coordinates[0].Item2 + y[i]));
-        }
+        var expand = new (int, int)[4];
+        int[] x = { -1, 1, 1, -1 };
+        int[] y = { 1, 1, -1, -1 };
+        for (var i = 0; i < expand.Length; i++) expand[i] = (coordinates[0].Item1 + x[i], coordinates[0].Item2 + y[i]);
 
         return expand;
     }
@@ -36,13 +30,10 @@ public class TableSquare<T> : TableGeometry<T>
     /// <returns>Coordenadas de los nodos expandidos</returns>
     protected (int, int)[] FindCenterExpand((int, int) coordinates)
     {
-        (int, int)[] expand = new (int, int)[4];
-        int[] x = new int[] { -2, 0, 2, 0 };
-        int[] y = new int[] { 0, -2, 0, 2 };
-        for (int i = 0; i < expand.Length; i++)
-        {
-            expand[i] = (coordinates.Item1 + x[i], coordinates.Item2 + y[i]);
-        }
+        var expand = new (int, int)[4];
+        int[] x = { -2, 0, 2, 0 };
+        int[] y = { 0, -2, 0, 2 };
+        for (var i = 0; i < expand.Length; i++) expand[i] = (coordinates.Item1 + x[i], coordinates.Item2 + y[i]);
 
         return expand;
     }
@@ -52,19 +43,15 @@ public class TableSquare<T> : TableGeometry<T>
     /// <returns>Coordenadas del centro</returns>
     protected (int, int) FindCenter(NodeGeometry<T> node)
     {
-        int x = 0;
-        int y = 0;
-        for (int i = 1; i < node.Location.Coord.Length; i++)
+        var x = 0;
+        var y = 0;
+        for (var i = 1; i < node.Location.Coord.Length; i++)
         {
             if (node.Location.Coord[i].Item2 == node.Location.Coord[i - 1].Item2)
-            {
                 x = (node.Location.Coord[i].Item1 + node.Location.Coord[i - 1].Item1) / 2;
-            }
 
             if (node.Location.Coord[i].Item1 == node.Location.Coord[i - 1].Item1)
-            {
                 y = (node.Location.Coord[i].Item2 + node.Location.Coord[i - 1].Item2) / 2;
-            }
         }
 
         return (x, y);
@@ -72,15 +59,15 @@ public class TableSquare<T> : TableGeometry<T>
 
     public override TableGame<T> Clone()
     {
-        (int, int)[] aux = new (int, int)[4];
-        Array.Copy(((NodeGeometry<T>)this.TableNode[0]).Location.Coord, aux, 4);
+        var aux = new (int, int)[4];
+        Array.Copy(((NodeGeometry<T>)TableNode[0]).Location.Coord, aux, 4);
         TableGame<T> table = new TableSquare<T>(aux);
-        return this.AuxClone(table);
+        return AuxClone(table);
     }
 
     public override TableGame<T> Reset()
     {
-        (int, int)[] aux = new (int, int)[4];
+        var aux = new (int, int)[4];
         Array.Copy(((NodeGeometry<T>)TableNode[0]).Location.Coord, aux, 4);
         return new TableSquare<T>(aux);
     }

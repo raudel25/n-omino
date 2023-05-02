@@ -5,24 +5,22 @@ namespace Rules;
 
 public class BeginGameToken<T> : IBeginGame<T>
 {
-    private Token<T> _token;
+    private readonly Token<T> _token;
 
     public BeginGameToken(Token<T> token)
     {
-        this._token = token;
+        _token = token;
     }
 
     public void Start(TournamentStatus tournament, GameStatus<T> game)
     {
-        int id = -1;
+        var id = -1;
         foreach (var item in game.Players)
-        {
             if (item.Hand.Contains(_token))
             {
                 id = item.Id;
                 break;
             }
-        }
 
         if (id == -1)
         {
@@ -31,7 +29,7 @@ public class BeginGameToken<T> : IBeginGame<T>
         }
         else
         {
-            game.TokenStart = this._token;
+            game.TokenStart = _token;
             game.PlayerStart = id;
         }
     }
@@ -41,8 +39,8 @@ public class BeginGameRandom<T> : IBeginGame<T>
 {
     public void Start(TournamentStatus tournament, GameStatus<T> game)
     {
-        Random rnd = new Random();
-        int ind = rnd.Next(game.Turns.Length);
+        var rnd = new Random();
+        var ind = rnd.Next(game.Turns.Length);
         game.PlayerStart = game.Players[ind].Id;
     }
 }
@@ -53,7 +51,7 @@ public class BeginGameLastWinner<T> : IBeginGame<T>
     {
         if (tournament.ImmediateWinnerTeam != -1)
         {
-            int ind = game.FindTeamById(tournament.ImmediateWinnerTeam);
+            var ind = game.FindTeamById(tournament.ImmediateWinnerTeam);
 
             //Si no se encuentra el equipo ganador determinamos uno random
             if (ind == -1)
@@ -63,8 +61,8 @@ public class BeginGameLastWinner<T> : IBeginGame<T>
                 return;
             }
 
-            Random rnd = new Random();
-            int aux = rnd.Next(tournament.Teams[ind].Count);
+            var rnd = new Random();
+            var aux = rnd.Next(tournament.Teams[ind].Count);
 
             game.PlayerStart = tournament.Teams[ind][aux].Id;
         }

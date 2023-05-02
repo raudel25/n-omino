@@ -6,7 +6,7 @@ namespace Rules;
 public interface ICondition<T>
 {
     /// <summary>
-    /// Determinar bajo que condiciones se ejecuta una regla
+    ///     Determinar bajo que condiciones se ejecuta una regla
     /// </summary>
     /// <param name="tournament">Datos del torneo</param>
     /// <param name="game">Estado del juego</param>
@@ -29,14 +29,11 @@ public class ClassicTeamWin<T> : ICondition<T>
 {
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
-        bool win = true;
-        for (int i = 0; i < game.Teams.Count; i++)
-        {
-            for (int j = 0; j < game.Teams[i].Count; j++)
-            {
-                if (game.Teams[i][j].Hand.Count != 0) win = false;
-            }
-        }
+        var win = true;
+        for (var i = 0; i < game.Teams.Count; i++)
+        for (var j = 0; j < game.Teams[i].Count; j++)
+            if (game.Teams[i][j].Hand.Count != 0)
+                win = false;
 
         return win;
     }
@@ -44,39 +41,36 @@ public class ClassicTeamWin<T> : ICondition<T>
 
 public class CantToPass<T> : ICondition<T>
 {
-    public int Cant { get; private set; }
-
     public CantToPass(int cant)
     {
-        this.Cant = cant;
+        Cant = cant;
     }
+
+    public int Cant { get; }
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
         if (game.Players.Count == 0) return false;
-        return game.Players[game.Turns[ind]].Passes == this.Cant;
+        return game.Players[game.Turns[ind]].Passes == Cant;
     }
 }
 
 public class CantToPassTeam<T> : ICondition<T>
 {
-    public int Cant { get; private set; }
-
     public CantToPassTeam(int cant)
     {
-        this.Cant = cant;
+        Cant = cant;
     }
+
+    public int Cant { get; }
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
-        bool condition = true;
-        for (int i = 0; i < game.Teams.Count; i++)
-        {
-            for (int j = 0; j < game.Teams[i].Count; j++)
-            {
-                if (game.Teams[i][j].Passes == this.Cant) condition = false;
-            }
-        }
+        var condition = true;
+        for (var i = 0; i < game.Teams.Count; i++)
+        for (var j = 0; j < game.Teams[i].Count; j++)
+            if (game.Teams[i][j].Passes == Cant)
+                condition = false;
 
         return condition;
     }
@@ -92,18 +86,21 @@ public class ImmediatePass<T> : ICondition<T>
 
 public class NoValidPlayFirstPlayerPass<T> : ICondition<T>
 {
-    private bool _noValid;
     private int _firstPlayerPass;
+    private bool _noValid;
 
     public NoValidPlayFirstPlayerPass()
     {
-        this._noValid = false;
-        this._firstPlayerPass = -1;
+        _noValid = false;
+        _firstPlayerPass = -1;
     }
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
-        if (!game.ImmediatePass) _noValid = false;
+        if (!game.ImmediatePass)
+        {
+            _noValid = false;
+        }
         else
         {
             if (!_noValid)
@@ -132,18 +129,19 @@ public class NoValidPlay<T> : ICondition<T>
 
 public class SumFreeNode : ICondition<int>
 {
-    public int Value { get; private set; }
-    private IComparison<int> _comparison;
+    private readonly IComparison<int> _comparison;
 
     public SumFreeNode(int value, IComparison<int> comparison)
     {
-        this._comparison = comparison;
-        this.Value = value;
+        _comparison = comparison;
+        Value = value;
     }
+
+    public int Value { get; }
 
     public bool RunRule(TournamentStatus tournament, GameStatus<int> game, IAssignScoreToken<int> rules, int ind)
     {
-        return this._comparison.Compare(AuxTable.SumConnectionFree(game.Table), this.Value);
+        return _comparison.Compare(AuxTable.SumConnectionFree(game.Table), Value);
     }
 }
 
@@ -165,17 +163,17 @@ public class SecondRoundTournament<T> : ICondition<T>
 
 public class HigherThanScoreHandCondition<T> : ICondition<T>
 {
-    int MinScore { get; }
-
     public HigherThanScoreHandCondition(int n)
     {
         MinScore = n;
     }
 
+    private int MinScore { get; }
+
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
-        int sum = 0;
-        int id = game.Turns[ind];
+        var sum = 0;
+        var id = game.Turns[ind];
 
         foreach (var item in game.Players[id].Hand)
             sum += rules.ScoreToken(item);
@@ -186,39 +184,35 @@ public class HigherThanScoreHandCondition<T> : ICondition<T>
 
 public class PostRoundCondition<T> : ICondition<T>
 {
-    int MinRound { get; }
-
     public PostRoundCondition(int n)
     {
         MinRound = n;
     }
 
+    private int MinRound { get; }
+
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
         if (game.Turns.Length == 0) return false;
-        int id = game.Turns[ind];
+        var id = game.Turns[ind];
         return game.Players[id].History.Turns > MinRound;
     }
 }
 
 public class MaxScoreTeamTournament<T> : ICondition<T>
 {
-    private int _socre;
+    private readonly int _socre;
 
     public MaxScoreTeamTournament(int score)
     {
-        this._socre = score;
+        _socre = score;
     }
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)
     {
-        for (int i = 0; i < tournament.ScoreTeams.Length; i++)
-        {
-            if (tournament.ScoreTeams[i] >= this._socre)
-            {
+        for (var i = 0; i < tournament.ScoreTeams.Length; i++)
+            if (tournament.ScoreTeams[i] >= _socre)
                 return true;
-            }
-        }
 
         return false;
     }
@@ -226,11 +220,11 @@ public class MaxScoreTeamTournament<T> : ICondition<T>
 
 public class CantGamesTournament<T> : ICondition<T>
 {
-    private int _cant;
+    private readonly int _cant;
 
     public CantGamesTournament(int n)
     {
-        this._cant = n;
+        _cant = n;
     }
 
     public bool RunRule(TournamentStatus tournament, GameStatus<T> game, IAssignScoreToken<T> rules, int ind)

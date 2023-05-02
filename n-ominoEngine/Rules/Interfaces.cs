@@ -12,6 +12,7 @@ public interface IDealer<T>
     /// <param name="tokensPerPlayer">Cantidad de elementos que se quieren</param>
     /// <returns>Una lista con lo que repartió</returns>
     public IEnumerable<Hand<T>> Deal(List<Token<T>> items, int[] tokensPerPlayer);
+
     public Hand<T> Deal(List<Token<T>> items, int cant);
 }
 
@@ -31,7 +32,7 @@ public interface ITokensMaker<T>
 public interface IAssignScorePlayer<T>
 {
     /// <summary>
-    /// Determinar la forma de asignar puntos a un jugador
+    ///     Determinar la forma de asignar puntos a un jugador
     /// </summary>
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador</param>
@@ -42,7 +43,7 @@ public interface IAssignScorePlayer<T>
 public interface IAssignScoreToken<T>
 {
     /// <summary>
-    /// Determinar el score de una ficha
+    ///     Determinar el score de una ficha
     /// </summary>
     /// <param name="token">Ficha</param>
     /// <returns>Score de la ficha</returns>
@@ -52,7 +53,7 @@ public interface IAssignScoreToken<T>
 public interface IBeginGame<T>
 {
     /// <summary>
-    /// Determinar como se inicia el juego
+    ///     Determinar como se inicia el juego
     /// </summary>
     /// <param name="tournament">Datos del torneo</param>
     /// <param name="game">Datos del juego</param>
@@ -76,12 +77,12 @@ public interface IReorganizeHands<T>
 public interface IStealToken<T>
 {
     /// <summary>
-    /// Cantidad de fichas maximas que puede robar el jugador
+    ///     Cantidad de fichas maximas que puede robar el jugador
     /// </summary>
     int CantMax { get; }
 
     /// <summary>
-    /// Determinar las condiciones bajo las cuales se puede robar en el juego
+    ///     Determinar las condiciones bajo las cuales se puede robar en el juego
     /// </summary>
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
@@ -94,7 +95,7 @@ public interface IStealToken<T>
 public interface IToPassToken
 {
     /// <summary>
-    /// Determinar si el jugador se puede pasar con fichas
+    ///     Determinar si el jugador se puede pasar con fichas
     /// </summary>
     /// <returns></returns>
     public bool ToPass();
@@ -122,15 +123,17 @@ public interface IValidPlay<T>
     /// <param name="node">Nodo por el que se va a jugar</param>
     /// <param name="token">Ficha que se va a jugar</param>
     /// <param name="table">Mesa para jugar</param>
-    /// <returns>Valores a asignar al nodo, retorna una array cuyo primer
-    /// elemento es -1 si el criterio no es valido</returns>
+    /// <returns>
+    ///     Valores a asignar al nodo, retorna una array cuyo primer
+    ///     elemento es -1 si el criterio no es valido
+    /// </returns>
     public T[] AssignValues(INode<T> node, Token<T> token, TableGame<T> table);
 }
 
 public interface IVisibilityPlayer<T>
 {
     /// <summary>
-    /// Determinar la visibilidad de los jugadores sobre las fichas del juego
+    ///     Determinar la visibilidad de los jugadores sobre las fichas del juego
     /// </summary>
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
@@ -140,7 +143,7 @@ public interface IVisibilityPlayer<T>
 public interface IWinnerGame<T>
 {
     /// <summary>
-    /// Determinar el ganador del juego
+    ///     Determinar el ganador del juego
     /// </summary>
     /// <param name="game">Estado del juego</param>
     /// <param name="ind">Indice del jugador que le corresponde jugar</param>
@@ -154,7 +157,7 @@ public interface IWinnerGame<T>
 public interface IDistributionPlayer
 {
     /// <summary>
-    /// Determinar la distribucion de los players en el juego
+    ///     Determinar la distribucion de los players en el juego
     /// </summary>
     /// <param name="tournament">Estado del torneo</param>
     public void DeterminateDistribution(TournamentStatus tournament);
@@ -168,7 +171,7 @@ public interface IPlayerGame
 public interface IScorePlayerTournament<T>
 {
     /// <summary>
-    /// Asignar score a los jugadores en el torneo
+    ///     Asignar score a los jugadores en el torneo
     /// </summary>
     /// <param name="tournament">Estado del torneo</param>
     /// <param name="game">Estado del actual juego</param>
@@ -178,7 +181,7 @@ public interface IScorePlayerTournament<T>
 public interface IScoreTeamTournament<T>
 {
     /// <summary>
-    /// Asignar score a los equipos durante el torneo
+    ///     Asignar score a los equipos durante el torneo
     /// </summary>
     /// <param name="tournament">Estado del torneo</param>
     /// <param name="game">Estado del juego actual</param>
@@ -194,12 +197,10 @@ public interface ITeamsGame
 public interface IWinnerTournament
 {
     /// <summary>
-    /// Determinar el ganador de un torneo
+    ///     Determinar el ganador de un torneo
     /// </summary>
     /// <param name="tournament">Estado del torneo</param>
     public void DeterminateWinner(TournamentStatus tournament);
 }
 
 #endregion
-
-

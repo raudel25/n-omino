@@ -2,10 +2,6 @@ namespace InteractionGui;
 
 public class SelectGenerator<T> : IVariant<T[], T>
 {
-    public List<IVariant<T[], T>.Select> Values { get; } = new List<IVariant<T[], T>.Select>();
-    public string Description { get; } = "Seleccione un generador para las fichas";
-    public List<ParamSelect> Param { get; } = new List<ParamSelect>();
-
     public SelectGenerator(T value)
     {
         if (value is int)
@@ -27,67 +23,54 @@ public class SelectGenerator<T> : IVariant<T[], T>
         }
     }
 
+    public List<IVariant<T[], T>.Select> Values { get; } = new();
+    public string Description { get; } = "Seleccione un generador para las fichas";
+    public List<ParamSelect> Param { get; } = new();
+
     private T[] SelectInt0_n(ParamSelectFunction<T> comp)
     {
-        int[] aux = new int[comp.Cant];
-        for (int i = 0; i < comp.Cant; i++)
-        {
-            aux[i] = i;
-        }
+        var aux = new int[comp.Cant];
+        for (var i = 0; i < comp.Cant; i++) aux[i] = i;
 
         return (aux as T[])!;
     }
 
     private T[] SelectIntEven(ParamSelectFunction<T> comp)
     {
-        int[] aux = new int[comp.Cant / 2];
-        for (int i = 0; i < comp.Cant / 2; i++)
-        {
-            aux[i] = 2 * i;
-        }
+        var aux = new int[comp.Cant / 2];
+        for (var i = 0; i < comp.Cant / 2; i++) aux[i] = 2 * i;
 
         return (aux as T[])!;
     }
 
     private T[] SelectIntOdd(ParamSelectFunction<T> comp)
     {
-        int[] aux = new int[comp.Cant / 2];
-        for (int i = 1; i < comp.Cant / 2; i++)
-        {
-            aux[i] = 2 * i + 1;
-        }
+        var aux = new int[comp.Cant / 2];
+        for (var i = 1; i < comp.Cant / 2; i++) aux[i] = 2 * i + 1;
 
         return (aux as T[])!;
     }
 
     private T[] PrimeNumber(ParamSelectFunction<T> comp)
     {
-        bool[] aux = new bool[comp.Cant];
-        for (int i = 2; i <= comp.Cant; i++)
-        {
-            for (int j = i * i; j <= comp.Cant; j += i)
-            {
-                aux[j - 1] = true;
-            }
-        }
+        var aux = new bool[comp.Cant];
+        for (var i = 2; i <= comp.Cant; i++)
+        for (var j = i * i; j <= comp.Cant; j += i)
+            aux[j - 1] = true;
 
-        List<int> generator = new List<int>();
+        var generator = new List<int>();
 
-        for (int i = 1; i < comp.Cant; i++)
-        {
-            if (!aux[i]) generator.Add(i + 1);
-        }
+        for (var i = 1; i < comp.Cant; i++)
+            if (!aux[i])
+                generator.Add(i + 1);
 
         return (generator.ToArray() as T[])!;
     }
 
     private T[] SelectLetter(ParamSelectFunction<T> comp)
     {
-        char[] aux = new char[26];
-        for (int i = 0; i < 26; i++)
-        {
-            aux[i] = (char) (97 + i);
-        }
+        var aux = new char[26];
+        for (var i = 0; i < 26; i++) aux[i] = (char)(97 + i);
 
         return (aux as T[])!;
     }

@@ -11,24 +11,22 @@ public class TurnPlayerRule<T> : ActionConditionRule<ITurnPlayer, T>, ICloneable
     {
     }
 
+    public TurnPlayerRule<T> Clone()
+    {
+        return new TurnPlayerRule<T>(Actions, Condition, Default!);
+    }
+
     public void RunRule(TournamentStatus tournament, GameStatus<T> original,
         IAssignScoreToken<T> rules, int ind)
     {
-        bool activate = false;
-        for (int i = 0; i < this.Condition.Length; i++)
-        {
-            if (this.Condition[i].RunRule(tournament, original, rules, ind))
+        var activate = false;
+        for (var i = 0; i < Condition.Length; i++)
+            if (Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].Turn(original.Turns, ind);
+                Actions[i].Turn(original.Turns, ind);
                 activate = true;
             }
-        }
 
-        if (!activate) this.Default!.Turn(original.Turns, ind);
-    }
-
-    public TurnPlayerRule<T> Clone()
-    {
-        return new TurnPlayerRule<T>(this.Actions, this.Condition, this.Default!);
+        if (!activate) Default!.Turn(original.Turns, ind);
     }
 }

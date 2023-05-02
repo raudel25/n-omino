@@ -1,7 +1,7 @@
-@using Table
-@using InteractionGui
-@using Rules
 @using Game
+@using InteractionGui
+@using Table
+@using Rules
 @typeparam T
 
 @if (_visibility)
@@ -71,13 +71,13 @@
     [Parameter]
     public BuildRules<T>? Rules { get; set; }
 
-    private List<TableGame<T>> _table = new List<TableGame<T>>();
+    private List<TableGame<T>> _table = new();
 
-    private List<IDealer<T>> _dealer = new List<IDealer<T>>();
+    private List<IDealer<T>> _dealer = new();
 
-    private List<ITokensMaker<T>> _maker = new List<ITokensMaker<T>>();
+    private List<ITokensMaker<T>> _maker = new();
 
-    private List<T[]> _generator = new List<T[]>();
+    private List<T[]> _generator = new();
 
     private int _cantToDeal = 1;
 
@@ -112,7 +112,7 @@
             {
                 if (DefaultValue is int)
                 {
-                    bool classic = ClassicDomino((_generator[0] as int[])!);
+                    var classic = ClassicDomino((_generator[0] as int[])!);
 
                     if (_table[0] is TableLongana<int>) return new PrinterLongana(1000, classic);
 

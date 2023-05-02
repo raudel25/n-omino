@@ -1,6 +1,4 @@
 @using InteractionGui
-@using Rules
-@using Table
 @typeparam T
 
 @if (!Rules!.IsReady)
@@ -70,7 +68,7 @@
 
     private int _selectTournament = -1;
 
-    private SelectTournamentCreated<T> _tournamentCreated = new SelectTournamentCreated<T>();
+    private SelectTournamentCreated<T> _tournamentCreated = new();
 
     private void CreateGame()
     {
@@ -83,7 +81,7 @@
             if (!(DefaultValue is int)) return;
             if (_selectTournament != -1)
             {
-                InfoRulesTournament<T> aux = _tournamentCreated.Rules[_selectTournament];
+                var aux = _tournamentCreated.Rules[_selectTournament];
                 Rules!.Injection(aux.PlayerGame, aux.ScorePlayer, aux.DistributionPlayer, aux.ScoreTeam, aux.TeamGame, aux.WinnerTournament);
             }
         }

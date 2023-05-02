@@ -1,6 +1,6 @@
 @using Game
-@using Rules
 @using InteractionGui
+@using Rules
 @typeparam T
 
 @if (!_select)
@@ -54,7 +54,7 @@
     [Parameter]
     public T? DefaultValue { get; set; }
 
-    private BuildRulesTournament<T> _rules = new BuildRulesTournament<T>();
+    private BuildRulesTournament<T> _rules = new();
 
     private bool _select = false;
 
@@ -64,7 +64,7 @@
 
     private string _game = "Añadir un juego";
 
-    private List<BuildGame<T>> _gameToBuild = new List<BuildGame<T>>();
+    private List<BuildGame<T>> _gameToBuild = new();
 
     private void CreateTournament()
     {

@@ -1,31 +1,29 @@
-using Table;
 using InfoGame;
+using Table;
 
 namespace Rules;
 
 public class RandomDealer<T> : IDealer<T>
 {
-    Random r = new Random();
+    private readonly Random r = new();
+
     public Hand<T> Deal(List<Token<T>> items, int cant)
     {
         Hand<T> res = new();
 
-        if(items is null || items.Count == 0) return res;
+        if (items is null || items.Count == 0) return res;
 
-        if(items.Count <= cant)
+        if (items.Count <= cant)
         {
-            foreach (var item in items)
-            {
-                res.Add(item);
-            }
+            foreach (var item in items) res.Add(item);
             items.Clear();
             return res;
         }
 
-        int count = 0;
+        var count = 0;
         while (count++ < cant)
         {
-            int index = r.Next(items.Count);
+            var index = r.Next(items.Count);
             res.Add(items[index]);
             items.RemoveAt(index);
         }
@@ -35,10 +33,7 @@ public class RandomDealer<T> : IDealer<T>
 
     public IEnumerable<Hand<T>> Deal(List<Token<T>> items, int[] tokensperplayer)
     {
-        foreach (var canttokens in tokensperplayer)
-        {
-            yield return Deal(items, canttokens);
-        }
+        foreach (var canttokens in tokensperplayer) yield return Deal(items, canttokens);
     }
 }
 
@@ -55,14 +50,14 @@ public class ClassicTokensMaker<T> : ITokensMaker<T>
     {
         if (index == values.Length)
         {
-            T[] val = new T[values.Length];
+            var val = new T[values.Length];
             Array.Copy(values, val, values.Length);
             Token<T> token = new(val);
             tokens.Add(token);
             return;
         }
 
-        for (int i = current; i < array.Length; i++)
+        for (var i = current; i < array.Length; i++)
         {
             values[index] = array[i];
             Comb(array, index + 1, i, tokens, values);
@@ -92,14 +87,14 @@ public class CircularTokensMaker<T> : ITokensMaker<T>
     {
         if (index == values.Length)
         {
-            T[] val = new T[values.Length];
+            var val = new T[values.Length];
             Array.Copy(values, val, values.Length);
             Token<T> tokenPer = new(val);
             permutation.Add(tokenPer);
             return;
         }
 
-        for (int i = 1; i < values.Length; i++)
+        for (var i = 1; i < values.Length; i++)
         {
             if (visited[i]) continue;
             values[index] = token[i];

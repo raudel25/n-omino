@@ -1,7 +1,7 @@
 ﻿@page "/"
-@using Rules
 @using Game
 @using Player
+@using Rules
 
 <PageTitle>n-omino</PageTitle>
 
@@ -86,23 +86,23 @@ else
 
     private int _type = -1;
 
-    private List<BuildGame<int>> _gameInt = new List<BuildGame<int>>();
+    private List<BuildGame<int>> _gameInt = new();
 
-    private List<BuildGame<char>> _gameChar = new List<BuildGame<char>>();
+    private List<BuildGame<char>> _gameChar = new();
 
-    private List<Player<int>> _playersInt = new List<Player<int>>();
+    private List<Player<int>> _playersInt = new();
 
-    private List<Player<char>> _playersChar = new List<Player<char>>();
+    private List<Player<char>> _playersChar = new();
 
     private JudgeTournament<int>? _judgeInt;
 
     private JudgeTournament<char>? _judgeChar;
 
-    private List<InfoRulesTournament<int>> _rulesInt = new List<InfoRulesTournament<int>>();
+    private List<InfoRulesTournament<int>> _rulesInt = new();
 
-    private List<InfoRulesTournament<char>> _rulesChar = new List<InfoRulesTournament<char>>();
+    private List<InfoRulesTournament<char>> _rulesChar = new();
 
-    private List<(int,int,string)> _teams = new List<(int, int,string)>();
+    private List<(int,int,string)> _teams = new();
 
     private async Task Start()
     {

@@ -11,24 +11,22 @@ public class ScorePlayerTournamentRule<T> : ActionConditionRule<IScorePlayerTour
     {
     }
 
+    public ScorePlayerTournamentRule<T> Clone()
+    {
+        return new ScorePlayerTournamentRule<T>(Actions, Condition, Default!);
+    }
+
     public void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
         IAssignScoreToken<T> rules, int ind)
     {
-        bool activate = false;
-        for (int i = 0; i < this.Condition.Length; i++)
-        {
-            if (this.Condition[i].RunRule(tournament, original, rules, ind))
+        var activate = false;
+        for (var i = 0; i < Condition.Length; i++)
+            if (Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].AssignScore(tournament, game);
+                Actions[i].AssignScore(tournament, game);
                 activate = true;
             }
-        }
 
-        if (!activate) this.Default!.AssignScore(tournament, game);
-    }
-
-    public ScorePlayerTournamentRule<T> Clone()
-    {
-        return new ScorePlayerTournamentRule<T>(this.Actions, this.Condition, this.Default!);
+        if (!activate) Default!.AssignScore(tournament, game);
     }
 }

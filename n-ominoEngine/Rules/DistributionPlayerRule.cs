@@ -11,24 +11,22 @@ public class DistributionPlayerRule<T> : ActionConditionRule<IDistributionPlayer
     {
     }
 
+    public DistributionPlayerRule<T> Clone()
+    {
+        return new DistributionPlayerRule<T>(Actions, Condition, Default!);
+    }
+
     public void RunRule(TournamentStatus tournament, GameStatus<T> original,
         IAssignScoreToken<T> rules, int ind)
     {
-        bool activate = false;
-        for (int i = 0; i < this.Condition.Length; i++)
-        {
-            if (this.Condition[i].RunRule(tournament, original, rules, ind))
+        var activate = false;
+        for (var i = 0; i < Condition.Length; i++)
+            if (Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].DeterminateDistribution(tournament);
+                Actions[i].DeterminateDistribution(tournament);
                 activate = true;
             }
-        }
 
-        if (!activate) this.Default!.DeterminateDistribution(tournament);
-    }
-
-    public DistributionPlayerRule<T> Clone()
-    {
-        return new DistributionPlayerRule<T>(this.Actions, this.Condition, this.Default!);
+        if (!activate) Default!.DeterminateDistribution(tournament);
     }
 }

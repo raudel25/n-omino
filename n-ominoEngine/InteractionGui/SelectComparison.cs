@@ -4,46 +4,52 @@ namespace InteractionGui;
 
 public class SelectComparison<T> : IVariant<IComparison<T>, T>
 {
-    private T? Value;
+    private readonly T? Value;
+
+    public SelectComparison(T val)
+    {
+        Value = val;
+        SelectComparisons();
+    }
 
     public List<IVariant<IComparison<T>, T>.Select> Values { get; } = new()
     {
-        (comp) => new ClassicComparison<T>()
+        comp => new ClassicComparison<T>()
     };
 
     public string Description { get; } = "Elija el tipo de comparador";
 
-    public List<ParamSelect> Param { get; } = new List<ParamSelect>()
+    public List<ParamSelect> Param { get; } = new()
     {
-        new ParamSelect("Comparador clásico", "Equals", 0)
+        new("Comparador clásico", "Equals", 0)
     };
-
-    public SelectComparison(T val)
-    {
-        this.Value = val;
-        this.SelectComparisons();
-    }
 
     public void SelectComparisons()
     {
-        if (this.Value is int)
+        if (Value is int)
         {
             Values.Add(SelectCongruenceComparison);
-            Param.Add(new ParamSelect("Comparador por congruencia módulo n", "Dos números de consideran iguales si dejan el mismo resto módulo n", 1, false, true));
+            Param.Add(new ParamSelect("Comparador por congruencia módulo n",
+                "Dos números de consideran iguales si dejan el mismo resto módulo n", 1, false, true));
             Values.Add(SelectHighNumberComparison);
-            Param.Add(new ParamSelect("Comparador por mayor que el número n", "Dos números de consideran iguales si son mayores que n", 2, true));
+            Param.Add(new ParamSelect("Comparador por mayor que el número n",
+                "Dos números de consideran iguales si son mayores que n", 2, true));
             Values.Add(SelectSmallNumberComparison);
-            Param.Add(new ParamSelect("Comparador por menor que el número n", "Dos números de consideran iguales si son menores que n", 3, true));
+            Param.Add(new ParamSelect("Comparador por menor que el número n",
+                "Dos números de consideran iguales si son menores que n", 3, true));
             Values.Add(SelectComodinComparison);
-            Param.Add(new ParamSelect("Comparador por comodín", "Un comodín que machea con todos los números", 4, true));
+            Param.Add(new ParamSelect("Comparador por comodín", "Un comodín que machea con todos los números", 4,
+                true));
             Values.Add(SelectDivisibleComparison);
-            Param.Add(new ParamSelect("Comparador por divisivilidad con n", "Dos números de consideran iguales si son divisibles por n", 5, false, true));
+            Param.Add(new ParamSelect("Comparador por divisivilidad con n",
+                "Dos números de consideran iguales si son divisibles por n", 5, false, true));
             Values.Add(SelectGcdComparison);
-            Param.Add(new ParamSelect("Máximo común divisor igual a n", "Dos números de consideran iguales si su mcd es igual a n", 6, true));
+            Param.Add(new ParamSelect("Máximo común divisor igual a n",
+                "Dos números de consideran iguales si su mcd es igual a n", 6, true));
         }
 
         //chars
-        if (this.Value is char)
+        if (Value is char)
         {
             Values.Add(SelectLetterComparisonVocalsComodin);
             Param.Add(new ParamSelect("Comparador de vocales", "", 1));

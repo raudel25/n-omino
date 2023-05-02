@@ -1,72 +1,78 @@
-using Table;
 using InfoGame;
 using Rules;
+using Table;
 
 namespace Game;
 
 public class InitializerGame<T> : IReset<InitializerGame<T>>
 {
     /// <summary>
-    /// Forma de generar las fichas de fichas
+    ///     Cantidad de fichas a repartir
     /// </summary>
-    private ITokensMaker<T> _maker;
+    private readonly int _cantTokenToDeal;
 
     /// <summary>
-    /// Reaprtidor de fichas
+    ///     Reaprtidor de fichas
     /// </summary>
-    private IDealer<T> _dealer;
+    private readonly IDealer<T> _dealer;
 
     /// <summary>
-    /// Tablero a usar
+    ///     Generador de fichas
     /// </summary>
-    private TableGame<T> _table;
+    private readonly T[] _generator;
 
     /// <summary>
-    /// Cantidad de fichas a repartir
+    ///     Forma de generar las fichas de fichas
     /// </summary>
-    private int _cantTokenToDeal;
+    private readonly ITokensMaker<T> _maker;
 
     /// <summary>
-    /// Generador de fichas
+    ///     Tablero a usar
     /// </summary>
-    private T[] _generator;
+    private readonly TableGame<T> _table;
 
     public InitializerGame(ITokensMaker<T> maker, IDealer<T> dealer,
         TableGame<T> table, T[] generator, int cantDeal)
     {
-        this._dealer = dealer;
-        this._maker = maker;
-        this._table = table;
-        this._generator = generator;
-        this._cantTokenToDeal = cantDeal;
+        _dealer = dealer;
+        _maker = maker;
+        _table = table;
+        _generator = generator;
+        _cantTokenToDeal = cantDeal;
+    }
+
+    public InitializerGame<T> Reset()
+    {
+        return new InitializerGame<T>(_maker, _dealer, _table.Reset(), _generator,
+            _cantTokenToDeal);
     }
 
     /// <summary>
-    /// Determinar el estado del juego necesario para iniciar el juego
+    ///     Determinar el estado del juego necesario para iniciar el juego
     /// </summary>
     /// <param name="playerTeams">Distribucion de los jugadores</param>
     /// <returns>Estado del juego</returns>
     public GameStatus<T> StartGame(List<(int, int, string)> playerTeams)
     {
         //Generar las fichas
-        List<Token<T>> tokens = this._maker.MakeTokens(this._generator, this._table.DimensionToken);
-        List<InfoPlayer<T>> playersInfo = new List<InfoPlayer<T>>();
+        var tokens = _maker.MakeTokens(_generator, _table.DimensionToken);
+        var playersInfo = new List<InfoPlayer<T>>();
 
         foreach (var item in playerTeams)
         {
-            var hand = this._dealer.Deal(tokens, this._cantTokenToDeal);
+            var hand = _dealer.Deal(tokens, _cantTokenToDeal);
             var aux = new InfoPlayer<T>(hand, new History<T>(), 0, item.Item2, item.Item3);
 
             playersInfo.Add(aux);
         }
 
-        List<InfoTeams<InfoPlayer<T>>> teamGame = DeterminateTeams(playerTeams, playersInfo);
+        var teamGame = DeterminateTeams(playerTeams, playersInfo);
 
-        var turns = new int[playersInfo.Count]; 
+        var turns = new int[playersInfo.Count];
 
-        for (int i = 0; i < turns.Length; i++) turns[i] = i;
+        for (var i = 0; i < turns.Length; i++) turns[i] = i;
 
-        var game = new GameStatus<T>(playersInfo, teamGame, this._table.Clone(), turns, tokens,
+        var game = new GameStatus<T>(playersInfo, teamGame, _table.Clone(), turns, tokens,
             Array.AsReadOnly(_generator));
 
         DeterminateLongana(game);
@@ -77,20 +83,17 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
     private List<InfoTeams<InfoPlayer<T>>> DeterminateTeams(List<(int, int, string)> playerTeams,
         List<InfoPlayer<T>> playersInfo)
     {
-        List<(int team, int Id, int ind)> aux = new List<(int, int, int)>();
+        List<(int team, int Id, int ind)> aux = new();
 
         //Preprocesamiento
-        for (int i = 0; i < playerTeams.Count; i++)
-        {
-            aux.Add((playerTeams[i].Item1, playerTeams[i].Item2, i));
-        }
+        for (var i = 0; i < playerTeams.Count; i++) aux.Add((playerTeams[i].Item1, playerTeams[i].Item2, i));
 
         aux.Sort();
 
         //Asignar equipos
-        List<InfoTeams<InfoPlayer<T>>> teamGame = new List<InfoTeams<InfoPlayer<T>>>();
+        var teamGame = new List<InfoTeams<InfoPlayer<T>>>();
 
-        int value = -1;
+        var value = -1;
 
         foreach (var item in aux)
         {
@@ -109,15 +112,6 @@ public class InitializerGame<T> : IReset<InitializerGame<T>>
     private void DeterminateLongana(GameStatus<T> game)
     {
         var aux = game.Table as TableLongana<T>;
-        if (aux != null)
-        {
-            aux.AssignCantPlayers(game.Players.Count);
-        }
-    }
-
-    public InitializerGame<T> Reset()
-    {
-        return new InitializerGame<T>(this._maker, this._dealer, this._table.Reset(), this._generator,
-            this._cantTokenToDeal);
+        if (aux != null) aux.AssignCantPlayers(game.Players.Count);
     }
 }

@@ -10,20 +10,16 @@ public class WinnerTournamentRule<T> : ActionConditionRule<IWinnerTournament, T>
     {
     }
 
+    public WinnerTournamentRule<T> Clone()
+    {
+        return new WinnerTournamentRule<T>(Actions, Condition);
+    }
+
     public void RunRule(TournamentStatus tournament, GameStatus<T> original,
         IAssignScoreToken<T> rules, int ind)
     {
-        for (int i = 0; i < this.Condition.Length; i++)
-        {
-            if (this.Condition[i].RunRule(tournament, original, rules, ind))
-            {
-                this.Actions[i].DeterminateWinner(tournament);
-            }
-        }
-    }
-
-    public WinnerTournamentRule<T> Clone()
-    {
-        return new WinnerTournamentRule<T>(this.Actions, this.Condition);
+        for (var i = 0; i < Condition.Length; i++)
+            if (Condition[i].RunRule(tournament, original, rules, ind))
+                Actions[i].DeterminateWinner(tournament);
     }
 }

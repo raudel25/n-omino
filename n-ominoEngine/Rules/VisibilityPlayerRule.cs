@@ -10,24 +10,22 @@ public class VisibilityPlayerRule<T> : ActionConditionRule<IVisibilityPlayer<T>,
     {
     }
 
+    public VisibilityPlayerRule<T> Clone()
+    {
+        return new VisibilityPlayerRule<T>(Actions, Condition, Default!);
+    }
+
     public void RunRule(TournamentStatus tournament, GameStatus<T> game, GameStatus<T> original,
         IAssignScoreToken<T> rules, int ind)
     {
-        bool activate = false;
-        for (int i = 0; i < this.Condition.Length; i++)
-        {
-            if (this.Condition[i].RunRule(tournament, original, rules, ind))
+        var activate = false;
+        for (var i = 0; i < Condition.Length; i++)
+            if (Condition[i].RunRule(tournament, original, rules, ind))
             {
-                this.Actions[i].Visibility(game, ind);
+                Actions[i].Visibility(game, ind);
                 activate = true;
             }
-        }
 
-        if (!activate) this.Default!.Visibility(game, ind);
-    }
-
-    public VisibilityPlayerRule<T> Clone()
-    {
-        return new VisibilityPlayerRule<T>(this.Actions, this.Condition, this.Default!);
+        if (!activate) Default!.Visibility(game, ind);
     }
 }

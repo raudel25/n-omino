@@ -57,17 +57,17 @@
     [Parameter]
     public T? DefaultValue { get; set; }
 
-    private List<InitializerGame<T>> _initializer = new List<InitializerGame<T>>();
+    private List<InitializerGame<T>> _initializer = new();
 
-    private BuildRules<T> _rules = new BuildRules<T>();
+    private BuildRules<T> _rules = new();
 
-    private List<Printer> _printers = new List<Printer>();
+    private List<Printer> _printers = new();
 
     private bool _select;
 
     private int _selectGame = -1;
 
-    private SelectGamesCreated _gamesCreated = new SelectGamesCreated();
+    private SelectGamesCreated _gamesCreated = new();
 
     private void CreateGame()
     {
